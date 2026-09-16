@@ -55,6 +55,9 @@ NAT_CTRL_BASE = (
     "dist_nanjing Taiping_route1"
 ).split()
 NAT_CTRL = [f"{x}Xperiod" for x in NAT_CTRL_BASE]
+# In Figure_6.do / Appendix_Figure_C1.do the loop creates xXperiod1, xXperiod2, xXperiod interleaved, so the SAME
+# varlist range `lnurbanpopXperiod-Taiping_route1Xperiod` there expands to 34 variables (a do-file quirk kept here).
+NAT_CTRL_FIG6 = ["lnurbanpopXperiod"] + [f"{x}Xperiod{k}" for x in NAT_CTRL_BASE[1:] for k in ("1", "2", "")]
 
 
 def hunan() -> pd.DataFrame:
@@ -82,6 +85,8 @@ def national(keep1820: bool = True) -> pd.DataFrame:
         n[f"{x}Xperiod"] = n[x] * n.period
     for x in NAT_CTRL_BASE:
         n[f"{x}Xperiod"] = n[x] * n.period
+        n[f"{x}Xperiod1"] = n[x] * n.period1
+        n[f"{x}Xperiod2"] = n[x] * n.period2
     n["year"] = n.year.astype("int64")
     if keep1820:
         n = n[n.year >= 1820].copy()

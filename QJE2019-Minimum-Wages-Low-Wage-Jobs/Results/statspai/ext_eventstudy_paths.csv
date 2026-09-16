@@ -1,0 +1,41 @@
+tau,est,se,estimator,outcome,key
+-3,-0.0019288799895585418,0.0029097059562060916,stacked hdfe_ols (event FE),affected,stacked_hdfe:affected
+-2,-2.511479794523726e-06,0.001728813754900711,stacked hdfe_ols (event FE),affected,stacked_hdfe:affected
+-1,0.0,0.0,stacked hdfe_ols (event FE),affected,stacked_hdfe:affected
+0,0.0017826561469372509,0.0021262965050408626,stacked hdfe_ols (event FE),affected,stacked_hdfe:affected
+1,-0.00018612154820040434,0.0025768504603472975,stacked hdfe_ols (event FE),affected,stacked_hdfe:affected
+2,-0.0016241011370514322,0.0028663889197650286,stacked hdfe_ols (event FE),affected,stacked_hdfe:affected
+3,-0.00016451775179330508,0.0033679429256229356,stacked hdfe_ols (event FE),affected,stacked_hdfe:affected
+4,-0.00019189252210997086,0.0032085223070585484,stacked hdfe_ols (event FE),affected,stacked_hdfe:affected
+-3,0.0008764786957458579,0.001203368717474864,stacked hdfe_ols (event FE),below_epop,stacked_hdfe:below_epop
+-2,0.004030342918294478,0.0006757914413441113,stacked hdfe_ols (event FE),below_epop,stacked_hdfe:below_epop
+-1,0.0,0.0,stacked hdfe_ols (event FE),below_epop,stacked_hdfe:below_epop
+0,-0.019139290440802505,0.0027081187524445162,stacked hdfe_ols (event FE),below_epop,stacked_hdfe:below_epop
+1,-0.01881499401021391,0.0029901720733251577,stacked hdfe_ols (event FE),below_epop,stacked_hdfe:below_epop
+2,-0.017378235599918784,0.0033186930886912524,stacked hdfe_ols (event FE),below_epop,stacked_hdfe:below_epop
+3,-0.01741012087857022,0.003450557314273742,stacked hdfe_ols (event FE),below_epop,stacked_hdfe:below_epop
+4,-0.012795557709323469,0.0036490732495082587,stacked hdfe_ols (event FE),below_epop,stacked_hdfe:below_epop
+-3,-0.002805358685310257,0.0025359445126449487,stacked hdfe_ols (event FE),above_epop,stacked_hdfe:above_epop
+-2,-0.0040328543980947765,0.0016432298006902372,stacked hdfe_ols (event FE),above_epop,stacked_hdfe:above_epop
+-1,0.0,0.0,stacked hdfe_ols (event FE),above_epop,stacked_hdfe:above_epop
+0,0.020921946587738882,0.0021365248601581876,stacked hdfe_ols (event FE),above_epop,stacked_hdfe:above_epop
+1,0.018628872462011888,0.002199954782677542,stacked hdfe_ols (event FE),above_epop,stacked_hdfe:above_epop
+2,0.015754134462850924,0.002551875405889282,stacked hdfe_ols (event FE),above_epop,stacked_hdfe:above_epop
+3,0.017245603126759382,0.0026657021884238133,stacked hdfe_ols (event FE),above_epop,stacked_hdfe:above_epop
+4,0.012603665187195594,0.0027048872640656634,stacked hdfe_ols (event FE),above_epop,stacked_hdfe:above_epop
+-3,0.006519436584986814,0.005008490636710803,sp.stacked_did,,stacked_did:affected
+-2,0.006478325462896979,0.0047700162211804726,sp.stacked_did,,stacked_did:affected
+-1,0.00249936136175118,0.002533442235897696,sp.stacked_did,,stacked_did:affected
+0,0.002858076741495063,0.0030720728624435123,sp.stacked_did,,stacked_did:affected
+1,0.007157726806726463,0.005462735441984937,sp.stacked_did,,stacked_did:affected
+2,0.005093538099096729,0.005331875218281917,sp.stacked_did,,stacked_did:affected
+3,0.006433888408243919,0.004861681981009053,sp.stacked_did,,stacked_did:affected
+4,0.0034791870749038153,0.004506859856526778,sp.stacked_did,,stacked_did:affected
+-3,-0.005583010729984134,0.0036005394532975777,sp.sun_abraham,,sa:affected
+-2,-0.004095894240358856,0.003019118716490947,sp.sun_abraham,,sa:affected
+-1,-0.0033528925314864058,0.0029421835958706667,sp.sun_abraham,,sa:affected
+0,0.0008780414025900305,0.0032207730633705875,sp.sun_abraham,,sa:affected
+1,0.0006830013105283108,0.0037441649467934747,sp.sun_abraham,,sa:affected
+2,-0.0014948062564396531,0.003978825275265785,sp.sun_abraham,,sa:affected
+3,-0.0003062234395778595,0.0043140631154199695,sp.sun_abraham,,sa:affected
+4,0.0005190753279806589,0.00478851510492489,sp.sun_abraham,,sa:affected

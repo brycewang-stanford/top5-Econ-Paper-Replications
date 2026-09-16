@@ -1,3 +1,12 @@
 [ok] wcb Table V col 3 (449s)
 [ok] wcb Table X col 2 (1519s)
 [ok] wcb Table X col 4 (479s)
+[ok] wcb Table X col 6 (388s)
+         exhibit         var    coef  wcb_se  p_wcb   ci_lo   ci_hi       N
+0  Table V col 3  princeling -0.8440  0.0326    0.0 -0.9209 -0.7689  191896
+1  Table X col 2  princeling -0.9201  0.0394    0.0 -1.0084 -0.8282  191896
+2  Table X col 2         pp1  0.2570  0.0583    0.0  0.1339  0.3866  191896
+3  Table X col 4  princeling -0.8577  0.0316    0.0 -0.9324 -0.7848  191896
+4  Table X col 4         pp2  0.6952  0.1390    0.0  0.3806  0.9979  191896
+5  Table X col 6  princeling -0.8959  0.0353    0.0 -0.9797 -0.8142  191896
+6  Table X col 6         pp3  0.5724  0.0499    0.0  0.4597  0.6914  191896

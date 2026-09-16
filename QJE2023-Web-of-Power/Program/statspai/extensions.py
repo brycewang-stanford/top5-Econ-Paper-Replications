@@ -22,7 +22,7 @@ import statspai as sp
 from scipy import stats
 from statspai.core.results import CausalResult
 
-from common import HUNAN_CTRL, NAT_CTRL, OUT, coef_vcov, hunan, national, ols
+from common import HUNAN_CTRL, NAT_CTRL, NAT_CTRL_FIG6, OUT, coef_vcov, hunan, national, ols
 
 T0 = time.time()
 LOG: dict = {}
@@ -275,7 +275,7 @@ def e6_national_pretrend():
         n[f"z_{y}"] = n.Zeng_all0_invdist * dy
         n[f"hun_{y}"] = n.hunan * dy
     H = [f"h_{y}" for y in years]
-    xs = H + [f"z_{y}" for y in years] + [f"hun_{y}" for y in years] + NAT_CTRL
+    xs = H + [f"z_{y}" for y in years] + [f"hun_{y}" for y in years] + NAT_CTRL_FIG6
     _, r = ols("alloff", xs, ["year", "samcntyid"], n, "prefid", keep=H)
     cf, V, _ = coef_vcov(r)
     G = n.prefid.nunique()

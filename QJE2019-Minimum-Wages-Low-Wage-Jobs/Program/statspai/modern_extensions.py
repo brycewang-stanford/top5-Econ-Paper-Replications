@@ -153,7 +153,8 @@ def main():
     # 3. Callaway-Sant'Anna
     res, err = run_estimator("callaway_santanna", lambda: sp.callaway_santanna(
         data=base, y=y, g="g", t="quarterdate", i="unit", control_group="nevertreated",
-        estimator="reg", allow_unbalanced_panel=True, clustervars="statenum", base_period="universal"))
+        estimator="reg", allow_unbalanced_panel=True, clustervars="statenum", base_period="universal",
+        bstrap=True, biters=199, random_state=42))
     if res is not None:
         try:
             agg = sp.aggte(res, type="dynamic", min_e=-12, max_e=19) if hasattr(sp, "aggte") else None
@@ -196,7 +197,7 @@ def main():
     # 5. BJS imputation
     res, err = run_estimator("did_imputation", lambda: sp.did_imputation(
         data=base, y=y, group="unit", time="quarterdate", first_treat="g",
-        horizon=list(range(0, 20)), pretrends=12, cluster="statenum"))
+        horizon=list(range(0, 20)), pretrends=11, cluster="statenum"))
     if res is not None:
         try:
             es = es_table(res)

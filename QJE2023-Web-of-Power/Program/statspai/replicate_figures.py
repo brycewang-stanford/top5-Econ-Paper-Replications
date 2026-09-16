@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from common import AUTHOR, HUNAN_CTRL, NAT_CTRL, OUT, hunan, national, ols, read  # noqa: E402
+from common import AUTHOR, HUNAN_CTRL, NAT_CTRL, NAT_CTRL_FIG6, OUT, hunan, national, ols, read  # noqa: E402
 
 T0 = time.time()
 CHECK = []
@@ -124,7 +124,7 @@ def figure6():
     out = {}
     for spec, xs, ref in [("01", H + NH + HU, "ConnectionOnSenior_all0_yearly_01"),
                           ("02", H + Z + HU, "ConnectionOnSenior_all0_yearly_02")]:
-        rows, r = ols("alloff", xs + NAT_CTRL, fe, n, "prefid", keep=xs[:180])
+        rows, r = ols("alloff", xs + NAT_CTRL_FIG6, fe, n, "prefid", keep=xs[:180])
         e = pd.DataFrame(rows)
         a = pd.read_stata(AUTHOR / f"{ref}.dta").iloc[:180]
         check("Figure 6", f"spec {spec}: 180 yearly coefs", e.coef, a.estimate)

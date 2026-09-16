@@ -4,3 +4,6 @@
 00:11:09 reused table1_spec1
 00:11:09 spec 1: below=-0.0183, above=0.0207, wage=0.0679, emp=0.0279, elas_mw=0.0238, elas_wage=0.4106
 00:11:09 [table1_spec5] hdfe_ols N=865,215 k=72 spec=5
+00:21:56 [table1_spec5] done in 647s, N=847314, df_resid=691708
+00:21:57 spec 5: below=-0.0157, above=0.0156, wage=0.0486, emp=-0.0016, elas_mw=-0.0013, elas_wage=-0.0319
+00:21:58 [table1_spec4] hdfe_ols N=865,215 k=72 spec=4
