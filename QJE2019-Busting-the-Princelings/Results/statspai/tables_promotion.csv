@@ -1,128 +1,35 @@
-table,col,var,coef,se,N,adj_r2,spec
-VIII,1,princeling,0.6524093375755593,0.22885995397439188,399,,oprobit promote ~ princeling + i.year i.provid
-VIII,2,princeling,0.7396815618604866,0.2619733211561393,380,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,2,ties,0.23260055880087263,0.20880036469853624,380,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,2,gdpgrowth,-1.435259637283928,2.4820498587464526,380,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,2,revgrowth,1.9455791040555306,1.2309694054887408,380,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,3,princeling,0.11358769150782737,0.039686644994433584,380,0.2718716961033423,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid"
-VIII,3,ties,0.010920802918145974,0.03253234140114025,380,0.2718716961033423,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid"
-VIII,3,gdpgrowth,-0.19535920418008046,0.380825646732665,380,0.2718716961033423,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid"
-VIII,3,revgrowth,0.02851404596609857,0.19465538496011559,380,0.2718716961033423,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid"
-VIII,4,discount,0.8135013962292633,0.17537155363905663,382,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,4,ties,0.11863734776041497,0.21164164518168183,382,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,4,gdpgrowth,-0.44120699939799857,2.5606125720977717,382,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,4,revgrowth,1.5510494871810896,1.241439722035003,382,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,5,lnarea,0.324379643265151,0.08423580041173155,382,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,5,ties,0.30359942319753686,0.21353494322367403,382,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,5,gdpgrowth,-0.02366303038351323,2.5211824507160907,382,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,5,revgrowth,2.394790502303129,1.2619922977047213,382,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,6,princeling,0.01765851972164301,0.28816173297569786,399,,oprobit promote ~ princeling + i.year i.provid
-VIII,7,princeling,-0.014703763176952123,0.3142552385012464,388,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,7,ties,-0.03258768050672816,0.20795680457215435,388,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,7,gdpgrowth,6.19076658741537,1.9779301845990298,388,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,7,revgrowth,0.2534455605128203,1.0699428052107252,388,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,8,princeling,0.06991546249114008,0.06718028240485961,388,0.1003594101054136,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid"
-VIII,8,ties,-0.002974584509035396,0.04525245941693786,388,0.1003594101054136,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid"
-VIII,8,gdpgrowth,1.250219567875507,0.44316917902674596,388,0.1003594101054136,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid"
-VIII,8,revgrowth,0.031443487166451616,0.22870074714452265,388,0.1003594101054136,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid"
-VIII,9,discount,0.18222417522139764,0.17532479453968938,390,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,9,ties,-0.02990992912274071,0.20534603314352365,390,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,9,gdpgrowth,6.378530817911505,1.9816743147864142,390,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,9,revgrowth,0.19894906073864488,1.0588398269605808,390,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,10,lnarea,-0.06698913106389512,0.06475881718806015,390,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,10,ties,-0.05090666351096377,0.20582930124236576,390,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,10,gdpgrowth,6.066479001771636,1.9833302484401576,390,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-VIII,10,revgrowth,0.22447596549980062,1.0587360575978506,390,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-IX,1,princeling,0.46896493994525795,0.07007941057682925,3237,,oprobit promote ~ princeling + i.year i.prefid
-IX,2,princeling,0.432557082231208,0.07656068098596272,2756,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,2,ties,0.16901996294845129,0.07351831246390052,2756,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,2,gdpgrowth,-0.3192213796603738,0.5580688565522864,2756,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,2,revgrowth,-0.454241907616587,0.3985938619090094,2756,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,3,princeling,0.08768840653179322,0.012357071022063732,2756,0.04868824159996521,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
-IX,3,ties,0.0117401728123003,0.011279482303613147,2756,0.04868824159996521,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
-IX,3,gdpgrowth,-0.09892069833246891,0.08663632916768231,2756,0.04868824159996521,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
-IX,3,revgrowth,0.0033214718525238556,0.06140311863110242,2756,0.04868824159996521,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
-IX,4,discount,0.10023746513203277,0.005941001397861421,2755,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,4,ties,0.1908245914980937,0.07971518544225656,2755,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,4,gdpgrowth,-0.7045570321964302,0.6170654760483414,2755,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,4,revgrowth,-0.5868467523033081,0.42881765688434825,2755,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,5,lnarea,0.9280630013372573,0.06583216280592198,2756,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,5,ties,0.1288235033789199,0.08196691682248887,2756,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,5,gdpgrowth,-0.6902126726386197,0.6507365040353874,2756,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,5,revgrowth,-0.29761124731766403,0.4441120916866808,2756,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,6,princeling,0.07906209791142664,0.09435347577124432,3048,,oprobit promote ~ princeling + i.year i.prefid
-IX,7,princeling,0.09295931349481353,0.10846271519848621,2569,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,7,ties,-0.02675046299034176,0.10058914958509611,2569,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,7,gdpgrowth,2.79828241169858,0.7588827131596386,2569,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,7,revgrowth,1.0948640804843446,0.5226887196877356,2569,,oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,8,princeling,-0.007869731714556343,0.01120660004447403,2569,0.37418321094036844,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
-IX,8,ties,-0.014163892707348528,0.00988085354098862,2569,0.37418321094036844,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
-IX,8,gdpgrowth,0.36520472198613324,0.07600514055790429,2569,0.37418321094036844,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
-IX,8,revgrowth,0.06443012441942031,0.05243611487844436,2569,0.37418321094036844,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
-IX,9,discount,0.011707660669377703,0.008106204268929005,2568,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,9,ties,-0.021271768533222993,0.10067421842374412,2568,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,9,gdpgrowth,2.7255739629031477,0.7600994137351138,2568,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,9,revgrowth,1.0851926321548244,0.5223217477587814,2568,,oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,10,lnarea,0.0002545028879701687,0.04693982678132231,2568,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,10,ties,-0.025865699649987854,0.1006554499658876,2568,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,10,gdpgrowth,2.7712297036345412,0.7691950267456716,2568,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-IX,10,revgrowth,1.072164814809753,0.5245567343346901,2568,,oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,1,princeling,1.083414709996694,0.3128599940685716,380,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,1,ties,0.21485267728733892,0.2111894708817885,380,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,1,gdpgrowth,-1.0367552745342008,2.505991886669512,380,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,1,revgrowth,1.6782765641233652,1.2422392065681473,380,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,1,pp1,-1.167442667715287,0.5606698820492395,380,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,2,princeling,1.0815401595205778,0.30011473175416054,380,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,2,ties,0.34333167309857376,0.21678979664013248,380,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,2,gdpgrowth,1.3151938657586202,2.6906584058080716,380,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,2,revgrowth,1.4187354887882364,1.2664431588074678,380,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,2,pp2,-2.7697888268669293,0.7675086009975481,380,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,3,princeling,0.5035739518058946,0.08004506198347833,2756,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,3,ties,0.16999216189827246,0.07363715753658462,2756,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,3,gdpgrowth,-0.25103803767784916,0.5605286197202266,2756,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,3,revgrowth,-0.44385559771828653,0.3996432657152757,2756,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,3,pp1,-0.8023984267665274,0.25673862899032424,2756,,oprobit promote ~ princeling post2012 pp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,4,princeling,0.4571578697755643,0.07791723422382377,2756,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,4,ties,0.16585609032754148,0.07358524402929191,2756,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,4,gdpgrowth,-0.3133978816565684,0.5602945645098569,2756,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,4,revgrowth,-0.4502883892404183,0.39909435343047855,2756,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,4,pp2,-0.702354271640296,0.40562897119948266,2756,,oprobit promote ~ princeling inspection pp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,5,discount,1.2470803062917768,0.22356241347607222,382,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,5,ties,0.1079749341438498,0.2190344587407413,382,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,5,gdpgrowth,-0.03427533228900354,2.652645852916989,382,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,5,revgrowth,1.7057576377016692,1.2413239519635446,382,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,5,pd1,-1.559164509287885,0.39406563644071546,382,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,6,discount,1.2017786245210436,0.21199603057774427,382,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,6,ties,0.12555226721441443,0.21849918437834756,382,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,6,gdpgrowth,-0.37267432099219056,2.6973903108873207,382,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,6,revgrowth,1.2751255519904692,1.2827815536855525,382,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,6,pd2,-2.345747944860523,0.5299055609187658,382,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,7,discount,0.10243855080784564,0.006013880125909189,2755,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,7,ties,0.19471161891491898,0.07992500772420404,2755,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,7,gdpgrowth,-0.6818137835118552,0.6187685090898605,2755,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,7,revgrowth,-0.6208081819803082,0.42951085817645684,2755,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,7,pd1,-0.13118936390955271,0.04170505794840347,2755,,oprobit promote ~ discount post2012 pd1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,8,discount,0.10081598131985084,0.005959818035944893,2755,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,8,ties,0.19146871854541472,0.07982502045811557,2755,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,8,gdpgrowth,-0.7148477730395607,0.6178332456945511,2755,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,8,revgrowth,-0.5931651911278288,0.4287334794737961,2755,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,8,pd2,-0.10086615137591538,0.07480258680100484,2755,,oprobit promote ~ discount inspection pd2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,9,lnarea,0.40658535795760564,0.09050089993611182,382,,oprobit promote ~ lnarea post2012 alp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,9,ties,0.2667752498417814,0.21660139387315128,382,,oprobit promote ~ lnarea post2012 alp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,9,gdpgrowth,0.8887039359841717,2.5498150556122186,382,,oprobit promote ~ lnarea post2012 alp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,9,revgrowth,1.8316571560349784,1.328156524965527,382,,oprobit promote ~ lnarea post2012 alp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,9,alp1,-0.7722346041302133,0.25532687450672625,382,,oprobit promote ~ lnarea post2012 alp1 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,10,lnarea,0.37092952271326496,0.08878235879540436,382,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,10,ties,0.42103978665676395,0.22195237814712934,382,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,10,gdpgrowth,2.922695789215961,2.724360711031585,382,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,10,revgrowth,2.348451477151357,1.2731060100712923,382,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,10,alp2,-1.781235854723285,0.6482368905185707,382,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid
-XII,11,lnarea,1.0151021988978681,0.0692588713146001,2756,,oprobit promote ~ lnarea post2012 alp1 gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,11,gdpgrowth,-0.43945505300065757,0.6613860266277917,2756,,oprobit promote ~ lnarea post2012 alp1 gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,11,revgrowth,-0.4072391626111296,0.45290643885044696,2756,,oprobit promote ~ lnarea post2012 alp1 gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,11,alp1,-0.8810232758882598,0.1552188590992278,2756,,oprobit promote ~ lnarea post2012 alp1 gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,12,lnarea,0.9364568502936857,0.06618177248765192,2756,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,12,ties,0.13401891852396397,0.08211873510803742,2756,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,12,gdpgrowth,-0.695932181785063,0.6509797536923345,2756,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,12,revgrowth,-0.29462308657506797,0.4440304969672568,2756,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
-XII,12,alp2,-0.38337486218639144,0.2990686572254148,2756,,oprobit promote ~ lnarea inspection alp2 ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.prefid
+table,col,var,coef,se,N,adj_r2,spec,loglik,sp_converged_flag,seconds
+VIII,1,princeling,0.6524093845867581,0.2288631336243231,399,,"oprobit promote ~ princeling + i.year i.provid (scaled, maxiter=1000)",-196.65624686207735,True,10.0
+VIII,2,princeling,0.7421999197799198,0.261992495863898,380,,"oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-166.2162312563011,False,12.6
+VIII,2,ties,0.2316281443461384,0.2087780921974783,380,,"oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-166.2162312563011,False,12.6
+VIII,2,gdpgrowth,-1.4380376174248464,2.4831369084321664,380,,"oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-166.2162312563011,False,12.6
+VIII,2,revgrowth,1.953619382905632,1.2304138435701943,380,,"oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-166.2162312563011,False,12.6
+VIII,3,princeling,0.113587691507827,0.0396866449944334,380,0.271871696103342,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid",,,
+VIII,3,ties,0.0109208029181462,0.0325323414011401,380,0.271871696103342,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid",,,
+VIII,3,gdpgrowth,-0.1953592041800801,0.3808256467326567,380,0.271871696103342,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid",,,
+VIII,3,revgrowth,0.0285140459660964,0.1946553849601147,380,0.271871696103342,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid",,,
+VIII,4,discount,0.8137036793176918,0.1754205468264591,382,,"oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-159.86202233844665,False,12.0
+VIII,4,ties,0.1176638029154542,0.2115977228362296,382,,"oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-159.86202233844665,False,12.0
+VIII,4,gdpgrowth,-0.4436460064478158,2.554104678004745,382,,"oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-159.86202233844665,False,12.0
+VIII,4,revgrowth,1.5607119191973402,1.2412385007823372,382,,"oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-159.86202233844665,False,12.0
+VIII,5,lnarea,0.3236281077354428,0.0842522629199068,382,,"oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-163.16655428330506,True,12.3
+VIII,5,ties,0.3019394737138299,0.2134539275756926,382,,"oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-163.16655428330506,True,12.3
+VIII,5,gdpgrowth,-0.0319014478073346,2.530522257754539,382,,"oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-163.16655428330506,True,12.3
+VIII,5,revgrowth,2.4031839370224803,1.2616889126778894,382,,"oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-163.16655428330506,True,12.3
+VIII,6,princeling,0.0176585183783668,0.2881920211679313,399,,"oprobit promote ~ princeling + i.year i.provid (scaled, maxiter=1000)",-239.52671944026625,True,8.5
+VIII,7,princeling,-0.0160149624992398,0.3142184866403311,388,,"oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-223.01326031946385,False,11.8
+VIII,7,ties,-0.0337886498725853,0.2079327888601359,388,,"oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-223.01326031946385,False,11.8
+VIII,7,gdpgrowth,6.188173774214166,1.97743851111984,388,,"oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-223.01326031946385,False,11.8
+VIII,7,revgrowth,0.2622348289325382,1.070223071977826,388,,"oprobit promote ~ princeling ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-223.01326031946385,False,11.8
+VIII,8,princeling,0.0699154624911405,0.06718028240486,388,0.1003594101054136,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid",,,
+VIII,8,ties,-0.0029745845090348,0.0452524594169378,388,0.1003594101054136,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid",,,
+VIII,8,gdpgrowth,1.250219567875507,0.443169179026746,388,0.1003594101054136,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid",,,
+VIII,8,revgrowth,0.0314434871664484,0.2287007471445233,388,0.1003594101054136,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + provid, iid",,,
+VIII,9,discount,0.1811757052190819,0.1752981470584117,390,,"oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-222.77654850230735,True,11.0
+VIII,9,ties,-0.0310683116735693,0.2053069319082808,390,,"oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-222.77654850230735,True,11.0
+VIII,9,gdpgrowth,6.374189673786614,1.98088769954787,390,,"oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-222.77654850230735,True,11.0
+VIII,9,revgrowth,0.2070800408938218,1.0580111484225585,390,,"oprobit promote ~ discount ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-222.77654850230735,True,11.0
+VIII,10,lnarea,-0.0680479943143442,0.0647457987802898,390,,"oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-222.7608363565943,False,12.1
+VIII,10,ties,-0.0522735190979696,0.2058094078365009,390,,"oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-222.7608363565943,False,12.1
+VIII,10,gdpgrowth,6.061136839275706,1.982708565131639,390,,"oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-222.7608363565943,False,12.1
+VIII,10,revgrowth,0.2320142036197232,1.058932108748078,390,,"oprobit promote ~ lnarea ties gdpgrowth lngdppc lnpop revgrowth age age2 eduyear + i.year i.provid (scaled, maxiter=1000)",-222.7608363565943,False,12.1

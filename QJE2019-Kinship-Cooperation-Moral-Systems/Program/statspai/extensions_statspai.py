@@ -127,7 +127,7 @@ for lab, (df, y, tr, ctr) in headline.items():
     ob = safe(f"oster_bounds {lab}", sp.oster_bounds, beta_short=b_s, r2_short=r2_s, beta_long=b_l,
               r2_long=r2_l, r_max=min(1.0, 1.3 * r2_l), delta=1.0)
     if ob is not None:
-        for k in ("delta_star", "beta_star", "beta_adjusted", "bias_adjusted_beta", "robust", "identified_set"):
+        for k in ("delta_for_zero", "beta_adjusted", "robust", "identified_set"):   # delta_for_zero = Oster delta*
             if k in ob:
                 row[f"oster_{k}"] = jsonable(ob[k])
         row["oster_raw"] = json.dumps(jsonable(ob))[:400]

@@ -1,0 +1,213 @@
+statspai 1.28.0; official rdrobust port available: True
+[1] RD cells (Tables I, III-VII)
+  T1 tfpop_s                            col1 tri     native=0.229(0.579) matched=0.343(0.574) h=4.203 [rdrobust_py_masspoints_off]
+  T1 tfpop_s                            col2 epa     native=0.365(0.593) matched=0.368(0.594) h=3.889 [rdrobust_py_masspoints_off]
+  T1 tfpop_s                            col3 uni     native=0.421(0.536) matched=0.322(0.561) h=3.622 [rdrobust_py_masspoints_off]
+  T1 tfpop_s                            col4 tri     native=0.072(0.188) matched=-0.028(0.154) h=5.887 [rdrobust_py_masspoints_off]
+  T1 tfpop_s                            col5 epa     native=0.060(0.185) matched=0.037(0.177) h=5.168 [rdrobust_py_masspoints_off]
+  T1 tfpop_s                            col6 uni     native=0.019(0.184) matched=0.009(0.182) h=4.522 [rdrobust_py_masspoints_off]
+  T1 resid1_tfpop_s                     col1 tri     native=0.364(0.169) matched=0.365(0.167) h=5.723 [rdrobust_py_masspoints_off]
+  T1 resid1_tfpop_s                     col2 epa     native=0.361(0.150) matched=0.385(0.166) h=5.523 [rdrobust_py_masspoints_off]
+  T1 resid1_tfpop_s                     col3 uni     native=0.377(0.153) matched=0.337(0.155) h=5.144 [rdrobust_py_masspoints_off]
+  T1 resid1_tfpop_s                     col4 tri     native=0.038(0.088) matched=0.034(0.087) h=5.890 [rdrobust_py_masspoints_off]
+  T1 resid1_tfpop_s                     col5 epa     native=0.021(0.091) matched=0.037(0.093) h=5.479 [rdrobust_py_masspoints_off]
+  T1 resid1_tfpop_s                     col6 uni     native=0.035(0.102) matched=-0.024(0.090) h=6.091 [rdrobust_py_masspoints_off]
+  T1 resid2_tfpop_s                     col1 tri     native=0.245(0.156) matched=0.275(0.148) h=4.496 [rdrobust_py_masspoints_off]
+  T1 resid2_tfpop_s                     col2 epa     native=0.270(0.150) matched=0.294(0.145) h=4.333 [rdrobust_py_masspoints_off]
+  T1 resid2_tfpop_s                     col3 uni     native=0.324(0.114) matched=0.290(0.137) h=4.689 [rdrobust_py_masspoints_off]
+  T1 resid2_tfpop_s                     col4 tri     native=0.058(0.064) matched=0.022(0.061) h=5.692 [rdrobust_py_masspoints_off]
+  T1 resid2_tfpop_s                     col5 epa     native=0.044(0.065) matched=0.039(0.065) h=5.204 [rdrobust_py_masspoints_off]
+  T1 resid2_tfpop_s                     col6 uni     native=0.065(0.072) matched=0.035(0.069) h=4.430 [rdrobust_py_masspoints_off]
+  T3 resid1_lrze                        col1 tri     native=331.606(531.825) matched=478.593(470.495) h=5.820 [rdrobust_py_masspoints_off]
+  T3 resid1_lrze                        col2 epa     native=338.537(550.104) matched=441.180(524.345) h=5.257 [rdrobust_py_masspoints_off]
+  T3 resid1_lrze                        col3 uni     native=603.213(548.144) matched=693.764(595.494) h=3.451 [rdrobust_py_masspoints_off]
+  T3 resid1_lrze                        col4 tri     native=78.892(408.185) matched=-99.535(386.840) h=7.403 [rdrobust_py_masspoints_off]
+  T3 resid1_lrze                        col5 epa     native=50.029(416.528) matched=-131.591(410.515) h=6.564 [rdrobust_py_masspoints_off]
+  T3 resid1_lrze                        col6 uni     native=99.056(442.218) matched=293.735(494.193) h=4.641 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv                         col1 tri     native=-0.018(0.211) matched=0.045(0.187) h=7.427 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv                         col2 epa     native=0.052(0.192) matched=0.072(0.186) h=7.176 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv                         col3 uni     native=0.109(0.176) matched=0.112(0.184) h=6.617 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv                         col4 tri     native=-0.150(0.136) matched=-0.089(0.130) h=4.990 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv                         col5 epa     native=-0.101(0.139) matched=-0.073(0.139) h=4.699 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv                         col6 uni     native=0.121(0.153) matched=0.022(0.155) h=4.829 [rdrobust_py_masspoints_off]
+  T3 resid1_lnl                         col1 tri     native=-0.396(0.203) matched=-0.222(0.164) h=6.500 [rdrobust_py_masspoints_off]
+  T3 resid1_lnl                         col2 epa     native=-0.352(0.186) matched=-0.190(0.158) h=6.473 [rdrobust_py_masspoints_off]
+  T3 resid1_lnl                         col3 uni     native=-0.108(0.156) matched=-0.091(0.155) h=5.810 [rdrobust_py_masspoints_off]
+  T3 resid1_lnl                         col4 tri     native=-0.293(0.256) matched=-0.007(0.194) h=7.797 [rdrobust_py_masspoints_off]
+  T3 resid1_lnl                         col5 epa     native=-0.018(0.201) matched=0.040(0.193) h=7.756 [rdrobust_py_masspoints_off]
+  T3 resid1_lnl                         col6 uni     native=0.046(0.194) matched=0.085(0.202) h=6.319 [rdrobust_py_masspoints_off]
+  T3 resid1_lnk                         col1 tri     native=-0.453(0.276) matched=-0.399(0.221) h=6.929 [rdrobust_py_masspoints_off]
+  T3 resid1_lnk                         col2 epa     native=-0.459(0.280) matched=-0.445(0.268) h=5.597 [rdrobust_py_masspoints_off]
+  T3 resid1_lnk                         col3 uni     native=-0.457(0.288) matched=-0.609(0.289) h=4.003 [rdrobust_py_masspoints_off]
+  T3 resid1_lnk                         col4 tri     native=-0.130(0.225) matched=-0.098(0.212) h=7.690 [rdrobust_py_masspoints_off]
+  T3 resid1_lnk                         col5 epa     native=-0.109(0.228) matched=-0.078(0.223) h=6.386 [rdrobust_py_masspoints_off]
+  T3 resid1_lnk                         col6 uni     native=-0.011(0.239) matched=-0.103(0.259) h=4.782 [rdrobust_py_masspoints_off]
+  T3 resid1_lnm                         col1 tri     native=-0.096(0.265) matched=-0.047(0.237) h=5.480 [rdrobust_py_masspoints_off]
+  T3 resid1_lnm                         col2 epa     native=-0.053(0.242) matched=-0.045(0.238) h=5.137 [rdrobust_py_masspoints_off]
+  T3 resid1_lnm                         col3 uni     native=-0.012(0.170) matched=-0.046(0.178) h=6.219 [rdrobust_py_masspoints_off]
+  T3 resid1_lnm                         col4 tri     native=-0.037(0.178) matched=0.015(0.163) h=7.276 [rdrobust_py_masspoints_off]
+  T3 resid1_lnm                         col5 epa     native=0.025(0.165) matched=0.024(0.162) h=6.877 [rdrobust_py_masspoints_off]
+  T3 resid1_lnm                         col6 uni     native=-0.000(0.176) matched=-0.001(0.201) h=4.743 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_l                       col1 tri     native=0.086(0.084) matched=0.080(0.076) h=7.791 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_l                       col2 epa     native=0.083(0.080) matched=0.081(0.077) h=7.339 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_l                       col3 uni     native=0.059(0.077) matched=0.055(0.077) h=6.009 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_l                       col4 tri     native=-0.011(0.069) matched=0.004(0.056) h=6.027 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_l                       col5 epa     native=0.018(0.064) matched=0.017(0.063) h=5.162 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_l                       col6 uni     native=-0.008(0.039) matched=0.006(0.046) h=5.760 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_k                       col1 tri     native=0.251(0.108) matched=0.250(0.102) h=4.925 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_k                       col2 epa     native=0.267(0.099) matched=0.266(0.096) h=5.193 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_k                       col3 uni     native=0.255(0.102) matched=0.284(0.104) h=4.216 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_k                       col4 tri     native=0.055(0.094) matched=0.073(0.081) h=6.710 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_k                       col5 epa     native=0.060(0.091) matched=0.067(0.087) h=5.893 [rdrobust_py_masspoints_off]
+  T3 resid1_lnv_k                       col6 uni     native=0.094(0.093) matched=0.008(0.096) h=4.804 [rdrobust_py_masspoints_off]
+  T4 resid1_hours                       col1 tri     native=288.475(101.395) matched=288.296(101.383) h=5.222 [rdrobust_py_masspoints_off]
+  T4 resid1_hours                       col2 epa     native=260.064(104.974) matched=255.926(104.915) h=5.636 [rdrobust_py_masspoints_off]
+  T4 resid1_hours                       col3 uni     native=237.850(110.412) matched=171.451(91.545) h=7.037 [rdrobust_py_masspoints_off]
+  T4 resid1_log_water                   col1 tri     native=0.620(0.230) matched=0.625(0.228) h=3.164 [rdrobust_py_masspoints_off]
+  T4 resid1_log_water                   col2 epa     native=0.605(0.250) matched=0.605(0.251) h=3.265 [rdrobust_py_masspoints_off]
+  T4 resid1_log_water                   col3 uni     native=0.633(0.285) matched=0.401(0.279) h=2.497 [rdrobust_py_masspoints_off]
+  T4 resid1_machine                     col1 tri     native=-1.229(0.651) matched=-1.145(0.624) h=4.384 [rdrobust_py_masspoints_off]
+  T4 resid1_machine                     col2 epa     native=-1.243(0.681) matched=-1.066(0.616) h=4.549 [rdrobust_py_masspoints_off]
+  T4 resid1_machine                     col3 uni     native=-1.146(0.668) matched=-1.290(0.691) h=3.416 [rdrobust_py_masspoints_off]
+  T4 resid1_total_capacity              col1 tri     native=-7354.298(3735.960) matched=-7381.069(3733.270) h=4.151 [rdrobust_py_masspoints_off]
+  T4 resid1_total_capacity              col2 epa     native=-7793.747(3853.340) matched=-8593.943(3854.698) h=4.181 [rdrobust_py_masspoints_off]
+  T4 resid1_total_capacity              col3 uni     native=-9805.880(4302.168) matched=-7849.399(3714.324) h=4.332 [rdrobust_py_masspoints_off]
+  T5 resid_log_cod                      col1 tri     native=0.856(0.437) matched=0.837(0.426) h=3.329 [rdrobust_py_masspoints_off]
+  T5 resid_log_cod                      col2 epa     native=0.738(0.368) matched=0.750(0.392) h=3.418 [rdrobust_py_masspoints_off]
+  T5 resid_log_cod                      col3 uni     native=0.578(0.303) matched=0.237(0.320) h=5.029 [rdrobust_py_masspoints_off]
+  T5 resid_log_cod_intensity            col1 tri     native=0.878(0.321) matched=0.769(0.285) h=4.959 [rdrobust_py_masspoints_off]
+  T5 resid_log_cod_intensity            col2 epa     native=0.809(0.293) matched=0.705(0.267) h=4.959 [rdrobust_py_masspoints_off]
+  T5 resid_log_cod_intensity            col3 uni     native=0.756(0.326) matched=0.729(0.258) h=4.394 [rdrobust_py_masspoints_off]
+  T5 resid_log_nh                       col1 tri     native=0.981(1.079) matched=0.875(0.902) h=4.575 [rdrobust_py_masspoints_off]
+  T5 resid_log_nh                       col2 epa     native=0.922(0.990) matched=0.760(0.765) h=4.879 [rdrobust_py_masspoints_off]
+  T5 resid_log_nh                       col3 uni     native=1.003(0.912) matched=0.626(0.689) h=4.477 [rdrobust_py_masspoints_off]
+  T5 resid_log_nh_intensity             col1 tri     native=1.224(0.447) matched=1.230(0.448) h=3.201 [rdrobust_py_masspoints_off]
+  T5 resid_log_nh_intensity             col2 epa     native=1.057(0.427) matched=1.006(0.437) h=3.500 [rdrobust_py_masspoints_off]
+  T5 resid_log_nh_intensity             col3 uni     native=0.849(0.430) matched=0.849(0.430) h=2.998 [rdrobust_py_masspoints_off]
+  T5 resid_log_waste_water              col1 tri     native=0.337(0.307) matched=0.342(0.311) h=3.627 [rdrobust_py_masspoints_off]
+  T5 resid_log_waste_water              col2 epa     native=0.332(0.323) matched=0.330(0.329) h=3.599 [rdrobust_py_masspoints_off]
+  T5 resid_log_waste_water              col3 uni     native=0.239(0.308) matched=0.057(0.281) h=5.286 [rdrobust_py_masspoints_off]
+  T5 resid_log_waste_water_intensity    col1 tri     native=0.466(0.233) matched=0.443(0.214) h=4.538 [rdrobust_py_masspoints_off]
+  T5 resid_log_waste_water_intensity    col2 epa     native=0.431(0.218) matched=0.402(0.202) h=4.825 [rdrobust_py_masspoints_off]
+  T5 resid_log_waste_water_intensity    col3 uni     native=0.353(0.218) matched=0.242(0.186) h=4.996 [rdrobust_py_masspoints_off]
+  T5 resid_log_so2                      col1 tri     native=0.050(0.306) matched=0.031(0.289) h=4.420 [rdrobust_py_masspoints_off]
+  T5 resid_log_so2                      col2 epa     native=0.059(0.297) matched=0.055(0.296) h=4.208 [rdrobust_py_masspoints_off]
+  T5 resid_log_so2                      col3 uni     native=-0.097(0.251) matched=-0.164(0.246) h=6.250 [rdrobust_py_masspoints_off]
+  T5 resid_log_nox                      col1 tri     native=0.109(0.292) matched=0.090(0.284) h=3.661 [rdrobust_py_masspoints_off]
+  T5 resid_log_nox                      col2 epa     native=0.140(0.293) matched=0.140(0.293) h=3.375 [rdrobust_py_masspoints_off]
+  T5 resid_log_nox                      col3 uni     native=-0.063(0.199) matched=-0.049(0.199) h=6.095 [rdrobust_py_masspoints_off]
+  T6 fee                                col1 tri     native=-1.459(0.446) matched=-1.139(0.442) h=3.400 [rdrobust_py_masspoints_off]
+  T6 fee                                col2 epa     native=-1.320(0.450) matched=-1.317(0.450) h=2.931 [rdrobust_py_masspoints_off]
+  T6 fee                                col3 uni     native=-0.880(0.464) matched=-0.910(0.477) h=2.610 [rdrobust_py_masspoints_off]
+  T6 party_inc1                         col1 tri     native=0.542(0.208) matched=0.560(0.204) h=4.772 [rdrobust_py_masspoints_off]
+  T6 party_inc1                         col2 epa     native=0.572(0.193) matched=0.581(0.199) h=4.923 [rdrobust_py_masspoints_off]
+  T6 party_inc1                         col3 uni     native=0.622(0.196) matched=0.591(0.198) h=4.322 [rdrobust_py_masspoints_off]
+  T6 party_inc1                         col4 tri     native=0.121(0.134) matched=0.119(0.133) h=4.878 [rdrobust_py_masspoints_off]
+  T6 party_inc1                         col5 epa     native=0.106(0.139) matched=0.088(0.136) h=5.605 [rdrobust_py_masspoints_off]
+  T6 party_inc1                         col6 uni     native=0.107(0.110) matched=0.072(0.104) h=6.890 [rdrobust_py_masspoints_off]
+  T6 party_inc0                         col1 tri     native=0.103(0.234) matched=0.129(0.186) h=5.898 [rdrobust_py_masspoints_off]
+  T6 party_inc0                         col2 epa     native=0.121(0.240) matched=0.187(0.255) h=4.627 [rdrobust_py_masspoints_off]
+  T6 party_inc0                         col3 uni     native=0.060(0.140) matched=0.185(0.265) h=3.713 [rdrobust_py_masspoints_off]
+  T6 party_inc0                         col4 tri     native=0.098(0.194) matched=0.037(0.186) h=3.792 [rdrobust_py_masspoints_off]
+  T6 party_inc0                         col5 epa     native=0.141(0.195) matched=0.012(0.193) h=3.853 [rdrobust_py_masspoints_off]
+  T6 party_inc0                         col6 uni     native=-0.002(0.190) matched=0.261(0.220) h=2.608 [rdrobust_py_masspoints_off]
+  T6 automatic1                         col1 tri     native=1.158(0.510) matched=1.181(0.549) h=4.504 [rdrobust_py_masspoints_off]
+  T6 automatic1                         col2 epa     native=1.176(0.507) matched=1.219(0.549) h=4.499 [rdrobust_py_masspoints_off]
+  T6 automatic1                         col3 uni     native=0.815(0.468) matched=1.207(0.471) h=4.647 [rdrobust_py_masspoints_off]
+  T6 automatic1                         col4 tri     native=-0.976(0.158) matched=-1.073(1.437) h=2.919 [rdrobust_py_masspoints_off]
+  T6 automatic1                         col5 epa     native=-1.029(0.195) matched=-0.483(0.706) h=3.296 [rdrobust_py_masspoints_off]
+  T6 automatic1                         col6 uni     native=-1.198(0.298) matched=-0.541(1.612) h=3.118 [rdrobust_py_masspoints_off]
+  T6 automatic0                         col1 tri     native=0.321(0.184) matched=0.303(0.154) h=6.146 [rdrobust_py_masspoints_off]
+  T6 automatic0                         col2 epa     native=0.353(0.174) matched=0.350(0.171) h=5.734 [rdrobust_py_masspoints_off]
+  T6 automatic0                         col3 uni     native=0.406(0.199) matched=0.407(0.200) h=4.302 [rdrobust_py_masspoints_off]
+  T6 automatic0                         col4 tri     native=0.096(0.083) matched=0.099(0.080) h=4.632 [rdrobust_py_masspoints_off]
+  T6 automatic0                         col5 epa     native=0.115(0.079) matched=0.109(0.079) h=4.740 [rdrobust_py_masspoints_off]
+  T6 automatic0                         col6 uni     native=0.121(0.083) matched=0.098(0.081) h=4.291 [rdrobust_py_masspoints_off]
+  T7 soe0                               col1 tri     native=0.432(0.180) matched=0.446(0.179) h=4.651 [rdrobust_py_masspoints_off]
+  T7 soe0                               col2 epa     native=0.482(0.180) matched=0.479(0.181) h=4.419 [rdrobust_py_masspoints_off]
+  T7 soe0                               col3 uniform native=0.366(0.146) matched=0.433(0.167) h=4.860 [rdrobust_py_masspoints_off]
+  T7 soe0                               col4 tri     native=0.032(0.091) matched=0.047(0.089) h=5.104 [rdrobust_py_masspoints_off]
+  T7 soe0                               col5 epa     native=0.052(0.092) matched=0.048(0.092) h=4.862 [rdrobust_py_masspoints_off]
+  T7 soe0                               col6 uniform native=-0.009(0.093) matched=0.072(0.102) h=4.517 [rdrobust_py_masspoints_off]
+  T7 soe1                               col1 tri     native=-0.119(0.420) matched=-0.130(0.417) h=3.301 [rdrobust_py_masspoints_off]
+  T7 soe1                               col2 epa     native=0.013(0.490) matched=0.002(0.495) h=3.469 [rdrobust_py_masspoints_off]
+  T7 soe1                               col3 uniform native=0.041(0.541) matched=0.623(0.409) h=4.947 [rdrobust_py_masspoints_off]
+  T7 soe1                               col4 tri     native=0.152(0.404) matched=0.112(0.345) h=6.070 [rdrobust_py_masspoints_off]
+  T7 soe1                               col5 epa     native=0.124(0.419) matched=0.086(0.333) h=6.064 [rdrobust_py_masspoints_off]
+  T7 soe1                               col6 uniform native=0.061(0.308) matched=0.060(0.413) h=4.550 [rdrobust_py_masspoints_off]
+  T7 firm_big0                          col1 tri     native=-0.002(0.419) matched=0.057(0.407) h=4.589 [rdrobust_py_masspoints_off]
+  T7 firm_big0                          col2 epa     native=0.047(0.435) matched=0.135(0.359) h=5.116 [rdrobust_py_masspoints_off]
+  T7 firm_big0                          col3 uniform native=0.133(0.495) matched=0.169(0.392) h=3.757 [rdrobust_py_masspoints_off]
+  T7 firm_big0                          col4 tri     native=-0.024(0.156) matched=-0.015(0.155) h=4.199 [rdrobust_py_masspoints_off]
+  T7 firm_big0                          col5 epa     native=-0.022(0.160) matched=-0.045(0.163) h=3.798 [rdrobust_py_masspoints_off]
+  T7 firm_big0                          col6 uniform native=0.065(0.168) matched=0.042(0.176) h=4.021 [rdrobust_py_masspoints_off]
+  T7 firm_big1                          col1 tri     native=0.488(0.168) matched=0.485(0.162) h=5.147 [rdrobust_py_masspoints_off]
+  T7 firm_big1                          col2 epa     native=0.512(0.170) matched=0.519(0.173) h=4.846 [rdrobust_py_masspoints_off]
+  T7 firm_big1                          col3 uniform native=0.443(0.158) matched=0.517(0.175) h=4.756 [rdrobust_py_masspoints_off]
+  T7 firm_big1                          col4 tri     native=0.023(0.105) matched=0.024(0.111) h=5.079 [rdrobust_py_masspoints_off]
+  T7 firm_big1                          col5 epa     native=0.023(0.099) matched=0.032(0.112) h=5.242 [rdrobust_py_masspoints_off]
+  T7 firm_big1                          col6 uniform native=0.013(0.103) matched=0.020(0.098) h=5.755 [rdrobust_py_masspoints_off]
+  T7 nsbd1                              col1 epa     native=0.628(0.375) matched=0.891(0.310) h=5.711 [rdrobust_py_masspoints_off]
+  T7 nsbd1                              col2 tri     native=0.684(0.325) matched=0.689(0.323) h=6.689 [rdrobust_py_masspoints_off]
+  T7 nsbd1                              col3 uni     native=0.887(0.372) matched=0.935(0.310) h=4.969 [rdrobust_py_masspoints_off]
+  T7 nsbd1                              col4 epa     native=0.006(0.244) matched=0.165(0.161) h=5.016 [rdrobust_py_masspoints_off]
+  T7 nsbd1                              col5 tri     native=0.075(0.188) matched=0.100(0.182) h=5.715 [rdrobust_py_masspoints_off]
+  T7 nsbd1                              col6 uni     native=0.231(0.233) matched=0.051(0.247) h=8.375 [stata_e(h,b)]
+  T7 nsbd0                              col1 epa     native=0.382(0.191) matched=0.382(0.191) h=4.522 [rdrobust_py_masspoints_off]
+  T7 nsbd0                              col2 tri     native=0.362(0.193) matched=0.346(0.178) h=5.103 [rdrobust_py_masspoints_off]
+  T7 nsbd0                              col3 uni     native=0.355(0.165) matched=0.359(0.181) h=3.877 [rdrobust_py_masspoints_off]
+  T7 nsbd0                              col4 epa     native=0.132(0.114) matched=0.132(0.110) h=4.972 [rdrobust_py_masspoints_off]
+  T7 nsbd0                              col5 tri     native=0.131(0.108) matched=0.107(0.099) h=5.718 [rdrobust_py_masspoints_off]
+  T7 nsbd0                              col6 uni     native=0.073(0.122) matched=0.108(0.112) h=4.498 [rdrobust_py_masspoints_off]
+  T5 resid_log_cod@msecomb1             col3 uni     native=0.747(0.397) matched=0.734(0.353) h=3.543 [rdrobust_py_masspoints_off]
+  T5 resid_log_cod_intensity@msecomb1   col3 uni     native=1.017(0.398) matched=0.844(0.328) h=3.272 [rdrobust_py_masspoints_off]
+  T5 resid_log_nh@msecomb1              col3 uni     native=1.003(0.912) matched=0.626(0.689) h=4.477 [rdrobust_py_masspoints_off]
+  T5 resid_log_nh_intensity@msecomb1    col3 uni     native=0.849(0.430) matched=0.849(0.430) h=2.998 [rdrobust_py_masspoints_off]
+  T5 resid_log_waste_water@msecomb1     col3 uni     native=0.239(0.308) matched=0.057(0.281) h=5.286 [rdrobust_py_masspoints_off]
+  T5 resid_log_waste_water_intensity@msecomb1 col3 uni     native=0.620(0.259) matched=0.556(0.258) h=3.273 [rdrobust_py_masspoints_off]
+  T5 resid_log_so2@msecomb1             col3 uni     native=-0.035(0.286) matched=-0.035(0.286) h=4.488 [rdrobust_py_masspoints_off]
+  T5 resid_log_nox@msecomb1             col3 uni     native=0.011(0.251) matched=-0.002(0.261) h=3.897 [rdrobust_py_masspoints_off]
+  T6 fee@mserd                          col1 tri     native=-1.374(0.432) matched=-0.913(0.443) h=4.025 [rdrobust_py_masspoints_off]
+  T6 fee@mserd                          col2 epa     native=-0.868(0.451) matched=-1.124(0.454) h=3.508 [rdrobust_py_masspoints_off]
+  T6 fee@mserd                          col3 uni     native=0.025(0.491) matched=-0.116(0.496) h=4.362 [rdrobust_py_masspoints_off]
+[2] Table II difference-in-discontinuities
+  T2 col1 tri: mdrd BC=0.2043 (se 0.0703) | StatsPAI BC=0.2043 (se 0.0695)  conv 0.1595 vs 0.1595
+  T2 col2 epa: mdrd BC=0.2107 (se 0.0765) | StatsPAI BC=0.2107 (se 0.0764)  conv 0.1673 vs 0.1673
+  T2 col3 uni: mdrd BC=0.1979 (se 0.0750) | StatsPAI BC=0.1979 (se 0.0744)  conv 0.1534 vs 0.1534
+  T2 col4 tri: mdrd BC=0.0278 (se 0.0663) | StatsPAI BC=0.0278 (se 0.0651)  conv -0.0068 vs -0.0068
+  T2 col5 epa: mdrd BC=0.0024 (se 0.0629) | StatsPAI BC=0.0024 (se 0.0616)  conv -0.0255 vs -0.0255
+  T2 col6 uni: mdrd BC=-0.0686 (se 0.0566) | StatsPAI BC=-0.0686 (se 0.0573)  conv -0.0825 vs -0.0825
+[3] Figures IV and V
+[4] Table VIII costs
+ col  mrs_xlsx_per10pct  kappa  loss_00_07_bn  loss_16_20_bn  annual_16_20_bn  mrs_statspai_per10pct  loss_00_07_bn_statspai  loss_16_20_bn_statspai  annual_16_20_bn_statspai
+   1              3.380  1.574       1341.549       1302.922          260.584                  3.422                1359.860                1319.787                   263.957
+   2              3.806  1.574       1526.727       1472.389          294.478                  3.846                1544.092                1488.158                   297.632
+   3              3.534  1.574       1408.204       1364.198          272.840                  3.498                1392.511                1349.800                   269.960
+   4              2.118  1.574        815.651        808.303          161.661                  2.070                 796.597                 790.003                   158.001
+   5              2.281  1.574        881.868        871.692          174.338                  2.287                 884.479                 874.184                   174.837
+   6              2.223  1.574        858.316        849.183          169.837                  2.194                 846.745                 838.110                   167.622
+[5] Extensions
+      sample                                  method  estimate     se  ci_low  ci_high                                      h                                  note
+   polluting           rdrobust conventional (paper)    0.3645 0.1670  0.0373   0.6918 (5.723040554343252, 5.723040554343252)    cluster site_id; masspoints off bw
+   polluting          rdrobust robust bias-corrected    0.3608 0.1985 -0.0283   0.7499 (5.723040554343252, 5.723040554343252)                     CCT (2014) RBC CI
+   polluting rdrobust native (masspoint-adjusted bw)    0.3639 0.1691 -0.0127   0.7445                                5.63454                           CI = robust
+   polluting           rd_honest (Armstrong-Kolesar)    0.3623 0.1405  0.0612   0.6635                                4.72726 M=0.0271 estimated; no cluster option
+   polluting                        donut |x|>0.1 km    0.4357 0.1908  0.0374   0.8943                               5.343329                native bw; CI = robust
+   polluting                       donut |x|>0.25 km    0.7288 0.2124  0.3170   1.2977                               3.038204                native bw; CI = robust
+   polluting                        donut |x|>0.5 km    0.8060 0.2338  0.3659   1.4582                               2.855389                native bw; CI = robust
+   polluting                        donut |x|>1.0 km    0.9675 0.4097  0.0990   2.0097                               3.469603                native bw; CI = robust
+   polluting                    placebo cutoff -5 km   -0.1573 0.1774 -0.5498   0.2502                               1.195077                 same-side sample only
+   polluting                    placebo cutoff +5 km   -0.2555 0.1162 -0.5967  -0.0077                               1.471191                 same-side sample only
+   polluting            rddensity (CJM 2020) p-value   -0.0036    NaN     NaN      NaN                                2.49033                               p=0.546
+nonpolluting           rdrobust conventional (paper)    0.0335 0.0871 -0.1372   0.2042 (5.890298108629047, 5.890298108629047)    cluster site_id; masspoints off bw
+nonpolluting          rdrobust robust bias-corrected    0.0241 0.1095 -0.1905   0.2386 (5.890298108629047, 5.890298108629047)                     CCT (2014) RBC CI
+nonpolluting rdrobust native (masspoint-adjusted bw)    0.0381 0.0881 -0.1812   0.2363                               5.716277                           CI = robust
+nonpolluting           rd_honest (Armstrong-Kolesar)    0.1178 0.1136 -0.1335   0.3692                               3.060867 M=0.0559 estimated; no cluster option
+nonpolluting                        donut |x|>0.1 km    0.0467 0.0989 -0.1999   0.2692                               5.456751                native bw; CI = robust
+nonpolluting                       donut |x|>0.25 km    0.0617 0.1395 -0.2932   0.3833                               5.498901                native bw; CI = robust
+nonpolluting                        donut |x|>0.5 km    0.0464 0.1351 -0.2996   0.3706                               4.536012                native bw; CI = robust
+nonpolluting                        donut |x|>1.0 km    0.0398 0.2062 -0.4982   0.4908                               4.842905                native bw; CI = robust
+nonpolluting                    placebo cutoff -5 km    0.1902 0.1038 -0.0555   0.4289                               2.145929                 same-side sample only
+nonpolluting                    placebo cutoff +5 km    0.0260 0.2769 -0.5018   0.5822                               2.285888                 same-side sample only
+nonpolluting            rddensity (CJM 2020) p-value   -0.0045    NaN     NaN      NaN                               2.876363                               p=0.303
+done -> /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2020-Watering-Down-Environmental-Regulation/Results/statspai

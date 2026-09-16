@@ -2,11 +2,11 @@
 VARIABLES	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr1
 										
 Zeng_all0_invdist_Post	0.214***	0.201***	0.212***	0.213***						
-	(0.059)	(0.062)	(0.060)	(0.060)						
+	(0.055)	(0.057)	(0.056)	(0.057)						
 Zeng_all0_invdist_pc_Post					0.061***	0.056**				
-					(0.021)	(0.022)				
+					(0.020)	(0.022)				
 Zeng_all0_Post							0.146***	0.147***		
-							(0.042)	(0.042)		
+							(0.040)	(0.040)		
 Zeng_all0_pc_Post									0.047***	0.044***
 									(0.016)	(0.016)
 										

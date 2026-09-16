@@ -1,0 +1,104 @@
+row,column,stat,paper,Stata re-run,StatsPAI,abs diff Stata,abs diff StatsPAI,Stata,SP,MC
+food total (usd),(1) control mean,coef/value,104.46,104.46,104.45876145718702,0.0,0.0,✅,✅,False
+food total (usd),(2) treatment,coef/value,19.46,19.46,19.460294906664643,0.0,0.0,✅,✅,False
+food total (usd),(3) female rec.,coef/value,-1.81,-1.81,-1.8146011195692235,0.0,0.0,✅,✅,False
+food total (usd),(4) monthly,coef/value,1.79,1.79,1.7900662765536757,0.0,0.0,✅,✅,False
+food total (usd),(5) large,coef/value,8.28,8.28,8.277115859177433,0.0,0.0,✅,✅,False
+food total (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+food total (usd),(1) control mean,(SE/SD),58.5,58.5,58.49784194669251,0.0,0.0,✅,✅,False
+food total (usd),(2) treatment,(SE/SD),4.19,4.19,4.18526686634685,0.0,0.0,✅,✅,False
+food total (usd),(3) female rec.,(SE/SD),7.37,7.37,7.370068776471772,0.0,0.0,✅,✅,False
+food total (usd),(4) monthly,(SE/SD),7.42,7.42,7.418448248486853,0.0,0.0,✅,✅,False
+food total (usd),(5) large,(SE/SD),7.59,7.59,7.585838939050859,0.0,0.0,✅,✅,False
+cereals (usd),(1) control mean,coef/value,22.55,22.55,22.55020670869203,0.0,0.0,✅,✅,False
+cereals (usd),(2) treatment,coef/value,2.23,2.23,2.228716471546193,0.0,0.0,✅,✅,False
+cereals (usd),(3) female rec.,coef/value,0.37,0.37,0.3733943229136303,0.0,0.0,✅,✅,False
+cereals (usd),(4) monthly,coef/value,-1.06,-1.06,-1.0609552666189734,0.0,0.0,✅,✅,False
+cereals (usd),(5) large,coef/value,2.68,2.68,2.678485474694809,0.0,0.0,✅,✅,False
+cereals (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+cereals (usd),(1) control mean,(SE/SD),17.18,17.18,17.181698265812738,0.0,0.0,✅,✅,False
+cereals (usd),(2) treatment,(SE/SD),1.13,1.13,1.1325096305887368,0.0,0.0,✅,✅,False
+cereals (usd),(3) female rec.,(SE/SD),1.87,1.87,1.8685116772020456,0.0,0.0,✅,✅,False
+cereals (usd),(4) monthly,(SE/SD),1.86,1.86,1.86249436812252,0.0,0.0,✅,✅,False
+cereals (usd),(5) large,(SE/SD),2.07,2.07,2.072966836948801,0.0,0.0,✅,✅,False
+meat & fish (usd),(1) control mean,coef/value,12.97,12.97,12.965327291854663,0.0,0.0,✅,✅,False
+meat & fish (usd),(2) treatment,coef/value,5.05,5.05,5.048629225475497,0.0,0.0,✅,✅,False
+meat & fish (usd),(3) female rec.,coef/value,0.87,0.87,0.8715775705947495,0.0,0.0,✅,✅,False
+meat & fish (usd),(4) monthly,coef/value,-2.93,-2.93,-2.933164862781422,0.0,0.0,✅,✅,False
+meat & fish (usd),(5) large,coef/value,2.52,2.52,2.5161208000545416,0.0,0.0,✅,✅,False
+meat & fish (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+meat & fish (usd),(1) control mean,(SE/SD),13.75,13.75,13.748255573128532,0.0,0.0,✅,✅,False
+meat & fish (usd),(2) treatment,(SE/SD),1.01,1.01,1.0098395283776471,0.0,0.0,✅,✅,False
+meat & fish (usd),(3) female rec.,(SE/SD),1.82,1.82,1.8161304230571709,0.0,0.0,✅,✅,False
+meat & fish (usd),(4) monthly,(SE/SD),1.92,1.92,1.921470790787132,0.0,0.0,✅,✅,False
+meat & fish (usd),(5) large,(SE/SD),1.63,1.63,1.632968724474244,0.0,0.0,✅,✅,False
+alcohol (usd),(1) control mean,coef/value,6.38,6.38,6.382232317283972,0.0,0.0,✅,✅,False
+alcohol (usd),(2) treatment,coef/value,-0.93,-0.93,-0.9281041867219016,0.0,0.0,✅,✅,False
+alcohol (usd),(3) female rec.,coef/value,1.56,1.56,1.5635819450472936,0.0,0.0,✅,✅,False
+alcohol (usd),(4) monthly,coef/value,1.03,1.03,1.0325669520105187,0.0,0.0,✅,✅,False
+alcohol (usd),(5) large,coef/value,-1.42,-1.42,-1.4164678861979816,0.0,0.0,✅,✅,False
+alcohol (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+alcohol (usd),(1) control mean,(SE/SD),16.56,16.56,16.56262312681652,0.0,0.0,✅,✅,False
+alcohol (usd),(2) treatment,(SE/SD),0.99,0.99,0.9918475175197417,0.0,0.0,✅,✅,False
+alcohol (usd),(3) female rec.,(SE/SD),1.62,1.62,1.6241220085240784,0.0,0.0,✅,✅,False
+alcohol (usd),(4) monthly,(SE/SD),1.64,1.64,1.6374371539096613,0.0,0.0,✅,✅,False
+alcohol (usd),(5) large,(SE/SD),1.33,1.33,1.3303734495712265,0.0,0.0,✅,✅,False
+tobacco (usd),(1) control mean,coef/value,1.52,1.52,1.5214990885781328,0.0,0.0,✅,✅,False
+tobacco (usd),(2) treatment,coef/value,-0.15,-0.15,-0.1488228260875099,0.0,0.0,✅,✅,False
+tobacco (usd),(3) female rec.,coef/value,0.12,0.12,0.117629265117,0.0,0.0,✅,✅,False
+tobacco (usd),(4) monthly,coef/value,0.42,0.42,0.4171532807851662,0.0,0.0,✅,✅,False
+tobacco (usd),(5) large,coef/value,-0.29,-0.29,-0.2915372137369944,0.0,0.0,✅,✅,False
+tobacco (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+tobacco (usd),(1) control mean,(SE/SD),4.13,4.13,4.134680847717259,0.0,0.0,✅,✅,False
+tobacco (usd),(2) treatment,(SE/SD),0.22,0.22,0.2178346163463628,0.0,0.0,✅,✅,False
+tobacco (usd),(3) female rec.,(SE/SD),0.34,0.34,0.3408572372082571,0.0,0.0,✅,✅,False
+tobacco (usd),(4) monthly,(SE/SD),0.33,0.33,0.3333852074812606,0.0,0.0,✅,✅,False
+tobacco (usd),(5) large,(SE/SD),0.3,0.3,0.3000255059147844,0.0,0.0,✅,✅,False
+social expenditure (usd),(1) control mean,coef/value,4.36,4.36,4.355275730874492,0.0,0.0,✅,✅,False
+social expenditure (usd),(2) treatment,coef/value,2.43,2.43,2.4272452260958244,0.0,0.0,✅,✅,False
+social expenditure (usd),(3) female rec.,coef/value,-2.06,-2.06,-2.0583663763245665,0.0,0.0,✅,✅,False
+social expenditure (usd),(4) monthly,coef/value,-0.52,-0.52,-0.5155081045477055,0.0,0.0,✅,✅,False
+social expenditure (usd),(5) large,coef/value,0.62,0.62,0.622216703197654,0.0,0.0,✅,✅,False
+social expenditure (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+social expenditure (usd),(1) control mean,(SE/SD),5.38,5.38,5.377052168064264,0.0,0.0,✅,✅,False
+social expenditure (usd),(2) treatment,(SE/SD),0.48,0.48,0.4819766216572583,0.0,0.0,✅,✅,False
+social expenditure (usd),(3) female rec.,(SE/SD),0.97,0.97,0.9671478609057004,0.0,0.0,✅,✅,False
+social expenditure (usd),(4) monthly,(SE/SD),0.99,0.99,0.9925935140101466,0.0,0.0,✅,✅,False
+social expenditure (usd),(5) large,(SE/SD),0.9,0.9,0.8952931297738782,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(1) control mean,coef/value,6.78,6.78,6.777540684699503,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(2) treatment,coef/value,2.58,2.58,2.5820862292367126,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(3) female rec.,coef/value,2.06,2.06,2.0620085515357784,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(4) monthly,coef/value,-1.34,-1.34,-1.336363787151014,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(5) large,coef/value,-0.29,-0.29,-0.2945616022610001,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(1) control mean,(SE/SD),13.53,13.53,13.529637879697942,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(2) treatment,(SE/SD),0.99,0.99,0.9933622511056012,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(3) female rec.,(SE/SD),1.86,1.86,1.8588422151309905,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(4) monthly,(SE/SD),1.86,1.86,1.859880749219464,0.0,0.0,✅,✅,False
+medical expenditure past month (usd),(5) large,(SE/SD),1.74,1.74,1.7418190400402234,0.0,0.0,✅,✅,False
+education expenditure (usd),(1) control mean,coef/value,4.71,4.71,4.708046378420868,0.0,0.0,✅,✅,False
+education expenditure (usd),(2) treatment,coef/value,1.08,1.08,1.0750863808759572,0.0,0.0,✅,✅,False
+education expenditure (usd),(3) female rec.,coef/value,0.48,0.48,0.4840137313983598,0.0,0.0,✅,✅,False
+education expenditure (usd),(4) monthly,coef/value,-0.02,-0.02,-0.0166705886359913,0.0,0.0,✅,✅,False
+education expenditure (usd),(5) large,coef/value,1.15,1.15,1.1523152327285202,0.0,0.0,✅,✅,False
+education expenditure (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+education expenditure (usd),(1) control mean,(SE/SD),8.68,8.68,8.677822542222705,0.0,0.0,✅,✅,False
+education expenditure (usd),(2) treatment,(SE/SD),0.51,0.51,0.5098958382896799,0.0,0.0,✅,✅,False
+education expenditure (usd),(3) female rec.,(SE/SD),0.88,0.88,0.8803026974210263,0.0,0.0,✅,✅,False
+education expenditure (usd),(4) monthly,(SE/SD),0.87,0.87,0.8669705923090599,0.0,0.0,✅,✅,False
+education expenditure (usd),(5) large,(SE/SD),0.91,0.91,0.9145583693555503,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(1) control mean,coef/value,157.61,157.61,157.61200665309232,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(2) treatment,coef/value,35.66,35.66,35.65738279102732,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(3) female rec.,coef/value,-2.0,-2.0,-2.000172116261043,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(4) monthly,coef/value,-4.2,-4.2,-4.203707563711118,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(5) large,coef/value,21.25,21.25,21.248336203671233,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(1) control mean,(SE/SD),82.18,82.18,82.1802797444825,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(2) treatment,(SE/SD),5.85,5.85,5.852704564060148,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(3) female rec.,(SE/SD),10.28,10.28,10.276175546833654,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(4) monthly,(SE/SD),10.71,10.71,10.70547234093264,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(5) large,(SE/SD),10.49,10.49,10.48565934797418,0.0,0.0,✅,✅,False
+joint test (p-value),(2) treatment,coef/value,0.0,0.0,1.5140114445512214e-10,0.0,0.0,✅,✅,False
+joint test (p-value),(3) female rec.,coef/value,0.47,0.47,0.4715021826935064,0.0,0.0,✅,✅,False
+joint test (p-value),(4) monthly,coef/value,0.13,0.13,0.1336874310171301,0.0,0.0,✅,✅,False
+joint test (p-value),(5) large,coef/value,0.01,0.01,0.0070953556296373,0.0,0.0,✅,✅,False

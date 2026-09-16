@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS noise
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Replication data (Harvard Dataverse package, ~25 MB unzipped) -- re-download, see Data/README.md
+Data/**
+!Data/README.md
+!Data/.gitkeep
+
+# Temporary run trees and Stata binaries
+Results/_run/
+Results/**/*.dta
+log-files/
+
+# Keep small text outputs (tex/csv/md/log) and figures (all < 1 MB) tracked

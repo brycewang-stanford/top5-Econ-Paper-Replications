@@ -1,0 +1,36 @@
+firm_panel (5690984, 8)
+  VI col1: N=5690984 18s
+  VI col2: N=5690984 6s
+  VI col3: N=5690984 6s
+Figure VI
+  figure_VI_event_study: N=5690984 16s
+    year   coef     se  ci_lo  ci_hi        N
+0   2006  0.000  0.000 -0.000  0.001  5690984
+1   2007  0.002  0.001  0.000  0.004  5690984
+2   2008  0.003  0.001  0.001  0.004  5690984
+3   2009  0.005  0.001  0.003  0.007  5690984
+4   2010  0.005  0.001  0.003  0.008  5690984
+5   2011  0.006  0.002  0.003  0.009  5690984
+6   2012  0.003  0.001  0.001  0.006  5690984
+7   2013  0.001  0.001 -0.001  0.003  5690984
+8   2014  0.001  0.001  0.000  0.003  5690984
+9   2015  0.002  0.001  0.000  0.003  5690984
+10  2016  0.001  0.000  0.000  0.002  5690984
+       50.49 real        56.85 user         6.67 sys
+          3825598464  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             1885000  page reclaims
+                 213  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                4141  voluntary context switches
+              149446  involuntary context switches
+        393060021002  instructions retired
+        183457686180  cycles elapsed
+         12432287776  peak memory footprint

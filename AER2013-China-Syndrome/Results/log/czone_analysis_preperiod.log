@@ -3,7 +3,7 @@
        log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/AER
 > 2013-China-Syndrome/Program/do/../../Results/log/czone_analysis_preperiod.log
   log type:  text
- opened on:  16 Sep 2026, 00:03:28
+ opened on:  16 Sep 2026, 23:23:03
 
 . 
 . use ../../Data/dta/workfile_china_preperiod.dta, clear
@@ -153,7 +153,6 @@ Exogenous:  t1980 d_tradeotch_pw_lag_future
 
 . esttab using ../../Results/log/tab_ipw_mfg_byperiod.scsv, b(%9.3f) se(%9.3f) 
 > nostar r2 drop(t*) replace
-(file ../../Results/log/tab_ipw_mfg_byperiod.scsv not found)
 (output written to ../../Results/log/tab_ipw_mfg_byperiod.scsv)
 
 . 
@@ -162,5 +161,5 @@ Exogenous:  t1980 d_tradeotch_pw_lag_future
        log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/AER
 > 2013-China-Syndrome/Program/do/../../Results/log/czone_analysis_preperiod.log
   log type:  text
- closed on:  16 Sep 2026, 00:03:28
+ closed on:  16 Sep 2026, 23:23:04
 -------------------------------------------------------------------------------

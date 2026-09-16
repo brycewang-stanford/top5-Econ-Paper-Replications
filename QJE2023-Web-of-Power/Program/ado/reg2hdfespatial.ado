@@ -7,7 +7,7 @@ capture program drop reg2hdfespatial
 *! Please email me in case you find any bugs or have suggestions for improvement.
 *! Please cite: Fetzer, T. (2014) "Can Workfare Programs Moderate Violence? Evidence from India", STICERD Working Paper.
 *! Also credit Sol Hsiang.
-*! Hsiang, S. M. (2010). Temperatures and cyclones strongly associated with economic production in the Caribbean and Central America. PNAS, 107(35), 15367–72.
+*! Hsiang, S. M. (2010). Temperatures and cyclones strongly associated with economic production in the Caribbean and Central America. PNAS, 107(35), 15367â€“72.
 *! The Use of the function is simple
 *!  reg2hdfespatial Yvar Xvarlist, lat(latvar) lon(lonvar) Timevar(tvar) Panelvar(pvar) [DISTcutoff(#) LAGcutoff(#) bartlett DISPlay star dropvar demean altfetime(varname) altfepanel(varname)]
 *!
@@ -19,106 +19,58 @@ capture program drop reg2hdfespatial
 *! by region x year fixed effects.
 *! This turns out to matter as the OLS_Spatial_HAC for the autocorrelation correction which you may want
 *! to be done at a level different from the level at which you have the time fixed effects specified.
-
-
-*! V2 UPDATE 2/20 :	ADEED WEIGHTS TO REGRESSION.
-*! V3 UPDATE 3/20 :	ADEED IV REGRESSION.
 /*-----------------------------------------------------------------------------
 
  Syntax:
  
- reg2hdfespatial Yvar Xvarlist (variable = iv_varlist), lat(latvar) lon(lonvar) Timevar(tvar) Panelvar(pvar) [weights] [DISTcutoff(#) LAGcutoff(#) bartlett DISPlay star dropvar demean altfetime(varname) altfepanel(varname)]
+ reg2hdfespatial Yvar Xvarlist, lat(latvar) lon(lonvar) Timevar(tvar) Panelvar(pvar) [DISTcutoff(#) LAGcutoff(#) bartlett DISPlay star dropvar demean altfetime(varname) altfepanel(varname)]
 
  -----------------------------------------------------------------------------*/
 
 program reg2hdfespatial, eclass byable(recall)
-preserve
 //version 9.2
 version 11
-syntax [anything(name=0)] [if] [in] ///
-				[aweight fweight pweight iweight/], ///
+syntax varlist(ts fv min=2) [if] [in], ///
 				lat(varname numeric) lon(varname numeric) ///
-				Timevar(varname numeric) Panelvar(varname numeric)  ///
-				[LAGcutoff(integer 0) DISTcutoff(real 1) ///
+				Timevar(varname numeric) Panelvar(varname numeric) [LAGcutoff(integer 0) DISTcutoff(real 1) ///
 				DISPlay star bartlett dropvar altfetime(varname) altfepanel(varname) ]
 				
 /*--------PARSING COMMANDS AND SETUP-------*/
 
+preserve
 if "`if'"~="" {
 	qui keep `if' 
 }
 
 
-
-capture drop touse 
+capture drop touse
 marksample touse				// indicator for inclusion in the sample
 gen touse = `touse'
 
-* generate a weight of 1 for all observations if weights are not provided
-
-tempvar wvar
-if "`weight'" !="" {
-	local wtexp `"[`weight'=`exp']"'
-	qui gen double `wvar'=`exp'
-}
-else {
-	qui gen long `wvar'=1
-	loc weight = "aweight"
-}
-
-
 *keep if touse
 //parsing variables
-
-local n 0
-local ivflag 0 
-local varlist
-while `n'==0 {
-	gettoken vchar 0 : 0 ,parse(" (,")
-	if "`vchar'"=="(" {
-		local ivflag = 1
-	}
-
-	if `ivflag' == 1 & "`exog'"==""{
-		gettoken endog 0 : 0 ,parse("=")  //instrumented variables
-		gettoken equal_s 0 : 0 ,parse("=")
-		gettoken exog 0 : 0 ,parse(")")  //instruments
-	}
-
-	if "`vchar'"!="(" & "`vchar'"!=")" {
-		local varlist "`varlist' `vchar'"
-	}
-	if "`vchar'"==""{
-		local n = `n' + 1
-	}
-
-}
-
 loc Y = word("`varlist'",1)		
-loc listing "`varlist' `endog' `exog'" 
+
+loc listing "`varlist'"
+
 
 loc X ""
 scalar k_variables = 0
 
-//make sure that Y, exog, and endog are not included in the other_var list
+//make sure that Y is not included in the other_var list
 foreach i of loc listing {
-	if "`i'" != "`Y'" & strpos("`endog'", "`i'")==0 & strpos("`exog'", "`i'")==0 {
+	if "`i'" ~= "`Y'"{
 		loc X "`X' `i'"
 		scalar k_variables = k_variables + 1 // # indep variables
+		
 	}
 }
-foreach i of loc endog {
-		scalar k_variables = k_variables + 1 // # indep variables
-}
-
 local wdir `c(pwd)'
 
 tmpdir returns r(tmpdir):
 local tdir  `r(tmpdir)'
 
-markout `touse' `Y' `X' `exog' `endog'
-di "keeping non-missing observations"
-keep if `touse'
+
 **clear temp folder of existing files
 qui cd "`tdir'"
 local tempfiles : dir . files "*.dta"
@@ -127,53 +79,123 @@ foreach f in `tempfiles' {
 }
 
 quietly {
+if("`altfepanel'" !="" & "`altfetime'" !="") {
+di "CASE 1"
+reg2hdfe `Y' `X' `lat' `lon' `timevar' `panelvar' ,  id1(`altfepanel') id2(`altfetime') out("`tdir'") noregress 
+loc iteratevarlist "`Y' `X' `lat' `lon' `timevar' `panelvar'" 
+reg2hdfe `Y' `X' , id1(`altfepanel') id2(`altfetime')
+}
+if("`altfepanel'" =="" & "`altfetime'" !="") {
+di "CASE 2"
 
-	if("`altfepanel'" !="" & "`altfetime'" !="") {
-	di "CASE 1"
-	hdfe `Y' `X' `exog' `endog' [`weight'=`wvar'],  a(`panelvar' `timevar') keepvars(`altfepanel' `altfetime' `panelvar' `timevar' `lat' `lon' ) clear
-	}
-	if("`altfepanel'" =="" & "`altfetime'" !="") {
-	di "CASE 2"
-	hdfe `Y' `X' `exog' `endog' [`weight'=`wvar'],  a(`panelvar' `timevar') keepvars(`altfetime' `panelvar' `timevar' `lat' `lon' ) clear
-	}
-	if("`altfepanel'" !="" & "`altfetime'" =="") {
-	di "CASE 3" 
-	hdfe `Y' `X' `exog' `endog' [`weight'=`wvar'],  a(`panelvar' `timevar') keepvars(`altfepanel' `panelvar' `timevar' `lat' `lon' ) clear
-	loc iteratevarlist "`Y' `X' `exog' `endog' `lat' `lon' `panelvar' `wvar'"
-	}
-	if("`altfepanel'" =="" & "`altfetime'" =="") {
-	di "CASE 4"
-	hdfe `Y' `X' `exog' `endog' [`weight'=`wvar'],  a(`panelvar' `timevar') keepvars(`panelvar' `timevar' `lat' `lon' ) clear
+reg2hdfe `Y' `X' `lat' `lon' `timevar' ,  id1(`panelvar') id2(`altfetime') out("`tdir'") noregress 
+loc iteratevarlist "`Y' `X' `lat' `lon' `timevar' " 
+
+reg2hdfe `Y' `X' , id1(`panelvar') id2(`altfetime')
+}
+if("`altfepanel'" !="" & "`altfetime'" =="") {
+di "CASE 3"
+
+reg2hdfe `Y' `X' `lat' `lon' `panelvar' ,  id1(`altfepanel') id2(`timevar') out("`tdir'") noregress 
+reg2hdfe `Y' `X' , id1(`altfepanel') id2(`timevar') 
+loc iteratevarlist "`Y' `X' `lat' `lon' `panelvar'"
+}
+if("`altfepanel'" =="" & "`altfetime'" =="") {
+di "CASE 4"
+reg2hdfe `Y' `X' `lat' `lon' ,  id1(`panelvar') id2(`timevar') out("`tdir'") noregress 
+loc iteratevarlist "`Y' `X' `lat' `lon'" 
+reg2hdfe `Y' `X' ,  id1(`panelvar') id2(`timevar')
 }
 
-loc droppedvar
-	//ommitting collinear variables
-	reg2hdfe `Y' `X' `exog' `endog' `lat' `lon',  id1(`panelvar') id2(`timevar') 
 	foreach var of varlist `X' {
-		lincom `var'	
+		lincom `var'		
 		if `r(se)' != 0 {
 			loc newVarList "`newVarList' `var'"
 			scalar k_variables = k_variables + 1
-		}
-		else {
-			loc droppedvar "`droppedvar' `var'"
 		}
 	}
 	
 	loc XX "`newVarList'"
 
-}
-if "`droppedvar'"!="" {
-	di "variables omitted due to collinearity: `droppedvar'"
-}
-if `ivflag' == 1 {
-	ols_spatial_HAC `Y' `XX' ( `endog' = `exog' ) [`weight'=`wvar'], lat(`lat') lon(`lon') timevar(`timevar') panelvar(`panelvar') lagcutoff(`lagcutoff') distcutoff(`distcutoff') `bartlett' `display' 
-}
-else if `ivflag' == 0 {
-	ols_spatial_HAC `Y' `XX' [`weight'=`wvar'], lat(`lat') lon(`lon') timevar(`timevar') panelvar(`panelvar') lagcutoff(`lagcutoff') distcutoff(`distcutoff') `bartlett' `display' 
-}
-cd "`wdir'"
-restore
-end
 
+/* From reg2hdfe.ado */
+tempfile tmp1 tmp2 tmp3 readdata
+
+	use _ids, clear
+	sort __uid
+	qui save "`tmp1'", replace
+	if "`cluster'"!="" {
+		merge __uid using _clustervar
+		if r(min)<r(max) { 
+			di "Fatal Error"
+			error 198
+		}
+		drop _merge
+		sort __uid
+		rename __clustervar `clustervar'
+		qui save "`tmp1'", replace
+		}
+	
+
+* Now read the original variables
+	foreach var in `iteratevarlist'  {
+		merge __uid using _`var'
+		sum _merge, meanonly
+		if r(min)<r(max) { 
+			di "Fatal Error"
+			error 198
+		}
+		tab _merge
+		drop _merge
+		drop __fe2*
+		drop __t_*
+		sort __uid
+		qui save "`tmp2'", replace
+	}
+	foreach var in  `iteratevarlist'  {
+		rename __o_`var' `var'
+	}
+	
+	
+ 	tempvar yy sy
+	gen double `yy'=(`depvar'-r(mean))^2
+	gen double `sy'=sum(`yy')
+	local tss=`sy'[_N]
+	drop `yy' `sy'
+	qui save "`readdata'", replace
+	use `tmp1', clear
+	foreach var in  `iteratevarlist'  {
+		merge 1:1 __uid using _`var'
+		sum _merge, meanonly
+		if r(min)<r(max) { 
+			di "Fatal Error."
+			error 198
+		}
+		
+	drop _merge
+	}
+
+		drop __fe2*
+		rename __o_`lon' `lon'
+		rename __o_`lat' `lat'
+		if("`altfepanel'" !="" ) {
+ 		rename __o_`panelvar' `panelvar'
+ 		}
+ 		if("`altfetime'" !="" ) {
+ 		rename __o_`timevar' `timevar'
+ 		}
+ 			
+		drop __o_*
+		sort __uid
+		qui save "`tmp3'", replace
+        
+	foreach var in `Y' `X'  {
+		rename __t_`var' `var'
+	}
+
+}
+ols_spatial_HAC `Y' `XX', lat(`lat') lon(`lon') timevar(`timevar') panelvar(`panelvar') lagcutoff(`lagcutoff') distcutoff(`distcutoff') bartlett
+
+cd "`wdir'"
+end
 

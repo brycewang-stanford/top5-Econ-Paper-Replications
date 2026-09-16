@@ -1,0 +1,73 @@
+block,spec,statistic,statspai,reference,abs_diff,reference_source,note
+weak_IV,c1,F_eff (Olea-Pflueger) via sp.feols first stage t^2,97.53867664744578,97.5386755585,1.0889457797702562e-06,Stata weakivtest,
+weak_IV,c1,"F_eff via sp.effective_f_test (sqrt-w transform, extra intercept)",97.5043460521325,97.5386755585,0.03432950636749865,Stata weakivtest,no weights= argument in sp.effective_f_test
+weak_IV,c1,"AR 95% CI lower, Wald form (sp.feols reduced-form t^2, unrestricted residuals)",-0.89,,,,differs from weakiv by construction (variance at unrestricted residuals)
+weak_IV,c1,"AR 95% CI upper, Wald form",-0.617,,,,
+weak_IV,c1,"AR 95% CI lower, score form (null-imposed cluster variance)",-0.9005,-0.9005,0.0,Stata weakiv (same grid),
+weak_IV,c1,"AR 95% CI upper, score form (null-imposed cluster variance)",-0.599,-0.599,0.0,Stata weakiv (same grid),
+weak_IV,c1,AR set is a single bounded interval (1=yes),1.0,,,,
+weak_IV,c1,"sp.anderson_rubin_ci lower (UNWEIGHTED, homoskedastic)",-0.6964530142190664,,,,gap: no weights/cluster
+weak_IV,c1,"sp.anderson_rubin_ci upper (UNWEIGHTED, homoskedastic)",-0.5500824536245368,,,,gap: no weights/cluster
+weak_IV,c1,sp.iv_diag effective F (sqrt-w transform),97.5043460521325,97.5386755585,0.03432950636749865,Stata weakivtest,
+weak_IV,c6,F_eff (Olea-Pflueger) via sp.feols first stage t^2,47.64279832508723,47.6427983869,6.181277001360286e-08,Stata weakivtest,
+weak_IV,c6,"F_eff via sp.effective_f_test (sqrt-w transform, extra intercept)",47.87927013889919,47.6427983869,0.2364717519991899,Stata weakivtest,no weights= argument in sp.effective_f_test
+weak_IV,c6,"AR 95% CI lower, Wald form (sp.feols reduced-form t^2, unrestricted residuals)",-0.854,,,,differs from weakiv by construction (variance at unrestricted residuals)
+weak_IV,c6,"AR 95% CI upper, Wald form",-0.434,,,,
+weak_IV,c6,"AR 95% CI lower, score form (null-imposed cluster variance)",-0.827,-0.827,0.0,Stata weakiv (same grid),
+weak_IV,c6,"AR 95% CI upper, score form (null-imposed cluster variance)",-0.3875,-0.3875,0.0,Stata weakiv (same grid),
+weak_IV,c6,AR set is a single bounded interval (1=yes),1.0,,,,
+weak_IV,c6,"sp.anderson_rubin_ci lower (UNWEIGHTED, homoskedastic)",-0.38177270318408185,,,,gap: no weights/cluster
+weak_IV,c6,"sp.anderson_rubin_ci upper (UNWEIGHTED, homoskedastic)",-0.2270870659764181,,,,gap: no weights/cluster
+weak_IV,c6,sp.iv_diag effective F (sqrt-w transform),47.87927013889919,47.6427983869,0.2364717519991899,Stata weakivtest,
+wild_bootstrap,c1,"WRE 95% CI lower (sp.ivreg vce='wild', 9999 Rademacher)",-0.9072579143334671,-0.872927022413,0.03433089192046712,Stata boottest (9999 reps),
+wild_bootstrap,c1,WRE 95% CI upper,-0.5677809287116368,-0.593857652412,0.02607672370036318,Stata boottest (9999 reps),
+wild_bootstrap,c1,WRE p-value (H0: beta=0),0.0,0.0,0.0,Stata boottest,
+wild_bootstrap,c6,"WRE 95% CI lower (sp.ivreg vce='wild', 9999 Rademacher)",-0.8608576137686523,-0.795797652424,0.0650599613446523,Stata boottest (9999 reps),
+wild_bootstrap,c6,WRE 95% CI upper,-0.35099984411990504,-0.326034374213,0.024965469906905013,Stata boottest (9999 reps),
+wild_bootstrap,c6,WRE p-value (H0: beta=0),0.0,0.0,0.0,Stata boottest,
+wild_bootstrap,c6u,UNWEIGHTED WRE 95% CI lower (sp.ivreg vce='wild'),-0.4955325773477075,-0.580095911888,0.08456333454029252,Stata boottest (unweighted),"sp CI = null-imposed bootstrap-t percentiles around beta_hat, boottest inverts the test"
+wild_bootstrap,c6u,UNWEIGHTED WRE 95% CI upper,-0.0780406835892972,-0.111622809,0.03358212541070281,Stata boottest (unweighted),
+wild_bootstrap,c6u,UNWEIGHTED WRE p-value,0.0027002700270027003,0.00200020002,0.0007000700070027002,Stata boottest (unweighted),
+shift_share,data,max |S g - ADH instrument| (BHJ shares x shocks),5.8594546086254695e-06,0.0,5.8594546086254695e-06,ADH workfile,
+shift_share_AKM,BHJshares_weighted_sic3,"beta (Python port of ShiftShareSE, shares from sp-ready matrix)",-0.5963600834314406,-0.596360075424499,8.006941665250622e-09,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_sic3,"se_ehw (Python port of ShiftShareSE, shares from sp-ready matrix)",0.09521586196797124,0.0952158593450316,2.6229396432597696e-09,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_sic3,"se_akm (Python port of ShiftShareSE, shares from sp-ready matrix)",0.12649081796222408,0.126490818972574,1.010349914842834e-09,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_sic3,"akm0_lo (Python port of ShiftShareSE, shares from sp-ready matrix)",-1.0180760918734837,-1.0180761098881,1.801461624317824e-08,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_sic3,"akm0_hi (Python port of ShiftShareSE, shares from sp-ready matrix)",-0.3618223451819822,-0.361822342536254,2.645728192085528e-09,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_sic3,se_akm vs BHJ (2022) Table C2 col 1,0.12649081796222408,0.126490818972574,1.010349914842834e-09,BHJ replication output,
+shift_share_AKM,BHJshares_weighted_sic3,akm0_lo vs BHJ (2022) Table C2 col 1,-1.0180760918734837,-1.01807610988811,1.801462623518546e-08,BHJ replication output,
+shift_share_AKM,BHJshares_weighted_sic3,akm0_hi vs BHJ (2022) Table C2 col 1,-0.3618223451819822,-0.361822342536264,2.6457182000783064e-09,BHJ replication output,
+shift_share_AKM,BHJshares_weighted_nocluster,"beta (Python port of ShiftShareSE, shares from sp-ready matrix)",-0.5963600834314406,-0.596360075424499,8.006941665250622e-09,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_nocluster,"se_ehw (Python port of ShiftShareSE, shares from sp-ready matrix)",0.09521586196797124,0.0952158593450316,2.6229396432597696e-09,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_nocluster,"se_akm (Python port of ShiftShareSE, shares from sp-ready matrix)",0.10942497831403479,0.109424978140636,1.733987953222993e-10,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_nocluster,"akm0_lo (Python port of ShiftShareSE, shares from sp-ready matrix)",-0.8920152082270076,-0.892015209651773,1.4247653057353205e-09,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_weighted_nocluster,"akm0_hi (Python port of ShiftShareSE, shares from sp-ready matrix)",-0.3918821174558685,-0.391882114333908,3.1219604679222357e-09,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_unweighted_nocluster,"beta (Python port of ShiftShareSE, shares from sp-ready matrix)",-0.30282661816388806,-0.302826618169407,5.518918655411653e-12,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_unweighted_nocluster,"se_ehw (Python port of ShiftShareSE, shares from sp-ready matrix)",0.0901631916955472,0.0901631921892686,4.937213970990229e-10,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_unweighted_nocluster,"se_akm (Python port of ShiftShareSE, shares from sp-ready matrix)",0.11032812778148207,0.110328128222768,4.412859244684597e-10,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_unweighted_nocluster,"akm0_lo (Python port of ShiftShareSE, shares from sp-ready matrix)",-1.4989903203966888,-1.4989903080219,1.2374788749269783e-08,R ShiftShareSE 1.1.0,
+shift_share_AKM,BHJshares_unweighted_nocluster,"akm0_hi (Python port of ShiftShareSE, shares from sp-ready matrix)",-0.16626344474263954,-0.16626344401844,7.24199533674863e-10,R ShiftShareSE 1.1.0,
+shift_share_statspai,unweighted,sp.BartikIV beta,-0.3028266170111679,-0.302826618169407,1.15823906021717e-09,R ShiftShareSE,
+shift_share_statspai,unweighted,sp.BartikIV HC1 SE,0.09069866237499546,0.0901631921892686,0.0005354701857268607,R ShiftShareSE EHW (no dof adj.),
+shift_share_statspai,unweighted,sp.shift_share_se AKM SE,0.007607986519722914,0.110328128222768,0.10272014170304508,R ShiftShareSE,BUG: uses fitted values as instrument
+shift_share_statspai,unweighted,sp.ssaggregate beta,-0.30282661701116664,-0.302826618169407,1.1582403369736483e-09,R ShiftShareSE,
+shift_share_statspai,unweighted,sp.ssaggregate AKM SE,0.018206061269081846,0.110328128222768,0.09212206695368615,R ShiftShareSE,BUG: omits shock-level projection of the instrument
+BHJ_shock_level,c1,"beta (industry-level IV, weights s_n)",-0.5963600791065872,-0.596,0.00036007910658719666,BHJ (2022) Table 4,
+BHJ_shock_level,c1,SE clustered by SIC3,0.11403256841040077,0.114,3.2568410400765635e-05,BHJ (2022) Table 4,
+BHJ_shock_level,c1,shock-level first-stage F ((b/se)^2 of x on z instrumented by g),185.58603274976412,185.586,3.2749764102391055e-05,BHJ (2022) Table 4,
+BHJ_shock_level,c3,"beta (industry-level IV, weights s_n)",-0.2666786691504734,-0.267,0.0003213308495266243,BHJ (2022) Table 4,
+BHJ_shock_level,c3,SE clustered by SIC3,0.09922301787148417,0.099,0.00022301787148416852,BHJ (2022) Table 4,
+BHJ_shock_level,c3,shock-level first-stage F ((b/se)^2 of x on z instrumented by g),123.6375950010209,123.638,0.00040499897910706295,BHJ (2022) Table 4,
+rotemberg,c6_weighted,sum of negative alpha_k (industry-collapsed),-0.06690267516621978,-0.067,9.732483378022128e-05,GPSS (2020) Table (ADH) panel A,
+rotemberg,c6_weighted,sum of positive alpha_k (industry-collapsed),1.0669026751662198,1.067,9.732483378011025e-05,GPSS (2020) Table (ADH) panel A,
+rotemberg,c6_weighted,sum of negative alpha_k (industry x period),-0.12788762629061723,,,,GPSS panel A uses industry-collapsed weights
+rotemberg,c6_weighted,"sum alpha_k, 1990 shocks",0.016891816632065446,0.017,0.00010818336793455563,GPSS panel C,
+rotemberg,c6_weighted,"sum alpha_k, 2000 shocks",0.9831081833679345,0.983,0.00010818336793450012,GPSS panel C,
+rotemberg,c6_weighted,alpha-weighted sum of beta_k = 2SLS beta,-0.5963600819882834,-0.5963601,1.8011716562682523e-08,Table 3 col 6,
+rotemberg,c6_weighted,"alpha (summed over periods), SIC 3571",0.1826004682106159,0.183,0.0003995317893840944,GPSS panel D,
+rotemberg,c6_weighted,"alpha (summed over periods), SIC 3944",0.13755576132213185,0.138,0.00044423867786816396,GPSS panel D,
+rotemberg,c6_weighted,"alpha (summed over periods), SIC 3651",0.08539005911969003,0.085,0.00039005911969001994,GPSS panel D,
+rotemberg,c6_weighted,"alpha (summed over periods), SIC 3661",0.06624757168650314,0.066,0.0002475716865031341,GPSS panel D,
+rotemberg,c6_weighted,"alpha (summed over periods), SIC 3577",0.06019040378249124,0.06,0.00019040378249124412,GPSS panel D,
+rotemberg,c6_unweighted,max |sp.BartikIV.rotemberg_weights - manual| (unweighted),3.7192471324942744e-15,0.0,3.7192471324942744e-15,manual formula,
+rotemberg,c6_unweighted,"sp.BartikIV top industry alpha (SIC 3944, unweighted)",0.47153968600074386,,,,gap: no weights -> different ranking from GPSS

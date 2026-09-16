@@ -32,7 +32,8 @@ adopath ++ "`root'/Program/ado"
 * }
 
 capture log close _all
-log using "Results/run_original.log", replace text name(runorig)
+local sfx = cond("$ONLY"=="", "", "_partial")
+log using "Results/run_original`sfx'.log", replace text name(runorig)
 
 local steps Table_1 Appendix_Table_A3 Figure_3 Appendix_Figure_A5 Table_2       ///
     Appendix_Table_B1_I Appendix_Table_B1_II Appendix_Table_B1_III              ///
@@ -46,7 +47,7 @@ local steps Table_1 Appendix_Table_A3 Figure_3 Appendix_Figure_A5 Table_2       
 if "$ONLY" != "" local steps $ONLY
 
 tempname fh
-file open `fh' using "Results/run_original_steps.csv", write replace
+file open `fh' using "Results/run_original_steps`sfx'.csv", write replace
 file write `fh' "step,rc,seconds" _n
 
 foreach s of local steps {

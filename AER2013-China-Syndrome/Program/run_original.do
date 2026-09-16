@@ -69,6 +69,12 @@ foreach g in figure1 mfg_imppw_9007long_2sls1_av mfg_imppw_9007long_olsred_av {
     }
 }
 
+* ---- copy the esttab tables (written by the author's code into Results/log) to Results/Tables ----
+local tabs : dir "$ROOT/Results/log" files "*.scsv"
+foreach t of local tabs {
+    copy "$ROOT/Results/log/`t'" "$ROOT/Results/Tables/`t'", replace
+}
+
 cap erase "$ROOT/Program/do/temp.dta"
 cd "$ROOT"
 type "$ROOT/Results/log/run_original_steps.txt"

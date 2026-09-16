@@ -1,0 +1,6 @@
+table,col,var,coef,se,N,adj_r2,spec
+VI,1,princeling,0.00232061436610613,0.0003209145031815184,5690984,0.01543613318511261,lnarea ~ princeling | year+state+size; CRV1 firmid
+VI,2,princeling,0.0006478920867494689,0.00025145128447793424,5690984,0.015771692267483983,lnarea ~ princeling + pscm | year+state+size; CRV1 firmid
+VI,2,pscm,0.03094029230700052,0.003927783200565554,5690984,0.015771692267483983,lnarea ~ princeling + pscm | year+state+size; CRV1 firmid
+VI,3,princeling,0.0023398118518013567,0.00032726768265904774,5690984,0.015436073017368157,lnarea ~ princeling + retired | year+state+size; CRV1 firmid
+VI,3,retired,-0.0008748590903610945,0.0005968726526711105,5690984,0.015436073017368157,lnarea ~ princeling + retired | year+state+size; CRV1 firmid

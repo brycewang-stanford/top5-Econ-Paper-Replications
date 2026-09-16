@@ -11,10 +11,12 @@
 *   do "<project root>/Program/run_original.do"
 *   Optional: set global RUNSTEPS before calling to run a subset, e.g.
 *     global RUNSTEPS "Table1_for_QJE Figure2_for_QJE"
+*   Batch: stata-mp -b do Program/run_original.do Table1_for_QJE Figure2_for_QJE
 *   Optional: global BUILDDATA 1  -> also re-run the data-construction steps
 *     (default 0: start from the shipped intermediate datasets in Data/data/).
 ********************************************************************************
 
+local cmdargs `"`0'"'
 clear all
 eststo clear
 set more off
@@ -86,7 +88,8 @@ local appsteps Appendix_Figure_A1 Appendix_imputation_rate Appendix_self_employm
 	Appendix_TableG2_col1 Appendix_TableG2_cols_2_3_4 Appendix_Tables_G3_G4_G7 ///
 	Appendix_Table_G5 Appendix_Table_G5_EB Appendix_Table_G8
 
-if "$RUNSTEPS" != "" local steps $RUNSTEPS
+if `"`cmdargs'"' != "" local steps `cmdargs'
+else if "$RUNSTEPS" != "" local steps $RUNSTEPS
 else {
 	if $BUILDDATA == 1 local steps `datasteps' `mainsteps' `appsteps'
 	else local steps `mainsteps' `appsteps'

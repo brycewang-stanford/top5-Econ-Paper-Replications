@@ -90,6 +90,17 @@ def fit_ols(y: str, xs, data: pd.DataFrame, cond=None, ssc=SSC_REGRESS):
     return r, d, _wr2(d[y].to_numpy(float), yhat, d[W])
 
 
+def fit_first_stage(x: str, rhs, data: pd.DataFrame, cond=None, vcov="HC1"):
+    """First-stage OLS. ``vcov='HC1'`` reproduces the published first-stage SEs;
+    ``{'CRV1': 'statefip'}`` gives the state-clustered SE without small-sample factor."""
+    d = data if cond is None else data.loc[cond]
+    d = d.dropna(subset=[x, *rhs, W]).copy()
+    ssc = SSC_REGRESS if vcov == "HC1" else SSC_IVREGRESS
+    r = sp.feols(f"{x} ~ {' + '.join(rhs)}", data=d, weights=W, vcov=vcov, ssc=ssc)
+    yhat = _design(d, list(r.params.index)) @ r.params.to_numpy(float)
+    return r, d, _wr2(d[x].to_numpy(float), yhat, d[W])
+
+
 def wmean_sd(x, w):
     """Stata ``summarize [aw=w]`` mean and sd (aweights normalised to N)."""
     x = np.asarray(x, float); w = np.asarray(w, float)

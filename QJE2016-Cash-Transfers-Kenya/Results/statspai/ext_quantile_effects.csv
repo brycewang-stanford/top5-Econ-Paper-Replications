@@ -1,0 +1,73 @@
+outcome,label,q,b,se
+asset_total_ppp1,Value of non-land assets (USD),0.1,77.07885625428187,19.328912180673456
+asset_total_ppp1,Value of non-land assets (USD),0.2,116.8440090056551,22.17165582149129
+asset_total_ppp1,Value of non-land assets (USD),0.3,190.7632924936436,24.322079243963543
+asset_total_ppp1,Value of non-land assets (USD),0.4,252.06784540287669,27.217614280729197
+asset_total_ppp1,Value of non-land assets (USD),0.5,377.42627350881537,30.208971745561858
+asset_total_ppp1,Value of non-land assets (USD),0.6,501.7874633549586,31.098784365907466
+asset_total_ppp1,Value of non-land assets (USD),0.7,518.6599201899261,36.80995725119498
+asset_total_ppp1,Value of non-land assets (USD),0.8,374.43258512421255,50.02742984229609
+asset_total_ppp1,Value of non-land assets (USD),0.9,352.335396274042,50.47389975047443
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.1,16.040792946025448,5.862509343395343
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.2,16.686420420763866,5.992533707011163
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.3,16.446525698038286,6.215213280400819
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.4,23.172929913296898,6.4589637381387055
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.5,29.87740944231443,6.764120144994645
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.6,41.231631475120764,7.28934315440724
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.7,41.26673671981962,8.187907600402006
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.8,50.844028260798325,9.535029511210633
+cons_nondurable_ppp1,Non-durable expenditure (USD),0.9,68.86028034713206,13.674422512364432
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.1,1.7215786567777487,2.0802237933477095
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.2,2.108694231633015,2.6307995886442517
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.3,2.399134720503736,2.905884092078775
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.4,3.7335401407924107,3.023264049179788
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.5,6.9109361668083045,3.1226859825665083
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.6,11.370804478668536,3.3397464485980595
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.7,12.675192550124883,3.9259086616937173
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.8,26.730413622632717,6.256895349986971
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",0.9,57.38578310516385,14.97515111685262
+fs_hhfoodindexnew1,Food security index,0.1,0.22033398299717594,0.12140305887787038
+fs_hhfoodindexnew1,Food security index,0.2,0.2839695274093216,0.09071005907700988
+fs_hhfoodindexnew1,Food security index,0.3,0.2678942537117289,0.07995467519277835
+fs_hhfoodindexnew1,Food security index,0.4,0.2372392889746229,0.07367083789966988
+fs_hhfoodindexnew1,Food security index,0.5,0.2315073933440639,0.07163341954971715
+fs_hhfoodindexnew1,Food security index,0.6,0.1808930031922955,0.0725174723576501
+fs_hhfoodindexnew1,Food security index,0.7,0.1976962035932298,0.07385455035410629
+fs_hhfoodindexnew1,Food security index,0.8,0.2933657940091625,0.08033327135928135
+fs_hhfoodindexnew1,Food security index,0.9,0.29929927983169047,0.08929769143469538
+med_hh_healthindex1,Health index,0.1,0.05479843001438445,0.10111755909341523
+med_hh_healthindex1,Health index,0.2,0.10156072996300258,0.08157038347286455
+med_hh_healthindex1,Health index,0.3,0.03702751134430471,0.07692239508542899
+med_hh_healthindex1,Health index,0.4,-0.0012204530525980473,0.07109487909208727
+med_hh_healthindex1,Health index,0.5,0.015213478960934099,0.06873959089448127
+med_hh_healthindex1,Health index,0.6,0.015386641834203463,0.0695907348477661
+med_hh_healthindex1,Health index,0.7,-0.11743945922729182,0.07396527260733382
+med_hh_healthindex1,Health index,0.8,-0.09786948179435118,0.07782697244110506
+med_hh_healthindex1,Health index,0.9,-0.026567264104268462,0.08566265862220376
+ed_index1,Education index,0.1,-0.0,0.08252457091235581
+ed_index1,Education index,0.2,0.0580665958620889,0.06582800845134514
+ed_index1,Education index,0.3,0.045705079425226974,0.058858992940499066
+ed_index1,Education index,0.4,0.036641565962173654,0.052756683249069916
+ed_index1,Education index,0.5,0.056065693895829785,0.05249483081709225
+ed_index1,Education index,0.6,0.015256905645323893,0.052981097823917564
+ed_index1,Education index,0.7,0.013227376439921218,0.05389181813085553
+ed_index1,Education index,0.8,0.04077866547546516,0.061737361511402966
+ed_index1,Education index,0.9,0.04127676538930625,0.1073632327825927
+psy_index_z1,Psychological well-being index,0.1,0.2669358380931546,0.0883500933645488
+psy_index_z1,Psychological well-being index,0.2,0.27645223562536636,0.07871957800959274
+psy_index_z1,Psychological well-being index,0.3,0.31215838393928386,0.07100963633227317
+psy_index_z1,Psychological well-being index,0.4,0.265089362878661,0.06697417601575707
+psy_index_z1,Psychological well-being index,0.5,0.221470697828175,0.06121511215937979
+psy_index_z1,Psychological well-being index,0.6,0.23993615806102753,0.05921020533385201
+psy_index_z1,Psychological well-being index,0.7,0.2303577614544041,0.06169142458976546
+psy_index_z1,Psychological well-being index,0.8,0.19388224230332143,0.06612765884412454
+psy_index_z1,Psychological well-being index,0.9,0.152140684467119,0.09024367590031246
+ih_overall_index_z1,Female empowerment index,0.1,0.04245739009518153,0.14702253840842963
+ih_overall_index_z1,Female empowerment index,0.2,0.027211267529582583,0.11797685509747437
+ih_overall_index_z1,Female empowerment index,0.3,0.06731588151822836,0.10295980899697448
+ih_overall_index_z1,Female empowerment index,0.4,0.07898791150819762,0.09296532750210147
+ih_overall_index_z1,Female empowerment index,0.5,0.02021945406849998,0.08120715292215493
+ih_overall_index_z1,Female empowerment index,0.6,-0.05313426256179811,0.0738889384696016
+ih_overall_index_z1,Female empowerment index,0.7,-0.017582852238515575,0.07105088195727083
+ih_overall_index_z1,Female empowerment index,0.8,-0.016153382620626044,0.06844587996278101
+ih_overall_index_z1,Female empowerment index,0.9,-0.0,0.06630320611026869

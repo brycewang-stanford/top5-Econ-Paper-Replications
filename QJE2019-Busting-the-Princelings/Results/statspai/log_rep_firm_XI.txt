@@ -1,0 +1,23 @@
+firm_prov_panel (11516622, 12)
+  XI col1: N=11516622 b=0.0779 (0.0080) adjR2=0.032 14s
+  XI col2: N=11516622 b=0.0730 (0.0066) adjR2=0.047 18s
+  XI col3: N=11516622 b=0.0752 (0.0072) adjR2=0.052 21s
+  XI col4: N=11516622 b=0.0778 (0.0080) adjR2=0.057 33s
+       90.58 real        53.52 user         5.64 sys
+          4371136512  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             1502794  page reclaims
+                   6  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 458  voluntary context switches
+              117555  involuntary context switches
+        422715742999  instructions retired
+        154671949989  cycles elapsed
+          5407462008  peak memory footprint

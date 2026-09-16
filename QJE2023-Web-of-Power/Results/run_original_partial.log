@@ -1,0 +1,1295 @@
+-------------------------------------------------------------------------------
+      name:  runorig
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2023-Web-of-Power/Results/run_original_partial.log
+  log type:  text
+ opened on:  16 Sep 2026, 23:37:42
+
+. 
+. local steps Table_1 Appendix_Table_A3 Figure_3 Appendix_Figure_A5 Table_2    
+>    ///
+>     Appendix_Table_B1_I Appendix_Table_B1_II Appendix_Table_B1_III           
+>    ///
+>     Appendix_Table_B1_IV Appendix_Table_B2 Table_3 Table_4 Figure_4          
+>    ///
+>     Appendix_Table_B4 Appendix_Table_B5_I Appendix_Table_B5_II               
+>    ///
+>     Appendix_Table_B6_I Appendix_Table_B6_II Table_5 Figure_5 Table_6 Figure_
+> 6  ///
+>     Appendix_Figure_C1 Appendix_Table_C2 Appendix_Table_C3 Figure_7          
+>    ///
+>     Appendix_Table_C4 Appendix_Table_C5 Appendix_Table_C6 Appendix_Table_C7  
+>    ///
+>     Figure_8
+
+. 
+. if "$ONLY" != "" local steps $ONLY
+
+. 
+. tempname fh
+
+. file open `fh' using "Results/run_original_steps`sfx'.csv", write replace
+(file Results/run_original_steps_partial.csv not found)
+
+. file write `fh' "step,rc,seconds" _n
+
+. 
+. foreach s of local steps {
+  2.     di as txt _n "{hline 78}" _n "==> STEP `s'  (" c(current_time) ")" _n 
+> "{hline 78}"
+  3.     timer clear 1
+  4.     timer on 1
+  5.     capture noisily do "Program/`s'.do"
+  6.     local rc = _rc
+  7.     timer off 1
+  8.     quietly timer list 1
+  9.     local secs = r(t1)
+ 10.     capture restore
+ 11.     quietly cd "`root'"
+ 12.     graph close _all
+ 13.     di as res "==> STEP `s' finished: rc=`rc'  seconds=" %9.1f `secs'
+ 14.     file write `fh' "`s',`rc'," %9.1f (`secs') _n
+ 15. }
+
+------------------------------------------------------------------------------
+==> STEP Appendix_Table_B1_III  (23:37:42)
+------------------------------------------------------------------------------
+
+. 
+. *****************************************************************************
+> **********
+. ************************** Appendix Table B.1.III. arbitray clustering standa
+> rd errors
+. *****************************************************************************
+> ***********
+. 
+. use Data/HunanCntyYr.dta,clear
+
+. 
+. *****************************************************************************
+> ***
+. ********************** gen Zeng Guofan period dummies
+. 
+. gen Post=0 if year<1854
+(825 missing values generated)
+
+. replace Post=1 if year>=1854&year<=1864
+(825 real changes made)
+
+. 
+. 
+. foreach y of varlist Zeng_all0_invdist_pc Zeng_all0_pc Zenghu_all Zenghu_all_
+> invdist  Zeng_all0 Zeng_all0_invdist  Zeng_exam0_invdist  Zeng_BMF_invdist Ze
+> ng_Juren_invdist lnarea capital lnurbanpop  lnpop  dist_nanjing lnjinshi lnqu
+> otas mainriv route1 dist2canal lnwheat lnrice {
+  2. gen `y'_Post=`y'*Post
+  3. 
+. }
+
+. 
+. 
+. *****************************************************************************
+> ***
+. ********************** regression
+. 
+. 
+. 
+. 
+. ************* 50 KM
+. reg2hdfespatial lnmartyr1     Zeng_all0_invdist_Post, timevar(year) panelvar(
+> cntyid)    lat(y_coord) lon(x_coord) distcutoff(50) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .2135619   .0553997     3.85   0.000     .1048634    .3222604
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_invdist_
+> Post)  se  bdec(3) rdec(3) nocons replace
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  lnurbanpop_Post mainriv_Post dist2canal_Post   lnw
+> heat_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_Post , timeva
+> r(year) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(50) lagcutof
+> f(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  lnurbanpop_Post mainriv_Post dist2canal_Post lnwheat_Po
+> st lnrice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+lnurbanpop~t |  -.0456578   .1070376    -0.43   0.670    -.2556751    .1643596
+mainriv_Post |  -.2671877    .218825    -1.22   0.222    -.6965421    .1621667
+dist2canal~t |  -.1385291   .1607045    -0.86   0.389    -.4538459    .1767876
+lnwheat_Post |   2.232358   1.589829     1.40   0.161      -.88703    5.351746
+ lnrice_Post |  -1.520354   1.131397    -1.34   0.179    -3.740257    .6995482
+  lnpop_Post |   .0259903   .2704232     0.10   0.923    -.5046044     .556585
+ lnarea_Post |    .867478   .3729413     2.33   0.020     .1357335    1.599222
+Zeng_all0_~t |   .2008473   .0573302     3.50   0.000     .0883602    .3133344
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_invdist_
+> Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post mainriv_Post dist2canal_Post   lnwheat_Post lnrice_Post lnpop_Post l
+> narea_Post  Zeng_all0_invdist_Post, timevar(year) panelvar(cntyid)    lat(y_c
+> oord) lon(x_coord) distcutoff(50) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t mainriv_Post dist2canal_Post lnwheat_Post lnrice_Post lnpop_Post lnarea_Pos
+> t Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.7375916   .2418889    -3.05   0.002    -1.212201   -.2629823
+lnurbanpop~t |   .0521206   .0978872     0.53   0.595    -.1399434    .2441845
+lnjinshi_P~t |   .3601757   .1338343     2.69   0.007       .09758    .6227714
+lnquotas_P~t |  -.2681027   .3869916    -0.69   0.489    -1.027417    .4912118
+mainriv_Post |  -.3585272   .2058826    -1.74   0.082    -.7624887    .0454343
+dist2canal~t |   .0267347   .1863408     0.14   0.886    -.3388838    .3923533
+lnwheat_Post |    3.22485   1.634782     1.97   0.049     .0172519    6.432449
+ lnrice_Post |  -2.801058   1.133567    -2.47   0.014    -5.025225   -.5768918
+  lnpop_Post |   .0393516   .3461855     0.11   0.910    -.6398974    .7186007
+ lnarea_Post |   .7329297   .3661021     2.00   0.046     .0146023    1.451257
+Zeng_all0_~t |    .212477   .0558744     3.80   0.000     .1028461    .3221078
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_invdist_
+> Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhea
+> t_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_Post, timevar(ye
+> ar) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(50) lagcutoff(20
+> ) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.7049407   .2398299    -2.94   0.003    -1.175511   -.2343706
+lnurbanpop~t |    .029602   .1062875     0.28   0.781    -.1789446    .2381486
+lnjinshi_P~t |   .3342664    .141497     2.36   0.018     .0566351    .6118977
+lnquotas_P~t |   -.192861   .4024216    -0.48   0.632    -.9824523    .5967304
+ route1_Post |  -.0881734   .2933626    -0.30   0.764    -.6637801    .4874333
+dist_nanji~t |  -.3833623   .5282585    -0.73   0.468    -1.419858    .6531334
+mainriv_Post |  -.4456899   .2742665    -1.63   0.104     -.983828    .0924483
+dist2canal~t |   .3876836   .4379232     0.89   0.376    -.4715653    1.246933
+lnwheat_Post |   3.443393    1.60403     2.15   0.032     .2961254     6.59066
+ lnrice_Post |  -2.970974   1.199621    -2.48   0.013    -5.324749   -.6171979
+  lnpop_Post |   .0564806   .3299418     0.17   0.864    -.5908982    .7038593
+ lnarea_Post |   .6937514    .335656     2.07   0.039     .0351609    1.352342
+Zeng_all0_~t |   .2131379   .0566564     3.76   0.000     .1019724    .3243034
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_invdist_
+> Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+. 
+. *************
+. 
+. reg2hdfespatial lnmartyr1    Zeng_all0_invdist_pc_Post, timevar(year) panelva
+> r(cntyid)    lat(y_coord) lon(x_coord) distcutoff(50) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_invdist_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .0611623   .0201812     3.03   0.002     .0215653    .1007594
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_invdist_
+> pc_Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhea
+> t_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_pc_Post, timevar
+> (year) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(50) lagcutoff
+> (20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |   -.653642   .2582601    -2.53   0.012    -1.160374     -.14691
+lnurbanpop~t |   .0534559   .1162348     0.46   0.646    -.1746084    .2815202
+lnjinshi_P~t |   .3863637   .1401224     2.76   0.006     .1114295    .6612979
+lnquotas_P~t |  -.2645921   .4043591    -0.65   0.513    -1.057985    .5288008
+ route1_Post |   .0150395    .294611     0.05   0.959    -.5630167    .5930957
+dist_nanji~t |  -.2799039   .5214229    -0.54   0.592    -1.302988    .7431799
+mainriv_Post |  -.4153359   .2806835    -1.48   0.139    -.9660649     .135393
+dist2canal~t |   .3339425   .4378822     0.76   0.446     -.525226    1.193111
+lnwheat_Post |     3.3591   1.645507     2.04   0.041     .1304508     6.58775
+ lnrice_Post |  -2.398038   1.219708    -1.97   0.050    -4.791225   -.0048501
+  lnpop_Post |   .2452513   .3439828     0.71   0.476    -.4296773    .9201798
+ lnarea_Post |   .6747845   .3432673     1.97   0.050     .0012599    1.348309
+Zeng_all0_~t |   .0557689   .0217292     2.57   0.010     .0131341    .0984037
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_invdist_
+> pc_Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+. 
+. *** *** *** 
+. reg2hdfespatial  lnmartyr1     Zeng_all0_Post , timevar(year) panelvar(cntyid
+> )    lat(y_coord) lon(x_coord) distcutoff(50) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .1459895   .0398061     3.67   0.000     .0678869     .224092
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_Post)  s
+> e  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+.  
+. *** *** *** 
+. reg2hdfespatial  lnmartyr1   capital_Post lnurbanpop_Post  lnjinshi_Post  lnq
+> uotas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post  lnwhe
+> at_Post lnrice_Post lnpop_Post lnarea_Post     Zeng_all0_Post , timevar(year)
+>  panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(50) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.6700051   .2343719    -2.86   0.004    -1.129866    -.210144
+lnurbanpop~t |    .012898   .1084406     0.12   0.905    -.1998733    .2256693
+lnjinshi_P~t |   .3112826   .1469601     2.12   0.034     .0229322     .599633
+lnquotas_P~t |  -.2156729   .4097748    -0.53   0.599    -1.019692    .5883461
+ route1_Post |  -.0696883   .2954281    -0.24   0.814    -.6493477    .5099711
+dist_nanji~t |  -.3875764   .5212064    -0.74   0.457    -1.410235    .6350825
+mainriv_Post |  -.4371504   .2713609    -1.61   0.107    -.9695875    .0952868
+dist2canal~t |   .3938562    .433412     0.91   0.364    -.4565413    1.244254
+lnwheat_Post |   3.471026   1.628892     2.13   0.033     .2749781    6.667074
+ lnrice_Post |  -2.954891   1.202092    -2.46   0.014    -5.313515    -.596268
+  lnpop_Post |   .0820618   .3293137     0.25   0.803    -.5640844     .728208
+ lnarea_Post |    .727229   .3336137     2.18   0.029     .0726458    1.381812
+Zeng_all0_~t |    .146996   .0398696     3.69   0.000     .0687679    .2252241
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_Post)  s
+> e  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+. *** *** *** 
+. 
+. reg2hdfespatial lnmartyr1  Zeng_all0_pc_Post , timevar(year) panelvar(cntyid)
+>     lat(y_coord) lon(x_coord) distcutoff(50) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .0471883    .015724     3.00   0.003     .0163366      .07804
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_pc_Post 
+> )  se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+.  
+. reg2hdfespatial  lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnqu
+> otas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhe
+> at_Post lnrice_Post lnpop_Post lnarea_Post   Zeng_all0_pc_Post  , timevar(yea
+> r) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(50) lagcutoff(20)
+>  
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 50 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.6406664    .246215    -2.60   0.009    -1.123765   -.1575682
+lnurbanpop~t |   .0289221   .1176467     0.25   0.806    -.2019123    .2597566
+lnjinshi_P~t |   .3463195   .1477693     2.34   0.019     .0563815    .6362576
+lnquotas_P~t |  -.3029375   .4052667    -0.75   0.455    -1.098111    .4922362
+ route1_Post |   .0237919   .2984235     0.08   0.936    -.5617449    .6093286
+dist_nanji~t |  -.2859914   .5060608    -0.57   0.572    -1.278933    .7069503
+mainriv_Post |  -.3895546    .271989    -1.43   0.152    -.9232241    .1441149
+dist2canal~t |   .3513809   .4334524     0.81   0.418    -.4990958    1.201858
+lnwheat_Post |   3.476429   1.669154     2.08   0.038     .2013823    6.751475
+ lnrice_Post |  -2.428809   1.171064    -2.07   0.038    -4.726554   -.1310647
+  lnpop_Post |    .254788   .3287374     0.78   0.438    -.3902276    .8998035
+ lnarea_Post |   .7138959   .3435713     2.08   0.038     .0397748    1.388017
+Zeng_all0_~t |   .0441034   .0157957     2.79   0.005     .0131107     .075096
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_50KM.doc, keep(Zeng_all0_pc_Post 
+> )  se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_50KM.doc
+dir : seeout
+
+. 
+. 
+. 
+. 
+. 
+. ********************* 100 KM
+. 
+. reg2hdfespatial lnmartyr1     Zeng_all0_invdist_Post, timevar(year) panelvar(
+> cntyid)    lat(y_coord) lon(x_coord) distcutoff(100) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .2135619   .0569078     3.75   0.000     .1019044    .3252194
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_invdist
+> _Post)  se  bdec(3) rdec(3) nocons replace
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  lnurbanpop_Post mainriv_Post dist2canal_Post   lnw
+> heat_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_Post , timeva
+> r(year) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(100) lagcuto
+> ff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  lnurbanpop_Post mainriv_Post dist2canal_Post lnwheat_Po
+> st lnrice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+lnurbanpop~t |  -.0456578   .1071047    -0.43   0.670    -.2558068    .1644912
+mainriv_Post |  -.2671877   .2229211    -1.20   0.231    -.7045789    .1702035
+dist2canal~t |  -.1385291    .166291    -0.83   0.405    -.4648071    .1877489
+lnwheat_Post |   2.232358   1.622748     1.38   0.169    -.9516196    5.416336
+ lnrice_Post |  -1.520354   1.184371    -1.28   0.200    -3.844196    .8034872
+  lnpop_Post |   .0259903   .2782511     0.09   0.926    -.5199634     .571944
+ lnarea_Post |    .867478   .3779478     2.30   0.022     .1259104    1.609046
+Zeng_all0_~t |   .2008473   .0587257     3.42   0.001     .0856222    .3160724
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_invdist
+> _Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post mainriv_Post dist2canal_Post   lnwheat_Post lnrice_Post lnpop_Post l
+> narea_Post  Zeng_all0_invdist_Post, timevar(year) panelvar(cntyid)    lat(y_c
+> oord) lon(x_coord) distcutoff(100) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t mainriv_Post dist2canal_Post lnwheat_Post lnrice_Post lnpop_Post lnarea_Pos
+> t Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.7375916   .2398647    -3.08   0.002    -1.208229    -.266954
+lnurbanpop~t |   .0521206   .1014398     0.51   0.607     -.146914    .2511552
+lnjinshi_P~t |   .3601757   .1389784     2.59   0.010     .0874868    .6328646
+lnquotas_P~t |  -.2681027   .4099458    -0.65   0.513    -1.072456    .5362503
+mainriv_Post |  -.3585272    .208723    -1.72   0.086    -.7680618    .0510074
+dist2canal~t |   .0267347   .1940918     0.14   0.890     -.354092    .4075615
+lnwheat_Post |    3.22485   1.661683     1.94   0.053    -.0355304    6.485231
+ lnrice_Post |  -2.801058   1.178915    -2.38   0.018    -5.114203   -.4879138
+  lnpop_Post |   .0393516   .3550738     0.11   0.912    -.6573371    .7360404
+ lnarea_Post |   .7329297   .3740069     1.96   0.050    -.0009076    1.466767
+Zeng_all0_~t |    .212477   .0573485     3.71   0.000     .0999537    .3250003
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_invdist
+> _Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhea
+> t_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_Post, timevar(ye
+> ar) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(100) lagcutoff(2
+> 0) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.7049407   .2372957    -2.97   0.003    -1.170538   -.2393429
+lnurbanpop~t |    .029602   .1093664     0.27   0.787    -.1849858    .2441897
+lnjinshi_P~t |   .3342664    .145243     2.30   0.022     .0492851    .6192477
+lnquotas_P~t |   -.192861   .4149059    -0.46   0.642    -1.006948    .6212258
+ route1_Post |  -.0881734   .2867732    -0.31   0.759     -.650851    .4745043
+dist_nanji~t |  -.3833623   .5555415    -0.69   0.490     -1.47339    .7066654
+mainriv_Post |  -.4456899   .2755428    -1.62   0.106    -.9863322    .0949525
+dist2canal~t |   .3876836   .4732228     0.82   0.413    -.5408267    1.316194
+lnwheat_Post |   3.443393   1.627271     2.12   0.035      .250524    6.636261
+ lnrice_Post |  -2.970974   1.241891    -2.39   0.017    -5.407688   -.5342597
+  lnpop_Post |   .0564806    .336774     0.17   0.867    -.6043036    .7172648
+ lnarea_Post |   .6937514   .3421799     2.03   0.043     .0223603    1.365143
+Zeng_all0_~t |   .2131379   .0578224     3.69   0.000     .0996846    .3265911
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_invdist
+> _Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+. 
+. *************
+. 
+. reg2hdfespatial lnmartyr1    Zeng_all0_invdist_pc_Post, timevar(year) panelva
+> r(cntyid)    lat(y_coord) lon(x_coord) distcutoff(100) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_invdist_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .0611623   .0204375     2.99   0.003     .0210624    .1012622
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_invdist
+> _pc_Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhea
+> t_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_pc_Post, timevar
+> (year) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(100) lagcutof
+> f(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |   -.653642   .2564199    -2.55   0.011    -1.156763   -.1505206
+lnurbanpop~t |   .0534559   .1188499     0.45   0.653    -.1797394    .2866513
+lnjinshi_P~t |   .3863637   .1435455     2.69   0.007     .1047132    .6680142
+lnquotas_P~t |  -.2645921   .4157644    -0.64   0.525    -1.080363    .5511791
+ route1_Post |   .0150395   .2889368     0.05   0.958    -.5518834    .5819623
+dist_nanji~t |  -.2799039   .5481922    -0.51   0.610    -1.355512    .7957038
+mainriv_Post |  -.4153359   .2818373    -1.47   0.141    -.9683288    .1376569
+dist2canal~t |   .3339425   .4724639     0.71   0.480    -.5930787    1.260964
+lnwheat_Post |     3.3591   1.664299     2.02   0.044     .0935804     6.62462
+ lnrice_Post |  -2.398038   1.254943    -1.91   0.056     -4.86036     .064285
+  lnpop_Post |   .2452513   .3504815     0.70   0.484    -.4424284    .9329309
+ lnarea_Post |   .6747845   .3492258     1.93   0.054    -.0104312        1.36
+Zeng_all0_~t |   .0557689   .0218141     2.56   0.011     .0129674    .0985704
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_invdist
+> _pc_Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+. 
+. 
+. 
+. 
+. 
+. *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *
+> ** *** *** *** 
+. *** *** *** 
+. reg2hdfespatial  lnmartyr1     Zeng_all0_Post , timevar(year) panelvar(cntyid
+> )    lat(y_coord) lon(x_coord) distcutoff(100) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .1459895   .0407097     3.59   0.000     .0661139     .225865
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_Post)  
+> se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+.  
+. *** *** *** 
+. reg2hdfespatial  lnmartyr1   capital_Post lnurbanpop_Post  lnjinshi_Post  lnq
+> uotas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post  lnwhe
+> at_Post lnrice_Post lnpop_Post lnarea_Post     Zeng_all0_Post , timevar(year)
+>  panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(100) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.6700051   .2316749    -2.89   0.004    -1.124574   -.2154359
+lnurbanpop~t |    .012898   .1115638     0.12   0.908    -.2060012    .2317972
+lnjinshi_P~t |   .3112826     .15124     2.06   0.040     .0145347    .6080305
+lnquotas_P~t |  -.2156729   .4218491    -0.51   0.609    -1.043383    .6120371
+ route1_Post |  -.0696883   .2886599    -0.24   0.809    -.6360678    .4966912
+dist_nanji~t |  -.3875764   .5498031    -0.70   0.481    -1.466345    .6911921
+mainriv_Post |  -.4371504    .273323    -1.60   0.110    -.9734372    .0991365
+dist2canal~t |   .3938562   .4702485     0.84   0.402    -.5288183    1.316531
+lnwheat_Post |   3.471026   1.653464     2.10   0.036     .2267641    6.715288
+ lnrice_Post |  -2.954891   1.243148    -2.38   0.018    -5.394073   -.5157103
+  lnpop_Post |   .0820618   .3363237     0.24   0.807    -.5778388    .7419623
+ lnarea_Post |    .727229    .340495     2.14   0.033     .0591439    1.395314
+Zeng_all0_~t |    .146996   .0407679     3.61   0.000     .0670053    .2269867
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_Post)  
+> se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+. *** *** *** 
+. 
+. reg2hdfespatial lnmartyr1  Zeng_all0_pc_Post , timevar(year) panelvar(cntyid)
+>     lat(y_coord) lon(x_coord) distcutoff(100) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .0471883   .0157908     2.99   0.003     .0162054    .0781711
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_pc_Post
+>  )  se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+.  
+. reg2hdfespatial  lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnqu
+> otas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhe
+> at_Post lnrice_Post lnpop_Post lnarea_Post   Zeng_all0_pc_Post  , timevar(yea
+> r) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(100) lagcutoff(20
+> ) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 100 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.6406664   .2447747    -2.62   0.009    -1.120939   -.1603941
+lnurbanpop~t |   .0289221   .1203348     0.24   0.810    -.2071868    .2650311
+lnjinshi_P~t |   .3463195   .1518889     2.28   0.023     .0482983    .6443408
+lnquotas_P~t |  -.3029375   .4166941    -0.73   0.467    -1.120533    .5146578
+ route1_Post |   .0237919    .292735     0.08   0.935    -.5505833     .598167
+dist_nanji~t |  -.2859914    .534366    -0.54   0.593    -1.334471     .762488
+mainriv_Post |  -.3895546   .2740546    -1.42   0.155     -.927277    .1481678
+dist2canal~t |   .3513809   .4692816     0.75   0.454    -.5693962    1.272158
+lnwheat_Post |   3.476429    1.68717     2.06   0.040     .1660338    6.786823
+ lnrice_Post |  -2.428809   1.208312    -2.01   0.045    -4.799638   -.0579803
+  lnpop_Post |    .254788   .3355588     0.76   0.448    -.4036118    .9131878
+ lnarea_Post |   .7138959   .3498545     2.04   0.042     .0274466    1.400345
+Zeng_all0_~t |   .0441034   .0159261     2.77   0.006     .0128548    .0753519
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_100KM.doc, keep(Zeng_all0_pc_Post
+>  )  se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_100KM.doc
+dir : seeout
+
+. 
+. 
+. 
+. 
+. 
+. ********************* 200 KM
+. 
+. reg2hdfespatial lnmartyr1     Zeng_all0_invdist_Post, timevar(year) panelvar(
+> cntyid)    lat(y_coord) lon(x_coord) distcutoff(200) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .2135619   .0551959     3.87   0.000     .1052633    .3218605
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_invdist
+> _Post)  se  bdec(3) rdec(3) nocons replace
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  lnurbanpop_Post mainriv_Post dist2canal_Post   lnw
+> heat_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_Post , timeva
+> r(year) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(200) lagcuto
+> ff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  lnurbanpop_Post mainriv_Post dist2canal_Post lnwheat_Po
+> st lnrice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+lnurbanpop~t |  -.0456578   .1050936    -0.43   0.664    -.2518608    .1605453
+mainriv_Post |  -.2671877   .2290926    -1.17   0.244    -.7166879    .1823125
+dist2canal~t |  -.1385291   .1701258    -0.81   0.416    -.4723313     .195273
+lnwheat_Post |   2.232358    1.65733     1.35   0.178    -1.019472    5.484188
+ lnrice_Post |  -1.520354   1.193157    -1.27   0.203    -3.861436    .8207273
+  lnpop_Post |   .0259903   .2917624     0.09   0.929    -.5464739    .5984545
+ lnarea_Post |    .867478   .3834889     2.26   0.024     .1150382    1.619918
+Zeng_all0_~t |   .2008473   .0580363     3.46   0.001     .0869748    .3147198
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_invdist
+> _Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post mainriv_Post dist2canal_Post   lnwheat_Post lnrice_Post lnpop_Post l
+> narea_Post  Zeng_all0_invdist_Post, timevar(year) panelvar(cntyid)    lat(y_c
+> oord) lon(x_coord) distcutoff(200) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t mainriv_Post dist2canal_Post lnwheat_Post lnrice_Post lnpop_Post lnarea_Pos
+> t Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.7375916   .2327158    -3.17   0.002    -1.194202   -.2809809
+lnurbanpop~t |   .0521206   .1018674     0.51   0.609     -.147753    .2519941
+lnjinshi_P~t |   .3601757    .140756     2.56   0.011      .083999    .6363524
+lnquotas_P~t |  -.2681027   .4278775    -0.63   0.531    -1.107639    .5714338
+mainriv_Post |  -.3585272   .2043697    -1.75   0.080    -.7595201    .0424657
+dist2canal~t |   .0267347   .1984959     0.13   0.893    -.3627333    .4162028
+lnwheat_Post |    3.22485   1.700981     1.90   0.058     -.112638    6.562339
+ lnrice_Post |  -2.801058   1.192086    -2.35   0.019    -5.140046   -.4620706
+  lnpop_Post |   .0393516   .3719019     0.11   0.916    -.6903555    .7690588
+ lnarea_Post |   .7329297   .3761647     1.95   0.052    -.0051415    1.471001
+Zeng_all0_~t |    .212477   .0581038     3.66   0.000     .0984718    .3264821
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_invdist
+> _Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhea
+> t_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_Post, timevar(ye
+> ar) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(200) lagcutoff(2
+> 0) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.7049407   .2273689    -3.10   0.002    -1.151061   -.2588203
+lnurbanpop~t |    .029602   .1085148     0.27   0.785    -.1833149    .2425189
+lnjinshi_P~t |   .3342664   .1458503     2.29   0.022     .0480935    .6204393
+lnquotas_P~t |   -.192861   .4179869    -0.46   0.645    -1.012993     .627271
+ route1_Post |  -.0881734   .2907832    -0.30   0.762     -.658719    .4823722
+dist_nanji~t |  -.3833623   .5909338    -0.65   0.517    -1.542833    .7761086
+mainriv_Post |  -.4456899   .2719477    -1.64   0.102    -.9792783    .0878986
+dist2canal~t |   .3876836   .5093304     0.76   0.447    -.6116734    1.387041
+lnwheat_Post |   3.443393   1.657196     2.08   0.038     .1918097    6.694976
+ lnrice_Post |  -2.970974   1.263016    -2.35   0.019    -5.449137   -.4928105
+  lnpop_Post |   .0564806   .3510134     0.16   0.872    -.6322427    .7452039
+ lnarea_Post |   .6937514   .3411832     2.03   0.042      .024316    1.363187
+Zeng_all0_~t |   .2131379   .0579536     3.68   0.000     .0994272    .3268486
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_invdist
+> _Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+. 
+. 
+. *************
+. 
+. reg2hdfespatial lnmartyr1    Zeng_all0_invdist_pc_Post, timevar(year) panelva
+> r(cntyid)    lat(y_coord) lon(x_coord) distcutoff(200) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_invdist_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .0611623   .0201919     3.03   0.003     .0215443    .1007804
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_invdist
+> _pc_Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+. 
+. reg2hdfespatial lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnquo
+> tas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhea
+> t_Post lnrice_Post lnpop_Post lnarea_Post  Zeng_all0_invdist_pc_Post, timevar
+> (year) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(200) lagcutof
+> f(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_invdist_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |   -.653642   .2433013    -2.69   0.007    -1.131023   -.1762607
+lnurbanpop~t |   .0534559   .1174022     0.46   0.649    -.1768988    .2838107
+lnjinshi_P~t |   .3863637   .1439823     2.68   0.007     .1038561    .6688712
+lnquotas_P~t |  -.2645921   .4158104    -0.64   0.525    -1.080453    .5512693
+ route1_Post |   .0150395   .2980786     0.05   0.960    -.5698205    .5998994
+dist_nanji~t |  -.2799039   .5812818    -0.48   0.630    -1.420437     .860629
+mainriv_Post |  -.4153359   .2758239    -1.51   0.132      -.95653    .1258581
+dist2canal~t |   .3339425   .5063288     0.66   0.510     -.659525     1.32741
+lnwheat_Post |     3.3591   1.701728     1.97   0.049     .0201398    6.698061
+ lnrice_Post |  -2.398038   1.265592    -1.89   0.058    -4.881255    .0851796
+  lnpop_Post |   .2452513    .363142     0.68   0.500    -.4672696    .9577721
+ lnarea_Post |   .6747845   .3469032     1.95   0.052     -.005874    1.355443
+Zeng_all0_~t |   .0557689   .0218216     2.56   0.011     .0129528    .0985851
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_invdist
+> _pc_Post)  se  bdec(3) rdec(3) nocons append 
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+. 
+. 
+. 
+. *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *
+> ** *** *** *** 
+. *** *** *** 
+. reg2hdfespatial  lnmartyr1     Zeng_all0_Post , timevar(year) panelvar(cntyid
+> )    lat(y_coord) lon(x_coord) distcutoff(200) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .1459895   .0394447     3.70   0.000     .0685959     .223383
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_Post)  
+> se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+.  
+. *** *** *** 
+. reg2hdfespatial  lnmartyr1   capital_Post lnurbanpop_Post  lnjinshi_Post  lnq
+> uotas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post  lnwhe
+> at_Post lnrice_Post lnpop_Post lnarea_Post     Zeng_all0_Post , timevar(year)
+>  panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(200) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.6700051   .2223076    -3.01   0.003    -1.106195   -.2338154
+lnurbanpop~t |    .012898   .1105774     0.12   0.907    -.2040659    .2298619
+lnjinshi_P~t |   .3112826   .1524774     2.04   0.041     .0121067    .6104585
+lnquotas_P~t |  -.2156729   .4256498    -0.51   0.612     -1.05084    .6194944
+ route1_Post |  -.0696883   .2922195    -0.24   0.812    -.6430522    .5036756
+dist_nanji~t |  -.3875764   .5867894    -0.66   0.509    -1.538916    .7637629
+mainriv_Post |  -.4371504   .2692111    -1.62   0.105    -.9653693    .0910686
+dist2canal~t |   .3938562   .5076934     0.78   0.438    -.6022889    1.390001
+lnwheat_Post |   3.471026   1.678632     2.07   0.039     .1773824     6.76467
+ lnrice_Post |  -2.954891   1.261564    -2.34   0.019    -5.430206   -.4795764
+  lnpop_Post |   .0820618   .3508056     0.23   0.815    -.6062537    .7703772
+ lnarea_Post |    .727229   .3403913     2.14   0.033     .0593474    1.395111
+Zeng_all0_~t |    .146996   .0408655     3.60   0.000     .0668138    .2271782
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_Post)  
+> se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+. *** *** *** 
+. 
+. reg2hdfespatial lnmartyr1  Zeng_all0_pc_Post , timevar(year) panelvar(cntyid)
+>     lat(y_coord) lon(x_coord) distcutoff(200) lagcutoff(20) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  Zeng_all0_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+Zeng_all0_~t |   .0471883   .0153449     3.08   0.002     .0170805    .0772961
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_pc_Post
+>  )  se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+.  
+. reg2hdfespatial  lnmartyr1  capital_Post lnurbanpop_Post  lnjinshi_Post  lnqu
+> otas_Post route1_Post  dist_nanjing_Post mainriv_Post dist2canal_Post   lnwhe
+> at_Post lnrice_Post lnpop_Post lnarea_Post   Zeng_all0_pc_Post  , timevar(yea
+> r) panelvar(cntyid)    lat(y_coord) lon(x_coord) distcutoff(200) lagcutoff(20
+> ) 
+ 
+OLS REGRESSION
+ 
+SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE
+             AND PANEL-SPECIFIC SERIAL CORRELATION
+ 
+DEPENDANT VARIABLE: lnmartyr1
+INDEPENDANT VARIABLES:  capital_Post lnurbanpop_Post lnjinshi_Post lnquotas_Pos
+> t route1_Post dist_nanjing_Post mainriv_Post dist2canal_Post lnwheat_Post lnr
+> ice_Post lnpop_Post lnarea_Post Zeng_all0_pc_Post
+ 
+SPATIAL CORRELATION KERNAL CUTOFF: 200 KM
+(NOTE: LINEAR BARTLETT WINDOW USED FOR SPATIAL KERNAL)
+SERIAL CORRELATION KERNAL CUTOFF: 20 PERIODS
+------------------------------------------------------------------------------
+   lnmartyr1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+capital_Post |  -.6406664   .2334976    -2.74   0.006    -1.098812   -.1825209
+lnurbanpop~t |   .0289221   .1193687     0.24   0.809    -.2052911    .2631354
+lnjinshi_P~t |   .3463195    .152832     2.27   0.024     .0464479    .6461911
+lnquotas_P~t |  -.3029375   .4180867    -0.72   0.469    -1.123265    .5173903
+ route1_Post |   .0237919   .3013333     0.08   0.937     -.567454    .6150377
+dist_nanji~t |  -.2859914    .570015    -0.50   0.616    -1.404418    .8324348
+mainriv_Post |  -.3895546   .2676453    -1.46   0.146    -.9147013    .1355921
+dist2canal~t |   .3513809   .5047516     0.70   0.486     -.638992    1.341754
+lnwheat_Post |   3.476429   1.711298     2.03   0.042     .1186923    6.834165
+ lnrice_Post |  -2.428809    1.21895    -1.99   0.047     -4.82051   -.0371083
+  lnpop_Post |    .254788    .349771     0.73   0.466    -.4314975    .9410734
+ lnarea_Post |   .7138959   .3483159     2.05   0.041     .0304654    1.397326
+Zeng_all0_~t |   .0441034   .0159995     2.76   0.006     .0127108    .0754959
+------------------------------------------------------------------------------
+/Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2023-Web-of-P
+> ower
+
+. outreg2 using Results/Appendix_Table_B1_III_200KM.doc, keep(Zeng_all0_pc_Post
+>  )  se  bdec(3) rdec(3) nocons append
+Results/Appendix_Table_B1_III_200KM.doc
+dir : seeout
+
+. 
+. 
+. 
+end of do-file
+==> STEP Appendix_Table_B1_III finished: rc=0  seconds=     22.7
+
+. file close `fh'
+
+. 
+. * sort outputs into Results/Tables and Results/Figures
+. quietly {
+
+. 
+. log close runorig
+      name:  runorig
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2023-Web-of-Power/Results/run_original_partial.log
+  log type:  text
+ closed on:  16 Sep 2026, 23:38:04
+-------------------------------------------------------------------------------

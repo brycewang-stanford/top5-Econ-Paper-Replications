@@ -140,17 +140,17 @@ CL = {"CRV1": "cluster"}
 # ---- Table III: determinants of kinship tightness ---------------------------
 t = "III"
 fit(t, 1, "kinship_score ~ s_malariaindex", ea, CL, key="s_malariaindex")
-fit(t, 2, "kinship_score ~ small_scale + s_malariaindex", ea, CL, key="s_malariaindex")
-fit(t, 3, "kinship_score ~ small_scale + s_malariaindex + ln_time_obs_ea | cont", ea, CL, key="s_malariaindex")
+fit(t, 2, "kinship_score ~ small_scale + s_malariaindex", ea, CL, key=["s_malariaindex", "small_scale"])
+fit(t, 3, "kinship_score ~ small_scale + s_malariaindex + ln_time_obs_ea | cont", ea, CL, key=["s_malariaindex", "small_scale"])
 af = ea[ea["malaria_sample"] == 1]
 fit_boot(t, 4, "kinship_score", ["s_malariaindex"], af, "cluster", key="s_malariaindex")
-fit_boot(t, 5, "kinship_score", ["s_malariaindex", "small_scale", "ln_time_obs_ea"], af, "cluster", key="s_malariaindex")
+fit_boot(t, 5, "kinship_score", ["s_malariaindex", "small_scale", "ln_time_obs_ea"], af, "cluster", key=["s_malariaindex", "small_scale"])
 fit_boot(t, 6, "kinship_score", ["s_distance_mutation"], af, "cluster", key="s_distance_mutation")
-fit_boot(t, 7, "kinship_score", ["s_distance_mutation", "small_scale", "ln_time_obs_ea"], af, "cluster", key="s_distance_mutation")
+fit_boot(t, 7, "kinship_score", ["s_distance_mutation", "small_scale", "ln_time_obs_ea"], af, "cluster", key=["s_distance_mutation", "small_scale"])
 fit_boot(t, 8, "kinship_score", ["s_tsi"], af, "cluster", key="s_tsi")
-fit_boot(t, 9, "kinship_score", ["s_tsi", "small_scale", "ln_time_obs_ea"], af, "cluster", key="s_tsi")
-fit_boot(t, 10, "kinship_score", ["s_malariaindex", "s_tsi", "small_scale", "ln_time_obs_ea"], af, "cluster", key=["s_malariaindex", "s_tsi"])
-fit_boot(t, 11, "kinship_score", ["s_distance_mutation", "s_tsi", "small_scale", "ln_time_obs_ea"], af, "cluster", key=["s_distance_mutation", "s_tsi"])
+fit_boot(t, 9, "kinship_score", ["s_tsi", "small_scale", "ln_time_obs_ea"], af, "cluster", key=["s_tsi", "small_scale"])
+fit_boot(t, 10, "kinship_score", ["s_malariaindex", "s_tsi", "small_scale", "ln_time_obs_ea"], af, "cluster", key=["s_malariaindex", "s_tsi", "small_scale"])
+fit_boot(t, 11, "kinship_score", ["s_distance_mutation", "s_tsi", "small_scale", "ln_time_obs_ea"], af, "cluster", key=["s_distance_mutation", "s_tsi", "small_scale"])
 print(f"Table III done  {time.time()-T0:.0f}s")
 
 # ---- Table IV: enforcement devices in historical ethnic groups --------------
@@ -202,6 +202,9 @@ cty = load("CountryData.dta")
 cty["cont"] = cont_fe(cty)
 HC1 = "hetero"
 wvs = load("WVS_EA_Ind.dta")
+# Author uses dum_country* (33 dummies), not isonum (32 codes): one ISO country is split in two.
+wd = [c for c in wvs.columns if c.startswith("dum_country")]
+wvs["wctry"] = np.argmax(wvs[wd].fillna(0).to_numpy(float), 1)
 GR = {"CRV1": "group"}
 
 # ---- Table VI: trust ---------------------------------------------------------
@@ -210,10 +213,10 @@ fit(t, 1, "s_diff_trust_out_in ~ kinship_score", cty, HC1)
 fit(t, 2, "s_diff_trust_out_in ~ kinship_score + ln_time_obs_ea + small_scale | cont", cty, HC1)
 fit(t, 3, "s_diff_trust_family ~ kinship_score", cty, HC1)
 fit(t, 4, "s_diff_trust_family ~ kinship_score + ln_time_obs_ea + small_scale | cont", cty, HC1)
-fit(t, 5, "s_diff_trust_out_in ~ kinship_score | isonum + wave", wvs, GR)
-fit(t, 6, "s_diff_trust_out_in ~ kinship_score + female + ln_time_obs_ea_e + small_scale | isonum + wave + age", wvs, GR)
-fit(t, 7, "s_diff_trust_family ~ kinship_score | isonum + wave", wvs, GR)
-fit(t, 8, "s_diff_trust_family ~ kinship_score + female + ln_time_obs_ea_e + small_scale | isonum + wave + age", wvs, GR)
+fit(t, 5, "s_diff_trust_out_in ~ kinship_score | wctry + wave", wvs, GR)
+fit(t, 6, "s_diff_trust_out_in ~ kinship_score + female + ln_time_obs_ea_e + small_scale | wctry + wave + age", wvs, GR)
+fit(t, 7, "s_diff_trust_family ~ kinship_score | wctry + wave", wvs, GR)
+fit(t, 8, "s_diff_trust_family ~ kinship_score + female + ln_time_obs_ea_e + small_scale | wctry + wave + age", wvs, GR)
 
 # ---- Table VII: belief in hell ----------------------------------------------
 t = "VII"
@@ -221,10 +224,10 @@ fit(t, 1, "s_religion_hell ~ kinship_score", cty, HC1)
 fit(t, 2, "s_religion_hell ~ kinship_score + s_religion_god", cty, HC1, key=["kinship_score", "s_religion_god"])
 fit(t, 3, "s_religion_hell ~ kinship_score + ln_time_obs_ea + small_scale + s_religion_god", cty, HC1, key=["kinship_score", "s_religion_god"])
 fit(t, 4, "s_religion_hell ~ kinship_score + ln_time_obs_ea + small_scale + s_religion_god | cont", cty, HC1, key=["kinship_score", "s_religion_god"])
-fit(t, 5, "s_religion_hell ~ kinship_score | isonum + wave", wvs, GR)
-fit(t, 6, "s_religion_hell ~ kinship_score + s_religion_god | isonum + wave", wvs, GR, key=["kinship_score", "s_religion_god"])
-fit(t, 7, "s_religion_hell ~ kinship_score + female + s_religion_god | isonum + wave + age", wvs, GR, key=["kinship_score", "s_religion_god"])
-fit(t, 8, "s_religion_hell ~ kinship_score + female + ln_time_obs_ea_e + small_scale + s_religion_god | isonum + wave + age", wvs, GR, key=["kinship_score", "s_religion_god"])
+fit(t, 5, "s_religion_hell ~ kinship_score | wctry + wave", wvs, GR)
+fit(t, 6, "s_religion_hell ~ kinship_score + s_religion_god | wctry + wave", wvs, GR, key=["kinship_score", "s_religion_god"])
+fit(t, 7, "s_religion_hell ~ kinship_score + female + s_religion_god | wctry + wave + age", wvs, GR, key=["kinship_score", "s_religion_god"])
+fit(t, 8, "s_religion_hell ~ kinship_score + female + ln_time_obs_ea_e + small_scale + s_religion_god | wctry + wave + age", wvs, GR, key=["kinship_score", "s_religion_god"])
 print(f"Tables VI-VII done  {time.time()-T0:.0f}s")
 
 # ---- Table VIII: MFQ migrants ------------------------------------------------
@@ -290,6 +293,13 @@ def binscatter(ax, x, y, nq=20):
     ax.plot(xs, icpt + slope * xs, color=MAROON)
     return slope
 
+
+# Figure I: distribution of the kinship tightness index across EA societies (no code in the package)
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.hist(ea["kinship_score"].dropna(), bins=np.arange(-0.0625, 1.07, 0.125), color=NAVY, edgecolor="white")
+ax.set(title=f"Fig. I  Kinship tightness in the EA (N={ea['kinship_score'].notna().sum():,})",
+       xlabel="Kinship tightness", ylabel="Number of ethnic groups")
+fig.tight_layout(); fig.savefig(OUT / "Figure_1_kinship_histogram.png", dpi=150); plt.close(fig)
 
 fig, axs = plt.subplots(1, 2, figsize=(11, 4.2))
 s2 = binscatter(axs[0], ea["small_scale"], ea["kinship_score"])

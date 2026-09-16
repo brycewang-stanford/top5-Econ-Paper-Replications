@@ -18,6 +18,19 @@ from uct_common import (INDICES, OUT, SPILLOVERCONTROLS, clean_label, fmt, influ
 
 
 # ------------------------------------------------------------------ exact port of leebounds.ado (no tight(), no weights)
+def _macro(v: float) -> float:
+    """Value of `local m = v` in Stata: 16 digits, ties rounded half away from zero
+    (Python's format() rounds exact binary ties to even, e.g. 1475.7808837890625)."""
+    from decimal import Decimal, ROUND_HALF_UP
+    if v == 0 or not np.isfinite(v):
+        return v
+    d = Decimal(v)
+    # 16 significant digits for |v| >= 1; for |v| < 1 Stata keeps 16 digits after the point
+    # (".0320307388901711" -> the leading zero counts), verified in Stata 18
+    q = Decimal(1).scaleb(max(d.adjusted(), 0) - 15) if abs(v) >= 1 else Decimal(1).scaleb(-16)
+    return float(d.quantize(q, rounding=ROUND_HALF_UP))
+
+
 def _pctile(x: np.ndarray, p: float) -> float:
     """Stata _pctile (default definition)."""
     x = np.sort(x)
@@ -31,7 +44,14 @@ def _pctile(x: np.ndarray, p: float) -> float:
 
 
 def _trimmed_mean(y1: np.ndarray, th: float, q: float, upper: bool):
-    """Mean of the top (upper=True) or bottom share (1-q) of y1 with fractional tie weighting."""
+    """Mean of the top (upper=True) or bottom share (1-q) of y1 with fractional tie weighting.
+
+    leebounds.ado stores the percentile in a local macro (`local uth = r(r1)`), which Stata
+    writes with 16 significant digits.  For float-stored outcomes the rounded threshold no
+    longer equals the data value, so the tie branch is skipped and the >= / <= comparison
+    may include or exclude the threshold observation.  We reproduce that quirk exactly.
+    """
+    th = _macro(th)
     neth = np.sum(y1 == th)
     beyond = y1[y1 > th] if upper else y1[y1 < th]
     if neth == 0:
@@ -60,7 +80,7 @@ def leebounds_port(y: np.ndarray, tr: np.ndarray, reps: int = 0, seed: int = 1):
         n = len(y)
         q0, q1 = ss[t == 0].mean(), ss[t == 1].mean()
         q = (q1 - q0) / q1
-        trim = 100 * q
+        trim = _macro(100 * q)   # also passes through a macro in leesbound
         y1 = y[ss & (t == 1)]
         y0 = y[ss & (t == 0)]
         uth = _pctile(y1, trim)
@@ -177,9 +197,11 @@ def table3(df, labels, weighted_psych=False, reps=100):
             hm.loc[hm.select == 1, y] = val
             hm = hm.dropna(subset=[y])
             r = sp.regress(f"{y} ~ spillover", hm, robust="hc1")
+            # NB: sp.regress(...).pvalues is a bare ndarray (params/std_errors are Series) -> index by position
+            pv = pd.Series(np.asarray(r.pvalues), index=r.params.index)
             rec[f"c{c}_b"], rec[f"c{c}_se"], rec[f"c{c}_p"] = (float(r.params["spillover"]),
                                                               float(r.std_errors["spillover"]),
-                                                              float(r.pvalues["spillover"]))
+                                                              float(pv["spillover"]))
         rows.append(rec)
     out = pd.DataFrame(rows)
 

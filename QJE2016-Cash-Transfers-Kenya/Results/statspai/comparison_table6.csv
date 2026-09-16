@@ -1,0 +1,141 @@
+row,column,stat,paper,Stata re-run,StatsPAI,abs diff Stata,abs diff StatsPAI,Stata,SP,MC
+value of non-land assets (usd),(1) control mean,coef/value,494.8,494.8,494.8040906706853,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(2) treatment,coef/value,301.51,301.51,301.5067627969699,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(3) female rec.,coef/value,-79.46,-79.46,-79.45712327716653,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(4) monthly,coef/value,-91.85,-91.85,-91.84645887942762,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(5) large,coef/value,279.18,279.18,279.18252780301873,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(1) control mean,(SE/SD),415.32,415.32,415.3170721270962,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(2) treatment,(SE/SD),27.25,27.25,27.24736111262057,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(3) female rec.,(SE/SD),50.38,50.38,50.38302449969404,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(4) monthly,(SE/SD),45.92,45.92,45.916806867345215,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(5) large,(SE/SD),49.09,49.09,49.09294395018032,0.0,0.0,✅,✅,False
+value of livestock (usd),(1) control mean,coef/value,166.82,166.82,166.8249756217257,0.0,0.0,✅,✅,False
+value of livestock (usd),(2) treatment,coef/value,83.18,83.18,83.17601583128572,0.0,0.0,✅,✅,False
+value of livestock (usd),(3) female rec.,coef/value,4.84,4.84,4.841815375987489,0.0,0.0,✅,✅,False
+value of livestock (usd),(4) monthly,coef/value,0.08,0.08,0.0815778121870036,0.0,0.0,✅,✅,False
+value of livestock (usd),(5) large,coef/value,63.45,63.45,63.45180637078115,0.0,0.0,✅,✅,False
+value of livestock (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+value of livestock (usd),(1) control mean,(SE/SD),240.59,240.59,240.5879249668517,0.0,0.0,✅,✅,False
+value of livestock (usd),(2) treatment,(SE/SD),15.22,15.22,15.22152618992683,0.0,0.0,✅,✅,False
+value of livestock (usd),(3) female rec.,(SE/SD),29.32,29.32,29.31695998637877,0.0,0.0,✅,✅,False
+value of livestock (usd),(4) monthly,(SE/SD),27.36,27.36,27.36259442328722,0.0,0.0,✅,✅,False
+value of livestock (usd),(5) large,(SE/SD),28.51,28.51,28.511250876421496,0.0,0.0,✅,✅,False
+value of durable goods (usd),(1) control mean,coef/value,207.3,207.3,207.2961878654545,0.0,0.0,✅,✅,False
+value of durable goods (usd),(2) treatment,coef/value,52.59,52.59,52.58658461014776,0.0,0.0,✅,✅,False
+value of durable goods (usd),(3) female rec.,coef/value,-0.24,-0.24,-0.2388104886367623,0.0,0.0,✅,✅,False
+value of durable goods (usd),(4) monthly,coef/value,-7.31,-7.31,-7.309005302204095,0.0,0.0,✅,✅,False
+value of durable goods (usd),(5) large,coef/value,64.9,64.9,64.89656713084275,0.0,0.0,✅,✅,False
+value of durable goods (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+value of durable goods (usd),(1) control mean,(SE/SD),130.6,130.6,130.60036981667443,0.0,0.0,✅,✅,False
+value of durable goods (usd),(2) treatment,(SE/SD),8.61,8.61,8.613288570150752,0.0,0.0,✅,✅,False
+value of durable goods (usd),(3) female rec.,(SE/SD),14.4,14.4,14.39704086831595,0.0,0.0,✅,✅,False
+value of durable goods (usd),(4) monthly,(SE/SD),14.16,14.16,14.156363494058418,0.0,0.0,✅,✅,False
+value of durable goods (usd),(5) large,(SE/SD),15.7,15.7,15.69502193358175,0.0,0.0,✅,✅,False
+value of savings (usd),(1) control mean,coef/value,10.93,10.93,10.928014164016064,0.0,0.0,✅,✅,False
+value of savings (usd),(2) treatment,coef/value,10.1,10.1,10.097777577729802,0.0,0.0,✅,✅,False
+value of savings (usd),(3) female rec.,coef/value,-3.31,-3.31,-3.308632310678234,0.0,0.0,✅,✅,False
+value of savings (usd),(4) monthly,coef/value,1.86,1.86,1.858669009746572,0.0,0.0,✅,✅,False
+value of savings (usd),(5) large,coef/value,10.26,10.26,10.262318402860672,0.0,0.0,✅,✅,False
+value of savings (usd),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+value of savings (usd),(1) control mean,(SE/SD),29.09,29.09,29.08625208159068,0.0,0.0,✅,✅,False
+value of savings (usd),(2) treatment,(SE/SD),2.46,2.46,2.463692053608424,0.0,0.0,✅,✅,False
+value of savings (usd),(3) female rec.,(SE/SD),5.03,5.03,5.0315868263141645,0.0,0.0,✅,✅,False
+value of savings (usd),(4) monthly,(SE/SD),4.57,4.57,4.574409112345016,0.0,0.0,✅,✅,False
+value of savings (usd),(5) large,(SE/SD),5.04,5.04,5.036346701802752,0.0,0.0,✅,✅,False
+land owned (acres),(1) control mean,coef/value,1.31,1.31,1.3059203837916795,0.0,0.0,✅,✅,False
+land owned (acres),(2) treatment,coef/value,0.04,0.04,0.0409457088302337,0.0,0.0,✅,✅,False
+land owned (acres),(3) female rec.,coef/value,-0.08,-0.08,-0.0837742064030828,0.0,0.0,✅,✅,False
+land owned (acres),(4) monthly,coef/value,0.04,0.04,0.0371913911377555,0.0,0.0,✅,✅,False
+land owned (acres),(5) large,coef/value,0.35,0.35,0.3453789974487403,0.0,0.0,✅,✅,False
+land owned (acres),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+land owned (acres),(1) control mean,(SE/SD),1.88,1.88,1.883665318530458,0.0,0.0,✅,✅,False
+land owned (acres),(2) treatment,(SE/SD),0.14,0.14,0.1351126604540934,0.0,0.0,✅,✅,False
+land owned (acres),(3) female rec.,(SE/SD),0.18,0.18,0.1750706611913307,0.0,0.0,✅,✅,False
+land owned (acres),(4) monthly,(SE/SD),0.17,0.17,0.1749356600275112,0.0,0.0,✅,✅,False
+land owned (acres),(5) large,(SE/SD),0.32,0.32,0.3171937191516606,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(1) control mean,coef/value,0.16,0.16,0.1641791044776119,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(2) treatment,coef/value,0.24,0.24,0.2350849927034904,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(3) female rec.,coef/value,-0.11,-0.11,-0.1149862759128088,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(4) monthly,coef/value,-0.12,-0.12,-0.124755233358828,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(5) large,coef/value,0.23,0.23,0.2298177145906527,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(1) control mean,(SE/SD),0.37,0.37,0.3708335752094396,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(2) treatment,(SE/SD),0.03,0.03,0.0278307230266412,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(3) female rec.,(SE/SD),0.05,0.05,0.049584599677224,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(4) monthly,(SE/SD),0.05,0.05,0.048734854242176,0.0,0.0,✅,✅,False
+has non-thatched roof (dummy),(5) large,(SE/SD),0.05,0.05,0.050765697944285,0.0,0.0,✅,✅,False
+joint test (p-value),(2) treatment,coef/value,0.0,0.0,4.080369630872281e-28,0.0,0.0,✅,✅,False
+joint test (p-value),(3) female rec.,coef/value,0.29,0.29,0.2858099289545513,0.0,0.0,✅,✅,False
+joint test (p-value),(4) monthly,coef/value,0.22,0.22,0.2180790007029848,0.0,0.0,✅,✅,False
+joint test (p-value),(5) large,coef/value,0.0,0.0,4.757646250546158e-09,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(1) control mean,coef/value,0.16,0.16,0.1641791044776119,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(2) treatment,coef/value,0.0,0.0,0.0004667899798554,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(3) female rec.,coef/value,0.02,0.02,0.0153277819416149,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(4) monthly,coef/value,0.02,0.02,0.0221137307864308,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(5) large,coef/value,0.01,0.01,0.0078545252869316,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(1) control mean,(SE/SD),0.37,0.37,0.3708335752094396,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(2) treatment,(SE/SD),0.02,0.02,0.0232145289621293,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(3) female rec.,(SE/SD),0.04,0.04,0.0386490561915387,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(4) monthly,(SE/SD),0.04,0.04,0.0399328857739095,0.0,0.0,✅,✅,False
+wage labor primary income (dummy),(5) large,(SE/SD),0.04,0.04,0.0385373969014454,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(1) control mean,coef/value,0.56,0.56,0.55863539445629,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(2) treatment,coef/value,-0.01,-0.01,-0.0148982457467734,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(3) female rec.,coef/value,-0.0,-0.0,-0.0015498269386988,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(4) monthly,coef/value,-0.0,-0.0,-0.000243780471739,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(5) large,coef/value,0.01,0.01,0.0116472555051216,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(1) control mean,(SE/SD),0.5,0.5,0.4970802069720328,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(2) treatment,(SE/SD),0.03,0.03,0.030411280939793,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(3) female rec.,(SE/SD),0.05,0.05,0.0494272019425598,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(4) monthly,(SE/SD),0.05,0.05,0.0516632777360726,0.0,0.0,✅,✅,False
+own farm primary income (dummy),(5) large,(SE/SD),0.05,0.05,0.0491995280623271,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(1) control mean,coef/value,0.32,0.32,0.3219616204690831,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(2) treatment,coef/value,0.01,0.01,0.0137069426705727,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(3) female rec.,coef/value,-0.02,-0.02,-0.0233584935980246,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(4) monthly,coef/value,0.08,0.08,0.0794201122847158,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(5) large,coef/value,0.01,0.01,0.0146847518399307,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(1) control mean,(SE/SD),0.47,0.47,0.4677272639002981,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(2) treatment,(SE/SD),0.03,0.03,0.0288839866163963,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(3) female rec.,(SE/SD),0.05,0.05,0.0496057858816501,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(4) monthly,(SE/SD),0.05,0.05,0.0501381429459991,0.0,0.0,✅,✅,False
+non-agricultural business owner (dummy),(5) large,(SE/SD),0.05,0.05,0.0472614957848913,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(1) control mean,coef/value,48.98,48.98,48.98466614169924,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(2) treatment,coef/value,16.15,16.15,16.152540392311675,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(3) female rec.,coef/value,5.41,5.41,5.4098378096532915,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(4) monthly,coef/value,16.33,16.33,16.32814076515121,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(5) large,coef/value,-2.44,-2.44,-2.4436368732979115,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(1) control mean,(SE/SD),90.52,90.52,90.5218235487813,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(2) treatment,(SE/SD),5.88,5.88,5.879498460834381,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(3) female rec.,(SE/SD),10.61,10.61,10.60907284438552,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(4) monthly,(SE/SD),11.07,11.07,11.0737027340988,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(5) large,(SE/SD),8.87,8.87,8.869957571883008,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(1) control mean,coef/value,23.95,23.95,23.954619800310525,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(2) treatment,coef/value,12.53,12.53,12.528449615359705,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(3) female rec.,coef/value,5.42,5.42,5.419340196322389,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(4) monthly,coef/value,9.41,9.41,9.409875735583412,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(5) large,coef/value,-0.35,-0.35,-0.3452241916915155,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(1) control mean,(SE/SD),61.71,61.71,61.71395613625446,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(2) treatment,(SE/SD),4.21,4.21,4.214233730546674,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(3) female rec.,(SE/SD),7.45,7.45,7.451820530315532,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(4) monthly,(SE/SD),7.75,7.75,7.747407652042991,0.0,0.0,✅,✅,False
+"total expenses, monthly (usd)",(5) large,(SE/SD),6.23,6.23,6.231938298227407,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(1) control mean,coef/value,20.78,20.78,20.775276252765583,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(2) treatment,coef/value,-0.21,-0.21,-0.2125218705541315,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(3) female rec.,coef/value,1.41,1.41,1.4052531880288694,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(4) monthly,coef/value,7.29,7.29,7.285545550475618,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(5) large,coef/value,-2.02,-2.02,-2.021837300202119,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(6) N,coef/value,940.0,940.0,940.0,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(1) control mean,(SE/SD),46.22,46.22,46.21641495605472,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(2) treatment,(SE/SD),3.68,3.68,3.677288505431555,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(3) female rec.,(SE/SD),6.68,6.68,6.676106035170338,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(4) monthly,(SE/SD),7.92,7.92,7.915010006116753,0.0,0.0,✅,✅,False
+"total profit, monthly (usd)",(5) large,(SE/SD),5.32,5.32,5.320956698513653,0.0,0.0,✅,✅,False
+joint test (p-value) #2,(2) treatment,coef/value,0.0,0.0,0.0001348933675226,0.0,0.0,✅,✅,False
+joint test (p-value) #2,(3) female rec.,coef/value,0.9,0.9,0.8992902757279653,0.0,0.0,✅,✅,False
+joint test (p-value) #2,(4) monthly,coef/value,0.59,0.59,0.5856724868250924,0.0,0.0,✅,✅,False
+joint test (p-value) #2,(5) large,coef/value,1.0,1.0,0.9950170434232236,0.0,0.0,✅,✅,False

@@ -1,0 +1,171 @@
+exhibit,row,col,file,y,cond,kernel,bwselect,masspts,N,h_l,h_r,b_l,b_r,tau_cl,se_cl,tau_bc,se_rb,N_h_l,N_h_r
+T1,tfpop_s,1,T1_Baseline/tfp_small_QJE_final.dta,tfpop_s,neg_ind0==1,tri,mserd,off,6224,4.2034206,4.2034206,6.2944636,6.2944636,.34286001,.57407665,.47403988,.702452,763,379
+T1,tfpop_s,2,T1_Baseline/tfp_small_QJE_final.dta,tfpop_s,neg_ind0==1,epa,mserd,off,6224,3.889122,3.889122,6.3087611,6.3087611,.36819261,.59354854,.5433172,.73440844,738,364
+T1,tfpop_s,3,T1_Baseline/tfp_small_QJE_final.dta,tfpop_s,neg_ind0==1,uni,mserd,off,6224,3.6220267,3.6220267,6.6844797,6.6844797,.32196811,.56096548,.43644243,.63665497,647,339
+T1,tfpop_s,4,T1_Baseline/tfp_small_QJE_final.dta,tfpop_s,neg_ind0==0,tri,mserd,off,11502,5.8868685,5.8868685,8.9359207,8.9359207,-.028305888,.15373804,.0019566105,.18279435,2347,1613
+T1,tfpop_s,5,T1_Baseline/tfp_small_QJE_final.dta,tfpop_s,neg_ind0==0,epa,mserd,off,11502,5.1682491,5.1682491,8.4076424,8.4076424,.037473768,.17673568,.079129875,.19660752,2020,1135
+T1,tfpop_s,6,T1_Baseline/tfp_small_QJE_final.dta,tfpop_s,neg_ind0==0,uni,mserd,off,11502,4.5216937,4.5216937,8.0694876,8.0694876,.0092949644,.18194419,-.00044953352,.1857959,1734,957
+T1,resid1_tfpop_s,1,T1_Baseline/tfp_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1,tri,mserd,off,5890,5.723043,5.723043,8.0057354,8.0057354,.3645139,.16696829,.36083481,.19844888,1035,615
+T1,resid1_tfpop_s,2,T1_Baseline/tfp_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1,epa,mserd,off,5890,5.5234289,5.5234289,7.9401383,7.9401383,.38499928,.16648875,.38989192,.20010655,998,492
+T1,resid1_tfpop_s,3,T1_Baseline/tfp_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1,uni,mserd,off,5890,5.144351,5.144351,7.6773605,7.6773605,.33723778,.15460585,.33659729,.19100691,922,464
+T1,resid1_tfpop_s,4,T1_Baseline/tfp_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0,tri,mserd,off,11536,5.8902979,5.8902979,9.1340475,9.1340475,.033513166,.087094672,.02406019,.10943634,2358,1619
+T1,resid1_tfpop_s,5,T1_Baseline/tfp_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0,epa,mserd,off,11536,5.478694,5.478694,9.2054682,9.2054682,.036563627,.092811808,.018249158,.11344326,2250,1263
+T1,resid1_tfpop_s,6,T1_Baseline/tfp_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0,uni,mserd,off,11536,6.0913253,6.0913253,9.9223204,9.9223204,-.024405964,.089554898,-.046531592,.11528918,2678,1681
+T1,resid2_tfpop_s,1,T1_Baseline/tfp_small_QJE_final.dta,resid2_tfpop_s,neg_ind0==1,tri,mserd,off,5836,4.4957762,4.4957762,6.2995772,6.2995772,.27460289,.14761323,.24723904,.17483301,763,352
+T1,resid2_tfpop_s,2,T1_Baseline/tfp_small_QJE_final.dta,resid2_tfpop_s,neg_ind0==1,epa,mserd,off,5836,4.3325024,4.3325024,6.2852001,6.2852001,.2943235,.14546156,.27316472,.17719963,728,351
+T1,resid2_tfpop_s,3,T1_Baseline/tfp_small_QJE_final.dta,resid2_tfpop_s,neg_ind0==1,uni,mserd,off,5836,4.6887064,4.6887064,7.0697899,7.0697899,.28996232,.13669431,.29143676,.16431147,818,354
+T1,resid2_tfpop_s,4,T1_Baseline/tfp_small_QJE_final.dta,resid2_tfpop_s,neg_ind0==0,tri,mserd,off,11002,5.6921039,5.6921039,8.9164524,8.9164524,.021849094,.061451368,.012351371,.075788863,2243,1228
+T1,resid2_tfpop_s,5,T1_Baseline/tfp_small_QJE_final.dta,resid2_tfpop_s,neg_ind0==0,epa,mserd,off,11002,5.2041135,5.2041135,8.8504944,8.8504944,.038819991,.064977601,.023345543,.077638656,2048,1091
+T1,resid2_tfpop_s,6,T1_Baseline/tfp_small_QJE_final.dta,resid2_tfpop_s,neg_ind0==0,uni,mserd,off,11002,4.4303899,4.4303899,8.2173929,8.2173929,.034943607,.069350764,.0049252515,.080261633,1653,912
+T3,resid1_lrze,1,T3_Channels/channels_QJE_final.dta,resid1_lrze,neg_ind0==1,tri,mserd,off,5520,5.8196497,5.8196497,9.2312326,9.2312326,478.59296,470.49475,378.19122,551.75629,958,715
+T3,resid1_lrze,2,T3_Channels/channels_QJE_final.dta,resid1_lrze,neg_ind0==1,epa,mserd,off,5520,5.2572145,5.2572145,8.7338953,8.7338953,441.17963,524.3446,343.9299,607.70667,879,412
+T3,resid1_lrze,3,T3_Channels/channels_QJE_final.dta,resid1_lrze,neg_ind0==1,uni,mserd,off,5520,3.4508202,3.4508202,6.7954135,6.7954135,693.76355,595.49402,511.31226,597.06506,552,257
+T3,resid1_lrze,4,T3_Channels/channels_Pre_QJE_final.dta,resid1_lrze,neg_ind0==1,tri,mserd,off,2282,7.4027824,7.4027824,11.298208,11.298208,-99.534744,386.84003,-207.19099,481.48334,623,451
+T3,resid1_lrze,5,T3_Channels/channels_Pre_QJE_final.dta,resid1_lrze,neg_ind0==1,epa,mserd,off,2282,6.5641017,6.5641017,10.559286,10.559286,-131.5909,410.51483,-233.59926,510.85455,525,368
+T3,resid1_lrze,6,T3_Channels/channels_Pre_QJE_final.dta,resid1_lrze,neg_ind0==1,uni,mserd,off,2282,4.6412888,4.6412888,7.9770265,7.9770265,293.73489,494.19342,250.92009,576.97504,331,166
+T3,resid1_lnv,1,T3_Channels/channels_QJE_final.dta,resid1_lnv,neg_ind0==1,tri,mserd,off,5520,7.4272542,7.4272542,10.389091,10.389091,.045220137,.18678735,-.0071307789,.22690636,1395,1158
+T3,resid1_lnv,2,T3_Channels/channels_QJE_final.dta,resid1_lnv,neg_ind0==1,epa,mserd,off,5520,7.1757441,7.1757441,10.137983,10.137983,.072479405,.18647194,.032952342,.22891179,1342,1107
+T3,resid1_lnv,3,T3_Channels/channels_QJE_final.dta,resid1_lnv,neg_ind0==1,uni,mserd,off,5520,6.6173143,6.6173143,10.176941,10.176941,.11226795,.18365115,.069728725,.22638007,1106,988
+T3,resid1_lnv,4,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv,neg_ind0==1,tri,mserd,off,2272,4.9899454,4.9899454,8.6499081,8.6499081,-.089108802,.1296775,-.11044383,.15199199,350,197
+T3,resid1_lnv,5,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv,neg_ind0==1,epa,mserd,off,2272,4.6989946,4.6989946,8.4413872,8.4413872,-.0729656,.13850026,-.089506455,.16021191,324,165
+T3,resid1_lnv,6,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv,neg_ind0==1,uni,mserd,off,2272,4.8292804,4.8292804,9.0279531,9.0279531,.022226641,.15505096,.033885036,.17848499,330,169
+T3,resid1_lnl,1,T3_Channels/channels_QJE_final.dta,resid1_lnl,neg_ind0==1,tri,mserd,off,5473,6.500031,6.500031,9.8335371,9.8335371,-.22246413,.16364801,-.27206713,.20669426,1050,824
+T3,resid1_lnl,2,T3_Channels/channels_QJE_final.dta,resid1_lnl,neg_ind0==1,epa,mserd,off,5473,6.4729543,6.4729543,9.7734451,9.7734451,-.18962318,.15792114,-.22794926,.20060447,1050,820
+T3,resid1_lnl,3,T3_Channels/channels_QJE_final.dta,resid1_lnl,neg_ind0==1,uni,mserd,off,5473,5.8101506,5.8101506,9.1967468,9.1967468,-.090971291,.15525627,-.082955047,.20103702,943,714
+T3,resid1_lnl,4,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnl,neg_ind0==1,tri,mserd,off,2259,7.7967019,7.7967019,10.784058,10.784058,-.0072202375,.19388236,-.073710285,.24522632,646,461
+T3,resid1_lnl,5,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnl,neg_ind0==1,epa,mserd,off,2259,7.7561102,7.7561102,10.982093,10.982093,.039876711,.19252563,.012143509,.24265127,644,456
+T3,resid1_lnl,6,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnl,neg_ind0==1,uni,mserd,off,2259,6.3187709,6.3187709,9.8857241,9.8857241,.085266732,.20190708,.05313839,.24737936,482,327
+T3,resid1_lnk,1,T3_Channels/channels_QJE_final.dta,resid1_lnk,neg_ind0==1,tri,mserd,off,5380,6.9293427,6.9293427,9.9120579,9.9120579,-.39928046,.22116463,-.47874522,.28306895,1088,986
+T3,resid1_lnk,2,T3_Channels/channels_QJE_final.dta,resid1_lnk,neg_ind0==1,epa,mserd,off,5380,5.5966835,5.5966835,8.5708132,8.5708132,-.4452844,.26783442,-.50433582,.33269566,873,422
+T3,resid1_lnk,3,T3_Channels/channels_QJE_final.dta,resid1_lnk,neg_ind0==1,uni,mserd,off,5380,4.0032134,4.0032134,7.0917501,7.0917501,-.60904568,.28897277,-.69775134,.36039743,633,305
+T3,resid1_lnk,4,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnk,neg_ind0==1,tri,mserd,off,2271,7.6897678,7.6897678,11.013892,11.013892,-.097668208,.21233818,-.059654847,.26448745,649,459
+T3,resid1_lnk,5,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnk,neg_ind0==1,epa,mserd,off,2271,6.3860908,6.3860908,9.6990461,9.6990461,-.078001872,.22343808,-.040603798,.27611995,492,346
+T3,resid1_lnk,6,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnk,neg_ind0==1,uni,mserd,off,2271,4.7819338,4.7819338,8.4542446,8.4542446,-.10298032,.25857231,-.042069551,.28920385,330,171
+T3,resid1_lnm,1,T3_Channels/channels_QJE_final.dta,resid1_lnm,neg_ind0==1,tri,mserd,off,5540,5.4800277,5.4800277,7.9358606,7.9358606,-.04719609,.23692054,-.068022594,.28833669,914,435
+T3,resid1_lnm,2,T3_Channels/channels_QJE_final.dta,resid1_lnm,neg_ind0==1,epa,mserd,off,5540,5.1366529,5.1366529,7.6485295,7.6485295,-.04494055,.23802063,-.062060844,.28867465,830,413
+T3,resid1_lnm,3,T3_Channels/channels_QJE_final.dta,resid1_lnm,neg_ind0==1,uni,mserd,off,5540,6.2192459,6.2192459,8.869319,8.869319,-.045865506,.17846464,-.023360845,.21800205,1056,776
+T3,resid1_lnm,4,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnm,neg_ind0==1,tri,mserd,off,2274,7.2762141,7.2762141,10.59011,10.59011,.01522282,.16265975,-.027074959,.19363254,604,444
+T3,resid1_lnm,5,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnm,neg_ind0==1,epa,mserd,off,2274,6.8766718,6.8766718,10.764069,10.764069,.023934012,.16201113,-.01329737,.19295564,546,380
+T3,resid1_lnm,6,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnm,neg_ind0==1,uni,mserd,off,2274,4.7430191,4.7430191,8.3932152,8.3932152,-.00080770405,.20085362,.045438979,.22850905,327,166
+T3,resid1_lnv_l,1,T3_Channels/channels_QJE_final.dta,resid1_lnv_l,neg_ind0==1,tri,mserd,off,5540,7.7905841,7.7905841,10.406007,10.406007,.079951316,.0762183,.080259271,.096429773,1447,1181
+T3,resid1_lnv_l,2,T3_Channels/channels_QJE_final.dta,resid1_lnv_l,neg_ind0==1,epa,mserd,off,5540,7.3391199,7.3391199,10.157192,10.157192,.081309244,.077106275,.082589433,.099288158,1359,1158
+T3,resid1_lnv_l,3,T3_Channels/channels_QJE_final.dta,resid1_lnv_l,neg_ind0==1,uni,mserd,off,5540,6.009409,6.009409,9.3265696,9.3265696,.054704078,.077436492,.028736385,.097963214,1024,731
+T3,resid1_lnv_l,4,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv_l,neg_ind0==1,tri,mserd,off,2276,6.0267553,6.0267553,8.1249466,8.1249466,.0035488119,.055655401,.0020285107,.071902595,469,299
+T3,resid1_lnv_l,5,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv_l,neg_ind0==1,epa,mserd,off,2276,5.1615152,5.1615152,7.6094818,7.6094818,.017115358,.062524363,.018777173,.075961784,379,207
+T3,resid1_lnv_l,6,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv_l,neg_ind0==1,uni,mserd,off,2276,5.7600279,5.7600279,9.105052,9.105052,.0060425196,.04612742,.0099132471,.059629694,442,255
+T3,resid1_lnv_k,1,T3_Channels/channels_QJE_final.dta,resid1_lnv_k,neg_ind0==1,tri,mserd,off,5532,4.9246798,4.9246798,7.2804523,7.2804523,.24968989,.1020915,.2394087,.12157227,790,393
+T3,resid1_lnv_k,2,T3_Channels/channels_QJE_final.dta,resid1_lnv_k,neg_ind0==1,epa,mserd,off,5532,5.1933765,5.1933765,7.943532,7.943532,.26575264,.096452884,.27102458,.12254608,847,413
+T3,resid1_lnv_k,3,T3_Channels/channels_QJE_final.dta,resid1_lnv_k,neg_ind0==1,uni,mserd,off,5532,4.2161064,4.2161064,6.7919312,6.7919312,.28367537,.10381773,.28470755,.12313367,667,325
+T3,resid1_lnv_k,4,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv_k,neg_ind0==1,tri,mserd,off,2274,6.7098112,6.7098112,10.602711,10.602711,.07272701,.080763929,.043224424,.097497612,538,374
+T3,resid1_lnv_k,5,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv_k,neg_ind0==1,epa,mserd,off,2274,5.8930435,5.8930435,9.9048977,9.9048977,.066527911,.0870497,.04226831,.10471538,444,295
+T3,resid1_lnv_k,6,T3_Channels/channels_Pre_QJE_final.dta,resid1_lnv_k,neg_ind0==1,uni,mserd,off,2274,4.8044629,4.8044629,9.005373,9.005373,.0083905216,.09590707,-.0046664509,.11294851,338,170
+T4,resid1_hours,1,T4_Abatement/abatement_QJE_final.dta,resid1_hours,1,tri,mserd,off,7302,5.2223635,5.2223635,8.9988947,8.9988947,288.29617,101.38296,331.8298,115.02605,1223,965
+T4,resid1_hours,2,T4_Abatement/abatement_QJE_final.dta,resid1_hours,1,epa,mserd,off,7302,5.6355433,5.6355433,9.2752037,9.2752037,255.9256,104.91494,306.28143,120.52776,1350,1093
+T4,resid1_hours,3,T4_Abatement/abatement_QJE_final.dta,resid1_hours,1,uni,mserd,off,7302,7.0368433,7.0368433,10.982544,10.982544,171.45119,91.54509,208.57861,117.87106,1763,1475
+T4,resid1_log_water,1,T4_Abatement/abatement_QJE_final.dta,resid1_log_water,1,tri,mserd,off,6606,3.1643751,3.1643751,6.189343,6.189343,.6249699,.22757179,.69505554,.26252449,636,346
+T4,resid1_log_water,2,T4_Abatement/abatement_QJE_final.dta,resid1_log_water,1,epa,mserd,off,6606,3.2646482,3.2646482,7.1426454,7.1426454,.6047352,.25092861,.7110393,.28659883,636,364
+T4,resid1_log_water,3,T4_Abatement/abatement_QJE_final.dta,resid1_log_water,1,uni,mserd,off,6606,2.496973,2.496973,5.7570539,5.7570539,.40057975,.27864096,.51865369,.35684988,580,219
+T4,resid1_machine,1,T4_Abatement/abatement_QJE_final.dta,resid1_machine,1,tri,mserd,off,7265,4.3838573,4.3838573,7.3776574,7.3776574,-1.1454087,.62445968,-1.3871332,.73761225,1002,690
+T4,resid1_machine,2,T4_Abatement/abatement_QJE_final.dta,resid1_machine,1,epa,mserd,off,7265,4.549356,4.549356,7.7057638,7.7057638,-1.0662699,.61609697,-1.3369178,.73981899,1031,773
+T4,resid1_machine,3,T4_Abatement/abatement_QJE_final.dta,resid1_machine,1,uni,mserd,off,7265,3.4157941,3.4157941,6.804553,6.804553,-1.2895976,.69090682,-1.6292751,.79107785,776,441
+T4,resid1_total_capacity,1,T4_Abatement/abatement_QJE_final.dta,resid1_total_capacity,1,tri,mserd,off,4624,4.1514263,4.1514263,6.4071913,6.4071913,-7381.0688,3733.27,-7145.2861,4474.3906,603,406
+T4,resid1_total_capacity,2,T4_Abatement/abatement_QJE_final.dta,resid1_total_capacity,1,epa,mserd,off,4624,4.1809816,4.1809816,6.8003016,6.8003016,-8593.9424,3854.6978,-9016.3711,4687.5933,608,407
+T4,resid1_total_capacity,3,T4_Abatement/abatement_QJE_final.dta,resid1_total_capacity,1,uni,mserd,off,4624,4.3322549,4.3322549,8.0822468,8.0822468,-7849.3984,3714.324,-9204.5557,4328.9736,651,450
+T5,resid_log_cod,1,T5_Emissions/water_emission_QJE_final.dta,resid_log_cod,1,tri,mserd,off,9797,3.3288257,3.3288257,6.5253348,6.5253348,.83713031,.42572832,1.0016006,.47310093,994,562
+T5,resid_log_cod,2,T5_Emissions/water_emission_QJE_final.dta,resid_log_cod,1,epa,mserd,off,9797,3.4181919,3.4181919,6.9351072,6.9351072,.75043517,.39215124,.92344797,.43958947,1003,584
+T5,resid_log_cod,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_cod,1,uni,mserd,off,9797,5.0290952,5.0290952,8.3264723,8.3264723,.23658262,.32020885,.31443512,.34651762,1491,1173
+T5,resid_log_cod_intensity,1,T5_Emissions/water_emission_QJE_final.dta,resid_log_cod_intensity,1,tri,mserd,off,9797,4.9589782,4.9589782,8.3713427,8.3713427,.76927733,.28534704,.89623755,.34571216,1476,1131
+T5,resid_log_cod_intensity,2,T5_Emissions/water_emission_QJE_final.dta,resid_log_cod_intensity,1,epa,mserd,off,9797,4.9590921,4.9590921,8.3435011,8.3435011,.70480686,.26687518,.81886703,.32954863,1476,1131
+T5,resid_log_cod_intensity,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_cod_intensity,1,uni,mserd,off,9797,4.3936882,4.3936882,7.3364134,7.3364134,.72916323,.25765038,.77420062,.34077662,1291,907
+T5,resid_log_nh,1,T5_Emissions/water_emission_QJE_final.dta,resid_log_nh,1,tri,mserd,off,4772,4.5752792,4.5752792,6.8655739,6.8655739,.87493402,.90248734,1.0197083,1.1905477,781,519
+T5,resid_log_nh,2,T5_Emissions/water_emission_QJE_final.dta,resid_log_nh,1,epa,mserd,off,4772,4.8791656,4.8791656,7.2976069,7.2976069,.75981069,.76471275,.95592755,1.0540546,823,565
+T5,resid_log_nh,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_nh,1,uni,mserd,off,4772,4.4772153,4.4772153,6.9641333,6.9641333,.62641168,.6885612,.88873369,.94946814,765,513
+T5,resid_log_nh_intensity,1,T5_Emissions/water_emission_QJE_final.dta,resid_log_nh_intensity,1,tri,mserd,off,4752,3.2013354,3.2013354,5.7478261,5.7478261,1.2303109,.4479439,1.3530711,.54945308,529,225
+T5,resid_log_nh_intensity,2,T5_Emissions/water_emission_QJE_final.dta,resid_log_nh_intensity,1,epa,mserd,off,4752,3.5001485,3.5001485,6.1413565,6.1413565,1.0059758,.43728814,1.1351713,.53647059,588,268
+T5,resid_log_nh_intensity,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_nh_intensity,1,uni,mserd,off,4752,2.9983222,2.9983222,5.7062578,5.7062578,.84914553,.43005362,.9619661,.57580745,522,215
+T5,resid_log_waste_water,1,T5_Emissions/water_emission_QJE_final.dta,resid_log_waste_water,1,tri,mserd,off,9797,3.6273789,3.6273789,6.6058416,6.6058416,.34159955,.31057978,.44344288,.36743462,1087,677
+T5,resid_log_waste_water,2,T5_Emissions/water_emission_QJE_final.dta,resid_log_waste_water,1,epa,mserd,off,9797,3.599319,3.599319,6.9356785,6.9356785,.33041644,.32943296,.45189545,.38674411,1087,677
+T5,resid_log_waste_water,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_waste_water,1,uni,mserd,off,9797,5.2862072,5.2862072,8.554883,8.554883,.057078611,.28126165,.03933524,.30331373,1618,1306
+T5,resid_log_waste_water_intensity,1,T5_Emissions/water_emission_QJE_final.dta,resid_log_waste_water_intensity,1,tri,mserd,off,9797,4.5384588,4.5384588,7.7897396,7.7897396,.44289595,.21445091,.52050716,.25400203,1334,1007
+T5,resid_log_waste_water_intensity,2,T5_Emissions/water_emission_QJE_final.dta,resid_log_waste_water_intensity,1,epa,mserd,off,9797,4.8250599,4.8250599,8.17276,8.17276,.40220392,.20173925,.46739161,.2453943,1373,1095
+T5,resid_log_waste_water_intensity,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_waste_water_intensity,1,uni,mserd,off,9797,4.9958725,4.9958725,8.7558088,8.7558088,.24169274,.18588571,.29266563,.22135417,1486,1139
+T5,resid_log_so2,1,T5_Emissions/air_emission_QJE_final.dta,resid_log_so2,1,tri,mserd,off,4740,4.4196258,4.4196258,7.2213011,7.2213011,.031440731,.28912899,.10470539,.338047,619,419
+T5,resid_log_so2,2,T5_Emissions/air_emission_QJE_final.dta,resid_log_so2,1,epa,mserd,off,4740,4.2075448,4.2075448,7.1609893,7.1609893,.055436529,.29610121,.1358621,.3427479,583,373
+T5,resid_log_so2,3,T5_Emissions/air_emission_QJE_final.dta,resid_log_so2,1,uni,mserd,off,4740,6.2504492,6.2504492,10.181583,10.181583,-.16445075,.24645698,-.1623861,.30109543,941,770
+T5,resid_log_nox,1,T5_Emissions/air_emission_QJE_final.dta,resid_log_nox,1,tri,mserd,off,4740,3.6614523,3.6614523,5.9331412,5.9331412,.089787066,.28404611,.13260834,.34392011,531,312
+T5,resid_log_nox,2,T5_Emissions/air_emission_QJE_final.dta,resid_log_nox,1,epa,mserd,off,4740,3.375134,3.375134,5.713798,5.713798,.14046414,.29333028,.17870764,.360737,478,268
+T5,resid_log_nox,3,T5_Emissions/air_emission_QJE_final.dta,resid_log_nox,1,uni,mserd,off,4740,6.0950608,6.0950608,9.8329277,9.8329277,-.049284745,.19922413,-.051077597,.24024858,910,741
+T6,fee,1,T6_PE/pwf_QJE_final.dta,resid1_l_pwf,1,tri,certwo,off,3050,3.3998184,3.7980649,7.7928057,7.3022346,-1.1390542,.4419103,-1.2397687,.50810909,304,161
+T6,fee,2,T6_PE/pwf_QJE_final.dta,resid1_l_pwf,1,epa,certwo,off,3050,2.9312816,3.2317214,7.223,6.7411838,-1.3172398,.45015886,-1.4156014,.5421012,286,117
+T6,fee,3,T6_PE/pwf_QJE_final.dta,resid1_l_pwf,1,uni,certwo,off,3050,2.6096132,3.4842811,6.587501,7.2166104,-.90962982,.47657198,-.96321672,.55825651,282,144
+T6,party_inc1,1,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & party_inc==1,tri,mserd,off,5305,4.7717094,4.7717094,7.7539921,7.7539921,.56033611,.20405562,.57617277,.24374694,752,335
+T6,party_inc1,2,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & party_inc==1,epa,mserd,off,5305,4.9232416,4.9232416,8.2564535,8.2564535,.58097076,.19885534,.59382093,.23999181,775,399
+T6,party_inc1,3,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & party_inc==1,uni,mserd,off,5305,4.3220034,4.3220034,7.9313416,7.9313416,.59116036,.1982628,.58233225,.24251042,654,328
+T6,party_inc1,4,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & party_inc==1,tri,mserd,off,9382,4.8782949,4.8782949,8.772543,8.772543,.11923736,.13307723,.12129284,.15758345,1518,820
+T6,party_inc1,5,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & party_inc==1,epa,mserd,off,9382,5.6051469,5.6051469,9.6037903,9.6037903,.087904386,.1363268,.086695887,.16832016,1819,1083
+T6,party_inc1,6,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & party_inc==1,uni,mserd,off,9382,6.8899899,6.8899899,10.188689,10.188689,.072231449,.10440124,.075729989,.12656663,2181,1894
+T6,party_inc0,1,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & party_inc==0,tri,mserd,off,2450,5.8978105,5.8978105,7.4378333,7.4378333,.1290186,.18598509,.13370883,.24608141,395,275
+T6,party_inc0,2,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & party_inc==0,epa,mserd,off,2450,4.6267872,4.6267872,6.4786749,6.4786749,.18742776,.25455478,.20165114,.3063575,301,118
+T6,party_inc0,3,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & party_inc==0,uni,mserd,off,2450,3.7131727,3.7131727,6.0575161,6.0575161,.18459138,.26519191,.22506958,.3274315,271,118
+T6,party_inc0,4,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & party_inc==0,tri,mserd,off,4739,3.7920868,3.7920868,6.8241925,6.8241925,.036889907,.18621209,.040638197,.24599271,881,355
+T6,party_inc0,5,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & party_inc==0,epa,mserd,off,4739,3.8532138,3.8532138,7.3063793,7.3063793,.011617165,.19319569,-.011218695,.25512928,881,355
+T6,party_inc0,6,T6_PE/PE_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & party_inc==0,uni,mserd,off,4739,2.6084416,2.6084416,5.393846,5.393846,.26051214,.22038387,.2897377,.32730368,736,252
+T6,automatic1,1,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & automatic==1,tri,mserd,off,932,4.5037398,4.5037398,8.8628855,8.8628855,1.1814381,.54868662,1.2965286,.67096478,79,41
+T6,automatic1,2,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & automatic==1,epa,mserd,off,932,4.4985142,4.4985142,9.0116596,9.0116596,1.2187159,.54898769,1.3480803,.66236138,79,41
+T6,automatic1,3,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & automatic==1,uni,mserd,off,932,4.6470861,4.6470861,9.4962282,9.4962282,1.2071075,.47132736,1.3955083,.5906077,119,41
+T6,automatic1,4,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & automatic==1,tri,mserd,off,1815,2.9190428,2.9190428,8.4822922,8.4822922,-1.0728085,1.4372334,-1.1867799,1.4423521,49,83
+T6,automatic1,5,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & automatic==1,epa,mserd,off,1815,3.2956438,3.2956438,10.392036,10.392036,-.48294583,.70617378,-.60880905,.84064823,52,87
+T6,automatic1,6,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & automatic==1,uni,msecomb1,adjust,1815,3.1181278,3.1181278,6.2820811,6.2820811,-.54054528,1.6115938,-.74206775,1.8087213,49,83
+T6,automatic0,1,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & automatic==0,tri,mserd,off,4953,6.1459489,6.1459489,9.0248404,9.0248404,.30251986,.1536632,.28155181,.19076869,955,737
+T6,automatic0,2,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & automatic==0,epa,mserd,off,4953,5.7335205,5.7335205,8.6815691,8.6815691,.35008824,.17127784,.33910778,.20230764,855,546
+T6,automatic0,3,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & automatic==0,uni,mserd,off,4953,4.3018355,4.3018355,6.6979046,6.6979046,.40701187,.19976939,.42901814,.23835582,675,321
+T6,automatic0,4,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & automatic==0,tri,mserd,off,9523,4.6321697,4.6321697,7.3690534,7.3690534,.09940657,.079943225,.11159482,.096643664,1494,861
+T6,automatic0,5,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & automatic==0,epa,mserd,off,9523,4.7401786,4.7401786,8.0302696,8.0302696,.1086088,.079302162,.1137502,.094024152,1506,864
+T6,automatic0,6,T6_PE/auto_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & automatic==0,uni,mserd,off,9523,4.2914743,4.2914743,8.4666595,8.4666595,.097604662,.081162408,.077293426,.092528991,1449,838
+T7,soe0,1,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & soe==0,tri,mserd,off,6149,4.6505032,4.6505032,6.730741,6.730741,.44648829,.17903607,.45747456,.20628873,854,376
+T7,soe0,2,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & soe==0,epa,mserd,off,6149,4.4191375,4.4191375,6.7300763,6.7300763,.47872865,.18070138,.50129181,.21019654,786,374
+T7,soe0,3,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & soe==0,uniform,mserd,off,6149,4.8596001,4.8596001,7.7663703,7.7663703,.4330374,.16735016,.42475781,.18820907,892,394
+T7,soe0,4,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & soe==0,tri,mserd,off,11510,5.1042242,5.1042242,7.6111393,7.6111393,.046825454,.08882387,.035675518,.10476039,1992,1025
+T7,soe0,5,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & soe==0,epa,mserd,off,11510,4.8621993,4.8621993,7.7132425,7.7132425,.047845982,.091936514,.035643414,.10594302,1924,966
+T7,soe0,6,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & soe==0,uniform,mserd,off,11510,4.5174403,4.5174403,7.7092767,7.7092767,.072204858,.10191488,.039657705,.11190284,1760,938
+T7,soe1,1,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & soe==1,tri,mserd,off,513,3.3013613,3.3013613,5.8967347,5.8967347,-.13031724,.41664973,-.29092062,.45302635,49,29
+T7,soe1,2,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & soe==1,epa,mserd,off,513,3.4694989,3.4694989,6.2360697,6.2360697,.0021194227,.49510604,-.10360714,.57325959,50,34
+T7,soe1,3,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & soe==1,uniform,mserd,off,513,4.9474649,4.9474649,9.3945808,9.3945808,.6233412,.4087415,.81502599,.49058452,69,53
+T7,soe1,4,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & soe==1,tri,mserd,off,1169,6.0696106,6.0696106,8.4650621,8.4650621,.11219522,.34546486,.12762381,.43671849,256,186
+T7,soe1,5,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & soe==1,epa,mserd,off,1169,6.0639167,6.0639167,8.7613239,8.7613239,.085928023,.33301607,.077393249,.42580137,256,186
+T7,soe1,6,T7_Burden/soe_vs_private_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & soe==1,uniform,mserd,off,1169,4.5501146,4.5501146,7.2843876,7.2843876,.060350567,.41305134,-.026056249,.5156886,134,109
+T7,firm_big0,1,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & firm_big==0,tri,mserd,off,1829,4.5887275,4.5887275,6.247015,6.247015,.057288978,.40655252,-.044685725,.45514458,226,106
+T7,firm_big0,2,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & firm_big==0,epa,mserd,off,1829,5.1163077,5.1163077,6.7492652,6.7492652,.13463514,.35939232,.02609924,.44506088,260,142
+T7,firm_big0,3,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & firm_big==0,uniform,mserd,off,1829,3.7574639,3.7574639,5.7385798,5.7385798,.16909459,.39243618,.074898288,.46019182,188,96
+T7,firm_big0,4,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & firm_big==0,tri,mserd,off,3981,4.1992617,4.1992617,8.4290113,8.4290113,-.014861765,.15507498,-.060814548,.18905164,599,292
+T7,firm_big0,5,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & firm_big==0,epa,mserd,off,3981,3.7975821,3.7975821,7.6864161,7.6864161,-.044762973,.16281727,-.064564086,.2126603,558,257
+T7,firm_big0,6,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & firm_big==0,uniform,mserd,off,3981,4.02104,4.02104,9.4170685,9.4170685,.042417414,.17572893,-.0050279461,.18275021,592,284
+T7,firm_big1,1,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & firm_big==1,tri,mserd,off,4818,5.1466184,5.1466184,7.8667054,7.8667054,.48548314,.16243149,.5170511,.18890816,766,378
+T7,firm_big1,2,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & firm_big==1,epa,mserd,off,4818,4.846478,4.846478,7.7449136,7.7449136,.51850396,.17335258,.55057049,.19883065,709,310
+T7,firm_big1,3,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & firm_big==1,uniform,mserd,off,4818,4.7561097,4.7561097,8.6876698,8.6876698,.51718861,.1746031,.53793865,.193389,692,304
+T7,firm_big1,4,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & firm_big==1,tri,mserd,off,8765,5.0793395,5.0793395,8.0795898,8.0795898,.024019372,.11114884,.026958751,.13078947,1536,808
+T7,firm_big1,5,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & firm_big==1,epa,mserd,off,8765,5.2423873,5.2423873,8.7189035,8.7189035,.03155753,.11191573,.033891335,.13162458,1644,859
+T7,firm_big1,6,T7_Burden/big_vs_small_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & firm_big==1,uniform,mserd,off,8765,5.7552605,5.7552605,9.3903131,9.3903131,.019863043,.0977166,-.007042299,.11707608,1823,1036
+T7,nsbd1,1,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & nsbd_c==1,epa,mserd,off,933,5.7114124,5.7114124,10.713493,10.713493,.8907572,.30954033,.97694528,.25250918,122,133
+T7,nsbd1,2,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & nsbd_c==1,tri,mserd,off,933,6.6889195,6.6889195,12.31632,12.31632,.68902016,.32273623,.82225531,.27025416,122,292
+T7,nsbd1,3,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & nsbd_c==1,uni,mserd,off,933,4.9691958,4.9691958,11.376418,11.376418,.93532044,.30991071,1.0118209,.30924588,69,11
+T7,nsbd1,4,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & nsbd_c==1,epa,mserd,off,1429,5.0163703,5.0163703,9.6946325,9.6946325,.16509223,.16143896,.13730779,.298563,101,10
+T7,nsbd1,5,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & nsbd_c==1,tri,mserd,off,1429,5.7151666,5.7151666,12.174828,12.174828,.10006066,.18183424,.024381805,.33468899,195,111
+T7,nsbd1,6,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & nsbd_c==1,uni,mserd,off,1429,8.3753595,8.3753595,16.527565,16.527565,.050599892,.24738044,.080727421,.31703231,212,573
+T7,nsbd0,1,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & nsbd_c==0,epa,mserd,off,4998,4.5215545,4.5215545,7.2444897,7.2444897,.38196886,.19107018,.4044506,.23324564,711,349
+T7,nsbd0,2,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & nsbd_c==0,tri,mserd,off,4998,5.1031976,5.1031976,7.9297094,7.9297094,.34630013,.17829621,.36641684,.21616565,809,431
+T7,nsbd0,3,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==1 & nsbd_c==0,uni,mserd,off,4998,3.877413,3.877413,6.6704106,6.6704106,.35904124,.18128987,.36372423,.23344977,638,329
+T7,nsbd0,4,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & nsbd_c==0,epa,mserd,off,9739,4.9721994,4.9721994,8.8127956,8.8127956,.13174054,.10979751,.13614157,.13511723,1789,997
+T7,nsbd0,5,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & nsbd_c==0,tri,mserd,off,9739,5.7178726,5.7178726,9.4589987,9.4589987,.10688577,.099004775,.10966366,.12719183,2076,1209
+T7,nsbd0,6,T7_Burden/NSBD_QJE_final.dta,resid1_tfpop_s,neg_ind0==0 & nsbd_c==0,uni,mserd,off,9739,4.4976392,4.4976392,8.3851843,8.3851843,.10836108,.11179715,.079125993,.13246909,1629,905
+T5,resid_log_cod@msecomb1,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_cod,1,uni,msecomb1,off,9797,3.5425866,3.5425866,6.6728382,6.6728382,.73374444,.35339862,.9560045,.42255419,1051,614
+T5,resid_log_cod_intensity@msecomb1,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_cod_intensity,1,uni,msecomb1,off,9797,3.2716012,3.2716012,6.2632456,6.2632456,.84427065,.32791418,.97963285,.37280986,906,518
+T5,resid_log_nh@msecomb1,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_nh,1,uni,msecomb1,off,4772,4.4772153,4.4772153,6.9641333,6.9641333,.62641168,.6885612,.88873369,.94946814,765,513
+T5,resid_log_nh_intensity@msecomb1,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_nh_intensity,1,uni,msecomb1,off,4752,2.9983222,2.9983222,5.7062578,5.7062578,.84914553,.43005362,.9619661,.57580745,522,215
+T5,resid_log_waste_water@msecomb1,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_waste_water,1,uni,msecomb1,off,9797,5.2862072,5.2862072,8.554883,8.554883,.057078611,.28126165,.03933524,.30331373,1618,1306
+T5,resid_log_waste_water_intensity@msecomb1,3,T5_Emissions/water_emission_QJE_final.dta,resid_log_waste_water_intensity,1,uni,msecomb1,off,9797,3.2726715,3.2726715,6.4307394,6.4307394,.55601853,.25811625,.65009904,.29040426,910,518
+T5,resid_log_so2@msecomb1,3,T5_Emissions/air_emission_QJE_final.dta,resid_log_so2,1,uni,msecomb1,off,4740,4.4879637,4.4879637,7.8151536,7.8151536,-.035347026,.28594825,.011326404,.33918041,624,429
+T5,resid_log_nox@msecomb1,3,T5_Emissions/air_emission_QJE_final.dta,resid_log_nox,1,uni,msecomb1,off,4740,3.8974581,3.8974581,7.3707161,7.3707161,-.0021637338,.26053897,.10497525,.29896021,549,335
+T6,fee@mserd,1,T6_PE/pwf_QJE_final.dta,resid1_l_pwf,1,tri,mserd,off,3050,4.0249391,4.0249391,7.005743,7.005743,-.91336811,.44260207,-1.1013737,.50536275,371,170
+T6,fee@mserd,2,T6_PE/pwf_QJE_final.dta,resid1_l_pwf,1,epa,mserd,off,3050,3.5082796,3.5082796,6.4346161,6.4346161,-1.1238782,.45386437,-1.2878053,.5426662,305,148
+T6,fee@mserd,3,T6_PE/pwf_QJE_final.dta,resid1_l_pwf,1,uni,mserd,off,3050,4.3620729,4.3620729,7.1216807,7.1216807,-.11598909,.49553832,-.16354658,.56087911,374,171

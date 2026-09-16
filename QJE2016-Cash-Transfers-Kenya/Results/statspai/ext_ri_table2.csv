@@ -1,0 +1,9 @@
+outcome,label,coef_areg,p_ri_within_village,sp_ri_test_diffmeans_unstratified_p,sp_ri_test_observed_diffmeans
+asset_total_ppp1,Value of non-land assets (USD),301.50676279696995,0.0,0.0,296.1212164067752
+cons_nondurable_ppp1,Non-durable expenditure (USD),35.65738279102733,0.0,0.0,33.5959559094849
+ent_total_rev_ppp1,"Total revenue, monthly (USD)",16.15254039231168,0.003,0.0315,13.046721137019944
+fs_hhfoodindexnew1,Food security index,0.25537403860988517,0.0,0.0,0.2477648814724701
+med_hh_healthindex1,Health index,-0.0340681751681008,0.5815,0.6745,-0.026366930143446602
+ed_index1,Education index,0.08018652194995485,0.1685,0.696,0.025440023525880675
+psy_index_z1,Psychological well-being index,0.25591443001385855,0.0,0.0,0.24487660720795495
+ih_overall_index_z1,Female empowerment index,-0.010446871146685325,0.8875,0.845,-0.014500374332027654

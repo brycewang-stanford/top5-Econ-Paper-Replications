@@ -125,5 +125,5 @@ foreach s of local steps {
         }
     }
 }
-file close `log'
+* (step log is closed after each step)
 di as res "done"

@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS noise
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Replication data (Harvard Dataverse package, re-downloadable; see Data/README.md)
+Data/**
+!Data/README.md
+!Data/.gitkeep
+
+# Results: keep small text outputs (tex/csv/md), small figures; drop Stata graph binaries
+# and the very large batch logs (stepdown iteration counters, 0.9-31 MB each)
+Results/logs/*.log
+Results/Figures/*.gph

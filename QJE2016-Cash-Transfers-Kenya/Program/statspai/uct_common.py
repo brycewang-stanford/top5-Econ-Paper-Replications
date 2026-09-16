@@ -53,6 +53,11 @@ ARM_LABEL = {"treat": "Treatment effect", "female": "Female recipient",
 
 def load(name: str = "UCT_FINAL_CLEAN.dta"):
     df, meta = pyreadstat.read_dta(str(DATA / name))
+    # pyreadstat returns mixed int/NaN columns (e.g. psy_cesdscore1) as object: coerce to float
+    for c in df.columns[df.dtypes == object]:
+        conv = pd.to_numeric(df[c], errors="coerce")
+        if conv.notna().sum() == df[c].notna().sum():
+            df[c] = conv
     return df, meta.column_names_to_labels
 
 
@@ -193,7 +198,7 @@ def stepdown_perm(d: pd.DataFrame, ys: list[str], treat: str, others: list[str],
         G = len(uniq)
         adj = (n - 1) / (n - K) * G / (G - 1)
 
-        def tstat(T):  # T: n x B
+        def tstat(T, Q=Q, yt=yt, codes=codes, G=G, adj=adj):  # T: n x B (defaults bind loop vars)
             Tt = T - Q @ (Q.T @ T)
             ss = (Tt * Tt).sum(0)
             b = (yt @ Tt) / ss

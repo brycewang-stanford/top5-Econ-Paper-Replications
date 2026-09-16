@@ -3,7 +3,7 @@
        log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/AER
 > 2013-China-Syndrome/Program/do/../../Results/log/czone_analysis_ipw_final.log
   log type:  text
- opened on:  16 Sep 2026, 00:03:28
+ opened on:  16 Sep 2026, 23:23:04
 
 . 
 . use ../../Data/dta/workfile_china.dta, clear
@@ -1366,7 +1366,6 @@ Exogenous:  l_shind_manuf_cbp reg_midatl reg_encen reg_wncen reg_satl
 
 . esttab using ../../Results/log/tab_ipw_manuf_2.scsv, b(%9.3f) se(%9.3f) nosta
 > r r2 drop(t* reg*) replace
-(file ../../Results/log/tab_ipw_manuf_2.scsv not found)
 (output written to ../../Results/log/tab_ipw_manuf_2.scsv)
 
 . 
@@ -1959,7 +1958,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_ipw_pop.scsv, b(%9.3f) se(%9.3f) nostar r2
 >  drop(t*) replace
-(file ../../Results/log/tab_ipw_pop.scsv not found)
 (output written to ../../Results/log/tab_ipw_pop.scsv)
 
 . 
@@ -2912,7 +2910,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_ipw_empl.scsv, b(%9.3f) se(%9.3f) nostar r
 > 2 drop(t* reg*) replace
-(file ../../Results/log/tab_ipw_empl.scsv not found)
 (output written to ../../Results/log/tab_ipw_empl.scsv)
 
 . 
@@ -3298,7 +3295,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_ipw_wage.scsv, b(%9.3f) se(%9.3f) nostar r
 > 2 drop(t* reg*) replace
-(file ../../Results/log/tab_ipw_wage.scsv not found)
 (output written to ../../Results/log/tab_ipw_wage.scsv)
 
 . 
@@ -3808,7 +3804,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_ipw_mfgnmfg.scsv, b(%9.3f) se(%9.3f) nosta
 > r r2 drop(t* reg*) replace
-(file ../../Results/log/tab_ipw_mfgnmfg.scsv not found)
 (output written to ../../Results/log/tab_ipw_mfgnmfg.scsv)
 
 . 
@@ -4563,7 +4558,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_ipw_trans.scsv, b(%9.3f) se(%9.3f) nostar 
 > r2 drop(t* reg*) replace
-(file ../../Results/log/tab_ipw_trans.scsv not found)
 (output written to ../../Results/log/tab_ipw_trans.scsv)
 
 . 
@@ -5073,7 +5067,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_ipw_hhinc_pw.scsv, b(%9.3f) se(%9.3f) nost
 > ar r2 drop(t* reg*) replace
-(file ../../Results/log/tab_ipw_hhinc_pw.scsv not found)
 (output written to ../../Results/log/tab_ipw_hhinc_pw.scsv)
 
 . 
@@ -5379,7 +5372,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_expoff_iv.scsv, b(%9.3f) se(%9.3f) nostar 
 > r2 drop(t* reg*) replace
-(file ../../Results/log/tab_expoff_iv.scsv not found)
 (output written to ../../Results/log/tab_expoff_iv.scsv)
 
 . 
@@ -5710,7 +5702,6 @@ Exogenous:  reg_midatl reg_encen reg_wncen reg_satl reg_escen reg_wscen
 
 . esttab using ../../Results/log/tab_intermediates.scsv, b(%9.3f) se(%9.3f) nos
 > tar r2 drop(t* reg*) replace
-(file ../../Results/log/tab_intermediates.scsv not found)
 (output written to ../../Results/log/tab_intermediates.scsv)
 
 . 
@@ -6022,7 +6013,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_nipw_iv.scsv, b(%9.3f) se(%9.3f) nostar r2
 >  drop(t* reg*) replace
-(file ../../Results/log/tab_nipw_iv.scsv not found)
 (output written to ../../Results/log/tab_nipw_iv.scsv)
 
 . 
@@ -6255,7 +6245,6 @@ l_task_out~e |   4.890801   1.522281     3.21   0.002     1.828366    7.953235
 
 . esttab using ../../Results/log/tab_nipw_grav.scsv, b(%9.3f) se(%9.3f) nostar 
 > r2 drop(t* reg*) replace
-(file ../../Results/log/tab_nipw_grav.scsv not found)
 (output written to ../../Results/log/tab_nipw_grav.scsv)
 
 . 
@@ -6571,7 +6560,6 @@ Exogenous:  reg_midatl reg_encen reg_wncen reg_satl reg_escen reg_wscen
 
 . esttab using ../../Results/log/tab_ifactor_net_io.scsv, b(%9.3f) se(%9.3f) no
 > star r2 drop(t* reg*) replace
-(file ../../Results/log/tab_ifactor_net_io.scsv not found)
 (output written to ../../Results/log/tab_ifactor_net_io.scsv)
 
 . 
@@ -6806,7 +6794,6 @@ Exogenous:  l_shind_manuf_cbp instrument0007
 
 . esttab using ../../Results/log/tab_ipw_manuf_pre.scsv, b(%9.3f) se(%9.3f) nos
 > tar r2 replace
-(file ../../Results/log/tab_ipw_manuf_pre.scsv not found)
 (output written to ../../Results/log/tab_ipw_manuf_pre.scsv)
 
 . 
@@ -7398,7 +7385,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_ipw_manuf_exporters.scsv, b(%9.4f) se(%9.4
 > f) nostar r2 drop(t* reg*) replace
-(file ../../Results/log/tab_ipw_manuf_exporters.scsv not found)
 (output written to ../../Results/log/tab_ipw_manuf_exporters.scsv)
 
 . 
@@ -8358,7 +8344,6 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
 
 . esttab using ../../Results/log/tab_ipw_empl2.scsv, b(%9.3f) se(%9.3f) nostar 
 > r2 drop(t* reg*) replace
-(file ../../Results/log/tab_ipw_empl2.scsv not found)
 (output written to ../../Results/log/tab_ipw_empl2.scsv)
 
 . 
@@ -8369,5 +8354,5 @@ Exogenous:  l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
        log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/AER
 > 2013-China-Syndrome/Program/do/../../Results/log/czone_analysis_ipw_final.log
   log type:  text
- closed on:  16 Sep 2026, 00:03:38
+ closed on:  16 Sep 2026, 23:23:35
 -------------------------------------------------------------------------------

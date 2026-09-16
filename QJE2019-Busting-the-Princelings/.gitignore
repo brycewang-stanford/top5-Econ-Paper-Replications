@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS noise
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Replication data (Harvard Dataverse, ~1.07 GB) — never committed
+Data/**
+!Data/README.md
+!Data/.gitkeep
+
+# Generated output: keep small text outputs (csv/md/json/txt/log) and PNG figures,
+# ignore Stata binary graphs and the auto-split step files
+Results/**/*.gph
+Results/_steps/
+Program/log-files/

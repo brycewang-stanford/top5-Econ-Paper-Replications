@@ -1,0 +1,137 @@
+row,column,stat,paper,Stata re-run,StatsPAI,abs diff Stata,abs diff StatsPAI,Stata,SP,MC
+log cortisol (no controls),(1) control mean,coef/value,2.46,2.46,2.4612516092355023,0.0,0.0,✅,✅,False
+log cortisol (no controls),(2) treatment,coef/value,0.0,0.0,0.0031180110417202,0.0,0.0,✅,✅,False
+log cortisol (no controls),(3) female rec.,coef/value,-0.17,-0.17,-0.1693366933240521,0.0,0.0,✅,✅,False
+log cortisol (no controls),(4) monthly,coef/value,0.16,0.16,0.1597526303464569,0.0,0.0,✅,✅,False
+log cortisol (no controls),(5) large,coef/value,-0.09,-0.09,-0.0861656178380296,0.0,0.0,✅,✅,False
+log cortisol (no controls),(6) N,coef/value,1456.0,1456.0,1456.0,0.0,0.0,✅,✅,False
+log cortisol (no controls),(1) control mean,(SE/SD),0.89,0.89,0.8929439307736841,0.0,0.0,✅,✅,False
+log cortisol (no controls),(2) treatment,(SE/SD),0.05,0.05,0.0466917933837013,0.0,0.0,✅,✅,False
+log cortisol (no controls),(3) female rec.,(SE/SD),0.07,0.07,0.0722079976298626,0.0,0.0,✅,✅,False
+log cortisol (no controls),(4) monthly,(SE/SD),0.08,0.08,0.083335931306902,0.0,0.0,✅,✅,False
+log cortisol (no controls),(5) large,(SE/SD),0.07,0.07,0.0720151191821441,0.0,0.0,✅,✅,False
+log cortisol (with controls),(1) control mean,coef/value,-0.04,-0.04,-0.0354740125681247,0.0,0.0,✅,✅,False
+log cortisol (with controls),(2) treatment,coef/value,0.01,0.01,0.0072503535073601,0.0,0.0,✅,✅,False
+log cortisol (with controls),(3) female rec.,coef/value,-0.17,-0.17,-0.1694130233911044,0.0,0.0,✅,✅,False
+log cortisol (with controls),(4) monthly,coef/value,0.17,0.17,0.172580947477695,0.0,0.0,✅,✅,False
+log cortisol (with controls),(5) large,coef/value,-0.12,-0.12,-0.1188467201477907,0.0,0.0,✅,✅,False
+log cortisol (with controls),(6) N,coef/value,1456.0,1456.0,1456.0,0.0,0.0,✅,✅,False
+log cortisol (with controls),(1) control mean,(SE/SD),0.88,0.88,0.8833104131550149,0.0,0.0,✅,✅,False
+log cortisol (with controls),(2) treatment,(SE/SD),0.05,0.05,0.0461193136115697,0.0,0.0,✅,✅,False
+log cortisol (with controls),(3) female rec.,(SE/SD),0.07,0.07,0.0705500460638296,0.0,0.0,✅,✅,False
+log cortisol (with controls),(4) monthly,(SE/SD),0.08,0.08,0.0816799148297715,0.0,0.0,✅,✅,False
+log cortisol (with controls),(5) large,(SE/SD),0.07,0.07,0.0710304523771812,0.0,0.0,✅,✅,False
+depression (cesd),(1) control mean,coef/value,26.48,26.48,26.480821917808218,0.0,0.0,✅,✅,False
+depression (cesd),(2) treatment,coef/value,-1.16,-1.16,-1.1595724374181624,0.0,0.0,✅,✅,False
+depression (cesd),(3) female rec.,coef/value,-0.77,-0.77,-0.7701603089882253,0.0,0.0,✅,✅,False
+depression (cesd),(4) monthly,coef/value,-1.4,-1.4,-1.3960539124296778,0.0,0.0,✅,✅,False
+depression (cesd),(5) large,coef/value,-1.22,-1.22,-1.2151213746543534,0.0,0.0,✅,✅,False
+depression (cesd),(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+depression (cesd),(1) control mean,(SE/SD),9.31,9.31,9.31363526195117,0.0,0.0,✅,✅,False
+depression (cesd),(2) treatment,(SE/SD),0.44,0.44,0.4387362826556599,0.0,0.0,✅,✅,False
+depression (cesd),(3) female rec.,(SE/SD),0.67,0.67,0.6656548165446412,0.0,0.0,✅,✅,False
+depression (cesd),(4) monthly,(SE/SD),0.73,0.73,0.7280008736503195,0.0,0.0,✅,✅,False
+depression (cesd),(5) large,(SE/SD),0.68,0.68,0.6806091030343883,0.0,0.0,✅,✅,False
+worries,(1) control mean,coef/value,0.0,0.0,0.0,0.0,0.0,✅,✅,False
+worries,(2) treatment,coef/value,-0.13,-0.13,-0.1288262204823561,0.0,0.0,✅,✅,False
+worries,(3) female rec.,coef/value,-0.04,-0.04,-0.0446580142876978,0.0,0.0,✅,✅,False
+worries,(4) monthly,coef/value,-0.11,-0.11,-0.1086329616207297,0.0,0.0,✅,✅,False
+worries,(5) large,coef/value,-0.07,-0.07,-0.065277376337442,0.0,0.0,✅,✅,False
+worries,(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+worries,(1) control mean,(SE/SD),1.0,1.0,0.9993139000004916,0.0,0.0,✅,✅,False
+worries,(2) treatment,(SE/SD),0.05,0.05,0.0475778647971834,0.0,0.0,✅,✅,False
+worries,(3) female rec.,(SE/SD),0.07,0.07,0.0730700548258627,0.0,0.0,✅,✅,False
+worries,(4) monthly,(SE/SD),0.08,0.08,0.0781186849284964,0.0,0.0,✅,✅,False
+worries,(5) large,(SE/SD),0.08,0.08,0.0753598157765496,0.0,0.0,✅,✅,False
+stress (cohen),(1) control mean,coef/value,-0.0,-0.0,-8.573270823857556e-10,0.0,0.0,✅,✅,False
+stress (cohen),(2) treatment,coef/value,-0.26,-0.26,-0.2584793262011984,0.0,0.0,✅,✅,False
+stress (cohen),(3) female rec.,coef/value,-0.02,-0.02,-0.0244639262343364,0.0,0.0,✅,✅,False
+stress (cohen),(4) monthly,coef/value,-0.02,-0.02,-0.0239685077075604,0.0,0.0,✅,✅,False
+stress (cohen),(5) large,coef/value,-0.24,-0.24,-0.2350512031564697,0.0,0.0,✅,✅,False
+stress (cohen),(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+stress (cohen),(1) control mean,(SE/SD),1.0,1.0,0.99931388304075,0.0,0.0,✅,✅,False
+stress (cohen),(2) treatment,(SE/SD),0.05,0.05,0.0505454793790406,0.0,0.0,✅,✅,False
+stress (cohen),(3) female rec.,(SE/SD),0.08,0.08,0.0820178260963292,0.0,0.0,✅,✅,False
+stress (cohen),(4) monthly,(SE/SD),0.09,0.09,0.0872068976299147,0.0,0.0,✅,✅,False
+stress (cohen),(5) large,(SE/SD),0.08,0.08,0.0832827966012463,0.0,0.0,✅,✅,False
+happiness (wvs),(1) control mean,coef/value,-0.0,-0.0,-1.694241615190898e-09,0.0,0.0,✅,✅,False
+happiness (wvs),(2) treatment,coef/value,0.16,0.16,0.1596816048442105,0.0,0.0,✅,✅,False
+happiness (wvs),(3) female rec.,coef/value,0.07,0.07,0.0735393651795942,0.0,0.0,✅,✅,False
+happiness (wvs),(4) monthly,coef/value,0.03,0.03,0.0292978975884994,0.0,0.0,✅,✅,False
+happiness (wvs),(5) large,coef/value,0.07,0.07,0.0699715432416521,0.0,0.0,✅,✅,False
+happiness (wvs),(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+happiness (wvs),(1) control mean,(SE/SD),1.0,1.0,0.9993138934207916,0.0,0.0,✅,✅,False
+happiness (wvs),(2) treatment,(SE/SD),0.05,0.05,0.0496045245345346,0.0,0.0,✅,✅,False
+happiness (wvs),(3) female rec.,(SE/SD),0.08,0.08,0.078483370621481,0.0,0.0,✅,✅,False
+happiness (wvs),(4) monthly,(SE/SD),0.09,0.09,0.0871797025990586,0.0,0.0,✅,✅,False
+happiness (wvs),(5) large,(SE/SD),0.08,0.08,0.0772561562045379,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(1) control mean,coef/value,-0.0,-0.0,-1.26557807399802e-09,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(2) treatment,coef/value,0.17,0.17,0.1709469449590866,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(3) female rec.,coef/value,-0.07,-0.07,-0.0746423027721605,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(4) monthly,coef/value,0.12,0.12,0.1167202030364246,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(5) large,coef/value,0.19,0.19,0.1928407037448922,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(1) control mean,(SE/SD),1.0,1.0,0.9993139064710987,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(2) treatment,(SE/SD),0.05,0.05,0.0476521482294984,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(3) female rec.,(SE/SD),0.07,0.07,0.0731356963652886,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(4) monthly,(SE/SD),0.08,0.08,0.0785200654206825,0.0,0.0,✅,✅,False
+life satisfaction (wvs),(5) large,(SE/SD),0.08,0.08,0.0770047582186057,0.0,0.0,✅,✅,False
+trust (wvs),(1) control mean,coef/value,-0.0,-0.0,-1.4452085103074164e-08,0.0,0.0,✅,✅,False
+trust (wvs),(2) treatment,coef/value,0.04,0.04,0.0420560671538026,0.0,0.0,✅,✅,False
+trust (wvs),(3) female rec.,coef/value,0.08,0.08,0.0841758570157198,0.0,0.0,✅,✅,False
+trust (wvs),(4) monthly,coef/value,-0.08,-0.08,-0.0759214479085405,0.0,0.0,✅,✅,False
+trust (wvs),(5) large,coef/value,-0.04,-0.04,-0.0373406209821689,0.0,0.0,✅,✅,False
+trust (wvs),(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+trust (wvs),(1) control mean,(SE/SD),1.0,1.0,0.999313905089362,0.0,0.0,✅,✅,False
+trust (wvs),(2) treatment,(SE/SD),0.05,0.05,0.0509259700949278,0.0,0.0,✅,✅,False
+trust (wvs),(3) female rec.,(SE/SD),0.08,0.08,0.0773741927501493,0.0,0.0,✅,✅,False
+trust (wvs),(4) monthly,(SE/SD),0.08,0.08,0.0828869342081581,0.0,0.0,✅,✅,False
+trust (wvs),(5) large,(SE/SD),0.08,0.08,0.0798762594604544,0.0,0.0,✅,✅,False
+locus of control,(1) control mean,coef/value,0.0,0.0,8.771017397919745e-10,0.0,0.0,✅,✅,False
+locus of control,(2) treatment,coef/value,0.03,0.03,0.0348174228851149,0.0,0.0,✅,✅,False
+locus of control,(3) female rec.,coef/value,0.04,0.04,0.038457798017186,0.0,0.0,✅,✅,False
+locus of control,(4) monthly,coef/value,-0.03,-0.03,-0.0254164740742175,0.0,0.0,✅,✅,False
+locus of control,(5) large,coef/value,0.08,0.08,0.0811267021456352,0.0,0.0,✅,✅,False
+locus of control,(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+locus of control,(1) control mean,(SE/SD),1.0,1.0,0.999313896030226,0.0,0.0,✅,✅,False
+locus of control,(2) treatment,(SE/SD),0.05,0.05,0.050672497782493,0.0,0.0,✅,✅,False
+locus of control,(3) female rec.,(SE/SD),0.08,0.08,0.0811868125811791,0.0,0.0,✅,✅,False
+locus of control,(4) monthly,(SE/SD),0.09,0.09,0.0863456430119163,0.0,0.0,✅,✅,False
+locus of control,(5) large,(SE/SD),0.08,0.08,0.0817830001120719,0.0,0.0,✅,✅,False
+optimism (scheier),(1) control mean,coef/value,-0.0,-0.0,-1.5003223941750723e-09,0.0,0.0,✅,✅,False
+optimism (scheier),(2) treatment,coef/value,0.1,0.1,0.0983212203646369,0.0,0.0,✅,✅,False
+optimism (scheier),(3) female rec.,coef/value,0.07,0.07,0.0729931117474975,0.0,0.0,✅,✅,False
+optimism (scheier),(4) monthly,coef/value,0.02,0.02,0.0190361679957059,0.0,0.0,✅,✅,False
+optimism (scheier),(5) large,coef/value,0.16,0.16,0.1617850000804503,0.0,0.0,✅,✅,False
+optimism (scheier),(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+optimism (scheier),(1) control mean,(SE/SD),1.0,1.0,0.9993138963524768,0.0,0.0,✅,✅,False
+optimism (scheier),(2) treatment,(SE/SD),0.05,0.05,0.0530316767133866,0.0,0.0,✅,✅,False
+optimism (scheier),(3) female rec.,(SE/SD),0.08,0.08,0.0832892238364787,0.0,0.0,✅,✅,False
+optimism (scheier),(4) monthly,(SE/SD),0.09,0.09,0.090616085912246,0.0,0.0,✅,✅,False
+optimism (scheier),(5) large,(SE/SD),0.09,0.09,0.0881501500280232,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(1) control mean,coef/value,0.0,0.0,4.245810312767551e-09,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(2) treatment,coef/value,0.0,0.0,0.0020825817087923,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(3) female rec.,coef/value,0.19,0.19,0.1881468683388842,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(4) monthly,coef/value,0.09,0.09,0.0896099173127527,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(5) large,coef/value,-0.15,-0.15,-0.1508394192644249,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(1) control mean,(SE/SD),1.0,1.0,0.9993139040337302,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(2) treatment,(SE/SD),0.05,0.05,0.053860084417649,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(3) female rec.,(SE/SD),0.09,0.09,0.0908768195726218,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(4) monthly,(SE/SD),0.09,0.09,0.0930336381100814,0.0,0.0,✅,✅,False
+self-esteem (rosenberg),(5) large,(SE/SD),0.1,0.1,0.0960897780674072,0.0,0.0,✅,✅,False
+psychological well-being index,(1) control mean,coef/value,-0.0,-0.0,-1.7455246575393596e-09,0.0,0.0,✅,✅,False
+psychological well-being index,(2) treatment,coef/value,0.26,0.26,0.2559144300138585,0.0,0.0,✅,✅,False
+psychological well-being index,(3) female rec.,coef/value,0.14,0.14,0.1386322016063076,0.0,0.0,✅,✅,False
+psychological well-being index,(4) monthly,coef/value,0.01,0.01,0.0144857927427709,0.0,0.0,✅,✅,False
+psychological well-being index,(5) large,coef/value,0.26,0.26,0.2630559077129151,0.0,0.0,✅,✅,False
+psychological well-being index,(6) N,coef/value,1474.0,1474.0,1474.0,0.0,0.0,✅,✅,False
+psychological well-being index,(1) control mean,(SE/SD),1.0,1.0,0.9993138939404124,0.0,0.0,✅,✅,False
+psychological well-being index,(2) treatment,(SE/SD),0.05,0.05,0.0495900262318024,0.0,0.0,✅,✅,False
+psychological well-being index,(3) female rec.,(SE/SD),0.08,0.08,0.0763285743420649,0.0,0.0,✅,✅,False
+psychological well-being index,(4) monthly,(SE/SD),0.08,0.08,0.0844133483590365,0.0,0.0,✅,✅,False
+psychological well-being index,(5) large,(SE/SD),0.08,0.08,0.0771956231610896,0.0,0.0,✅,✅,False
+joint test (p-value),(2) treatment,coef/value,0.0,0.0,6.6014907804933326e-06,0.0,0.0,✅,✅,False
+joint test (p-value),(3) female rec.,coef/value,0.21,0.21,0.2084689285442497,0.0,0.0,✅,✅,False
+joint test (p-value),(4) monthly,coef/value,0.21,0.21,0.209435720653568,0.0,0.0,✅,✅,False
+joint test (p-value),(5) large,coef/value,0.0,0.0,0.0038961231324785,0.0,0.0,✅,✅,False

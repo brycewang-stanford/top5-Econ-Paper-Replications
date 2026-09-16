@@ -1,0 +1,43 @@
+spec,stat,value
+c1,b,      -.746030056991
+c1,se_ivreg2,      .0680390667854
+c1,kp_rk_wald_F,       97.5386755585
+c1,ar_F,                   .
+c1,ar_p,                   .
+c1,F_eff,       97.5386755585
+c1,F_eff_crit_tau10_5pct,            23.10851
+c1,ar_cset,[  -.9005,   -.599]
+c1,clr_cset,
+c1,k_cset,
+c1,wald_cset,[-.879384,-.612676]
+c1,wre_p,                   0
+c1,wre_ci_lo,      -.872927022413
+c1,wre_ci_hi,      -.593857652412
+c6,b,      -.596360066134
+c6,se_ivreg2,      .0987738829958
+c6,kp_rk_wald_F,       47.6427983869
+c6,ar_F,                   .
+c6,ar_p,                   .
+c6,F_eff,       47.6427983869
+c6,F_eff_crit_tau10_5pct,            23.10851
+c6,ar_cset,[   -.827,  -.3875]
+c6,clr_cset,
+c6,k_cset,
+c6,wald_cset,[-.789953,-.402767]
+c6,wre_p,                   0
+c6,wre_ci_lo,      -.795797652424
+c6,wre_ci_hi,      -.326034374213
+c6u,b,      -.302826611253
+c6u,se_ivreg2,       .100470866972
+c6u,kp_rk_wald_F,       16.8416700334
+c6u,ar_F,                   .
+c6u,ar_p,                   .
+c6u,F_eff,       16.8416700334
+c6u,F_eff_crit_tau10_5pct,            23.10851
+c6u,ar_cset,[ -1.3655,   -.179]
+c6u,clr_cset,
+c6u,k_cset,
+c6u,wald_cset,[-.499746,-.105907]
+c6u,wre_p,        .00200020002
+c6u,wre_ci_lo,      -.580095911888
+c6u,wre_ci_hi,         -.111622809

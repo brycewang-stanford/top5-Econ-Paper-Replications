@@ -4,7 +4,7 @@
 > 2013-China-Syndrome/Program/do/../../Results/log/czone_plot_import_long_final
 > .log
   log type:  text
- opened on:  16 Sep 2026, 00:03:38
+ opened on:  16 Sep 2026, 23:23:35
 
 . 
 . use ../../Data/dta/workfile_china_long.dta, clear
@@ -93,7 +93,6 @@ delimiter now ;
 > msymbol(circle)
 > ylabel(-10(10)50)
 > saving(../../Results/Figures/mfg_imppw_9007long_2sls1_av.gph, replace);
-(file ../../Results/Figures/mfg_imppw_9007long_2sls1_av.gph not found)
 file ../../Results/Figures/mfg_imppw_9007long_2sls1_av.gph saved
 
 . #delimit cr
@@ -130,7 +129,6 @@ delimiter now ;
 > ytitle("Change % Manufacturing Emp in Working Age Pop")
 > msymbol(circle)
 > saving(../../Results/Figures/mfg_imppw_9007long_olsred_av.gph, replace);
-(file ../../Results/Figures/mfg_imppw_9007long_olsred_av.gph not found)
 file ../../Results/Figures/mfg_imppw_9007long_olsred_av.gph saved
 
 . #delimit cr
@@ -142,5 +140,5 @@ delimiter now cr
 > 2013-China-Syndrome/Program/do/../../Results/log/czone_plot_import_long_final
 > .log
   log type:  text
- closed on:  16 Sep 2026, 00:03:38
+ closed on:  16 Sep 2026, 23:23:36
 -------------------------------------------------------------------------------

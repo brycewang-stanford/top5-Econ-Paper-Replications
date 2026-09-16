@@ -1,0 +1,665 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Table1_for_QJE.log
+  log type:  text
+ opened on:  17 Sep 2026, 00:02:59
+
+. 
+. *This do file is created by DC on 03/30/2016
+. *****************************************************************************
+> ***
+. ***************************   Table 1      **********************************
+> ***
+. *****************************************************************************
+> ***
+. *Results on non-linear effects: The treatment events into quintiles by the be
+> low mass share.
+. *Estimate the effect of all five quintiles separately. 
+. *1979 onwards
+. *Note that regression is commented out. Figure creation is also commented out
+> .
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+.                 
+. **** DEFINE REGRESSION COMMAND AND CONTROLS *****
+. 
+.  
+. foreach s in 1 4 5 6 10 11 {
+  2.         global rtype`s' reghdfe
+  3. }
+
+. 
+. 
+. global a1  i.wagebinstate i.wagequarterdate  // distributional TWFE
+
+. global a4 i.wagebinstate##c.quarterdate i.wagequarterdate // state-trends
+
+. global a5 i.wagebinstate i.wagequarterdate##i.division // div-period
+
+. global a6 i.wagebinstate##c.quarterdate i.wagequarterdate##i.division // div-
+> period, statetrends
+
+. global a10 i.wagebinstate##c.quarterdate i.wagebinstate##c.quarterdatesq i.wa
+> gequarterdate // state-quadratic-trends
+
+. global a11 i.wagebinstate##c.quarterdate i.wagebinstate##c.quarterdatesq i.wa
+> gequarterdate##i.division // state-quadratic-trends
+
+. 
+. 
+. global label1 TWFE
+
+. global label4 ST
+
+. global label5 DP
+
+. global label6 ST_DP
+
+. global label10 STQ
+
+. global label11 STQ_DP
+
+. 
+. use "${data}qcew_state_overall_counts_2016.dta", clear
+
+. rename statefips statenum
+
+. gen quarterdate = yq(year, quarter)
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St84768.000001 saved
+    as .dta format
+
+. 
+. treatmentcontrolwindows
+
+. 
+. treatmentdefinition
+You are using the primary working data.
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. merge m:1 statenum quarterdate using `qcew',assert(3) nogenerate
+(variable quarterdate was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+. replace count = count*emp/countall if emp!=0
+(710,139 real changes made)
+
+. cap drop overallcountpc
+
+. gen overallcountpc=count/population 
+
+. replace overallcountpcall = emp/population  if emp!=0
+(905,112 real changes made)
+
+. 
+. abovebelowbunch
+
+. 
+. abovebelowfull
+Make sure that belowL16 and aboveL16 exists. Otherwise the program does not wor
+> k. Assertion will be false.
+
+. 
+. *****************************************************************************
+> ***
+. ***********************           Weights           *************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. foreach Y in   overall { 
+  2.         foreach b of numlist 1979{
+  3.                                         global weight`Y'`b' "[aw=wt`Y'`b']
+> " 
+  4.                                         }
+  5. }  
+
+. *
+. 
+. *****************************************************************************
+> ***
+. **************     Sample and Control Specific Macros           *************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. local limittreat "_stateonly"
+
+. 
+. 
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. **************      To name the graph              **************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. if "${disagg}" == "Y"{
+. local temp1 "disaggcont"
+. }
+
+. else{
+. local temp1 "aggcont"
+. }
+
+. 
+. if "$controlmethod" == "Linear"{
+. local temp2 "L"
+. }
+
+. else{
+. if "$controlmethod" == "None"{
+. local temp1 "nocont"
+. }
+. else{
+. local temp2 "A"
+. }
+. }
+
+. cap drop one
+
+. cap drop counter
+
+. g one =1        
+
+. gen counter = ((_n-1)*4) - $Tmin if _n<=8
+(906,976 missing values generated)
+
+. 
+. foreach s in  0 1  4  5  6 10  11 12 {
+  2.         cap drop be_timeb
+  3.         cap drop be_timese
+  4.         cap drop be_timeupper
+  5.         cap drop be_timelower
+  6.         
+.         g be_timeb=.
+  7.         g be_timese=.
+  8.         g be_timeupper=.
+  9.         g be_timelower=.
+ 10. 
+.         replace be_timeb=0 if counter==-4
+ 11.         replace be_timese=0 if counter==-4
+ 12.         replace be_timeupper=0 if counter==-4
+ 13.         replace be_timelower=0 if counter==-4
+ 14.         
+.         }
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+. *
+. 
+. 
+.         
+. *****************************************************************************
+> ***
+. ***************          Useful to Find Below Share Wages               *****
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. cap drop statequarterdate
+
+. egen statequarterdate = group(state quarterdate)
+
+. sort statequarterdate wagebins
+
+. 
+. cap drop overallWB*
+
+. g overallWBFH = wagebins*count/(100)
+
+. g overallWBpcFH = wagebins*count/(100*population)
+
+. 
+. cap drop overallWBpcrsumFH
+
+. g overallWBpcrsumFH=0
+
+. replace overallWBpcrsumFH = overallWBpcFH if wagebins==100
+(2,827 real changes made)
+
+. replace overallWBpcrsumFH = overallWBpcrsumFH[_n-1] + overallWBpcFH if wagebi
+> ns>100
+(876,538 real changes made)
+
+.         
+. cap drop overallcountpcrsum
+
+. g overallcountpcrsum=0
+
+. replace overallcountpcrsum = overallcountpc if wagebins==100
+(2,827 real changes made)
+
+. replace overallcountpcrsum = overallcountpcrsum[_n-1] + overallcountpc if wag
+> ebins>100
+(876,538 real changes made)
+
+.         
+.         
+. 
+. *****************************************************************************
+> *** 
+. **********************       REGRESSIONS AND FIGURES        *****************
+> ***
+. *****************************************************************************
+> ***
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. compress
+  variable quarterdate was float now int
+  variable one was float now byte
+  variable counter was float now byte
+  variable be_timeb was float now byte
+  variable be_timese was float now byte
+  variable be_timeupper was float now byte
+  variable be_timelower was float now byte
+  variable statequarterdate was float now int
+  (19,953,648 bytes saved)
+
+. 
+. foreach Y in   overall { 
+  2. foreach b in    1979 {
+  3.                                         ***  define MW change ***
+.                                 sum DMW_real if fedincrease!=1 & overallcount
+> gr>0 & year>=`b' & cleansample ==1   ${weight`Y'`b'}
+  4.                                 local mwc = r(mean)
+  5.                                 
+.                                 sum MW_real if  F.fedincrease!=1 & F.overallc
+> ountgr>0 & year>=`b' & cleansample ==1   ${weight`Y'`b'}
+  6.                                 local mw = r(mean)
+  7.                                 local mwpc = `mwc'/`mw'
+  8.                                 global mwpc = `mwpc'
+  9.                                 local mwpc2 : di  %04.3f `mwpc'
+ 10. 
+.                                 sum `Y'countpcall if ((F.fedincrease != 1 & F
+> .fedincrease != . & F.overallcountgr>0 & F.overallcountgr!=. ) | ///
+>                                 (F2.fedincrease != 1 & F2.overallcountgr>0 & 
+> F2.fedincrease != . & F2.overallcountgr!=. ) ///
+>                                 | (F3.fedincrease != 1 & F3.overallcountgr>0 
+> & F3.fedincrease != . & F3.overallcountgr!=. ) ///
+>                                 | (F4.fedincrease != 1 & F4.overallcountgr>0 
+> & F4.fedincrease != . & F4.overallcountgr!=. ) ) & year>=`b' & cleansample ==
+> 1 ///
+>                                  ${weight`Y'`b'}                 // CHECK THI
+> S  2/2/16
+ 11.                                 
+.                                 local epop = r(mean)
+ 12.                                 global E = `epop'
+ 13.                                         
+.                                 global C = 1/(`epop'*`mwpc')
+ 14.                         
+.                         
+.                                 *Below share
+. 
+.                                 
+.                                 sum overallcountpcrsum if ( F.fedincrease!=1 
+> & F.overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.  & (wagebins+25
+> )/100==F1MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> F2.fedincrease!=. & F2.overallcountgr!=. & (wagebins+25)/100==F2MW_realM25 ) 
+> | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0 & F
+> 3.fedincrease!=. & F3.overallcountgr!=.  & (wagebins+25)/100==F3MW_realM25) |
+>  ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> F4.fedincrease!=. & F4.overallcountgr!=. & (wagebins+25)/100==F4MW_realM25 ) 
+> ///
+>                                 & year>=`b' & cleansample ==1      ${weight`Y
+> '`b'}                                      
+ 15.                                 global B = r(mean)/${E}
+ 16.                                 local belsh2 : di  %04.3f $B
+ 17. 
+.                                 *Affected share
+.                                 
+.                                 sum `Y'countpcrsum if (  F.fedincrease!=1 & F
+> .overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.  & (wagebins)/100=
+> =MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> F2.fedincrease!=. & F2.overallcountgr!=. & (wagebins)/100==MW_realM25 ) | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0 & F
+> 3.fedincrease!=. & F3.overallcountgr!=.  & (wagebins)/100==MW_realM25) | ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> F4.fedincrease!=. & F4.overallcountgr!=. & (wagebins)/100==MW_realM25 ) ///
+>                                 & year>=1979 & cleansample ==1    ${weight`Y'
+> `b'}                       
+ 18.                                 
+.                                 global AS`Y' = $B - (r(mean)/${E})
+ 19.                                 local affsh`Y' : di  %04.3f ${AS`Y'}
+ 20.                                 
+.                                 
+.                                 *********************************************
+> *******************
+.                                 *************    Wagebill related globals    
+>    ****************
+.                                 *********************************************
+> *******************
+.                                 sum overallWBpcrsumFH if (  F.fedincrease!=1 
+> & F.overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.   & (wagebins+2
+> 5)/100==F1MW_realM25) | ///
+>                                  (F2.fedincrease!=1 & F2.overallcountgr>0 & F
+> 2.fedincrease!=. & F2.overallcountgr!=. & (wagebins+25)/100==F2MW_realM25 ) |
+>  ///
+>                                 (F3.fedincrease!=1 & F3.overallcountgr>0 & F3
+> .fedincrease!=. & F3.overallcountgr!=.  & (wagebins+25)/100==F3MW_realM25) | 
+> ///
+>                                  (  F4.fedincrease!=1 & F4.overallcountgr>0 &
+>  F4.fedincrease!=. & F4.overallcountgr!=.  & (wagebins+25)/100==F4MW_realM25 
+> ) ///
+>                                 & year>=`b' & cleansample ==1     ${weight`Y'
+> `b'}                       
+ 21.         
+.                                 global EWB = r(mean)
+ 22.                                 
+.                                 local EWB2 : di  %04.3f $EWB
+ 23.                                 cap drop tempweight     
+ 24.                                 global CWB = 1/(${EWB}*`mwpc')
+ 25. 
+. 
+.                                 sum wagebins if treat_p0 == 1  & year>=`b' & 
+> cleansample ==1   ${weight`Y'`b'}, meanonly
+ 26.                                 global wagemult = r(mean)/100
+ 27.                                 
+.                                 *We have to do this here because multipliers 
+> are calculated in the loop.
+.                                 
+.                                 abovebelowWBbunch,wagemult(${wagemult})
+ 28.                                 abovebelowWBfull
+ 29.                                 
+.                         
+.                                 foreach s in 1 4 5 6 10 11 {    
+ 30.                                 
+.                                 *** REGRESSION *** 
+.                                 ${rtype`s'} `Y'countpc  ${treatbefore} one if
+>   year>=`b'  & cleansample==1 ${weight`Y'`b'} , a(${a`s'}  ${control} ${contr
+> olafter} ${controlf} ${window} )  cluster(statenum)
+ 31.                                 est save "${estimates}Table1abeforeqcew`li
+> mitsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}", replace 
+ 32.                                 di "${rtype`s'} `Y'countpc  ${treatafter} 
+> one if  year>=`b'  & cleansample==1 ${weight`Y'`b'} , a(${a`s'}  ${control} $
+> {controlbefore} ${controlf} ${window} )  cluster(statenum)"
+ 33.                                 ${rtype`s'} `Y'countpc  ${treatafter} one 
+> if  year>=`b'  & cleansample==1 ${weight`Y'`b'} , a(${a`s'}  ${control} ${con
+> trolbefore} ${controlf} ${window} )  cluster(statenum)
+ 34.                                 est save "${estimates}Table1aafterqcew`lim
+> itsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}", replace 
+ 35.                                 
+.                                 est use  "${estimates}Table1aafterqcew`limits
+> ample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 36.                                 local dof = e(df_r)
+ 37.                                 local numberobs = e(N)
+ 38.                                 count if fedincrease!=1 & overallcountgr>0
+>  & wagebins==300              // The wage bin does not matter.
+ 39.                                 local numberevent = r(N)
+ 40.                                 
+.                                 
+.                                 local denominator = (1/(1+(${Tmax}/4)))
+ 41. 
+.                 
+.                         
+.                                 *********************************************
+> *******************
+.                                 **************     Figures      *************
+> *******************
+.                                 *********************************************
+> *******************
+.                                 *Defining globals to get time averaged estima
+> tes. Need to define here.
+. 
+.                                 if `s'==1{
+ 42. 
+.                                 est use "${estimates}Table1abeforeqcew`limits
+> ample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 43.                                 makefigure_massovertime_before
+ 44.                                 est use  "${estimates}Table1aafterqcew`lim
+> itsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 45.                                 makefigure_massovertime_after
+ 46. 
+.                                 graphexportpdf ${figures}Figure3.pdf, dropeps
+ 47. 
+.                                 est use "${estimates}Table1abeforeqcew`limits
+> ample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 48.                                 makefigure_chovertime_before
+ 49.                                 est use  "${estimates}Table1aafterqcew`lim
+> itsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 50.                                 makefigure_chovertime_after
+ 51.                                 
+.                                 graphexportpdf ${figures}FigureA5_b.pdf, drop
+> eps
+ 52.                                 
+.                         
+. 
+.                                 est use "${estimates}Table1abeforeqcew`limits
+> ample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 53.                                                 makefigure_chovertimeWB_be
+> fore
+ 54.                                 est use  "${estimates}Table1aafterqcew`lim
+> itsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 55.                                                 makefigure_chovertimeWB_af
+> ter
+ 56.                                                 
+.                                                 graphexportpdf ${figures}Figu
+> reA5_a.pdf, dropeps
+ 57. 
+.                                 }
+ 58.                         **************************************************
+> ******************
+.                         ****************          Table           ***********
+> ***************
+.                         *****************************************************
+> ***************
+. 
+.                         est use "${estimates}Table1aafterqcew`limitsample'`li
+> mittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 59.                         
+.                         
+.                         
+.                         lincomestadd (${below_full})*(4*`denominator')*(1/${E
+> })                                                 , statname(below_E)       
+>                       // Multiplying by 4 because bins are in 25 cent precisi
+> on. To average by time, dividing by 5.
+ 60.                         lincomestadd (${above_full})*(4*`denominator')*(1/
+> ${E})                                                 , statname(above_E)    
+>                                  // Multiplying by 4 because bins are in 25 c
+> ent precision. To average by time, dividing by 5.
+ 61. *                       lincomestadd (${below_full} + ${above_full})*(4*`d
+> enominator')*(1/${E})                 , statname(chemp_E)                    
+>                  // Multiplying by 4 because bins are in 25 cent precision. T
+> o average by time, dividing by 5. 
+.                         lincomestadd ((${below_full} + ${above_full})*(4*`den
+> ominator')*(1/${E}))/${B}  , statname(bunching_E)                          //
+>  Multiplying by 4 because bins are in 25 cent precision. To average by time, 
+> dividing by 5.                   
+ 62.                         lincomestadd (${below_full} + ${above_full})*(4*`d
+> enominator')*${C}                             , statname(bunchelas_E)        
+>                  // Multiplying by 4 because bins are in 25 cent precision. T
+> o average by time, dividing by 5.
+ 63.                         
+.                         
+.                         nlcomestadd ((((${belowWB_full}+${aboveWB_full})*(4*`
+> denominator')/$EWB ) - ///
+>                         (((${below_full} + ${above_full})*(4*`denominator')*(
+> 1/${E}))/${B}))) / ///
+>                         (1+(((${below_full} + ${above_full})*(4*`denominator'
+> )*(1/${E}))/${B}))         , statname(WB_E)  dof(`dof')                      
+>               // Multiplying by 4 because bins are in 25 cent precision. To a
+> verage by time, dividing by 5.
+ 64.                         
+.                         nlcomestadd (((${below_full} + ${above_full})*(4*`den
+> ominator')*(1/${E}))/${B}) /  ///
+>                         (((((${belowWB_full}+${aboveWB_full})*(4*`denominator
+> ')/$EWB ) - ///
+>                         (((${below_full} + ${above_full})*(4*`denominator')*(
+> 1/${E}))/${B}))) / ///
+>                         (1+(((${below_full} + ${above_full})*(4*`denominator'
+> )*(1/${E}))/${B})))                , statname(labordem_E)   dof(`dof')       
+>                       // Multiplying by 4 because bins are in 25 cent precisi
+> on. To average by time, dividing by 5.
+ 65.                                                 
+.                         
+.                         estadd local numobs = "`numberobs'"
+ 66.                         estadd local numevent = "`numberevent'"
+ 67.                         estadd local minwpc     = "`mwpc2'"
+ 68.                         estadd local belsh      = "`belsh2'"
+ 69.                         estadd local wagebinstate               = "Y"     
+>               
+ 70. 
+.                                                 
+.                         
+.                         if `s' == 4{
+ 71.                         estadd local trend              = "Y"
+ 72.                         }
+ 73.                         if `s' == 5{
+ 74.                         estadd local divtime    = "Y"
+ 75.                         }
+ 76.                         
+.                         if `s' == 6{
+ 77.                         estadd local trend              = "Y"
+ 78.                         estadd local divtime    = "Y"
+ 79.                         }
+ 80.                         
+.                         if `s' == 10{
+ 81.                         estadd local trend              = "Y"
+ 82.                         estadd local qtrend             = "Y"
+ 83.                         }
+ 84. 
+.                         if `s' == 11{
+ 85.                         estadd local trend              = "Y"
+ 86.                         estadd local qtrend             = "Y"
+ 87.                         estadd local divtime    = "Y"
+ 88.                         }
+ 89. 
+. 
+.                         
+.                         eststo ta_`Y'_`b'_${label`s'}
+ 90.                         est save "${estimates}Table1_${label`s'}_estimates
+> _full", replace
+ 91.                         
+.                 }
+ 92.                         
+.         }
+ 93.  }
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |  16,029  8.5825e+10    .7960962    .399756   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |  22,113  1.1584e+11    7.859571   .9471371   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~l |  63,999  3.4011e+11    .5711273   .0651657   .4235719   1.447222
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |     552  2.9312e+09    .0493922   .0161435   .0096957   .1725448
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |     547  2.9069e+09    .0358202   .0145438    .004078   .1513094
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallW~mFH |     552  2.9312e+09     .350835    .146225   .0658011   1.376678
+Make sure that belowL16 and aboveL16 exists. Otherwise the program does not wor
+> k. Assertion will be false.

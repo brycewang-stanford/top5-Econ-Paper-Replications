@@ -24,12 +24,14 @@ tempname fh
 file open `fh' using "$ROOT/Results/log/modern_reference_stata.csv", write replace text
 file write `fh' "spec,stat,value" _n
 
-foreach spec in c1 c6 {
+foreach spec in c1 c6 c6u {
     if "`spec'" == "c1" local ctrl t2
     else local ctrl `full'
+    local wgt "[aw=timepwt48]"
+    if "`spec'" == "c6u" local wgt ""   // unweighted variant: isolates weight handling across software
 
     * --- ivreg2: same point estimate as ivregress; KP F; AR test ---------------
-    ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_lag) `ctrl' [aw=timepwt48], cluster(statefip)
+    ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_lag) `ctrl' `wgt', cluster(statefip)
     file write `fh' "`spec',b," %20.12g (_b[d_tradeusch_pw]) _n
     file write `fh' "`spec',se_ivreg2," %20.12g (_se[d_tradeusch_pw]) _n
     file write `fh' "`spec',kp_rk_wald_F," %20.12g (e(widstat)) _n
@@ -45,7 +47,7 @@ foreach spec in c1 c6 {
     }
 
     * --- weak-IV robust confidence sets ---------------------------------------
-    cap noisily weakiv ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_lag) `ctrl' [aw=timepwt48], cluster(statefip) gridpoints(4001) gridmin(-3) gridmax(2)
+    cap noisily weakiv ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_lag) `ctrl' `wgt', cluster(statefip) usegrid gridpoints(2001) gridmin(-2) gridmax(1)
     if !_rc {
         ereturn list
         cap file write `fh' "`spec',ar_cset,`e(ar_cset)'" _n
@@ -55,7 +57,7 @@ foreach spec in c1 c6 {
     }
 
     * --- WRE wild cluster bootstrap ----------------------------------------------
-    qui ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_lag) `ctrl' [aw=timepwt48], cluster(statefip)
+    qui ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_lag) `ctrl' `wgt', cluster(statefip)
     cap noisily boottest d_tradeusch_pw, reps(9999) seed(20130601) nograph
     if !_rc {
         return list

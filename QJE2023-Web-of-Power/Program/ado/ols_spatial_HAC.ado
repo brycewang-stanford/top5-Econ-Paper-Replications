@@ -13,9 +13,7 @@
 	COMPUTED WEIGHTS FOR INTER-TEMPORAL AUTOCORRELATION ESTIMATES WITHIN PANEL 
 	UNITS. SIGN OF BIAS IN V2 IS INDETERMINATE, DEPENDS ON LAG LENGTH AND DATA 
 	STRUCTURE.
-
- V4 UPDATE 3/20 [RAMIN.FOROUZANDEH@ROTMAN.UTORONTO.CA]:
-	INTRODUCED THE OPTION OF INSTRUMENTAL VARIABLE REGRESSION AND ADDED WEIGHTS
+ 
  ------------------------------------------------------------------------------
 
  This may contain errors. Please notify me of any errors you find.
@@ -24,7 +22,7 @@
 
  Syntax:
  
- ols_spatial_HAC Yvar Xvarlist (ENDGvariable = EXGvarlist), lat(latvar) lon(lonvar) Timevar(tvar) Panelvar(pvar) [DISTcutoff(#) LAGcutoff(#) bartlett DISPlay star dropvar]
+ ols_spatial_HAC Yvar Xvarlist, lat(latvar) lon(lonvar) Timevar(tvar) Panelvar(pvar) [DISTcutoff(#) LAGcutoff(#) bartlett DISPlay star dropvar]
 
  Function calculates non-parametric (GMM) spatial and autocorrelation 
  structure using a panel data set.  Spatial correlation is estimated for all
@@ -59,7 +57,6 @@
  
  lagcutoff(#): {abbrev lag(#)} describes the maximum number of temporal periods for the linear Bartlett window that weights serial correlation across time periods (the distance at which serial correlation is assumed to vanish). Default is 0 PERIODS (no serial correlation). {Note, Greene recommends at least T^0.25}  
  
- (ENDGvariable = EXGvarlist): uses EXGvarlist as an instrument for ENDGvariable and runs a 2sls instead of OLS in the main specification
  ------------------------------------------------------------------------------
  
  Options:
@@ -157,10 +154,10 @@
 	  Debugging help provided by Mathias Thoenig.
  
  -----------------------------------------------------------------------------*/
-capture program drop ols_spatial_HAC
+
 program ols_spatial_HAC, eclass byable(recall)
 version 11
-syntax [anything(name=0)] [if] [in] [aweight fweight pweight iweight/], ///
+syntax varlist(ts fv min=2) [if] [in], ///
 				lat(varname numeric) lon(varname numeric) ///
 				Timevar(varname numeric) Panelvar(varname numeric) [LAGcutoff(integer 0) DISTcutoff(real 1) ///
 				DISPlay star bartlett dropvar]
@@ -170,78 +167,31 @@ syntax [anything(name=0)] [if] [in] [aweight fweight pweight iweight/], ///
 capture drop touse
 marksample touse				// indicator for inclusion in the sample
 gen touse = `touse'
+
 //parsing variables
-
-tempvar wvar
-if "`weight'" !="" {
-	qui gen double `wvar'=`exp'
-}
-else {
-	qui gen long `wvar'=1
-	loc weight = "aweight"
-}
-
-if "`weight'" == "aweight" | "`weight'" == "pweight" {
-			qui summ `wvar' if `touse', mean
-			qui replace `wvar' = r(N)*`wvar'/r(sum)
-}
-
-if "`geodist'"=="geodist" {
-	//*install geodist package for calculating distance if it is not already installed
-	capture which geodist
-	if _rc==111 ssc install geodist
-}
-
-local m 0
-local ivflag 0 
-local varlist
-while `m'==0 {
-	gettoken vchar 0 : 0 ,parse(" (,")
-	if "`vchar'"=="(" {
-		local ivflag = 1
-	}
-
-	if `ivflag' == 1 & "`exog'"==""{
-		gettoken endog 0 : 0 ,parse("=")  //instrumented variables
-		gettoken equal_s 0 : 0 ,parse("=")
-		gettoken exog 0 : 0 ,parse(")")  //instruments
-	}
-
-	if "`vchar'"!="(" & "`vchar'"!=")" {
-		local varlist "`varlist' `vchar'"
-	}
-	if "`vchar'"==""{
-		local m = `m' + 1
-	}
-
-}
-
 loc Y = word("`varlist'",1)		
 
 loc listing "`varlist'"
 
-loc XX ""
+loc X ""
 scalar k = 0
 
 //make sure that Y is not included in the other_var list
 foreach i of loc listing {
 	if "`i'" ~= "`Y'"{
-		loc XX "`XX' `i'"
+		loc X "`X' `i'"
 		scalar k = k + 1 // # indep variables
 		
 	}
 }
 
-loc X "`XX'"
 
-markout `touse' `Y' `X' `exog' `endog'
-qui keep if `touse'
 //Kyle Meng's code to drop omitted variables that Stata would drop due to collinearity
 
 if "`dropvar'" == "dropvar"{
-
+	
 	quietly reg `Y' `X' if `touse', nocons
-
+	
 	mat omittedMat=e(b)
 	local newVarList=""
 	local i=1
@@ -263,62 +213,33 @@ quietly count if `touse'
 scalar n = r(N)					// # obs
 scalar n_obs = r(N)
 
-/*--------FIRST DO OLS/2SLS, STORE RESULTS-------*/
-if `ivflag' == 0 {
-	quietly: regress `Y' `X' [`weight'=`wvar'] if `touse', nocons
-	estimates store OLS
-}
-else if `ivflag' == 1 {
-	qui regress `Y' `XX'
-	//qui xtivreg2 `Y'  ( `endog' = `exog' ) `XX' [`weight'=`wvar'] if `touse' , fe i(`panelvar') 
-	qui ivregress 2sls `Y' `XX' ( `endog' = `exog' ) [`weight'=`wvar'] if `touse' ,nocons 
-	estimates store twoSLS 
-}
+/*--------FIRST DO OLS, STORE RESULTS-------*/
+
+
+quietly: reg `Y' `X' if `touse', nocons
+estimates store OLS
+
 //est tab OLS, stats(N r2)
 
-//generate matrices X and Z such that X includes all indep variables and `endog'
-//and Z includes all indep variables and `exog'. matrix X_hat contains predicted
-//first stage values
-
-if `ivflag' == 1 {
-	loc Z "`XX'"
-	foreach var of varlist `exog' {
-		loc Z "`var' `Z'"
-		scalar k = k + 1
-	}
-	loc X "`endog' `XX'"
-}
-else if `ivflag' == 0 {
-	loc Z "`X'"
-}
-
-
 /*--------SECOND, IMPORT ALL VALUES INTO MATA-------*/
+
 mata{
 
 Y_var = st_local("Y") //importing variable assignments to mata
 X_var = st_local("X")
-Z_var = st_local("Z")
-endog_var = st_local("endog")
-exog_var = st_local("exog")
 lat_var = st_local("lat")
 lon_var = st_local("lon")
 time_var = st_local("timevar")
 panel_var = st_local("panelvar")
-wvar_var = st_local("wvar")
-ivflag = st_local("ivflag")
+
 //NOTE: values are all imported as "views" instead of being copied and pasted as Mata data because it is faster, however none of the matrices are changed in any way, so it should not permanently affect the data. 
 
 st_view(Y=.,.,tokens(Y_var),"touse") //importing variables vectors to mata
 st_view(X=.,.,tokens(X_var),"touse")
-st_view(Z=.,.,tokens(Z_var),"touse")
 st_view(lat=.,.,tokens(lat_var),"touse")
 st_view(lon=.,.,tokens(lon_var),"touse")
 st_view(time=.,.,tokens(time_var),"touse")
 st_view(panel=.,.,tokens(panel_var),"touse")
-st_view(endog=.,.,tokens(endog_var),"touse")
-st_view(wvar=.,.,tokens(wvar_var),"touse")
-st_view(exog=.,.,tokens(exog_var),"touse")
 
 k = st_numscalar("k")				//importing other parameters
 n = st_numscalar("n")
@@ -328,63 +249,57 @@ lag_cutoff = strtoreal(lag_var)
 dist_var = st_local("distcutoff")
 dist_cutoff = strtoreal(dist_var)
 
-ZeeZ = J(k, k, 0) 				//set variance-covariance matrix equal to zeros
-	
-W = sqrt(wvar)					//getting the square root of weights for further calculations
+XeeX = J(k, k, 0) 				//set variance-covariance matrix equal to zeros
 
-Y = Y:*W						//adjust for weights
-X = X:*W
-Z = Z:*W
 
 /*--------THIRD, CORRECT VCE FOR SPATIAL CORR-------*/
 
 timeUnique = uniqrows(time)
 Ntime = rows(timeUnique) 		// # of obs. periods
 
-for (ti = 1; ti <= Ntime; ti++){	
+for (ti = 1; ti <= Ntime; ti++){
+	
+	
 
 	// 1 if in year ti, 0 otherwise:
 
 	rows_ti = time:==timeUnique[ti,1] 	
 
 	//get subsets of variables for time ti (without changing original matrix)
-
-	Y1 = select(Y, rows_ti) 	
+	
+	Y1 = select(Y, rows_ti)
 	X1 = select(X, rows_ti)
-	Z1 = select(Z, rows_ti)
-
 	lat1 = select(lat, rows_ti)
 	lon1 = select(lon, rows_ti)
-	
 	e1 = Y1 - X1*b'
 	
-	
-	
 	n1 = length(Y1) 			// # obs for period ti
-
+	
 	//loop over all observations in period ti
 
-	for (i = 1 ; i <=n1; i++){		
+	for (i = 1; i <=n1; i++){
+		
 
 		//----------------------------------------------------------------
         // step a: get non-parametric weight
+	
+	    //This is a Euclidean distance scale IN KILOMETERS specific to i
+        
+		lon_scale = cos(lat1[i,1]*pi()/180)*111 
+		lat_scale = 111
+		
 
-			//This is a Euclidean distance scale IN KILOMETERS specific to i
-			
-			lon_scale = cos(lat1[i,1]*pi()/180)*111 
-			lat_scale = 111
-			
+		// Distance scales lat and lon degrees differently depending on
+        // latitude.  The distance here assumes a distortion of Euclidean
+        // space around the location of 'i' that is approximately correct for 
+        // displacements around the location of 'i'
+        //
+        //	Note: 	1 deg lat = 111 km
+        // 			1 deg lon = 111 km * cos(lat)
+		
+		distance_i = ((lat_scale*(lat1[i,1]:-lat1)):^2 + /// 	
+					  (lon_scale*(lon1[i,1]:-lon1)):^2):^0.5
 
-			// Distance scales lat and lon degrees differently depending on
-			// latitude.  The distance here assumes a distortion of Euclidean
-			// space around the location of 'i' that is approximately correct for 
-			// displacements around the location of 'i'
-			//
-			//	Note: 	1 deg lat = 111 km
-			// 			1 deg lon = 111 km * cos(lat)
-
-			distance_i = ((lat_scale*(lat1[i,1]:-lat1)):^2 + /// 	
-						  (lon_scale*(lon1[i,1]:-lon1)):^2):^0.5
 
 		
 		// this sets all observations beyon dist_cutoff to zero, and weights all nearby observations equally [this kernal is isotropic]
@@ -393,57 +308,55 @@ for (ti = 1; ti <= Ntime; ti++){
 
 		//----------------------------------------------------------------
         // adjustment for the weights if a "bartlett" kernal is selected as an option
- 
+  
 		if ("`bartlett'"=="bartlett"){
-			if (dist_cutoff > 0) {
-				// this weights observations as a linear function of distance
-				// that is zero at the cutoff distance
-				
-				weight_i = 1:- distance_i:/dist_cutoff
+		
+			// this weights observations as a linear function of distance
+			// that is zero at the cutoff distance
+			
+			weight_i = 1:- distance_i:/dist_cutoff
 
-				window_i = window_i:*weight_i
-			}
+			window_i = window_i:*weight_i
 		}
 
+ 
         //----------------------------------------------------------------
-        // step b: construct Z'e'eZ for the given observation
-		// note that without instruments, this will be the same as X'e'eX
-		
- 		ZeeZh = ((Z1[i,.]'*J(1,n1,1)*e1[i,1]):*(J(k,1,1)*e1':*window_i'))*Z1
+        // step b: construct X'e'eX for the given observation
+ 
+ 		XeeXh = ((X1[i,.]'*J(1,n1,1)*e1[i,1]):*(J(k,1,1)*e1':*window_i'))*X1
 
 		//add each new k x k matrix onto the existing matrix (will be symmetric)
-		
-		ZeeZ = ZeeZ + ZeeZh
-
+	
+		XeeX = XeeX + XeeXh 	
+	
 	} //i
 } // ti
+
 
 
 // -----------------------------------------------------------------
 // generate the VCE for only cross-sectional spatial correlation, 
 // return it for comparison
 
-invZX = luinv(Z'*X) * n
-			
-ZeeZ_spatial = ZeeZ / n
+invXX = luinv(X'*X) * n
 
-V = invZX * ZeeZ_spatial * invZX' / n
+XeeX_spatial = XeeX / n
+
+V = invXX * XeeX_spatial * invXX / n
 
 // Ensures that the matrix is symmetric 
 // in theory, it should be already, but it may not be due to rounding errors for large datasets
-
 V = (V+V')/2 
 
 st_matrix("V_spatial", V)
 
 } // mata
 
+
 //------------------------------------------------------------------
 // storing old statistics about the estimate so postestimation can be used
 
 matrix beta = e(b)
-
-
 scalar r2_old = e(r2)
 scalar df_m_old = e(df_m)
 scalar df_r_old = e(df_r)
@@ -453,12 +366,10 @@ scalar rss_old = e(rss)
 scalar r2_a_old = e(r2_a)
 
 // the row and column names of the new VCE must match the vector b
-local colnms: colnames e(V)
-local rownms: rownames e(V)
 
-matrix colnames V_spatial = `colnms'
-matrix rownames V_spatial = `rownms'
-
+matrix colnames V_spatial = `X'
+matrix rownames V_spatial = `X'
+  
 // this sets the new estimates as the most recent model
 
 ereturn post beta V_spatial, esample(`touse')
@@ -506,11 +417,8 @@ for (pi = 1; pi <= Npanel; pi++){
 	
 	Y1 = select(Y, rows_pi)
 	X1 = select(X, rows_pi)
-	Z1 = select(Z, rows_pi)
 	time1 = select(time, rows_pi)
-
 	e1 = Y1 - X1*b'
-
 
 	n1 = length(Y1) 			// # obs for panel pi
 	
@@ -537,33 +445,31 @@ for (pi = 1; pi <= Npanel; pi++){
         //correlation estimates:
         
         window_t = window_t :* (time1[t,1] :!= time1)                   
-        
+            
   		// ----------------------------------------------------------------
-        // step b: construct Z'e'eZ for given observation
+        // step b: construct X'e'eX for given observation
          
-       	ZeeZh = ((Z1[t,.]'*J(1,n1,1)*e1[t,1]):*(J(k,1,1)*e1':*window_t'))*Z1
-        
+       	XeeXh = ((X1[t,.]'*J(1,n1,1)*e1[t,1]):*(J(k,1,1)*e1':*window_t'))*X1
 
 		//add each new k x k matrix onto the existing matrix (will be symmetric)
 		        
-        ZeeZ = ZeeZ + ZeeZh
+        XeeX = XeeX + XeeXh
 
 	} // t
 } // pi
 
 
 
+
 // -----------------------------------------------------------------
 // generate the VCE for x-sectional spatial correlation and serial correlation
 
-ZeeZ_spatial_HAC = ZeeZ / n
+XeeX_spatial_HAC = XeeX / n
 
-
-V = invZX * ZeeZ_spatial_HAC * invZX' / n
+V = invXX * XeeX_spatial_HAC * invXX / n
 
 // Ensures that the matrix is symmetric 
 // in theory, it should be already, but it may not be due to rounding errors for large datasets
-
 V = (V+V')/2 
 
 st_matrix("V_spatial_HAC", V)
@@ -571,21 +477,20 @@ st_matrix("V_spatial_HAC", V)
 } // mata
 
 //------------------------------------------------------------------
+//storing results
 
 matrix beta = e(b)
 
 // the row and column names of the new VCE must match the vector b
-local colnms: colnames e(V)
-local rownms: rownames e(V)
 
-matrix colnames V_spatial_HAC = `colnms'
-matrix rownames V_spatial_HAC = `rownms'
+matrix colnames V_spatial_HAC = `X'
+matrix rownames V_spatial_HAC = `X'
 
 // this sets the new estimates as the most recent model
 
-//marksample touse				// indicator for inclusion in the sample
+marksample touse				// indicator for inclusion in the sample
 
-ereturn post beta V_spatial_HAC, esample(touse)
+ereturn post beta V_spatial_HAC, esample(`touse')
 
 // then filling back in all the parameters for postestimation
 
@@ -610,16 +515,11 @@ ereturn local estat_cmd = "regress_estat"
 
 estimates store spatHAC
 
-//-----------------------------------------------------------------
+//------------------------------------------------------------------
 //displaying results
 
 disp as txt " "
-if `ivflag' == 1 {
-disp as txt "2SLS REGRESSION"
-}
-else if `ivflag' == 0 {
-	disp as txt "OLS REGRESSION"
-}
+disp as txt "OLS REGRESSION"
 disp as txt " "
 disp as txt "SE CORRECTED FOR CROSS-SECTIONAL SPATIAL DEPENDANCE"
 disp as txt "             AND PANEL-SPECIFIC SERIAL CORRELATION"
@@ -627,11 +527,6 @@ disp as txt " "
 disp as txt "DEPENDANT VARIABLE: `Y'"
 disp as txt "INDEPENDANT VARIABLES: `X'"
 disp as txt " "
-if `ivflag' == 1 {
-	disp as txt "INSTRUMENTED VARIABLES: `endog'"
-	disp as txt "INSTRUMENTAL VARIABLES: `exog'"
-	disp as txt " "
-}
 disp as txt "SPATIAL CORRELATION KERNAL CUTOFF: `distcutoff' KM"
 
 if "`bartlett'" == "bartlett" {
@@ -646,35 +541,26 @@ ereturn display // standard Stata regression table format
 
 if "`display'" == "display"{
 	disp as txt " "
-	disp as txt "STANDARD ERRORS UNDER OLS/2SLS, WITH SPATIAL CORRECTION AND WITH SPATIAL AND SERIAL CORRECTION:"
-if `ivflag' == 0 {
+	disp as txt "STANDARD ERRORS UNDER OLS, WITH SPATIAL CORRECTION AND WITH SPATIAL AND SERIAL CORRECTION:"
 	estimates table OLS spatial spatHAC, b(%7.3f) se(%7.3f) t(%7.3f) stats(N r2) 	
-}
-else if `ivflag' == 1 {
-	estimates table twoSLS spatial spatHAC, b(%7.3f) se(%7.3f) t(%7.3f) stats(N r2) 		
-}
 }
 
 if "`star'" == "star"{
 	disp as txt " "
-	disp as txt "STANDARD ERRORS UNDER OLS/2SLS, WITH SPATIAL CORRECTION AND WITH SPATIAL AND SERIAL CORRECTION:"
-if `ivflag' == 0 {
+	disp as txt "STANDARD ERRORS UNDER OLS, WITH SPATIAL CORRECTION AND WITH SPATIAL AND SERIAL CORRECTION:"
 	estimates table OLS spatial spatHAC, b(%7.3f) star(0.10 0.05 0.01)
-}
-else if `ivflag' == 1 {
-	estimates table twoSLS spatial spatHAC, b(%7.3f) star(0.10 0.05 0.01)
-}
 }
 
 //------------------------------------------------------------------
 // cleaning up Mata environment
 
-capture mata mata drop V invZX  ZeeZ ZeeZh ZeeZ_spatial_HAC window_t window_i weight t i ti pi Z1 X1 Y1 e1 time1 n1 lat lon lat1 lon1 lat_scale lon_scale rows_ti rows_pi timeUnique panelUnique Ntime Npanel Z Z_var X X_var ZeeZ_spatial Y Y_var b dist_cutoff dist_var distance_i k lag_cutoff lag_var lat_var lon_var n panel panel_var time time_var weight_i
+capture mata mata drop V invXX  XeeX XeeXh XeeX_spatial_HAC window_t window_i weight t i ti pi X1 Y1 e1 time1 n1 lat lon lat1 lon1 lat_scale lon_scale rows_ti rows_pi timeUnique panelUnique Ntime Npanel X X_var XeeX_spatial Y Y_var b dist_cutoff dist_var distance_i k lag_cutoff lag_var lat_var lon_var n panel panel_var time time_var weight_i
 
-
+/*
 if "`bartlett'" == "bartlett" {
 	capture mata mata drop weight_i			
 }
+*/
 
 end
 

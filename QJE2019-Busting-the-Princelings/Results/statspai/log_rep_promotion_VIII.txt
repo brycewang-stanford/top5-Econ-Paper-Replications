@@ -1,0 +1,11 @@
+Table VIII
+  VIII col1: oprobit N=399 k=43  10.0s
+  VIII col2: oprobit N=380 k=50  12.6s
+  VIII col3: LPM N=380
+  VIII col4: oprobit N=382 k=50  12.0s
+  VIII col5: oprobit N=382 k=50  12.3s
+  VIII col6: oprobit N=399 k=43  8.5s
+  VIII col7: oprobit N=388 k=50  11.8s
+  VIII col8: LPM N=388
+  VIII col9: oprobit N=390 k=50  11.0s
+  VIII col10: oprobit N=390 k=50  12.1s

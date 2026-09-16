@@ -145,6 +145,20 @@ foreach s in 1 0 {
     }
 }
 
+* ---------------- published-spec variants (differ from shipped do-files) ----------------
+* Table V uniform column in the paper = bwselect(msecomb1); Table VI Panel A cols 1-2 = mserd
+foreach y in resid_log_cod resid_log_cod_intensity resid_log_nh resid_log_nh_intensity resid_log_waste_water resid_log_waste_water_intensity {
+    onerd, p(`P') ex(T5) row(`y'@msecomb1) col(3) file(T5_Emissions/water_emission_QJE_final.dta) y(`y') cond(1) kern(uni) bw(msecomb1)
+}
+foreach y in resid_log_so2 resid_log_nox {
+    onerd, p(`P') ex(T5) row(`y'@msecomb1) col(3) file(T5_Emissions/air_emission_QJE_final.dta) y(`y') cond(1) kern(uni) bw(msecomb1)
+}
+local c = 0
+foreach k of local K3 {
+    local ++c
+    onerd, p(`P') ex(T6) row(fee@mserd) col(`c') file(T6_PE/pwf_QJE_final.dta) y(resid1_l_pwf) cond(1) kern(`k')
+}
+
 postclose `P'
 use "$root/Results/statspai/stata_estimates.dta", clear
 export delimited using "$root/Results/statspai/stata_estimates.csv", replace

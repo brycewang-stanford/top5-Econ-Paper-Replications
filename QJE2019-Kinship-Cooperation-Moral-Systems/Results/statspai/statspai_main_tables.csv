@@ -1,22 +1,29 @@
 table,col,term,coef,se,N,r2,se_type,formula,note
 III,1,s_malariaindex,0.12342341058633483,0.014896808858118726,1226,0.15910034277804486,{'CRV1': 'cluster'},kinship_score ~ s_malariaindex,
 III,2,s_malariaindex,0.09807746029275757,0.011949979128953594,1225,0.24244851354795838,{'CRV1': 'cluster'},kinship_score ~ small_scale + s_malariaindex,
-III,3,s_malariaindex,0.03270241856671012,0.013140496618692576,1213,0.34442711431601924,{'CRV1': 'cluster'},kinship_score ~ small_scale + s_malariaindex + ln_time_obs_ea | cont,
+III,2,small_scale,-0.35023729750253674,0.08632265471359017,1225,0.24244851354795838,{'CRV1': 'cluster'},kinship_score ~ small_scale + s_malariaindex,
+III,3,s_malariaindex,0.03270244735613106,0.013145829732627136,1216,0.3443174089295211,{'CRV1': 'cluster'},kinship_score ~ small_scale + s_malariaindex + ln_time_obs_ea | cont,
+III,3,small_scale,-0.17289637213551054,0.09669838530144802,1216,0.3443174089295211,{'CRV1': 'cluster'},kinship_score ~ small_scale + s_malariaindex + ln_time_obs_ea | cont,
 III,4,s_malariaindex,0.031138701549609564,0.014984435171429633,504,0.03744880339526102,"cluster bootstrap(cluster, 500)",kinship_score ~ s_malariaindex,analytic CRV1 SE = 0.0131
 III,5,s_malariaindex,0.029812882811941603,0.01206983046074615,504,0.11686145522398195,"cluster bootstrap(cluster, 500)",kinship_score ~ s_malariaindex + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.0112
+III,5,small_scale,-0.4217343405282657,0.1904593800465113,504,0.11686145522398195,"cluster bootstrap(cluster, 500)",kinship_score ~ s_malariaindex + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.1625
 III,6,s_distance_mutation,-0.057577664371434724,0.024927276198428605,501,0.09926302924299069,"cluster bootstrap(cluster, 500)",kinship_score ~ s_distance_mutation,analytic CRV1 SE = 0.0175
 III,7,s_distance_mutation,-0.053126280770229774,0.01644811137858339,501,0.1653057607433115,"cluster bootstrap(cluster, 500)",kinship_score ~ s_distance_mutation + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.0122
+III,7,small_scale,-0.38950541546328893,0.16255276885318998,501,0.1653057607433115,"cluster bootstrap(cluster, 500)",kinship_score ~ s_distance_mutation + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.1426
 III,8,s_tsi,0.03500516120130776,0.007630900303900716,500,0.0383973412275489,"cluster bootstrap(cluster, 500)",kinship_score ~ s_tsi,analytic CRV1 SE = 0.0060
 III,9,s_tsi,0.040996254099766476,0.006804715376220297,500,0.11033573518205819,"cluster bootstrap(cluster, 500)",kinship_score ~ s_tsi + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.0060
+III,9,small_scale,-0.4101114082436521,0.18061846176155927,500,0.11033573518205819,"cluster bootstrap(cluster, 500)",kinship_score ~ s_tsi + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.1452
 III,10,s_malariaindex,0.02547731028197837,0.012197569246626615,500,0.1358510834056751,"cluster bootstrap(cluster, 500)",kinship_score ~ s_malariaindex + s_tsi + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.0109
 III,10,s_tsi,0.03798424275656315,0.008214005042338057,500,0.1358510834056751,"cluster bootstrap(cluster, 500)",kinship_score ~ s_malariaindex + s_tsi + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.0055
+III,10,small_scale,-0.4080753739915593,0.15410498022905847,500,0.1358510834056751,"cluster bootstrap(cluster, 500)",kinship_score ~ s_malariaindex + s_tsi + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.1320
 III,11,s_distance_mutation,-0.04125496240286313,0.018143688790135455,497,0.14672492583834829,"cluster bootstrap(cluster, 500)",kinship_score ~ s_distance_mutation + s_tsi + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.0127
 III,11,s_tsi,0.019215051545841286,0.009277660494312124,497,0.14672492583834829,"cluster bootstrap(cluster, 500)",kinship_score ~ s_distance_mutation + s_tsi + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.0071
+III,11,small_scale,-0.3659953032716771,0.14580096115267746,497,0.14672492583834829,"cluster bootstrap(cluster, 500)",kinship_score ~ s_distance_mutation + s_tsi + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.1273
 IV,1,kinship_score,1.2667125384600229,0.47663946711325916,61,0.09081385225696104,"cluster bootstrap(cluster, 500)",s_diff_violence ~ kinship_score + small_scale,analytic CRV1 SE = 0.4361
 IV,2,kinship_score,1.1260991447234696,0.4808494923474872,61,0.17604280420979224,"cluster bootstrap(cluster, 500)",s_diff_violence ~ kinship_score + small_scale + ln_time_obs_ea,analytic CRV1 SE = 0.4423
 IV,3,kinship_score,-0.7746122526884529,0.19086147057294048,776,0.17199939499700567,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale,
-IV,4,kinship_score,-0.5043263291089216,0.131094042760036,767,0.45323352031739583,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale + s_have_god + ln_time_obs_ea | cont,
-IV,4,s_have_god,0.2963895750102615,0.04592554508026854,767,0.45323352031739583,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale + s_have_god + ln_time_obs_ea | cont,
+IV,4,kinship_score,-0.5035912106867861,0.13103982569859352,770,0.45395865827314086,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale + s_have_god + ln_time_obs_ea | cont,
+IV,4,s_have_god,0.29639444237454904,0.045961700312478274,770,0.45395865827314086,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale + s_have_god + ln_time_obs_ea | cont,
 IV,5,kinship_score,-0.41225700147516714,0.14840572652080977,770,0.6864526019769299,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale + s_have_god + ln_time_obs_ea | isonum,
 IV,5,s_have_god,0.22501506240740757,0.04909230724955713,770,0.6864526019769299,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale + s_have_god + ln_time_obs_ea | isonum,
 IV,6,kinship_score,1.160394142332575,0.3062513842610331,83,0.08709604226057044,"cluster bootstrap(cluster, 500)",s_loyalty_local ~ kinship_score + small_scale,analytic CRV1 SE = 0.2940
@@ -24,10 +31,10 @@ IV,7,kinship_score,1.1405221116612545,0.29888263947150095,83,0.08839031526778118
 IV,8,kinship_score,0.8325447901299894,0.19514479751503658,371,0.07473228474551807,{'CRV1': 'cluster'},s_sex_taboo ~ kinship_score + small_scale,
 IV,9,kinship_score,0.45808514552037805,0.19239131082071304,371,0.2018463269491132,{'CRV1': 'cluster'},s_sex_taboo ~ kinship_score + small_scale + ln_time_obs_ea | cont,
 IV,10,kinship_score,-0.3883559937563597,0.19766205075361684,1156,0.2190459566584202,{'CRV1': 'cluster'},s_hierabovelocal ~ kinship_score + small_scale,
-IV,11,kinship_score,-0.3667750153085315,0.1215561700544453,1143,0.3132861915018037,{'CRV1': 'cluster'},s_hierabovelocal ~ kinship_score + small_scale + ln_time_obs_ea | cont,
+IV,11,kinship_score,-0.36781632749244275,0.12157756912678928,1146,0.3134289827697534,{'CRV1': 'cluster'},s_hierabovelocal ~ kinship_score + small_scale + ln_time_obs_ea | cont,
 IV,12,kinship_score,-0.25758020473221277,0.13638726147608113,1146,0.4944252209673937,{'CRV1': 'cluster'},s_hierabovelocal ~ kinship_score + small_scale + ln_time_obs_ea | isonum,
 IV,13,kinship_score,0.8328093830011446,0.12385608177813336,1151,0.08923555225541835,{'CRV1': 'cluster'},s_hierlocal_village ~ kinship_score + small_scale,
-IV,14,kinship_score,0.8743481224462819,0.12069800957956012,1138,0.09643803392977701,{'CRV1': 'cluster'},s_hierlocal_village ~ kinship_score + small_scale + ln_time_obs_ea | cont,
+IV,14,kinship_score,0.8734317766822609,0.12055425417633162,1141,0.09676088489494483,{'CRV1': 'cluster'},s_hierlocal_village ~ kinship_score + small_scale + ln_time_obs_ea | cont,
 IV,15,kinship_score,0.7640277396399431,0.14963142574780733,1141,0.30626186002268474,{'CRV1': 'cluster'},s_hierlocal_village ~ kinship_score + small_scale + ln_time_obs_ea | isonum,
 V,1,kinship_score,-0.34148554361353783,0.12993880013202294,2468,0.795343428065351,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale | match,
 V,2,kinship_score,-0.3800937853722094,0.12375474260253613,2465,0.8024293746980318,{'CRV1': 'cluster'},s_moral_god ~ kinship_score + small_scale + ln_time_obs_ea + s_have_god | match,
@@ -40,8 +47,8 @@ XI,1,kinship_score,0.6009286134875274,0.29763446523921566,1172,0.033712749816323
 XI,2,kinship_score,-0.2620225010364831,0.17466852170975947,1171,0.48360115068907117,{'CRV1': 'cluster'},s_ln_popd ~ kinship_score + small_scale + ln_time_obs_ea | cont,
 XI,2,small_scale,-1.4111067131011272,0.20304493020572603,1171,0.48360115068907117,{'CRV1': 'cluster'},s_ln_popd ~ kinship_score + small_scale + ln_time_obs_ea | cont,
 XI,3,kinship_score,0.9433680644510295,0.259249674225609,1186,0.08433242310275613,{'CRV1': 'cluster'},s_settlement_patterns ~ kinship_score,
-XI,4,kinship_score,0.24126947301117177,0.1464992441942892,1173,0.4546108970173175,{'CRV1': 'cluster'},s_settlement_patterns ~ kinship_score + small_scale + ln_time_obs_ea | cont,
-XI,4,small_scale,-2.5072308745961656,0.19788281635754817,1173,0.4546108970173175,{'CRV1': 'cluster'},s_settlement_patterns ~ kinship_score + small_scale + ln_time_obs_ea | cont,
+XI,4,kinship_score,0.24102653413885144,0.14630303568732497,1176,0.4556178949244355,{'CRV1': 'cluster'},s_settlement_patterns ~ kinship_score + small_scale + ln_time_obs_ea | cont,
+XI,4,small_scale,-2.5072709245392977,0.19794589788357944,1176,0.4556178949244355,{'CRV1': 'cluster'},s_settlement_patterns ~ kinship_score + small_scale + ln_time_obs_ea | cont,
 XI,5,kinship_score,0.25499383212978877,0.35091188595745965,613,0.006734187616735499,{'CRV1': 'cluster'},s_size_community ~ kinship_score,
 XI,6,kinship_score,-0.212364809759316,0.15718010229612536,607,0.36940425385457076,{'CRV1': 'cluster'},s_size_community ~ kinship_score + small_scale + ln_time_obs_ea | cont,
 XI,6,small_scale,-2.0572368711198683,0.2329810637266467,607,0.36940425385457076,{'CRV1': 'cluster'},s_size_community ~ kinship_score + small_scale + ln_time_obs_ea | cont,
@@ -49,10 +56,10 @@ VI,1,kinship_score,1.4610510154970007,0.3311001872357986,72,0.23194975874115475,
 VI,2,kinship_score,1.4414704278508432,0.3556557959017182,70,0.5609130260515736,hetero,s_diff_trust_out_in ~ kinship_score + ln_time_obs_ea + small_scale | cont,
 VI,3,kinship_score,1.0312615671202032,0.3512522329901718,72,0.11555821705528802,hetero,s_diff_trust_family ~ kinship_score,
 VI,4,kinship_score,1.2358179676845007,0.4603401742226846,70,0.33909481019613175,hetero,s_diff_trust_family ~ kinship_score + ln_time_obs_ea + small_scale | cont,
-VI,5,kinship_score,0.4001715234754445,0.06122389540294257,21813,0.07973355589518738,{'CRV1': 'group'},s_diff_trust_out_in ~ kinship_score | isonum + wave,
-VI,6,kinship_score,0.35359152417630907,0.07398540297489026,21758,0.08597841139086715,{'CRV1': 'group'},s_diff_trust_out_in ~ kinship_score + female + ln_time_obs_ea_e + small_scale | isonum + wave + age,
-VI,7,kinship_score,0.17091375335834427,0.037444399362262994,21813,0.06951594268303818,{'CRV1': 'group'},s_diff_trust_family ~ kinship_score | isonum + wave,
-VI,8,kinship_score,0.20950680703326133,0.05986115275197205,21758,0.07609562205211806,{'CRV1': 'group'},s_diff_trust_family ~ kinship_score + female + ln_time_obs_ea_e + small_scale | isonum + wave + age,
+VI,5,kinship_score,0.4001715234772163,0.06122401534590688,21813,0.07973355589526576,{'CRV1': 'group'},s_diff_trust_out_in ~ kinship_score | wctry + wave,
+VI,6,kinship_score,0.3535915241739424,0.07398544751282377,21758,0.08597841139071172,{'CRV1': 'group'},s_diff_trust_out_in ~ kinship_score + female + ln_time_obs_ea_e + small_scale | wctry + wave + age,
+VI,7,kinship_score,0.17091375335759615,0.03744456611348499,21813,0.06951594268331285,{'CRV1': 'group'},s_diff_trust_family ~ kinship_score | wctry + wave,
+VI,8,kinship_score,0.20950680709612157,0.05986141421815444,21758,0.07609562205238063,{'CRV1': 'group'},s_diff_trust_family ~ kinship_score + female + ln_time_obs_ea_e + small_scale | wctry + wave + age,
 VII,1,kinship_score,1.15967810079413,0.3454057309690731,79,0.12415828315931987,hetero,s_religion_hell ~ kinship_score,
 VII,2,kinship_score,0.8745025201148204,0.23565758233477468,79,0.5660245452015125,hetero,s_religion_hell ~ kinship_score + s_religion_god,
 VII,2,s_religion_god,0.6703538500258183,0.10644486199035687,79,0.5660245452015125,hetero,s_religion_hell ~ kinship_score + s_religion_god,
@@ -60,21 +67,21 @@ VII,3,kinship_score,0.8804716577188741,0.24503819183562564,78,0.5755633812260301
 VII,3,s_religion_god,0.6872508506662324,0.11446886865100386,78,0.5755633812260301,hetero,s_religion_hell ~ kinship_score + ln_time_obs_ea + small_scale + s_religion_god,
 VII,4,kinship_score,0.47337989269805575,0.2359359210030387,78,0.7592187812196954,hetero,s_religion_hell ~ kinship_score + ln_time_obs_ea + small_scale + s_religion_god | cont,
 VII,4,s_religion_god,0.7002448201396426,0.08755191915548605,78,0.7592187812196954,hetero,s_religion_hell ~ kinship_score + ln_time_obs_ea + small_scale + s_religion_god | cont,
-VII,5,kinship_score,0.25831374133333246,0.03620754729510516,26220,0.3996711153410748,{'CRV1': 'group'},s_religion_hell ~ kinship_score | isonum + wave,
-VII,6,kinship_score,0.17534984125484732,0.024631449621383573,25752,0.4584138726577919,{'CRV1': 'group'},s_religion_hell ~ kinship_score + s_religion_god | isonum + wave,
-VII,6,s_religion_god,0.30461702968975246,0.0418830399319995,25752,0.4584138726577919,{'CRV1': 'group'},s_religion_hell ~ kinship_score + s_religion_god | isonum + wave,
-VII,7,kinship_score,0.1741268927718068,0.02515227394822588,25722,0.46299191406621,{'CRV1': 'group'},s_religion_hell ~ kinship_score + female + s_religion_god | isonum + wave + age,
-VII,7,s_religion_god,0.2982764368345738,0.04052162735441976,25722,0.46299191406621,{'CRV1': 'group'},s_religion_hell ~ kinship_score + female + s_religion_god | isonum + wave + age,
-VII,8,kinship_score,0.20308179835108678,0.04329777859159029,23891,0.41156435404321434,{'CRV1': 'group'},s_religion_hell ~ kinship_score + female + ln_time_obs_ea_e + small_scale + s_religion_god | isonum + wave + age,
-VII,8,s_religion_god,0.33578601599413227,0.032106253551797456,23891,0.41156435404321434,{'CRV1': 'group'},s_religion_hell ~ kinship_score + female + ln_time_obs_ea_e + small_scale + s_religion_god | isonum + wave + age,
-VIII,1,corigin_kinship_score,0.11048390585438521,0.04283350647035398,27994,0.036559392114194456,{'CRV1': 'isocode_past_id'},s_mfq_loyalty ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
-VIII,2,corigin_kinship_score,-0.2261742373249017,0.1349551068202094,27994,0.02788276595881123,{'CRV1': 'isocode_past_id'},s_mfq_rights ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
-VIII,3,corigin_kinship_score,0.36889992782374303,0.12582190041934405,28432,0.056205785103997985,{'CRV1': 'isocode_past_id'},s_values_uniform ~ corigin_kinship_score | ctry + year,
-VIII,4,corigin_kinship_score,0.291621000676161,0.12384248772625649,27994,0.09674617694215548,{'CRV1': 'isocode_past_id'},s_values_uniform ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
-VIII,5,corigin_kinship_score,0.35729432220619406,0.044197050699215236,28432,0.04116887551781878,{'CRV1': 'isocode_past_id'},s_mfq_disgusting ~ corigin_kinship_score | ctry + year,
-VIII,6,corigin_kinship_score,0.39285178297071977,0.051763938792416676,27994,0.062293428730270994,{'CRV1': 'isocode_past_id'},s_mfq_disgusting ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
-VIII,7,corigin_kinship_score,0.4119795160215042,0.04603752685318637,28432,0.0448024049263106,{'CRV1': 'isocode_past_id'},s_mfq_decency ~ corigin_kinship_score | ctry + year,
-VIII,8,corigin_kinship_score,0.4067861264312215,0.04415767437649822,27994,0.060240313740249296,{'CRV1': 'isocode_past_id'},s_mfq_decency ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
+VII,5,kinship_score,0.25831478358064724,0.036207655547701056,26220,0.39967116066966524,{'CRV1': 'group'},s_religion_hell ~ kinship_score | wctry + wave,
+VII,6,kinship_score,0.1753480501524387,0.024641026882836307,25752,0.4584302874422699,{'CRV1': 'group'},s_religion_hell ~ kinship_score + s_religion_god | wctry + wave,
+VII,6,s_religion_god,0.30470059997911747,0.04190601849723388,25752,0.4584302874422699,{'CRV1': 'group'},s_religion_hell ~ kinship_score + s_religion_god | wctry + wave,
+VII,7,kinship_score,0.17408875817024613,0.025166617036862297,25722,0.46300833088831694,{'CRV1': 'group'},s_religion_hell ~ kinship_score + female + s_religion_god | wctry + wave + age,
+VII,7,s_religion_god,0.2983622304782229,0.040540887992628234,25722,0.46300833088831694,{'CRV1': 'group'},s_religion_hell ~ kinship_score + female + s_religion_god | wctry + wave + age,
+VII,8,kinship_score,0.20304882618667286,0.04330878395671646,23891,0.4115882613581566,{'CRV1': 'group'},s_religion_hell ~ kinship_score + female + ln_time_obs_ea_e + small_scale + s_religion_god | wctry + wave + age,
+VII,8,s_religion_god,0.3359057358582319,0.032117088567991205,23891,0.4115882613581566,{'CRV1': 'group'},s_religion_hell ~ kinship_score + female + ln_time_obs_ea_e + small_scale + s_religion_god | wctry + wave + age,
+VIII,1,corigin_kinship_score,0.1104839058543854,0.04283350647144874,27994,0.03655939211419457,{'CRV1': 'isocode_past_id'},s_mfq_loyalty ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
+VIII,2,corigin_kinship_score,-0.22617423732490172,0.13495510682117087,27994,0.027882765958811118,{'CRV1': 'isocode_past_id'},s_mfq_rights ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
+VIII,3,corigin_kinship_score,0.3688999278237428,0.12582190027914428,28432,0.056205785103997985,{'CRV1': 'isocode_past_id'},s_values_uniform ~ corigin_kinship_score | ctry + year,
+VIII,4,corigin_kinship_score,0.2916210006761608,0.12384248772000522,27994,0.09674617694215548,{'CRV1': 'isocode_past_id'},s_values_uniform ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
+VIII,5,corigin_kinship_score,0.35729432220619384,0.044197050715368516,28432,0.04116887551781878,{'CRV1': 'isocode_past_id'},s_mfq_disgusting ~ corigin_kinship_score | ctry + year,
+VIII,6,corigin_kinship_score,0.39285178297071977,0.05176393880150175,27994,0.062293428730270994,{'CRV1': 'isocode_past_id'},s_mfq_disgusting ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
+VIII,7,corigin_kinship_score,0.41197951602150373,0.046037526806900965,28432,0.044802404926310824,{'CRV1': 'isocode_past_id'},s_mfq_decency ~ corigin_kinship_score | ctry + year,
+VIII,8,corigin_kinship_score,0.40678612643122136,0.044157674379993725,27994,0.060240313740249296,{'CRV1': 'isocode_past_id'},s_mfq_decency ~ corigin_kinship_score + female + corigin_ln_time_obs_ea + corigin_small_scale | ctry + year + age,
 IX,1,kinship_score,0.3038496505471922,0.17237351522495273,2570,0.008153755156484754,{'CRV1': 'iso_id'},s_disgust ~ kinship_score,
 IX,2,kinship_score,0.3229575318797147,0.17097036495841442,2567,0.022656656611026782,{'CRV1': 'iso_id'},s_disgust ~ kinship_score + female | age,
 IX,3,kinship_score,0.31099595626232385,0.17145834860812334,2490,0.03104219258759322,{'CRV1': 'iso_id'},s_disgust ~ kinship_score + female + ln_time_obs_ea + small_scale | age,

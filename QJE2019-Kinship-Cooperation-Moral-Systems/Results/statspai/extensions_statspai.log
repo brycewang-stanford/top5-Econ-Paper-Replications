@@ -1,0 +1,54 @@
+E1 Conley
+                                  spec     N   coef  se_cluster  se_hc1  se_conley_250km  se_conley_500km  se_conley_1000km  se_conley_2000km
+0                      IV(3) moral god   776 -0.775       0.191   0.115            0.142            0.163             0.205             0.284
+1           IV(4) moral god +ctrl+cont   770 -0.506       0.131   0.106            0.119            0.137             0.160             0.206
+2                      IV(8) sex taboo   371  0.833       0.195   0.170            0.188            0.219             0.260             0.292
+3           IV(9) sex taboo +ctrl+cont   371  0.458       0.192   0.178            0.177            0.186             0.198             0.187
+4             IV(10) hier. above local  1156 -0.388       0.198   0.115            0.147            0.178             0.217             0.322
+5  IV(11) hier. above local +ctrl+cont  1146 -0.364       0.121   0.115            0.126            0.129             0.125             0.151
+6                 IV(13) village inst.  1151  0.833       0.124   0.084            0.126            0.177             0.229             0.305
+7      IV(14) village inst. +ctrl+cont  1141  0.869       0.120   0.098            0.115            0.139             0.161             0.203
+8                IV(1) violence out-in    61  1.267       0.436   0.506            0.509            0.524             0.482             0.497
+9                        IV(6) loyalty    83  1.160       0.294   0.364            0.360            0.386             0.383             0.311
+E2-E4 sensitivity
+                                spec     N  beta_short  r2_short  beta_long  r2_long  se_long  oster_delta_for_zero  oster_beta_adjusted  oster_robust                        oster_identified_set  osterdelta_lower  osterdelta_upper   rv_q  rv_qa  E_evalue_estimate  E_evalue_ci
+0             EA moral god (IV 3->4)   770      -0.378     0.013     -0.506    0.454    0.106                -1.217               -0.923          True   [-0.9227894301422976, -0.506497883683923]            -0.546            -0.506  0.163  0.101              2.561        1.962
+1       EA village inst. (IV 13->14)  1141       0.952     0.082      0.869    0.096    0.098                21.790                0.829          True      [0.828950803642604, 0.868823212669501]             0.693             0.869  0.202  0.154              3.805        3.089
+2             EA sex taboo (IV 8->9)   371       0.857     0.074      0.458    0.202    0.178                 0.545               -0.382         False  [-0.3818044979413374, 0.45808514552037893]             0.268             0.458  0.126  0.030              2.402        1.448
+3     Country trust out-in (VI 1->2)    70       1.497     0.240      1.441    0.561    0.356                13.511                1.335          True    [1.3347829400843296, 1.4414704278508432]             1.412             1.441  0.418  0.250              6.755        3.318
+4     Country trust family (VI 3->4)    70       1.082     0.126      1.236    0.339    0.460                -3.841                1.558          True    [1.2358179676845014, 1.5575789820140025]             1.236             1.309  0.318  0.117              5.541        2.044
+5  Country belief in hell (VII 1->4)    78       1.184     0.128      0.473    0.759    0.236                 0.241               -1.494         False   [-1.494258487267128, 0.47337989269805636]             0.217             0.473  0.210  0.000              2.441        1.115
+6    Country revenge punish (X 1->3)    74       1.203     0.141      0.831    0.290    0.490                 1.302                0.193          True    [0.1928415973723121, 0.8309988841511265]             0.614             0.831  0.200  0.000              3.682        1.000
+E5 spec curve
+outcome         s_diff_trust_out_in  s_gps_punish_revenge  s_hierabovelocal  s_hierlocal_village  s_moral_god  s_religion_hell  s_sex_taboo  s_values_uniform
+estimate count                8.000                 8.000            16.000               16.000       16.000            8.000       16.000             8.000
+         mean                 1.308                 0.921            -0.253                0.844       -0.565            0.603        0.631             0.618
+         std                  0.423                 0.346             0.225                0.045        0.172            0.605        0.203             0.450
+         min                  0.710                 0.387            -0.434                0.778       -0.826           -0.476        0.381            -0.120
+         25%                  0.955                 0.730            -0.357                0.810       -0.739            0.266        0.428             0.449
+         50%                  1.471                 1.067            -0.332                0.850       -0.513            0.756        0.672             0.833
+         75%                  1.605                 1.190            -0.276                0.860       -0.412            1.106        0.819             0.938
+         max                  1.821                 1.203             0.300                0.930       -0.382            1.201        0.855             0.948
+pvalue   count                8.000                 8.000            16.000               16.000       16.000            8.000       16.000             8.000
+         mean                 0.010                 0.121             0.042                0.000        0.005            0.212        0.017             0.290
+         std                  0.018                 0.182             0.069                0.000        0.019            0.318        0.024             0.352
+         min                  0.000                 0.001             0.000                0.000        0.000            0.001        0.000             0.052
+         25%                  0.000                 0.003             0.004                0.000        0.000            0.003        0.000             0.056
+         50%                  0.000                 0.023             0.007                0.000        0.000            0.085        0.001             0.099
+         75%                  0.014                 0.165             0.064                0.000        0.000            0.267        0.031             0.398
+         max                  0.051                 0.448             0.225                0.000        0.077            0.928        0.067             0.921
+E6 Romano-Wolf
+                       outcome      coef        se         t       p_value    p_rw        p_bonf        p_holm          p_bh                                                family
+0                  s_moral_god -0.601264  0.176152 -3.413331  1.009666e-03  0.0025  4.038666e-03  2.019333e-03  1.346222e-03  EA institutions & religion (Table IV, baseline spec)
+1                  s_sex_taboo  0.918190  0.207616  4.422541  3.042998e-05  0.0005  1.217199e-04  9.128995e-05  6.085997e-05  EA institutions & religion (Table IV, baseline spec)
+2             s_hierabovelocal -0.455102  0.253545 -1.794952  7.643822e-02  0.0710  3.057529e-01  7.643822e-02  7.643822e-02  EA institutions & religion (Table IV, baseline spec)
+3          s_hierlocal_village  0.900281  0.190156  4.734426  9.350190e-06  0.0000  3.740076e-05  3.740076e-05  3.740076e-05  EA institutions & religion (Table IV, baseline spec)
+4             s_hierabovelocal -0.183557  0.164412 -1.116451  2.665976e-01  0.1570  5.331953e-01  2.665976e-01  2.665976e-01         EA institutions (Table IV, no religion/taboo)
+5          s_hierlocal_village  0.803917  0.127152  6.322490  5.294418e-09  0.0000  1.058884e-08  1.058884e-08  1.058884e-08         EA institutions (Table IV, no religion/taboo)
+6          s_diff_trust_out_in  1.941497  0.741115  2.619697  2.119834e-02  0.3320  1.271900e-01  8.479336e-02  4.239668e-02               Country moral system (Fig. V variables)
+7              s_religion_hell  0.510921  0.748738  0.682377  5.069783e-01  0.7775  1.000000e+00  1.000000e+00  5.191439e-01               Country moral system (Fig. V variables)
+8             s_values_uniform  1.667177  0.806776  2.066469  5.930705e-02  0.3555  3.558423e-01  1.779212e-01  8.896058e-02               Country moral system (Fig. V variables)
+9             s_mfq_disgusting  2.810688  0.762006  3.688536  2.729054e-03  0.2410  1.637433e-02  1.637433e-02  1.637433e-02               Country moral system (Fig. V variables)
+10  s_diff_shame_guilt_overall  0.624026  0.941742  0.662629  5.191439e-01  0.7775  1.000000e+00  1.000000e+00  5.191439e-01               Country moral system (Fig. V variables)
+11        s_gps_punish_revenge  2.701528  0.924076  2.923492  1.186070e-02  0.3230  7.116419e-02  5.930349e-02  3.558209e-02               Country moral system (Fig. V variables)
+TOTAL extensions runtime 19s

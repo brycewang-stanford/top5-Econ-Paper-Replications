@@ -231,17 +231,22 @@ def main():
                                 "p_fwer_author_stepdown_port": t2[f"{col}_fwer"]}))
     mt = pd.concat(mt)
     # sp.romano_wolf needs one common sample and common controls: use the 6 household-level
-    # indices (female-respondent rows, complete cases) + village dummies + all baseline controls
+    # indices (female-respondent rows, complete cases).  Village FE are removed by within-village
+    # demeaning (FWL) BEFORE calling sp.romano_wolf, because passing ~120 village dummies as
+    # `controls` triggers a StatsPAI bug (degenerate bootstrap draws put a floor of ~0.03-0.07
+    # under p_rw even for |t| > 10; see Materials note, bug B1).
     use = df[(df.purecontrol != 1) & df.endlinedate.notna() & (df.maleres != 1)].copy()
     hh = INDICES[:6]
-    vd = pd.get_dummies(use.village.astype(int), prefix="v", drop_first=True, dtype=float)
-    use = pd.concat([use, vd], axis=1)
-    ctrls = [f"{v}_full0" for v in hh] + [f"{v}_miss0" for v in hh if use[f"{v}_miss0"].sum() > 0] + list(vd.columns)
+    cols = [v + "1" for v in hh] + ["treat"] + [f"{v}_full0" for v in hh]
+    use = use.dropna(subset=cols)
+    dm = use[["surveyid"]].copy()
+    for c in cols:
+        dm[c] = use[c] - use.groupby("village")[c].transform("mean")
     t0 = time.time()
-    rw = sp.romano_wolf(use, y=[v + "1" for v in hh], x="treat", controls=ctrls, cluster="surveyid",
-                        n_boot=2000, seed=20160916)
+    rw = sp.romano_wolf(dm, y=[v + "1" for v in hh], x="treat", controls=[f"{v}_full0" for v in hh],
+                        cluster="surveyid", n_boot=2000, seed=20160916)
     rwt = rw.table.copy()
-    rwt["note"] = f"sp.romano_wolf, complete cases N={rw.n_obs}, common controls, cluster bootstrap 2000 ({time.time()-t0:.0f}s)"
+    rwt["note"] = f"sp.romano_wolf, complete cases N={rw.n_obs}, village-demeaned, common baseline controls, cluster bootstrap 2000 ({time.time()-t0:.0f}s)"
     rwt.to_csv(OUT / "table2_romano_wolf_extension.csv", index=False)
     mt.to_csv(OUT / "table2_multiple_testing.csv", index=False)
     write_md(mt.round(4), OUT / "table2_multiple_testing.md", "Table II: multiple-testing adjustments",

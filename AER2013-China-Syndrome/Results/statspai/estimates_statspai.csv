@@ -1,0 +1,340 @@
+key,b,se,n,r2,stata_key,stata_block,stata_var,stata_log
+T1_A_1991_c1,26.27168083190918,,,,None,main,,ipw
+T1_A_1991_c2,10.322242736816406,,,,None,main,,ipw
+T1_A_1991_c3,7.6862921714782715,,,,None,main,,ipw
+T1_A_1991_c4,38.54689407348633,,,,None,main,,ipw
+T1_A_1991_c5,322.3691075060087,,,,None,main,,ipw
+T1_A_1991_c5_pkgvar_ushi,905.7804565429688,,,,None,main,,ipw
+T1_B_1991_c1,28.190757751464844,,,,None,main,,ipw
+T1_B_1991_c2,26.634254455566406,,,,None,main,,ipw
+T1_B_1991_c3,9.234803199768066,,,,None,main,,ipw
+T1_B_1991_c4,2.801011323928833,,,,None,main,,ipw
+T1_B_1991_c5,723.626900168138,,,,None,main,,ipw
+T1_B_1991_c5_pkgvar_othi,1708.8116455078125,,,,None,main,,ipw
+T1_A_2000_c1,121.55631256103516,,,,None,main,,ipw
+T1_A_2000_c2,23.004268646240234,,,,None,main,,ipw
+T1_A_2000_c3,22.811817169189453,,,,None,main,,ipw
+T1_A_2000_c4,151.59402465820312,,,,None,main,,ipw
+T1_A_2000_c5,649.9709229750595,,,,None,main,,ipw
+T1_A_2000_c5_pkgvar_ushi,1865.510986328125,,,,None,main,,ipw
+T1_B_2000_c1,94.28167724609375,,,,None,main,,ipw
+T1_B_2000_c2,68.22276306152344,,,,None,main,,ipw
+T1_B_2000_c3,13.734260559082031,,,,None,main,,ipw
+T1_B_2000_c4,5.250257968902588,,,,None,main,,ipw
+T1_B_2000_c5,822.592565178245,,,,None,main,,ipw
+T1_B_2000_c5_pkgvar_othi,1979.75390625,,,,None,main,,ipw
+T1_A_2007_c1,330.0223693847656,,,,None,main,,ipw
+T1_A_2007_c2,57.411033630371094,,,,None,main,,ipw
+T1_A_2007_c3,45.43323516845703,,,,None,main,,ipw
+T1_A_2007_c4,182.9546661376953,,,,None,main,,ipw
+T1_A_2007_c5,763.1055738828421,,,,None,main,,ipw
+T1_A_2007_c5_pkgvar_ushi,2365.87109375,,,,None,main,,ipw
+T1_B_2007_c1,262.83306884765625,,,,None,main,,ipw
+T1_B_2007_c2,196.88621520996094,,,,None,main,,ipw
+T1_B_2007_c3,31.036314010620117,,,,None,main,,ipw
+T1_B_2007_c4,11.64109992980957,,,,None,main,,ipw
+T1_B_2007_c5,1329.7519796345437,,,,None,main,,ipw
+T1_B_2007_c5_pkgvar_othi,3339.255615234375,,,,None,main,,ipw
+T2_c1,-0.8875123902400623,0.18115996832702227,722.0,-0.13631847031662492,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', '', 'yr==1990')",main,d_tradeusch_pw,pre
+T2_c2,-0.7183816208241265,0.06425449512936438,722.0,0.13908089212859154,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', '', 'yr==2000')",main,d_tradeusch_pw,pre
+T2_c3,-0.7460300654047469,0.06803906681844155,1444.0,0.06635364122550957,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 't2000', 'yr>=1990')",main,d_tradeusch_pw,pre
+T2_c4,0.4311331063149188,0.1492741800492066,722.0,0.0434947304005201,"('d_sh_empl_mfg', 'd_tradeusch_pw_future', 'd_tradeotch_pw_lag_future', '', 'yr==1970')",main,d_tradeusch_pw_future,pre
+T2_c5,-0.12956258224563397,0.125504061059476,722.0,-0.00887989693568958,"('d_sh_empl_mfg', 'd_tradeusch_pw_future', 'd_tradeotch_pw_lag_future', '', 'yr==1980')",main,d_tradeusch_pw_future,pre
+T2_c6,0.14842398838749926,0.0946698415938361,1444.0,0.1814406166619691,"('d_sh_empl_mfg', 'd_tradeusch_pw_future', 'd_tradeotch_pw_lag_future', 't1980', 'yr>=1970&yr<1990')",main,d_tradeusch_pw_future,pre
+T3_c1,-0.7460300654047408,0.06803906681844116,1444.0,0.06635364122551302,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 't2', '')",main,d_tradeusch_pw,ipw
+T3_fs_c1,0.791646630967823,0.07874775376880894,1444.0,0.543586851560725,None,main,,ipw
+T3_fs_c1_clusterSE_info,0.791646630967823,0.0792629211039443,1444.0,,None,main,,ipw
+T3_c2,-0.610435160148772,0.09403128472990517,1444.0,0.1566854710779476,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_shind_manuf_cbp t2', '')",main,d_tradeusch_pw,ipw
+T3_c2_l_shind_manuf_cbp,-0.03547765642824411,0.02179632235004435,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_shind_manuf_cbp t2', '')",main,l_shind_manuf_cbp,ipw
+T3_fs_c2,0.6636991509014101,0.08642320899344473,1444.0,0.57286033796514,None,main,,ipw
+T3_fs_c2_clusterSE_info,0.6636991509014101,0.08806246584720376,1444.0,,None,main,,ipw
+T3_c3,-0.5376416145849886,0.09090543709146473,1444.0,0.28169223295415624,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_shind_manuf_cbp reg* t2', '')",main,d_tradeusch_pw,ipw
+T3_c3_l_shind_manuf_cbp,-0.05214738193297877,0.020062032694301537,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_shind_manuf_cbp reg* t2', '')",main,l_shind_manuf_cbp,ipw
+T3_fs_c3,0.6517797891380092,0.09038423023792443,1444.0,0.5788950470405507,None,main,,ipw
+T3_fs_c3_clusterSE_info,0.6517797891380092,0.09236041818635224,1444.0,,None,main,,ipw
+T3_c4,-0.507971143012167,0.08116236947103779,1444.0,0.32098419582847726,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_shind_manuf_cbp reg* t2', '')",main,d_tradeusch_pw,ipw
+T3_c4_l_shind_manuf_cbp,-0.061326579423186485,0.016966209827588938,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_shind_manuf_cbp reg* t2', '')",main,l_shind_manuf_cbp,ipw
+T3_c4_l_sh_popedu_c,-0.008222283370625244,0.016464251717976025,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_shind_manuf_cbp reg* t2', '')",main,l_sh_popedu_c,ipw
+T3_c4_l_sh_popfborn,-0.007105825673360464,0.007843291448480469,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_shind_manuf_cbp reg* t2', '')",main,l_sh_popfborn,ipw
+T3_c4_l_sh_empl_f,-0.05413707475714332,0.024784179398714287,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_shind_manuf_cbp reg* t2', '')",main,l_sh_empl_f,ipw
+T3_fs_c4,0.6345530015324988,0.08964673087708759,1444.0,0.5846144087041043,None,main,,ipw
+T3_fs_c4_clusterSE_info,0.6345530015324988,0.09251946498784681,1444.0,,None,main,,ipw
+T3_c5,-0.5624622554001341,0.09625954370233564,1444.0,0.3433672933868839,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T3_c5_l_shind_manuf_cbp,-0.056296294575999196,0.016428490388865753,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_shind_manuf_cbp,ipw
+T3_c5_l_sh_routine33,-0.2301289449773378,0.0625810643982859,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_sh_routine33,ipw
+T3_c5_l_task_outsource,0.24401652981150823,0.251966193367856,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_task_outsource,ipw
+T3_fs_c5,0.6380303215236484,0.08661606346889333,1444.0,0.5833156762722671,None,main,,ipw
+T3_fs_c5_clusterSE_info,0.6380303215236484,0.08934039077688678,1444.0,,None,main,,ipw
+T3_c6,-0.5963600742334846,0.0987738849447194,1444.0,0.3428837273726115,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T3_c6_l_shind_manuf_cbp,-0.040219332090937594,0.013141917974655097,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_shind_manuf_cbp,ipw
+T3_c6_l_sh_popedu_c,0.013140007071796165,0.012195506375204175,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_sh_popedu_c,ipw
+T3_c6_l_sh_popfborn,0.03037837940769642,0.01084160584363691,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_sh_popfborn,ipw
+T3_c6_l_sh_empl_f,-0.005860248250651532,0.02446843689102329,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_sh_empl_f,ipw
+T3_c6_l_sh_routine33,-0.244890215226944,0.06374706134389951,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_sh_routine33,ipw
+T3_c6_l_task_outsource,-0.0590307981400124,0.23697419327304942,1444.0,,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,l_task_outsource,ipw
+T3_fs_c6,0.6310409368033858,0.0870071884438687,1444.0,0.5848470981992109,None,main,,ipw
+T3_fs_c6_clusterSE_info,0.6310409368033858,0.08996343593501903,1444.0,,None,main,,ipw
+T4_A_c1,-1.0305641843694442,0.5026753292598151,1444.0,-0.005605599456063981,"('lnchg_popworkage', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 't2', '')",main,d_tradeusch_pw,ipw
+T4_A_c2,-0.35951239231887133,0.660123322326339,1444.0,0.03419051155335706,"('lnchg_popworkage_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 't2', '')",main,d_tradeusch_pw,ipw
+T4_A_c3,-1.0974741373839851,0.48780335441603934,1444.0,0.003934009666521465,"('lnchg_popworkage_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 't2', '')",main,d_tradeusch_pw,ipw
+T4_A_c4,-1.2986480327060004,0.8255864490996455,1444.0,0.16525180740920875,"('lnchg_popworkage_age1634', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 't2', '')",main,d_tradeusch_pw,ipw
+T4_A_c5,-0.6150682959921382,0.5718578412337898,1444.0,0.5850271442078002,"('lnchg_popworkage_age3549', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 't2', '')",main,d_tradeusch_pw,ipw
+T4_A_c6,-1.1273825484248883,0.42150603601946934,1444.0,0.21839051876397897,"('lnchg_popworkage_age5064', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 't2', '')",main,d_tradeusch_pw,ipw
+T4_B_c1,-0.35485972716409764,0.5126907155262764,1444.0,0.3552870640859288,"('lnchg_popworkage', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_B_c2,0.14744397158969924,0.6192876013678942,1444.0,0.28898154146431065,"('lnchg_popworkage_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_B_c3,-0.2398883913189475,0.5185370214471465,1444.0,0.453542872495555,"('lnchg_popworkage_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_B_c4,-0.40844659358659186,0.9528480437923518,1444.0,0.421050652629849,"('lnchg_popworkage_age1634', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_B_c5,-0.044830229181086576,0.47443266562453706,1444.0,0.676392158366619,"('lnchg_popworkage_age3549', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_B_c6,-0.5488580511531845,0.4495413957968392,1444.0,0.4559154552132755,"('lnchg_popworkage_age5064', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_C_c1,-0.05016779570349934,0.7459279742136143,1444.0,0.4233574381229266,"('lnchg_popworkage', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_C_c2,-0.0262028526430358,0.6852470668781239,1444.0,0.3489959014680166,"('lnchg_popworkage_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_C_c3,-0.04745534178774613,0.823434811387903,1444.0,0.5173932450372984,"('lnchg_popworkage_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_C_c4,-0.13843615034936133,1.1896387402705653,1444.0,0.43604518629999534,"('lnchg_popworkage_age1634', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_C_c5,0.3671648672625672,0.5604857938463372,1444.0,0.7490060248850318,"('lnchg_popworkage_age3549', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T4_C_c6,-0.1381998040798666,0.6507271210514869,1444.0,0.5951129268498082,"('lnchg_popworkage_age5064', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_A_c1,-4.230545570190055,1.0471516520303008,1444.0,0.30840619856786544,"('lnchg_no_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_A_c2,-0.2740581156102141,0.650887086271119,1444.0,0.34465671202709436,"('lnchg_no_empl_nmfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_A_c3,4.921261244579926,1.1278109273906565,1444.0,0.41526155822611266,"('lnchg_no_unempl', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_A_c4,2.0583084125239823,1.0796904114197916,1444.0,0.45829665407928377,"('lnchg_no_nilf', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_A_c5,1.4658772905343498,0.5565541020210116,1444.0,0.320467722589592,"('lnchg_no_ssadiswkrs', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Ball_c1,-0.5963600742335936,0.09877388494646011,1444.0,0.34288372737255846,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Ball_c2,-0.17786674270476313,0.13704711607942452,1444.0,0.36464565201994836,"('d_sh_empl_nmfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Ball_c3,0.22094234808940844,0.057582819466075304,1444.0,0.40356679231441317,"('d_sh_unempl', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Ball_c4,0.5532842544691708,0.15032933108406019,1444.0,0.3860384576742797,"('d_sh_nilf', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Ball_c5,0.07641810794931028,0.02755576303731554,1444.0,0.6035360788555066,"('d_sh_ssadiswkrs', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Bcol_c1,-0.5916840262420808,0.12468125221360614,1444.0,0.1890612507684324,"('d_sh_empl_mfg_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Bcol_c2,0.16812337852682738,0.12157897021006363,1444.0,0.18684545535557417,"('d_sh_empl_nmfg_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Bcol_c3,0.11913492132417396,0.038707358447474624,1444.0,0.27520529640214497,"('d_sh_unempl_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Bcol_c4,0.3044256192031157,0.11290344528591179,1444.0,0.18740864758827336,"('d_sh_nilf_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Bnc_c1,-0.5811160159112225,0.09486455503556476,1444.0,0.3613527449784838,"('d_sh_empl_mfg_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Bnc_c2,-0.5313834324391558,0.20345219668092696,1444.0,0.4403116417088182,"('d_sh_empl_nmfg_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Bnc_c3,0.28167109406460933,0.08510722170837964,1444.0,0.42745881740343916,"('d_sh_unempl_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_Bnc_c4,0.8308285736805645,0.21058339210684368,1444.0,0.4903770500278306,"('d_sh_nilf_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_note_emppop_all,-0.774226676443655,0.17580957269500364,1444.0,0.2518590105833992,"('d_sh_empl', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_note_emppop_col,-0.423560617654028,0.12251331320566866,1444.0,0.158511869912348,"('d_sh_empl_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T5_note_emppop_nc,-1.112499988376051,0.2518886842274625,1444.0,0.3356885799404945,"('d_sh_empl_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_A_c1,-0.7592166789102363,0.2525726055261625,1444.0,0.5602625218834956,"('d_avg_lnwkwage', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_A_c2,-0.8921300138777537,0.29374009237396104,1444.0,0.4413520656860461,"('d_avg_lnwkwage_m', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_A_c3,-0.6139640229917274,0.23743716722381314,1444.0,0.691946795794361,"('d_avg_lnwkwage_f', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_B_c1,-0.7568220913926513,0.30842215034066867,1444.0,0.5155272370819184,"('d_avg_lnwkwage_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_B_c2,-0.9905088898622472,0.37408685640150136,1444.0,0.3875081980139159,"('d_avg_lnwkwage_c_m', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_B_c3,-0.5254897464471935,0.27859094170219495,1444.0,0.6312626104597341,"('d_avg_lnwkwage_c_f', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_C_c1,-0.8143886625431038,0.23571113084910122,1444.0,0.5189415106706885,"('d_avg_lnwkwage_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_C_c2,-0.7030692670076238,0.2496097189756475,1444.0,0.451832380992252,"('d_avg_lnwkwage_nc_m', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T6_C_c3,-1.1164451569254215,0.2781005378519548,1444.0,0.5916456953769944,"('d_avg_lnwkwage_nc_f', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_A_c1,-4.230545570190055,1.0471516520303008,1444.0,0.30840619856786544,"('lnchg_no_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_A_c2,-3.9923906125520148,1.1813847037662857,1444.0,0.3021679145508075,"('lnchg_no_empl_mfg_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_A_c3,-4.493203590525831,1.2427104657052663,1444.0,0.3384180956726116,"('lnchg_no_empl_mfg_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_A_c4,-0.2740581156102141,0.650887086271119,1444.0,0.34465671202709436,"('lnchg_no_empl_nmfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_A_c5,0.29145062340081906,0.590369285232115,1444.0,0.2888531121937892,"('lnchg_no_empl_nmfg_edu_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_A_c6,-1.036607415165877,0.7636940900468544,1444.0,0.5326972121271487,"('lnchg_no_empl_nmfg_edu_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_B_c1,0.15066153106053273,0.4822900737944558,1444.0,0.21483828795532167,"('d_avg_lnwkwage_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_B_c2,0.45847671942277435,0.34020035889921985,1444.0,0.20870800200927708,"('d_avg_lnwkwage_mfg_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_B_c3,-0.10115147119631156,0.3692493396368123,1444.0,0.3318340388221741,"('d_avg_lnwkwage_mfg_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_B_c4,-0.7612185021497205,0.26053650744034146,1444.0,0.5994333727603729,"('d_avg_lnwkwage_nmfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_B_c5,-0.7433261508590445,0.29749882504523895,1444.0,0.5404251424080557,"('d_avg_lnwkwage_nmfg_c', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T7_B_c6,-0.8220563246009831,0.24614917097784267,1444.0,0.5080189757401621,"('d_avg_lnwkwage_nmfg_nc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_c1,1.013122807088501,0.326905875404693,1444.0,0.5692701283127353,"('lnchg_trans_totindiv_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_c2,14.406304456386554,7.587845078193471,1436.0,0.28107506040550756,"('lnchg_trans_taaimp_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_c3,3.45989163822319,1.868558254947196,1444.0,0.481674485136832,"('lnchg_trans_unemp_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_c4,0.7171873341815823,0.38310083682243884,1444.0,0.3610698971414701,"('lnchg_trans_ssaret_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_c5,1.9597043201916349,0.6898228371709944,1444.0,0.31830314765239565,"('lnchg_trans_ssadis_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_c6,0.5424662627828808,0.4888053287246147,1444.0,0.26565128115481285,"('lnchg_trans_totmed_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_c7,3.039073850514647,0.9568357657624551,1444.0,0.5381057051998697,"('lnchg_trans_fedinc_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_c8,2.7787090659261224,1.3146174392958703,1444.0,0.3320332417176375,"('lnchg_trans_totedu_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_A_othinc_unreported,1.07713389174271,2.198156654455993,1444.0,0.3703973203363172,"('lnchg_trans_othinc_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_c1,57.72965061212829,18.406304453737114,1444.0,0.7484182555984625,"('d_trans_totindiv_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_c2,0.2340293834958903,0.17438343038783685,1444.0,0.2776474041377194,"('d_trans_taaimp_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_c3,3.4214701238350833,2.261574621761797,1444.0,0.41423508003673926,"('d_trans_unemp_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_c4,9.997661870355374,5.446071345786632,1444.0,0.46537153004459286,"('d_trans_ssaret_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_c5,8.395178528673991,2.2052765048977574,1444.0,0.6260666201707175,"('d_trans_ssadis_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_c6,18.270495605193474,11.838505918277269,1444.0,0.660865628979057,"('d_trans_totmed_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_c7,7.202436578459625,2.35154526748683,1444.0,0.5324372637710588,"('d_trans_fedinc_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_c8,3.709150364277877,1.4436092478819675,1444.0,0.3740012102561303,"('d_trans_totedu_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T8_B_othinc_unreported,4.126663019500884,4.436367384752131,1444.0,0.30243982677469383,"('d_trans_othinc_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_A_c1,-1.4761826734198242,0.36432563391379774,1444.0,0.6848972474519163,"('relchg_avg_hhincsum_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_A_c2,-2.1415628563648297,0.585125138762817,1444.0,0.4278222458791128,"('relchg_avg_hhincwage_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_A_c3,-0.509862713611399,0.7415424532177329,1444.0,0.7588874116487598,"('relchg_avg_hhincbusinv_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_A_c4,2.118666221241167,0.5792452822792464,1444.0,0.5160240070702184,"('relchg_avg_hhinctrans_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_A_c5,-1.7322796496753634,0.3814640404246845,1444.0,0.5259726983954007,"('relchg_med_hhincsum_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_A_c6,-2.3201221134872667,0.5134080150527189,1444.0,0.5169744656679718,"('relchg_med_hhincwage_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_B_c1,-492.63585885133415,160.36205872485257,1444.0,0.6309066838430748,"('d_avg_hhincsum_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_B_c2,-549.3317374333889,169.39091361737908,1444.0,0.3962303511572133,"('d_avg_hhincwage_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_B_c3,40.13745147241755,116.68927176443185,1444.0,0.7241505641709832,"('d_avg_hhincbusinv_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_B_c4,17.31711679069971,4.333936544253001,1444.0,0.5088463443087199,"('d_avg_hhinctrans_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_B_c5,-439.8675284145301,112.69594623389318,1444.0,0.4870798882070436,"('d_med_hhincsum_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T9_B_c6,-476.4861806826353,122.23750870841727,1444.0,0.4826838179790036,"('d_med_hhincwage_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T10_A_c1,-0.5963600742335936,0.09877388494646011,1444.0,0.34288372737255846,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T10_A_c2,-0.17786674270476313,0.13704711607942452,1444.0,0.36464565201994836,"('d_sh_empl_nmfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T10_A_c3,0.15066153106053273,0.4822900737944558,1444.0,0.21483828795532167,"('d_avg_lnwkwage_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T10_A_c4,-0.7612185021497205,0.26053650744034146,1444.0,0.5994333727603729,"('d_avg_lnwkwage_nmfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T10_A_c5,1.013122807088501,0.326905875404693,1444.0,0.5692701283127353,"('lnchg_trans_totindiv_pc', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T10_A_c6,-2.1415628563648297,0.585125138762817,1444.0,0.4278222458791128,"('relchg_avg_hhincwage_pc_pw', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+T10_A_meansd,1.883753723538386,1.7515837489254416,,,None,main,,ipw
+T10_B_c1,-0.41513246620553534,0.05340843387771266,1444.0,0.3940402733870949,"('d_sh_empl_mfg', 'd_tradex_usch_pw', 'd_tradex_otch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradex_usch_pw,ipw
+T10_B_c1_fs_z1,0.6190781905564601,0.07826188532928716,1444.0,0.6372859401285649,None,main,,ipw
+T10_B_c1_fs_z1_clusterSE_info,0.6190781905564601,0.07915685340558808,1444.0,,None,main,,ipw
+T10_B_c2,-0.06324930304115971,0.10132333255456692,1444.0,0.3725484501603127,"('d_sh_empl_nmfg', 'd_tradex_usch_pw', 'd_tradex_otch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradex_usch_pw,ipw
+T10_B_c3,0.19898395256928042,0.3423024302650449,1444.0,0.21451709582698586,"('d_avg_lnwkwage_mfg', 'd_tradex_usch_pw', 'd_tradex_otch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradex_usch_pw,ipw
+T10_B_c4,-0.42853336085241384,0.1966070474883232,1444.0,0.606538835694497,"('d_avg_lnwkwage_nmfg', 'd_tradex_usch_pw', 'd_tradex_otch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradex_usch_pw,ipw
+T10_B_c5,0.7324910276165342,0.21663630877309253,1444.0,0.5744033640705406,"('lnchg_trans_totindiv_pc', 'd_tradex_usch_pw', 'd_tradex_otch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradex_usch_pw,ipw
+T10_B_c6,-1.3745616391792683,0.37478848484485966,1444.0,0.4553129000023478,"('relchg_avg_hhincwage_pc_pw', 'd_tradex_usch_pw', 'd_tradex_otch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradex_usch_pw,ipw
+T10_B_meansd,2.2814343533864005,2.170281605010012,,,None,main,,ipw
+T10_C_c1,-0.491003244626295,0.12295389834177295,1444.0,0.39063490838096593,"('d_sh_empl_mfg', 'd_tradeusch_netinput_pw', 'd_inputotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_netinput_pw,ipw
+T10_C_c1_fs_z1,0.7163123716972796,0.09101069144245208,1444.0,0.5451376618493493,None,main,,ipw
+T10_C_c1_fs_z1_clusterSE_info,0.7163123716972796,0.09450035916191205,1444.0,,None,main,,ipw
+T10_C_c1_fs_z2,-1.047787689283453,0.2549111410340508,1444.0,0.5451376618493493,None,main,,ipw
+T10_C_c1_fs_z2_clusterSE_info,-1.047787689283453,0.24859261855642337,1444.0,,None,main,,ipw
+T10_C_c2,-0.010112078592649825,0.19964333651362434,1444.0,0.3755800245690848,"('d_sh_empl_nmfg', 'd_tradeusch_netinput_pw', 'd_inputotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_netinput_pw,ipw
+T10_C_c3,0.7067039655317058,0.5145696297100717,1444.0,0.21115959115762994,"('d_avg_lnwkwage_mfg', 'd_tradeusch_netinput_pw', 'd_inputotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_netinput_pw,ipw
+T10_C_c4,-0.4137078534916942,0.36796641738205993,1444.0,0.6070138153499312,"('d_avg_lnwkwage_nmfg', 'd_tradeusch_netinput_pw', 'd_inputotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_netinput_pw,ipw
+T10_C_c5,0.8421332147456804,0.3570477631861619,1444.0,0.5750056097311109,"('lnchg_trans_totindiv_pc', 'd_tradeusch_netinput_pw', 'd_inputotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_netinput_pw,ipw
+T10_C_c6,-1.229229553120674,0.817427955208746,1444.0,0.4623257667960181,"('relchg_avg_hhincwage_pc_pw', 'd_tradeusch_netinput_pw', 'd_inputotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_netinput_pw,ipw
+T10_C_meansd,1.462602213052919,1.4785493129077385,,,None,main,,ipw
+T10_D_c1,-0.45309771306358465,0.10396388407327387,1444.0,0.38817336791538215,"('d_sh_empl_mfg', 'd_netimpusch_pw', 'd_expotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_netimpusch_pw,ipw
+T10_D_c1_fs_z1,0.7028875644255014,0.09869149745716792,1444.0,0.5229201792905855,None,main,,ipw
+T10_D_c1_fs_z1_clusterSE_info,0.7028875644255014,0.10788875346320106,1444.0,,None,main,,ipw
+T10_D_c1_fs_z2,-0.316900240448659,0.07409219123186282,1444.0,0.5229201792905855,None,main,,ipw
+T10_D_c1_fs_z2_clusterSE_info,-0.316900240448659,0.07959751064187155,1444.0,,None,main,,ipw
+T10_D_c2,-0.0925572183988881,0.15191862018299165,1444.0,0.37098322714008924,"('d_sh_empl_nmfg', 'd_netimpusch_pw', 'd_expotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_netimpusch_pw,ipw
+T10_D_c3,0.4550386164091277,0.4214259738707679,1444.0,0.2104485145124375,"('d_avg_lnwkwage_mfg', 'd_netimpusch_pw', 'd_expotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_netimpusch_pw,ipw
+T10_D_c4,-0.47262395986992806,0.27207386542478196,1444.0,0.6074995675296098,"('d_avg_lnwkwage_nmfg', 'd_netimpusch_pw', 'd_expotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_netimpusch_pw,ipw
+T10_D_c5,0.7287730757602173,0.3448739370888354,1444.0,0.5754373513920246,"('lnchg_trans_totindiv_pc', 'd_netimpusch_pw', 'd_expotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_netimpusch_pw,ipw
+T10_D_c6,-1.3879076505571866,0.5802741142721963,1444.0,0.45768456917798683,"('relchg_avg_hhincwage_pc_pw', 'd_netimpusch_pw', 'd_expotch_pw_lag d_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_netimpusch_pw,ipw
+T10_D_meansd,1.5811790318373518,1.6647008901424936,,,None,main,,ipw
+T10_F_c1,-0.5713335861098017,0.09845982983587426,1444.0,0.3816147456211262,"('d_sh_empl_mfg', 'd_nettradefactor_usch_io', 'd_expfactor_otch_lag_io d_tradefactor_otch_lag_io', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_nettradefactor_usch_io,ipw
+T10_F_c1_fs_z1,0.7162415050675037,0.06877038170597281,1444.0,0.5960102545240729,None,main,,ipw
+T10_F_c1_fs_z1_clusterSE_info,0.7162415050675037,0.08192364223746328,1444.0,,None,main,,ipw
+T10_F_c1_fs_z2,-0.2771739748887946,0.06359023055422901,1444.0,0.5960102545240729,None,main,,ipw
+T10_F_c1_fs_z2_clusterSE_info,-0.2771739748887946,0.05901103186357981,1444.0,,None,main,,ipw
+T10_F_c2,-0.11885931767975076,0.1523848577129621,1444.0,0.3677500525554003,"('d_sh_empl_nmfg', 'd_nettradefactor_usch_io', 'd_expfactor_otch_lag_io d_tradefactor_otch_lag_io', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_nettradefactor_usch_io,ipw
+T10_F_c3,0.5917490149439664,0.49651474590477124,1444.0,0.21424553101320243,"('d_avg_lnwkwage_mfg', 'd_nettradefactor_usch_io', 'd_expfactor_otch_lag_io d_tradefactor_otch_lag_io', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_nettradefactor_usch_io,ipw
+T10_F_c4,-0.6568883384674999,0.2583715111023582,1444.0,0.6047163452131041,"('d_avg_lnwkwage_nmfg', 'd_nettradefactor_usch_io', 'd_expfactor_otch_lag_io d_tradefactor_otch_lag_io', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_nettradefactor_usch_io,ipw
+T10_F_c5,0.8061394759518837,0.35552394656808417,1444.0,0.5755810752421391,"('lnchg_trans_totindiv_pc', 'd_nettradefactor_usch_io', 'd_expfactor_otch_lag_io d_tradefactor_otch_lag_io', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_nettradefactor_usch_io,ipw
+T10_F_c6,-1.69760582573775,0.5414540302433531,1444.0,0.4504299165227358,"('relchg_avg_hhincwage_pc_pw', 'd_nettradefactor_usch_io', 'd_expfactor_otch_lag_io d_tradefactor_otch_lag_io', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_nettradefactor_usch_io,ipw
+T10_F_meansd,1.5030189609777773,1.48388685128253,,,None,main,,ipw
+T10_E_c1,-0.28932304955784827,0.042970945628847027,1444.0,0.47894287443681394,"('d_sh_empl_mfg', 'd_traderes_pw_lag', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_traderes_pw_lag,ipw
+T10_E_c2,-0.03439758389063431,0.0746691192977881,1444.0,0.376253538442175,"('d_sh_empl_nmfg', 'd_traderes_pw_lag', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_traderes_pw_lag,ipw
+T10_E_c3,0.03564447253983934,0.277548490761638,1444.0,0.21453310726386876,"('d_avg_lnwkwage_mfg', 'd_traderes_pw_lag', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_traderes_pw_lag,ipw
+T10_E_c4,-0.2614317602481055,0.14725746146046115,1444.0,0.609824150062133,"('d_avg_lnwkwage_nmfg', 'd_traderes_pw_lag', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_traderes_pw_lag,ipw
+T10_E_c5,0.5258492843053463,0.14157554467512426,1444.0,0.5846904195486751,"('lnchg_trans_totindiv_pc', 'd_traderes_pw_lag', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_traderes_pw_lag,ipw
+T10_E_c6,-0.777380393093052,0.2534928528637455,1444.0,0.4858914209606021,"('relchg_avg_hhincwage_pc_pw', 'd_traderes_pw_lag', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_traderes_pw_lag,ipw
+T10_E_meansd,1.4251570306760282,1.78226490198979,,,None,main,,ipw
+F2_A,0.8150955288117968,0.09176861903766802,722.0,,"('d_tradeusch_pw', 'd_tradeotch_pw_lag', '', 'l_shind_manuf_cbp', '')",main,d_tradeotch_pw_lag,long
+F2_B,-0.3397626795035552,0.07116474713471176,722.0,,"('d_pct_manuf', 'd_tradeotch_pw_lag', '', 'l_shind_manuf_cbp', '')",main,d_tradeotch_pw_lag,long
+AT1_1990_p90,2.0505001447139284,,,,None,main,,ipw
+AT1_1990_p75,1.3156069207265633,,,,None,main,,ipw
+AT1_1990_p50,0.8886721603318666,,,,None,main,,ipw
+AT1_1990_p25,0.6231093585582236,,,,None,main,,ipw
+AT1_1990_p10,0.3780664793805401,,,,None,main,,ipw
+AT1_2000_p90,4.304801394246335,,,,None,main,,ipw
+AT1_2000_p75,3.1138362196024008,,,,None,main,,ipw
+AT1_2000_p50,2.112932511816967,,,,None,main,,ipw
+AT1_2000_p25,1.5993539908786758,,,,None,main,,ipw
+AT1_2000_p10,1.0279899684891896,,,,None,main,,ipw
+AT1_1990_rank1|San Jose CA,3.150078996641554,,,,None,main,,ipw
+AT1_1990_rank2|Providence RI,2.591957220115979,,,,None,main,,ipw
+AT1_1990_rank3|Buffalo NY,2.2411472953501916,,,,None,main,,ipw
+AT1_1990_rank4|Boston MA,1.5547979521928157,,,,None,main,,ipw
+AT1_1990_rank5|Portland OR,1.5312842388284675,,,,None,main,,ipw
+AT1_1990_rank6|San Diego CA,1.5161588693195227,,,,None,main,,ipw
+AT1_1990_rank7|Newark NJ,1.3163126781819907,,,,None,main,,ipw
+AT1_1990_rank8|Los Angeles CA,1.2769402875707854,,,,None,main,,ipw
+AT1_1990_rank9|Bridgeport CT,1.271309116092283,,,,None,main,,ipw
+AT1_1990_rank10|Denver CO,1.2275556917162205,,,,None,main,,ipw
+AT1_1990_rank20|Fort Worth TX,0.8338417862552863,,,,None,main,,ipw
+AT1_1990_rank21|Phoenix AZ,0.8315731398630761,,,,None,main,,ipw
+AT1_1990_rank31|Atlanta GA,0.6099038178421702,,,,None,main,,ipw
+AT1_1990_rank32|Pittsburgh PA,0.5562626393614146,,,,None,main,,ipw
+AT1_1990_rank33|Sacramento CA,0.5284132489581715,,,,None,main,,ipw
+AT1_1990_rank34|Kansas City MO,0.5084656713669121,,,,None,main,,ipw
+AT1_1990_rank35|West Palm Beach FL,0.4750144719851818,,,,None,main,,ipw
+AT1_1990_rank36|Fresno CA,0.47003055223346024,,,,None,main,,ipw
+AT1_1990_rank37|Orlando FL,0.4622657914566223,,,,None,main,,ipw
+AT1_1990_rank38|Houston TX,0.45499469205344545,,,,None,main,,ipw
+AT1_1990_rank39|Washington DC,0.20909497348394787,,,,None,main,,ipw
+AT1_1990_rank40|New Orleans LA,0.1852996748366835,,,,None,main,,ipw
+AT1_2000_rank1|San Jose CA,7.323061855118822,,,,None,main,,ipw
+AT1_2000_rank2|Providence RI,4.9909296369915985,,,,None,main,,ipw
+AT1_2000_rank3|Los Angeles CA,3.5872528066119505,,,,None,main,,ipw
+AT1_2000_rank4|San Diego CA,3.0828437534173427,,,,None,main,,ipw
+AT1_2000_rank5|Portland OR,2.9583733036756135,,,,None,main,,ipw
+AT1_2000_rank6|Pittsburgh PA,2.9505977457094854,,,,None,main,,ipw
+AT1_2000_rank7|Chicago IL,2.9310268532652604,,,,None,main,,ipw
+AT1_2000_rank8|Milwaukee WI,2.9297209221009957,,,,None,main,,ipw
+AT1_2000_rank9|Boston MA,2.7897906691368126,,,,None,main,,ipw
+AT1_2000_rank10|Dallas TX,2.772738069893609,,,,None,main,,ipw
+AT1_2000_rank20|Columbus OH,1.903145631114931,,,,None,main,,ipw
+AT1_2000_rank21|Phoenix AZ,1.8975002879260745,,,,None,main,,ipw
+AT1_2000_rank31|Fresno CA,1.562652753546259,,,,None,main,,ipw
+AT1_2000_rank32|St. Louis MO,1.5282539356832625,,,,None,main,,ipw
+AT1_2000_rank33|Tampa FL,1.49367378674789,,,,None,main,,ipw
+AT1_2000_rank34|Atlanta GA,1.3063465277538158,,,,None,main,,ipw
+AT1_2000_rank35|Baltimore MD,1.248290634059485,,,,None,main,,ipw
+AT1_2000_rank36|West Palm Beach FL,1.2193980410876637,,,,None,main,,ipw
+AT1_2000_rank37|Kansas City MO,1.1330367283782312,,,,None,main,,ipw
+AT1_2000_rank38|Washington DC,0.855131801014873,,,,None,main,,ipw
+AT1_2000_rank39|New Orleans LA,0.7011535687951159,,,,None,main,,ipw
+AT1_2000_rank40|Orlando FL,0.5892027249030818,,,,None,main,,ipw
+AT3_A_c1,-1.886244003178998,0.8267510333916167,180.0,-0.3239353960460849,"('d_sh_empl_mfg', 'exposure9000', 'instrument9000', '', 'yr==1990&growth>g4')",main,exposure9000,ipw
+AT3_A_c2,-1.0792634630171973,0.6979002922276902,180.0,0.0002966126368117994,"('d_sh_empl_mfg', 'exposure9000', 'instrument9000', 'l_shind_manuf_cbp', 'yr==1990&growth>g4')",main,exposure9000,ipw
+AT3_A_c2_l_shind_manuf_cbp,-0.04931371324641533,0.026567270980401,180.0,,"('d_sh_empl_mfg', 'exposure9000', 'instrument9000', 'l_shind_manuf_cbp', 'yr==1990&growth>g4')",main,l_shind_manuf_cbp,ipw
+AT3_A_c3,-0.8875123902400656,0.18115996832702197,722.0,-0.13631847031662625,"('d_sh_empl_mfg', 'exposure9000', 'instrument9000', '', 'yr==1990')",main,exposure9000,ipw
+AT3_A_c4,-0.9632684611777327,0.2761527202678868,722.0,-0.17208763674206096,"('d_sh_empl_mfg', 'exposure9000', 'instrument9000', 'l_shind_manuf_cbp', 'yr==1990')",main,exposure9000,ipw
+AT3_A_c4_l_shind_manuf_cbp,0.01019843087786679,0.030576207576406417,722.0,,"('d_sh_empl_mfg', 'exposure9000', 'instrument9000', 'l_shind_manuf_cbp', 'yr==1990')",main,l_shind_manuf_cbp,ipw
+AT3_B_c1,-0.1490583184252588,0.12468298701294034,180.0,-0.10658134886851234,"('d_sh_empl_mfg', 'exposure0007', 'instrument0007', '', 'yr==1990&growth>g4')",main,exposure0007,ipw
+AT3_B_c2,0.0012903350068294251,0.10639029120982661,180.0,0.14491187180310094,"('d_sh_empl_mfg', 'exposure0007', 'instrument0007', 'l_shind_manuf_cbp', 'yr==1990&growth>g4')",main,exposure0007,ipw
+AT3_B_c2_l_shind_manuf_cbp,-0.07524617134945663,0.025437368144858162,180.0,,"('d_sh_empl_mfg', 'exposure0007', 'instrument0007', 'l_shind_manuf_cbp', 'yr==1990&growth>g4')",main,l_shind_manuf_cbp,ipw
+AT3_B_c3,-0.26898213253556286,0.06579957983933393,722.0,-0.024279204974263724,"('d_sh_empl_mfg', 'exposure0007', 'instrument0007', '', 'yr==1990')",main,exposure0007,ipw
+AT3_B_c4,-0.16490829489846767,0.11644120012693095,722.0,0.030154589866203008,"('d_sh_empl_mfg', 'exposure0007', 'instrument0007', 'l_shind_manuf_cbp', 'yr==1990')",main,exposure0007,ipw
+AT3_B_c4_l_shind_manuf_cbp,-0.025946332680266526,0.03140586186893848,722.0,,"('d_sh_empl_mfg', 'exposure0007', 'instrument0007', 'l_shind_manuf_cbp', 'yr==1990')",main,l_shind_manuf_cbp,ipw
+AT3_N_strong,180.0,,,,None,main,,ipw
+AT4_A_c1,-0.17112825921925534,0.027784715691193115,1444.0,0.446726321963837,"('d_sh_empl_mfg', 'd_tradeusch_pw', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT4_B_c1,-0.5963600742335936,0.09877388494646011,1444.0,0.34288372737255846,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT4_fs_c1,0.6310409368033792,0.08700718844387158,1444.0,,None,main,,ipw
+AT4_fs_c1_clusterSE_info,0.6310409368033792,0.08996343593502033,1444.0,,None,main,,ipw
+AT4_C_c1,1.883753723538386,1.7515837489254416,,,None,main,,ipw
+AT4_A_c2,-0.1822135937520659,0.026306162750496707,1444.0,0.45059116758356177,"('d_sh_empl_mfg', 'd_tradeuschlw_pw', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeuschlw_pw,ipw
+AT4_B_c2,-0.5871348364591441,0.09549808081212756,1444.0,0.34845388550543976,"('d_sh_empl_mfg', 'd_tradeuschlw_pw', 'd_tradeotchlw_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeuschlw_pw,ipw
+AT4_fs_c2,0.6208304973028572,0.078094493068936,1444.0,,None,main,,ipw
+AT4_fs_c2_clusterSE_info,0.6208304973028572,0.08289237650569808,1444.0,,None,main,,ipw
+AT4_C_c2,2.1291162953789784,1.8891909122459065,,,None,main,,ipw
+AT4_A_c3,-0.0340793832086713,0.03074080515857876,1444.0,0.4308513821597586,"('d_sh_empl_mfg', 'd_tradeuschce_pw', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeuschce_pw,ipw
+AT4_B_c3,-0.601675594569175,0.11017680807889754,1444.0,0.16932685186147844,"('d_sh_empl_mfg', 'd_tradeuschce_pw', 'd_tradeotchce_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeuschce_pw,ipw
+AT4_fs_c3,0.6318928970860875,0.0934813916182005,1444.0,,None,main,,ipw
+AT4_fs_c3_clusterSE_info,0.6318928970860875,0.09516068377616856,1444.0,,None,main,,ipw
+AT4_C_c3,2.762133968432016,2.0805710953723975,,,None,main,,ipw
+AT4_A_c4,0.2967561890557884,0.04977923357212716,1444.0,0.4508628278183613,"('d_sh_empl_mfg', 'd_tradeusce_pw', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusce_pw,ipw
+AT4_B_c4,-1.8697154427967175,0.6820996388384798,1444.0,-0.6659447439849024,"('d_sh_empl_mfg', 'd_tradeusce_pw', 'd_tradeotce_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusce_pw,ipw
+AT4_fs_c4,1.1460680772779244,0.5139820521553189,1444.0,,None,main,,ipw
+AT4_fs_c4_clusterSE_info,1.1460680772779244,0.2693145804480209,1444.0,,None,main,,ipw
+AT4_C_c4,0.8783802415981774,1.1156023430592197,,,None,main,,ipw
+AT4_A_c5,0.021212182459852402,0.005029817517648653,1444.0,0.43970552690999787,"('d_sh_empl_mfg', 'd_tradeushi_pw', '', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeushi_pw,ipw
+AT4_B_c5,-0.030779133078002542,0.018240736105493243,1444.0,0.38085080793058457,"('d_sh_empl_mfg', 'd_tradeushi_pw', 'd_tradeothi_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeushi_pw,ipw
+AT4_fs_c5,0.4202923312574468,0.04733262675103299,1444.0,,None,main,,ipw
+AT4_fs_c5_clusterSE_info,0.4202923312574468,0.059370205178694783,1444.0,,None,main,,ipw
+AT4_C_c5,9.035602702814082,9.300891148994875,,,None,main,,ipw
+AT5_A_c1,-0.5963600742335936,0.09877388494646011,1444.0,0.34288372737255846,"('d_sh_empl_mfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_A_c2,-0.17786674270476313,0.13704711607942452,1444.0,0.36464565201994836,"('d_sh_empl_nmfg', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_A_c3,0.22094234808940844,0.057582819466075304,1444.0,0.40356679231441317,"('d_sh_unempl', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_A_c4,0.5532842544691708,0.15032933108406019,1444.0,0.3860384576742797,"('d_sh_nilf', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_B_c1,-0.6249920035014028,0.12353531921967142,1444.0,0.2739309807251271,"('d_sh_empl_mfg_m', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_B_c2,-0.1398593101933579,0.15134428164575134,1444.0,0.3755708691589982,"('d_sh_empl_nmfg_m', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_B_c3,0.22421763653764726,0.061944548648476296,1444.0,0.41806182829400895,"('d_sh_unempl_m', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_B_c4,0.5406340950829394,0.15886254990482776,1444.0,0.4315759173744933,"('d_sh_nilf_m', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_C_c1,-0.5553555561186233,0.08773775944915974,1444.0,0.40565010188008077,"('d_sh_empl_mfg_f', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_C_c2,-0.2179810105174531,0.13270360620481678,1444.0,0.381176481352526,"('d_sh_empl_nmfg_f', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_C_c3,0.21703130625893616,0.05971070223014857,1444.0,0.3209392025650085,"('d_sh_unempl_f', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_C_c4,0.5563056965493066,0.14878326617205714,1444.0,0.35891861496930444,"('d_sh_nilf_f', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_D_c1,-0.6855775150339014,0.12891991167079359,1444.0,0.3651278345348805,"('d_sh_empl_mfg_age1634', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_D_c2,-0.15466493624356883,0.14469231453572043,1444.0,0.29148430756415145,"('d_sh_empl_nmfg_age1634', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_D_c3,0.2709297997996996,0.07383845967636637,1444.0,0.25542562609811414,"('d_sh_unempl_age1634', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_D_c4,0.5693128755555313,0.12842144606771863,1444.0,0.30077989166345087,"('d_sh_nilf_age1634', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_E_c1,-0.6367965322255061,0.11910546670857378,1444.0,0.24710869195650154,"('d_sh_empl_mfg_age3549', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_E_c2,-0.1622698425273279,0.11874038744946143,1444.0,0.5852656639906069,"('d_sh_empl_nmfg_age3549', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_E_c3,0.23582402262033733,0.07610731921296361,1444.0,0.42385366592974527,"('d_sh_unempl_age3549', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_E_c4,0.5632424296197682,0.15725434022200985,1444.0,0.6406762471110783,"('d_sh_nilf_age3549', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_F_c1,-0.35309796989246706,0.07909201235334447,1444.0,0.2826071491817541,"('d_sh_empl_mfg_age5064', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_F_c2,-0.29451846570972606,0.19485946791288636,1444.0,0.12425559875176673,"('d_sh_empl_nmfg_age5064', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_F_c3,0.1053540589922265,0.03489720517292159,1444.0,0.4285821707955837,"('d_sh_unempl_age5064', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw
+AT5_F_c4,0.542262159337223,0.19938530686601608,1444.0,0.19119730465852103,"('d_sh_nilf_age5064', 'd_tradeusch_pw', 'd_tradeotch_pw_lag', 'l_sh_empl_f l_sh_popedu_c l_sh_popfborn l_sh_routine33 l_shind_manuf_cbp l_task_outsource reg* t2', '')",main,d_tradeusch_pw,ipw

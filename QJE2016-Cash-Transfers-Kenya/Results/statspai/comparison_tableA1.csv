@@ -1,0 +1,61 @@
+row,column,stat,paper,Stata re-run,StatsPAI,abs diff Stata,abs diff StatsPAI,Stata,SP,MC
+value of non-land assets (usd),control mean,coef/value,494.8,494.8,494.8,0.0,0.0,✅,✅,False
+value of non-land assets (usd),treat MDE,coef/value,76.29,76.29,76.29261111533759,0.0,0.0,✅,✅,False
+value of non-land assets (usd),treat %,coef/value,0.15,0.15,0.1541887856009248,0.0,0.0,✅,✅,False
+value of non-land assets (usd),female MDE,coef/value,141.07,141.07,141.0724685991433,0.0,0.0,✅,✅,False
+value of non-land assets (usd),female %,coef/value,0.29,0.29,0.2851100820516234,0.0,0.0,✅,✅,False
+value of non-land assets (usd),monthly MDE,coef/value,128.57,128.57,128.5670592285666,0.0,0.0,✅,✅,False
+value of non-land assets (usd),monthly %,coef/value,0.26,0.26,0.2598364171959713,0.0,0.0,✅,✅,False
+value of non-land assets (usd),large MDE,coef/value,137.46,137.46,137.4602430605049,0.0,0.0,✅,✅,False
+value of non-land assets (usd),large %,coef/value,0.28,0.28,0.2778097070745854,0.0,0.0,✅,✅,False
+value of non-land assets (usd),control mean,(SE/SD),415.32,415.32,415.3170721270962,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),control mean,coef/value,157.61,157.61,157.61,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),treat MDE,coef/value,16.39,16.39,16.387572779368412,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),treat %,coef/value,0.1,0.1,0.1039754633549166,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),female MDE,coef/value,28.77,28.77,28.77329153113423,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),female %,coef/value,0.18,0.18,0.1825600630108129,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),monthly MDE,coef/value,29.98,29.98,29.975322554611388,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),monthly %,coef/value,0.19,0.19,0.1901866794912212,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),large MDE,coef/value,29.36,29.36,29.359846174327703,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),large %,coef/value,0.19,0.19,0.1862816202926699,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),control mean,(SE/SD),82.18,82.18,82.1802797444825,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",control mean,coef/value,48.98,48.98,48.98,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",treat MDE,coef/value,16.46,16.46,16.462595690336265,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",treat %,coef/value,0.34,0.34,0.3361085277733006,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",female MDE,coef/value,29.71,29.71,29.705403964279455,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",female %,coef/value,0.61,0.61,0.6064802769350645,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",monthly MDE,coef/value,31.01,31.01,31.006367655476637,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",monthly %,coef/value,0.63,0.63,0.6330413976210012,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",large MDE,coef/value,24.84,24.84,24.83588120127242,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",large %,coef/value,0.51,0.51,0.5070616823452925,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",control mean,(SE/SD),90.52,90.52,90.5218235487813,0.0,0.0,✅,✅,False
+food security index,control mean,coef/value,0.0,0.0,0.0,0.0,0.0,✅,✅,False
+food security index,treat MDE,coef/value,0.17,0.17,0.1718837523078805,0.0,0.0,✅,✅,False
+food security index,female MDE,coef/value,0.25,0.25,0.254936439129567,0.0,0.0,✅,✅,False
+food security index,monthly MDE,coef/value,0.3,0.3,0.3008967823896442,0.0,0.0,✅,✅,False
+food security index,large MDE,coef/value,0.28,0.28,0.2826321574299272,0.0,0.0,✅,✅,False
+food security index,control mean,(SE/SD),1.0,1.0,0.9999999971679632,0.0,0.0,✅,✅,False
+health index,control mean,coef/value,0.0,0.0,-0.0,0.0,0.0,✅,✅,False
+health index,treat MDE,coef/value,0.17,0.17,0.1718101260014808,0.0,0.0,✅,✅,False
+health index,female MDE,coef/value,0.24,0.24,0.239860989598086,0.0,0.0,✅,✅,False
+health index,monthly MDE,coef/value,0.28,0.28,0.2817026855448476,0.0,0.0,✅,✅,False
+health index,large MDE,coef/value,0.25,0.25,0.2507153829104067,0.0,0.0,✅,✅,False
+health index,control mean,(SE/SD),1.0,1.0,1.0012024994972295,0.0,0.0,✅,✅,False
+education index,control mean,coef/value,0.0,0.0,0.0,0.0,0.0,✅,✅,False
+education index,treat MDE,coef/value,0.16,0.16,0.164205724500965,0.0,0.0,✅,✅,False
+education index,female MDE,coef/value,0.25,0.25,0.2467138533332814,0.0,0.0,✅,✅,False
+education index,monthly MDE,coef/value,0.27,0.27,0.2732307719533414,0.0,0.0,✅,✅,False
+education index,large MDE,coef/value,0.24,0.24,0.2394862750211148,0.0,0.0,✅,✅,False
+education index,control mean,(SE/SD),1.0,1.0,0.9999999933979692,0.0,0.0,✅,✅,False
+psychological well-being index,control mean,coef/value,0.0,0.0,-0.0,0.0,0.0,✅,✅,False
+psychological well-being index,treat MDE,coef/value,0.14,0.14,0.1388520734490468,0.0,0.0,✅,✅,False
+psychological well-being index,female MDE,coef/value,0.21,0.21,0.2137200081577819,0.0,0.0,✅,✅,False
+psychological well-being index,monthly MDE,coef/value,0.24,0.24,0.2363573754053022,0.0,0.0,✅,✅,False
+psychological well-being index,large MDE,coef/value,0.22,0.22,0.2161477448510509,0.0,0.0,✅,✅,False
+psychological well-being index,control mean,(SE/SD),1.0,1.0,0.9993138939404124,0.0,0.0,✅,✅,False
+female empowerment index,control mean,coef/value,0.0,0.0,-0.0,0.0,0.0,✅,✅,False
+female empowerment index,treat MDE,coef/value,0.2,0.2,0.1970608344096903,0.0,0.0,✅,✅,False
+female empowerment index,female MDE,coef/value,0.29,0.29,0.2893903956856176,0.0,0.0,✅,✅,False
+female empowerment index,monthly MDE,coef/value,0.33,0.33,0.3329348845304881,0.0,0.0,✅,✅,False
+female empowerment index,large MDE,coef/value,0.3,0.3,0.3021732148111396,0.0,0.0,✅,✅,False
+female empowerment index,control mean,(SE/SD),1.0,1.0,1.000000005783822,0.0,0.0,✅,✅,False

@@ -1,0 +1,925 @@
+-------------------------------------------------------------------------------
+      name:  modref
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/AER
+> 2013-China-Syndrome/Results/log/modern_reference_stata.log
+  log type:  text
+ opened on:  16 Sep 2026, 23:14:13
+
+. 
+. use "$ROOT/Data/dta/workfile_china.dta", clear
+
+. local full l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f l_sh_rou
+> tine33 l_task_outsource reg_midatl reg_encen reg_wncen reg_satl reg_escen reg
+> _wscen reg_mount reg_pacif t2
+
+. 
+. tempname fh
+
+. file open `fh' using "$ROOT/Results/log/modern_reference_stata.csv", write re
+> place text
+
+. file write `fh' "spec,stat,value" _n
+
+. 
+. foreach spec in c1 c6 c6u {
+  2.     if "`spec'" == "c1" local ctrl t2
+  3.     else local ctrl `full'
+  4.     local wgt "[aw=timepwt48]"
+  5.     if "`spec'" == "c6u" local wgt ""   // unweighted variant: isolates we
+> ight handling across software
+  6. 
+.     * --- ivreg2: same point estimate as ivregress; KP F; AR test -----------
+> ----
+.     ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_lag) `ctrl' `wgt', 
+> cluster(statefip)
+  7.     file write `fh' "`spec',b," %20.12g (_b[d_tradeusch_pw]) _n
+  8.     file write `fh' "`spec',se_ivreg2," %20.12g (_se[d_tradeusch_pw]) _n
+  9.     file write `fh' "`spec',kp_rk_wald_F," %20.12g (e(widstat)) _n
+ 10.     file write `fh' "`spec',ar_F," %20.12g (e(arf)) _n
+ 11.     file write `fh' "`spec',ar_p," %20.12g (e(arfp)) _n
+ 12. 
+.     * --- Olea-Pflueger effective F -----------------------------------------
+> -
+.     cap noisily weakivtest
+ 13.     if !_rc {
+ 14.         return list
+ 15.         file write `fh' "`spec',F_eff," %20.12g (r(F_eff)) _n
+ 16.         cap file write `fh' "`spec',F_eff_crit_tau10_5pct," %20.12g (r(c_T
+> SLS_10)) _n
+ 17.     }
+ 18. 
+.     * --- weak-IV robust confidence sets ------------------------------------
+> ---
+.     cap noisily weakiv ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_
+> lag) `ctrl' `wgt', cluster(statefip) usegrid gridpoints(2001) gridmin(-2) gri
+> dmax(1)
+ 19.     if !_rc {
+ 20.         ereturn list
+ 21.         cap file write `fh' "`spec',ar_cset,`e(ar_cset)'" _n
+ 22.         cap file write `fh' "`spec',clr_cset,`e(clr_cset)'" _n
+ 23.         cap file write `fh' "`spec',k_cset,`e(k_cset)'" _n
+ 24.         cap file write `fh' "`spec',wald_cset,`e(wald_cset)'" _n
+ 25.     }
+ 26. 
+.     * --- WRE wild cluster bootstrap ----------------------------------------
+> ------
+.     qui ivreg2 d_sh_empl_mfg (d_tradeusch_pw = d_tradeotch_pw_lag) `ctrl' `wg
+> t', cluster(statefip)
+ 27.     cap noisily boottest d_tradeusch_pw, reps(9999) seed(20130601) nograph
+ 28.     if !_rc {
+ 29.         return list
+ 30.         file write `fh' "`spec',wre_p," %20.12g (r(p)) _n
+ 31.         cap mat CI = r(CI)
+ 32.         cap file write `fh' "`spec',wre_ci_lo," %20.12g (CI[1,1]) _n
+ 33.         cap file write `fh' "`spec',wre_ci_hi," %20.12g (CI[1,2]) _n
+ 34.     }
+ 35. }
+(sum of wgt is     2.0000e+00)
+
+IV (2SLS) estimation
+--------------------
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity and clustering on statefip
+
+Number of clusters (statefip) =     48                Number of obs =     1444
+                                                      F(  2,    47) =    75.24
+                                                      Prob > F      =   0.0000
+Total (centered) SS     =  4396.587068                Centered R2   =   0.0664
+Total (uncentered) SS   =   12720.4953                Uncentered R2 =   0.6773
+Residual SS             =  4104.857486                Root MSE      =    1.686
+
+------------------------------------------------------------------------------
+             |               Robust
+d_sh_em~_mfg | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+d_t~eusch_pw |  -.7460301   .0680391   -10.96   0.000    -.8793842   -.6126759
+          t2 |   .4444448   .3237889     1.37   0.170    -.1901698    1.079059
+       _cons |  -1.217819   .1385799    -8.79   0.000     -1.48943    -.946207
+------------------------------------------------------------------------------
+Underidentification test (Kleibergen-Paap rk LM statistic):             16.908
+                                                   Chi-sq(1) P-val =    0.0000
+------------------------------------------------------------------------------
+Weak identification test (Cragg-Donald Wald F statistic):             1147.000
+                         (Kleibergen-Paap rk Wald F statistic):         97.539
+Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                         15% maximal IV size              8.96
+                                         20% maximal IV size              6.66
+                                         25% maximal IV size              5.53
+Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+------------------------------------------------------------------------------
+Hansen J statistic (overidentification test of all instruments):         0.000
+                                                 (equation exactly identified)
+------------------------------------------------------------------------------
+Instrumented:         d_tradeusch_pw
+Included instruments: t2
+Excluded instruments: d_tradeotch_pw_lag
+------------------------------------------------------------------------------
+(sum of wgt is 1.999999987072442)
+(obs=1,444)
+
+Montiel-Pflueger robust weak instrument test
+--------------------------------------------
+Effective F statistic:       97.539
+Confidence level alpha:          5%
+--------------------------------------------
+
+--------------------------------------------
+Critical Values             TSLS      LIML
+--------------------------------------------
+% of Worst Case Bias
+tau=5%                    37.418    37.418
+tau=10%                   23.109    23.109
+tau=20%                   15.062    15.062
+tau=30%                   12.039    12.039
+--------------------------------------------
+
+scalars:
+                  r(K) =  1
+                  r(N) =  1444
+                 r(n2) =  10000000
+              r(level) =  .05
+                r(eps) =  .001
+              r(F_eff) =  97.53867555847576
+           r(c_TSLS_5) =  37.41756
+          r(c_TSLS_10) =  23.10851
+          r(c_TSLS_20) =  15.06155
+          r(c_TSLS_30) =  12.0387
+           r(c_LIML_5) =  37.41756
+          r(c_LIML_10) =  23.10851
+          r(c_LIML_20) =  15.06155
+          r(c_LIML_30) =  12.0387
+           r(c_simp_5) =  37.41756
+          r(c_simp_10) =  23.10851
+          r(c_simp_20) =  15.06155
+          r(c_simp_30) =  12.0387
+           r(x_TSLS_5) =  20
+          r(x_TSLS_10) =  10
+          r(x_TSLS_20) =  5
+          r(x_TSLS_30) =  3.33
+       r(K_eff_TSLS_5) =  1
+      r(K_eff_TSLS_10) =  1
+      r(K_eff_TSLS_20) =  1
+      r(K_eff_TSLS_30) =  1
+           r(x_LIML_5) =  20
+          r(x_LIML_10) =  10
+          r(x_LIML_20) =  5
+          r(x_LIML_30) =  3.33
+       r(K_eff_LIML_5) =  1
+      r(K_eff_LIML_10) =  1
+      r(K_eff_LIML_20) =  1
+      r(K_eff_LIML_30) =  1
+           r(x_simp_5) =  20
+          r(x_simp_10) =  10
+          r(x_simp_20) =  5
+          r(x_simp_30) =  3.33
+       r(K_eff_simp_5) =  1
+      r(K_eff_simp_10) =  1
+      r(K_eff_simp_20) =  1
+      r(K_eff_simp_30) =  1
+Estimating model for Wald tests using ivreg2...
+(sum of wgt is     2.0000e+00)
+(sum of wgt is     2.0000e+00)
+Estimating confidence sets over 2001 grid points
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+..................................................    50
+..................................................   100
+..................................................   150
+..................................................   200
+..................................................   250
+..................................................   300
+..................................................   350
+..................................................   400
+..................................................   450
+..................................................   500
+..................................................   550
+..................................................   600
+..................................................   650
+..................................................   700
+..................................................   750
+..................................................   800
+..................................................   850
+..................................................   900
+..................................................   950
+.................................................. 1,000
+.................................................. 1,050
+.................................................. 1,100
+.................................................. 1,150
+.................................................. 1,200
+.................................................. 1,250
+.................................................. 1,300
+.................................................. 1,350
+.................................................. 1,400
+.................................................. 1,450
+.................................................. 1,500
+.................................................. 1,550
+.................................................. 1,600
+.................................................. 1,650
+.................................................. 1,700
+.................................................. 1,750
+.................................................. 1,800
+.................................................. 1,850
+.................................................. 1,900
+.................................................. 1,950
+.................................................. 2,000
+.
+Weak instrument robust tests and confidence sets for linear IV
+H0: beta[d_sh_empl_mfg:d_tradeusch_pw] = 0
+------------------------------------------------------------------------------
+ Test |       Statistic         p-value |  Conf. level        Conf. Set       
+------+---------------------------------+-------------------------------------
+   AR | chi2(1)   =    15.31     0.0001 |      95%       [  -.9005,   -.599]  
+------+---------------------------------+-------------------------------------
+ Wald | chi2(1)   =   120.23     0.0000 |      95%       [-.879384,-.612676]  
+------------------------------------------------------------------------------
+Confidence sets estimated for 2001 points in [ -2, 1].
+Number of obs N = 1444.
+Method = lagrange multiplier (LM).
+Tests robust to heteroskedasticity and clustering on statefip (N_clust=48).
+Wald statistic in last row is based on ivreg2 estimation and is not robust to
+weak instruments.
+
+scalars:
+            e(endo_ct) =  1
+           e(wendo_ct) =  1
+           e(sendo_ct) =  0
+         e(tinexog_ct) =  0
+          e(exexog_ct) =  1
+         e(wald_level) =  95
+             e(wald_p) =  5.64682962758e-28
+            e(wald_df) =  1
+          e(wald_chi2) =  120.2253233880144
+           e(ar_level) =  95
+              e(ar_df) =  1
+               e(ar_p) =  .0000913961459523
+            e(ar_chi2) =  15.30660995162098
+              e(rk_df) =  1
+               e(rk_p) =  .2002336312163013
+                 e(rk) =  1.640669526273626
+             e(testid) =  0
+                  e(N) =  1444
+            e(N_clust) =  48
+            e(clrsims) =  0
+          e(citblocks) =  1
+                e(npd) =  0
+              e(small) =  0
+                 e(ci) =  1
+               e(grid) =  1
+                e(iid) =  0
+             e(overid) =  0
+             e(points) =  2001
+          e(csendo_ct) =  0
+          e(pwendo_ct) =  0
+         e(closedform) =  0
+
+macros:
+             e(method) : "lm"
+              e(model) : "linear"
+              e(note1) : "Tests robust to heteroskedasticity and clustering.."
+            e(ivtitle) : "linear IV"
+          e(levellist) : "95"
+              e(level) : "95"
+         e(gridpoints) : "2001"
+    e(points_descript) : "2001"
+      e(grid_descript) : "[      -2,       1]"
+          e(ptestlist) : "ar wald"
+         e(citestlist) : "ar"
+           e(testlist) : "ar"
+            e(ar_cset) : "[  -.9005,   -.599]"
+          e(wald_cset) : "[-.879384,-.612676]"
+            e(cluster) : "cluster(statefip)"
+           e(clustvar) : "statefip"
+             e(robust) : "robust"
+               e(null) : "0"
+             e(exexog) : "d_tradeotch_pw_lag"
+             e(inexog) : "t2"
+              e(wendo) : "d_tradeusch_pw"
+               e(endo) : "d_tradeusch_pw"
+             e(depvar) : "d_sh_empl_mfg"
+            e(waldcmd) : "ivreg2"
+                e(cmd) : "weakiv"
+
+matrices:
+            e(citable) :  2001 x 7
+              e(wbeta) :  1 x 1
+          e(var_wbeta) :  1 x 1
+              e(ebeta) :  1 x 1
+
+functions:
+             e(sample)   
+
+Wild bootstrap-t, null imposed, 9999 replications, Wald test, bootstrap cluster
+> ing by statefip, Rademacher weights:
+  d_tradeusch_pw
+
+                               z =   -10.9647
+                        Prob>|z| =     0.0000
+
+95% confidence set for null hypothesis expression: [−.8729, −.5939]
+
+scalars:
+               r(NH0s) =  1
+               r(reps) =  9999
+               r(null) =  1
+               r(ptol) =  .001
+              r(level) =  95
+                  r(p) =  0
+                 r(df) =  1
+               r(chi2) =  120.2253233880143
+                  r(z) =  -10.96473088534389
+
+macros:
+          r(clustvars) : "statefip"
+           r(boottype) : "wild"
+         r(weighttype) : "rademacher"
+          r(statistic) : "t"
+             r(robust) : "robust"
+              r(CIstr) : "[−.8729, −.5939]"
+               r(seed) : "20130601"
+
+matrices:
+                 r(CI) :  1 x 2
+               r(plot) :  25 x 2
+                  r(V) :  1 x 1
+                  r(b) :  1 x 1
+(sum of wgt is     2.0000e+00)
+
+IV (2SLS) estimation
+--------------------
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity and clustering on statefip
+
+Number of clusters (statefip) =     48                Number of obs =     1444
+                                                      F( 16,    47) =    42.53
+                                                      Prob > F      =   0.0000
+Total (centered) SS     =  4396.587068                Centered R2   =   0.3429
+Total (uncentered) SS   =   12720.4953                Uncentered R2 =   0.7729
+Residual SS             =  2889.068889                Root MSE      =    1.414
+
+------------------------------------------------------------------------------
+             |               Robust
+d_sh_em~_mfg | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+d_t~eusch_pw |  -.5963601   .0987739    -6.04   0.000    -.7899533   -.4027668
+l_shind_ma~p |  -.0402193   .0131419    -3.06   0.002     -.065977   -.0144616
+l_sh_poped~c |     .01314   .0121955     1.08   0.281    -.0107627    .0370428
+l_sh_popfb~n |   .0303784   .0108416     2.80   0.005     .0091292    .0516275
+ l_sh_empl_f |  -.0058602   .0244684    -0.24   0.811    -.0538175     .042097
+l_sh_rout~33 |  -.2448902   .0637471    -3.84   0.000    -.3698322   -.1199483
+l_task_out~e |  -.0590308   .2369742    -0.25   0.803    -.5234917    .4054301
+  reg_midatl |   .3129509    .281184     1.11   0.266    -.2381596    .8640614
+   reg_encen |   1.260668   .3370427     3.74   0.000     .6000765     1.92126
+   reg_wncen |   1.623558    .372155     4.36   0.000     .8941478    2.352969
+    reg_satl |  -.2882165   .2336566    -1.23   0.217     -.746175    .1697421
+   reg_escen |   1.076234    .334687     3.22   0.001     .4202596    1.732208
+   reg_wscen |   .7316365   .2313699     3.16   0.002     .2781597    1.185113
+   reg_mount |   .4021017    .257306     1.56   0.118    -.1022087    .9064122
+   reg_pacif |   .0268292   .1911115     0.14   0.888    -.3477425    .4014009
+          t2 |  -.2424246   .4005703    -0.61   0.545    -1.027528    .5426787
+       _cons |   6.278515   1.937264     3.24   0.001     2.481546    10.07548
+------------------------------------------------------------------------------
+Underidentification test (Kleibergen-Paap rk LM statistic):             16.880
+                                                   Chi-sq(1) P-val =    0.0000
+------------------------------------------------------------------------------
+Weak identification test (Cragg-Donald Wald F statistic):              533.322
+                         (Kleibergen-Paap rk Wald F statistic):         47.643
+Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                         15% maximal IV size              8.96
+                                         20% maximal IV size              6.66
+                                         25% maximal IV size              5.53
+Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+------------------------------------------------------------------------------
+Hansen J statistic (overidentification test of all instruments):         0.000
+                                                 (equation exactly identified)
+------------------------------------------------------------------------------
+Instrumented:         d_tradeusch_pw
+Included instruments: l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
+                      l_sh_routine33 l_task_outsource reg_midatl reg_encen
+                      reg_wncen reg_satl reg_escen reg_wscen reg_mount reg_paci
+> f
+                      t2
+Excluded instruments: d_tradeotch_pw_lag
+------------------------------------------------------------------------------
+(sum of wgt is 1.999999987072442)
+(obs=1,444)
+
+Montiel-Pflueger robust weak instrument test
+--------------------------------------------
+Effective F statistic:       47.643
+Confidence level alpha:          5%
+--------------------------------------------
+
+--------------------------------------------
+Critical Values             TSLS      LIML
+--------------------------------------------
+% of Worst Case Bias
+tau=5%                    37.418    37.418
+tau=10%                   23.109    23.109
+tau=20%                   15.062    15.062
+tau=30%                   12.039    12.039
+--------------------------------------------
+
+scalars:
+                  r(K) =  1
+                  r(N) =  1444
+                 r(n2) =  10000000
+              r(level) =  .05
+                r(eps) =  .001
+              r(F_eff) =  47.6427983869362
+           r(c_TSLS_5) =  37.41756
+          r(c_TSLS_10) =  23.10851
+          r(c_TSLS_20) =  15.06155
+          r(c_TSLS_30) =  12.0387
+           r(c_LIML_5) =  37.41756
+          r(c_LIML_10) =  23.10851
+          r(c_LIML_20) =  15.06155
+          r(c_LIML_30) =  12.0387
+           r(c_simp_5) =  37.41756
+          r(c_simp_10) =  23.10851
+          r(c_simp_20) =  15.06155
+          r(c_simp_30) =  12.0387
+           r(x_TSLS_5) =  20
+          r(x_TSLS_10) =  10
+          r(x_TSLS_20) =  5
+          r(x_TSLS_30) =  3.33
+       r(K_eff_TSLS_5) =  1
+      r(K_eff_TSLS_10) =  1
+      r(K_eff_TSLS_20) =  1
+      r(K_eff_TSLS_30) =  1
+           r(x_LIML_5) =  20
+          r(x_LIML_10) =  10
+          r(x_LIML_20) =  5
+          r(x_LIML_30) =  3.33
+       r(K_eff_LIML_5) =  1
+      r(K_eff_LIML_10) =  1
+      r(K_eff_LIML_20) =  1
+      r(K_eff_LIML_30) =  1
+           r(x_simp_5) =  20
+          r(x_simp_10) =  10
+          r(x_simp_20) =  5
+          r(x_simp_30) =  3.33
+       r(K_eff_simp_5) =  1
+      r(K_eff_simp_10) =  1
+      r(K_eff_simp_20) =  1
+      r(K_eff_simp_30) =  1
+Estimating model for Wald tests using ivreg2...
+(sum of wgt is     2.0000e+00)
+(sum of wgt is     2.0000e+00)
+Estimating confidence sets over 2001 grid points
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+..................................................    50
+..................................................   100
+..................................................   150
+..................................................   200
+..................................................   250
+..................................................   300
+..................................................   350
+..................................................   400
+..................................................   450
+..................................................   500
+..................................................   550
+..................................................   600
+..................................................   650
+..................................................   700
+..................................................   750
+..................................................   800
+..................................................   850
+..................................................   900
+..................................................   950
+.................................................. 1,000
+.................................................. 1,050
+.................................................. 1,100
+.................................................. 1,150
+.................................................. 1,200
+.................................................. 1,250
+.................................................. 1,300
+.................................................. 1,350
+.................................................. 1,400
+.................................................. 1,450
+.................................................. 1,500
+.................................................. 1,550
+.................................................. 1,600
+.................................................. 1,650
+.................................................. 1,700
+.................................................. 1,750
+.................................................. 1,800
+.................................................. 1,850
+.................................................. 1,900
+.................................................. 1,950
+.................................................. 2,000
+.
+Weak instrument robust tests and confidence sets for linear IV
+H0: beta[d_sh_empl_mfg:d_tradeusch_pw] = 0
+------------------------------------------------------------------------------
+ Test |       Statistic         p-value |  Conf. level        Conf. Set       
+------+---------------------------------+-------------------------------------
+   AR | chi2(1)   =    12.53     0.0004 |      95%       [   -.827,  -.3875]  
+------+---------------------------------+-------------------------------------
+ Wald | chi2(1)   =    36.45     0.0000 |      95%       [-.789953,-.402767]  
+------------------------------------------------------------------------------
+Confidence sets estimated for 2001 points in [ -2, 1].
+Number of obs N = 1444.
+Method = lagrange multiplier (LM).
+Tests robust to heteroskedasticity and clustering on statefip (N_clust=48).
+Wald statistic in last row is based on ivreg2 estimation and is not robust to
+weak instruments.
+
+scalars:
+            e(endo_ct) =  1
+           e(wendo_ct) =  1
+           e(sendo_ct) =  0
+         e(tinexog_ct) =  0
+          e(exexog_ct) =  1
+         e(wald_level) =  95
+             e(wald_p) =  1.56395069596e-09
+            e(wald_df) =  1
+          e(wald_chi2) =  36.45296464043771
+           e(ar_level) =  95
+              e(ar_df) =  1
+               e(ar_p) =  .0003995995542373
+            e(ar_chi2) =  12.53406483962354
+              e(rk_df) =  1
+               e(rk_p) =  .0344951761804573
+                 e(rk) =  4.469990859614635
+             e(testid) =  0
+                  e(N) =  1444
+            e(N_clust) =  48
+            e(clrsims) =  0
+          e(citblocks) =  1
+                e(npd) =  0
+              e(small) =  0
+                 e(ci) =  1
+               e(grid) =  1
+                e(iid) =  0
+             e(overid) =  0
+             e(points) =  2001
+          e(csendo_ct) =  0
+          e(pwendo_ct) =  0
+         e(closedform) =  0
+
+macros:
+             e(method) : "lm"
+              e(model) : "linear"
+              e(note1) : "Tests robust to heteroskedasticity and clustering.."
+            e(ivtitle) : "linear IV"
+          e(levellist) : "95"
+              e(level) : "95"
+         e(gridpoints) : "2001"
+    e(points_descript) : "2001"
+      e(grid_descript) : "[      -2,       1]"
+          e(ptestlist) : "ar wald"
+         e(citestlist) : "ar"
+           e(testlist) : "ar"
+            e(ar_cset) : "[   -.827,  -.3875]"
+          e(wald_cset) : "[-.789953,-.402767]"
+            e(cluster) : "cluster(statefip)"
+           e(clustvar) : "statefip"
+             e(robust) : "robust"
+               e(null) : "0"
+             e(exexog) : "d_tradeotch_pw_lag"
+             e(inexog) : "l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_s.."
+              e(wendo) : "d_tradeusch_pw"
+               e(endo) : "d_tradeusch_pw"
+             e(depvar) : "d_sh_empl_mfg"
+            e(waldcmd) : "ivreg2"
+                e(cmd) : "weakiv"
+
+matrices:
+            e(citable) :  2001 x 7
+              e(wbeta) :  1 x 1
+          e(var_wbeta) :  1 x 1
+              e(ebeta) :  1 x 1
+
+functions:
+             e(sample)   
+
+Wild bootstrap-t, null imposed, 9999 replications, Wald test, bootstrap cluster
+> ing by statefip, Rademacher weights:
+  d_tradeusch_pw
+
+                               z =    -6.0376
+                        Prob>|z| =     0.0000
+
+95% confidence set for null hypothesis expression: [−.7958, −.326]
+
+scalars:
+               r(NH0s) =  1
+               r(reps) =  9999
+               r(null) =  1
+               r(ptol) =  .001
+              r(level) =  95
+                  r(p) =  0
+                 r(df) =  1
+               r(chi2) =  36.4529646404409
+                  r(z) =  -6.03762905787039
+
+macros:
+          r(clustvars) : "statefip"
+           r(boottype) : "wild"
+         r(weighttype) : "rademacher"
+          r(statistic) : "t"
+             r(robust) : "robust"
+              r(CIstr) : "[−.7958, −.326]"
+               r(seed) : "20130601"
+
+matrices:
+                 r(CI) :  1 x 2
+               r(plot) :  25 x 2
+                  r(V) :  1 x 1
+                  r(b) :  1 x 1
+
+IV (2SLS) estimation
+--------------------
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity and clustering on statefip
+
+Number of clusters (statefip) =     48                Number of obs =     1444
+                                                      F( 16,    47) =    40.67
+                                                      Prob > F      =   0.0000
+Total (centered) SS     =  9063.579328                Centered R2   =   0.4966
+Total (uncentered) SS   =  12867.71954                Uncentered R2 =   0.6454
+Residual SS             =  4562.611435                Root MSE      =    1.778
+
+------------------------------------------------------------------------------
+             |               Robust
+d_sh_em~_mfg | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+d_t~eusch_pw |  -.3028266   .1004709    -3.01   0.003    -.4997459   -.1059073
+l_shind_ma~p |  -.0239858   .0113377    -2.12   0.034    -.0462074   -.0017643
+l_sh_poped~c |   .0415088   .0148834     2.79   0.005     .0123379    .0706798
+l_sh_popfb~n |   .0330857   .0167074     1.98   0.048     .0003399    .0658316
+ l_sh_empl_f |   .0047522   .0235771     0.20   0.840     -.041458    .0509624
+l_sh_rout~33 |  -.1879215   .0412395    -4.56   0.000    -.2687494   -.1070936
+l_task_out~e |  -.4916775   .3183155    -1.54   0.122    -1.115564    .1322094
+  reg_midatl |   .8198473   .3628759     2.26   0.024     .1086237    1.531071
+   reg_encen |   1.732269   .3474834     4.99   0.000     1.051214    2.413324
+   reg_wncen |   2.362576   .2902075     8.14   0.000      1.79378    2.931372
+    reg_satl |  -.4067188   .4162372    -0.98   0.329    -1.222529    .4090911
+   reg_escen |   1.169077    .521079     2.24   0.025     .1477807    2.190373
+   reg_wscen |   1.130661   .2990449     3.78   0.000     .5445432    1.716778
+   reg_mount |   .6243149   .3017919     2.07   0.039     .0328136    1.215816
+   reg_pacif |  -.0610833   .3089949    -0.20   0.843    -.6667022    .5445356
+          t2 |  -1.337637   .3674764    -3.64   0.000    -2.057878   -.6173966
+       _cons |   1.805628   1.809338     1.00   0.318    -1.740609    5.351865
+------------------------------------------------------------------------------
+Underidentification test (Kleibergen-Paap rk LM statistic):              5.439
+                                                   Chi-sq(1) P-val =    0.0197
+------------------------------------------------------------------------------
+Weak identification test (Cragg-Donald Wald F statistic):              654.988
+                         (Kleibergen-Paap rk Wald F statistic):         16.842
+Stock-Yogo weak ID test critical values: 10% maximal IV size             16.38
+                                         15% maximal IV size              8.96
+                                         20% maximal IV size              6.66
+                                         25% maximal IV size              5.53
+Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+------------------------------------------------------------------------------
+Hansen J statistic (overidentification test of all instruments):         0.000
+                                                 (equation exactly identified)
+------------------------------------------------------------------------------
+Instrumented:         d_tradeusch_pw
+Included instruments: l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_sh_empl_f
+                      l_sh_routine33 l_task_outsource reg_midatl reg_encen
+                      reg_wncen reg_satl reg_escen reg_wscen reg_mount reg_paci
+> f
+                      t2
+Excluded instruments: d_tradeotch_pw_lag
+------------------------------------------------------------------------------
+(obs=1,444)
+
+Montiel-Pflueger robust weak instrument test
+--------------------------------------------
+Effective F statistic:       16.842
+Confidence level alpha:          5%
+--------------------------------------------
+
+--------------------------------------------
+Critical Values             TSLS      LIML
+--------------------------------------------
+% of Worst Case Bias
+tau=5%                    37.418    37.418
+tau=10%                   23.109    23.109
+tau=20%                   15.062    15.062
+tau=30%                   12.039    12.039
+--------------------------------------------
+
+scalars:
+                  r(K) =  1
+                  r(N) =  1444
+                 r(n2) =  10000000
+              r(level) =  .05
+                r(eps) =  .001
+              r(F_eff) =  16.84167003341462
+           r(c_TSLS_5) =  37.41756
+          r(c_TSLS_10) =  23.10851
+          r(c_TSLS_20) =  15.06155
+          r(c_TSLS_30) =  12.0387
+           r(c_LIML_5) =  37.41756
+          r(c_LIML_10) =  23.10851
+          r(c_LIML_20) =  15.06155
+          r(c_LIML_30) =  12.0387
+           r(c_simp_5) =  37.41756
+          r(c_simp_10) =  23.10851
+          r(c_simp_20) =  15.06155
+          r(c_simp_30) =  12.0387
+           r(x_TSLS_5) =  20
+          r(x_TSLS_10) =  10
+          r(x_TSLS_20) =  5
+          r(x_TSLS_30) =  3.33
+       r(K_eff_TSLS_5) =  1
+      r(K_eff_TSLS_10) =  1
+      r(K_eff_TSLS_20) =  1
+      r(K_eff_TSLS_30) =  1
+           r(x_LIML_5) =  20
+          r(x_LIML_10) =  10
+          r(x_LIML_20) =  5
+          r(x_LIML_30) =  3.33
+       r(K_eff_LIML_5) =  1
+      r(K_eff_LIML_10) =  1
+      r(K_eff_LIML_20) =  1
+      r(K_eff_LIML_30) =  1
+           r(x_simp_5) =  20
+          r(x_simp_10) =  10
+          r(x_simp_20) =  5
+          r(x_simp_30) =  3.33
+       r(K_eff_simp_5) =  1
+      r(K_eff_simp_10) =  1
+      r(K_eff_simp_20) =  1
+      r(K_eff_simp_30) =  1
+Estimating model for Wald tests using ivreg2...
+Estimating confidence sets over 2001 grid points
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+..................................................    50
+..................................................   100
+..................................................   150
+..................................................   200
+..................................................   250
+..................................................   300
+..................................................   350
+..................................................   400
+..................................................   450
+..................................................   500
+..................................................   550
+..................................................   600
+..................................................   650
+..................................................   700
+..................................................   750
+..................................................   800
+..................................................   850
+..................................................   900
+..................................................   950
+.................................................. 1,000
+.................................................. 1,050
+.................................................. 1,100
+.................................................. 1,150
+.................................................. 1,200
+.................................................. 1,250
+.................................................. 1,300
+.................................................. 1,350
+.................................................. 1,400
+.................................................. 1,450
+.................................................. 1,500
+.................................................. 1,550
+.................................................. 1,600
+.................................................. 1,650
+.................................................. 1,700
+.................................................. 1,750
+.................................................. 1,800
+.................................................. 1,850
+.................................................. 1,900
+.................................................. 1,950
+.................................................. 2,000
+.
+Weak instrument robust tests and confidence sets for linear IV
+H0: beta[d_sh_empl_mfg:d_tradeusch_pw] = 0
+------------------------------------------------------------------------------
+ Test |       Statistic         p-value |  Conf. level        Conf. Set       
+------+---------------------------------+-------------------------------------
+   AR | chi2(1)   =    17.63     0.0000 |      95%       [ -1.3655,   -.179]  
+------+---------------------------------+-------------------------------------
+ Wald | chi2(1)   =     9.08     0.0026 |      95%       [-.499746,-.105907]  
+------------------------------------------------------------------------------
+Confidence sets estimated for 2001 points in [ -2, 1].
+Number of obs N = 1444.
+Method = lagrange multiplier (LM).
+Tests robust to heteroskedasticity and clustering on statefip (N_clust=48).
+Wald statistic in last row is based on ivreg2 estimation and is not robust to
+weak instruments.
+
+scalars:
+            e(endo_ct) =  1
+           e(wendo_ct) =  1
+           e(sendo_ct) =  0
+         e(tinexog_ct) =  0
+          e(exexog_ct) =  1
+         e(wald_level) =  95
+             e(wald_p) =  .0025776506629717
+            e(wald_df) =  1
+          e(wald_chi2) =  9.084641078907124
+           e(ar_level) =  95
+              e(ar_df) =  1
+               e(ar_p) =  .0000267686989282
+            e(ar_chi2) =  17.63450701340083
+              e(rk_df) =  1
+               e(rk_p) =  .6477848873972789
+                 e(rk) =  .2087042667697696
+             e(testid) =  0
+                  e(N) =  1444
+            e(N_clust) =  48
+            e(clrsims) =  0
+          e(citblocks) =  1
+                e(npd) =  0
+              e(small) =  0
+                 e(ci) =  1
+               e(grid) =  1
+                e(iid) =  0
+             e(overid) =  0
+             e(points) =  2001
+          e(csendo_ct) =  0
+          e(pwendo_ct) =  0
+         e(closedform) =  0
+
+macros:
+             e(method) : "lm"
+              e(model) : "linear"
+              e(note1) : "Tests robust to heteroskedasticity and clustering.."
+            e(ivtitle) : "linear IV"
+          e(levellist) : "95"
+              e(level) : "95"
+         e(gridpoints) : "2001"
+    e(points_descript) : "2001"
+      e(grid_descript) : "[      -2,       1]"
+          e(ptestlist) : "ar wald"
+         e(citestlist) : "ar"
+           e(testlist) : "ar"
+            e(ar_cset) : "[ -1.3655,   -.179]"
+          e(wald_cset) : "[-.499746,-.105907]"
+            e(cluster) : "cluster(statefip)"
+           e(clustvar) : "statefip"
+             e(robust) : "robust"
+               e(null) : "0"
+             e(exexog) : "d_tradeotch_pw_lag"
+             e(inexog) : "l_shind_manuf_cbp l_sh_popedu_c l_sh_popfborn l_s.."
+              e(wendo) : "d_tradeusch_pw"
+               e(endo) : "d_tradeusch_pw"
+             e(depvar) : "d_sh_empl_mfg"
+            e(waldcmd) : "ivreg2"
+                e(cmd) : "weakiv"
+
+matrices:
+            e(citable) :  2001 x 7
+              e(wbeta) :  1 x 1
+          e(var_wbeta) :  1 x 1
+              e(ebeta) :  1 x 1
+
+functions:
+             e(sample)   
+
+Wild bootstrap-t, null imposed, 9999 replications, Wald test, bootstrap cluster
+> ing by statefip, Rademacher weights:
+  d_tradeusch_pw
+
+                               z =    -3.0141
+                        Prob>|z| =     0.0020
+
+95% confidence set for null hypothesis expression: [−.5801, −.1116]
+
+scalars:
+               r(NH0s) =  1
+               r(reps) =  9999
+               r(null) =  1
+               r(ptol) =  .001
+              r(level) =  95
+                  r(p) =  .002000200020002
+                 r(df) =  1
+               r(chi2) =  9.084641078903966
+                  r(z) =  -3.01407383434845
+
+macros:
+          r(clustvars) : "statefip"
+           r(boottype) : "wild"
+         r(weighttype) : "rademacher"
+          r(statistic) : "t"
+             r(robust) : "robust"
+              r(CIstr) : "[−.5801, −.1116]"
+               r(seed) : "20130601"
+
+matrices:
+                 r(CI) :  1 x 2
+               r(plot) :  25 x 2
+                  r(V) :  1 x 1
+                  r(b) :  1 x 1
+
+. file close `fh'
+
+. log close modref
+      name:  modref
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/AER
+> 2013-China-Syndrome/Results/log/modern_reference_stata.log
+  log type:  text
+ closed on:  16 Sep 2026, 23:14:34
+-------------------------------------------------------------------------------

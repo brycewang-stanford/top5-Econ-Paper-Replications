@@ -1,0 +1,125 @@
+row,column,stat,paper,Stata re-run,StatsPAI,abs diff Stata,abs diff StatsPAI,Stata,SP,MC
+value of non-land assets (usd),(1) control mean,coef/value,383.36,383.36,383.36079398523464,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(2) treatment,coef/value,-1.15,-1.15,-1.1523777028150552,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(3) female rec.,coef/value,15.53,15.53,15.532045347465512,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(4) monthly,coef/value,25.16,25.16,25.155450976066177,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(5) large,coef/value,13.76,13.76,13.759542839342512,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(6) N,coef/value,1008.0,1008.0,1008.0,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(1) control mean,(SE/SD),374.15,374.15,374.1512804276349,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(2) treatment,(SE/SD),24.74,24.74,24.743918637220588,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(3) female rec.,(SE/SD),43.62,43.62,43.620860312141154,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(4) monthly,(SE/SD),39.33,39.33,39.32606390658427,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(5) large,(SE/SD),42.77,42.77,42.76725055486568,0.0,0.0,✅,✅,False
+value of non-land assets (usd),(2) treatment,[FWER p],1.0,1.0,0.9978,0.0,0.0,✅,✅,True
+value of non-land assets (usd),(3) female rec.,[FWER p],0.93,0.93,0.9284,0.0,0.0,✅,✅,True
+value of non-land assets (usd),(4) monthly,[FWER p],0.91,0.91,0.9054,0.0,0.0,✅,✅,True
+value of non-land assets (usd),(5) large,[FWER p],0.99,0.99,0.9918,0.0,0.0,✅,✅,True
+non-durable expenditure (usd),(1) control mean,coef/value,181.99,181.99,181.99081067377975,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(2) treatment,coef/value,-6.16,-6.16,-6.158077913007785,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(3) female rec.,coef/value,-28.05,-28.05,-28.051609355715673,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(4) monthly,coef/value,-8.01,-8.01,-8.013824817358701,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(5) large,coef/value,-5.56,-5.56,-5.56336264289963,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(6) N,coef/value,1008.0,1008.0,1008.0,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(1) control mean,(SE/SD),127.16,127.16,127.16493009112985,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(2) treatment,(SE/SD),8.31,8.31,8.311519483770155,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(3) female rec.,(SE/SD),15.14,15.14,15.143841072535407,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(4) monthly,(SE/SD),13.28,13.28,13.277934438367042,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(5) large,(SE/SD),14.36,14.36,14.36028663899064,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),(2) treatment,[FWER p],0.97,0.97,0.9744,0.0,0.0,✅,✅,True
+non-durable expenditure (usd),(3) female rec.,[FWER p],0.33,0.32,0.3116,0.010000000000000009,0.020000000000000018,⚠️,⚠️,True
+non-durable expenditure (usd),(4) monthly,[FWER p],0.91,0.91,0.9054,0.0,0.0,✅,✅,True
+non-durable expenditure (usd),(5) large,[FWER p],0.99,0.99,0.9918,0.0,0.0,✅,✅,True
+"total revenue, monthly (usd)",(1) control mean,coef/value,84.92,84.92,84.91601380602557,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(2) treatment,coef/value,-33.19,-33.19,-33.19047202262007,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(3) female rec.,coef/value,-31.77,-31.77,-31.77157175629429,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(4) monthly,coef/value,-7.59,-7.59,-7.58802080326057,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(5) large,coef/value,-10.77,-10.77,-10.772093056133656,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(6) N,coef/value,1008.0,1008.0,1008.0,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(1) control mean,(SE/SD),402.59,402.59,402.5918475131571,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(2) treatment,(SE/SD),18.54,18.54,18.53729378525253,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(3) female rec.,(SE/SD),14.34,14.34,14.344184594413637,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(4) monthly,(SE/SD),14.99,14.99,14.992610055311268,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(5) large,(SE/SD),12.38,12.38,12.380682086580409,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",(2) treatment,[FWER p],0.43,0.43,0.4238,0.0,0.010000000000000009,✅,⚠️,True
+"total revenue, monthly (usd)",(3) female rec.,[FWER p],0.15,0.15,0.1469,0.0,0.0,✅,✅,True
+"total revenue, monthly (usd)",(4) monthly,[FWER p],0.91,0.91,0.9054,0.0,0.0,✅,✅,True
+"total revenue, monthly (usd)",(5) large,[FWER p],0.95,0.95,0.9484,0.0,0.0,✅,✅,True
+food security index,(1) control mean,coef/value,0.0,0.0,7.570453799597106e-10,0.0,0.0,✅,✅,False
+food security index,(2) treatment,coef/value,0.0,0.0,0.0002304903710387,0.0,0.0,✅,✅,False
+food security index,(3) female rec.,coef/value,0.05,0.05,0.051758061713864,0.0,0.0,✅,✅,False
+food security index,(4) monthly,coef/value,0.25,0.25,0.2494300421519713,0.0,0.0,✅,✅,False
+food security index,(5) large,coef/value,-0.01,-0.01,-0.0072251842033747,0.0,0.0,✅,✅,False
+food security index,(6) N,coef/value,1008.0,1008.0,1008.0,0.0,0.0,✅,✅,False
+food security index,(1) control mean,(SE/SD),1.0,1.0,0.9995043416981948,0.0,0.0,✅,✅,False
+food security index,(2) treatment,(SE/SD),0.06,0.06,0.0583172309951086,0.0,0.0,✅,✅,False
+food security index,(3) female rec.,(SE/SD),0.09,0.09,0.0907204281090872,0.0,0.0,✅,✅,False
+food security index,(4) monthly,(SE/SD),0.1,0.1,0.0997700397832356,0.0,0.0,✅,✅,False
+food security index,(5) large,(SE/SD),0.09,0.09,0.087959482515818,0.0,0.0,✅,✅,False
+food security index,(2) treatment,[FWER p],1.0,1.0,0.9978,0.0,0.0,✅,✅,True
+food security index,(3) female rec.,[FWER p],0.93,0.93,0.9284,0.0,0.0,✅,✅,True
+food security index,(4) monthly,[FWER p],0.08,0.09,0.078,0.009999999999999995,0.0,⚠️,✅,True
+food security index,(5) large,[FWER p],0.99,0.99,0.9918,0.0,0.0,✅,✅,True
+health index,(1) control mean,coef/value,0.01,0.01,0.0129726855609897,0.0,0.0,✅,✅,False
+health index,(2) treatment,coef/value,0.03,0.03,0.025502773826873,0.0,0.0,✅,✅,False
+health index,(3) female rec.,coef/value,0.26,0.26,0.255109935367614,0.0,0.0,✅,✅,False
+health index,(4) monthly,coef/value,0.14,0.14,0.1390058735287794,0.0,0.0,✅,✅,False
+health index,(5) large,coef/value,-0.14,-0.14,-0.1404541859420003,0.0,0.0,✅,✅,False
+health index,(6) N,coef/value,1008.0,1008.0,1008.0,0.0,0.0,✅,✅,False
+health index,(1) control mean,(SE/SD),1.02,1.02,1.0227800139899368,0.0,0.0,✅,✅,False
+health index,(2) treatment,(SE/SD),0.06,0.06,0.0624020140012123,0.0,0.0,✅,✅,False
+health index,(3) female rec.,(SE/SD),0.09,0.09,0.0935880872338966,0.0,0.0,✅,✅,False
+health index,(4) monthly,(SE/SD),0.1,0.1,0.1032016483684936,0.0,0.0,✅,✅,False
+health index,(5) large,(SE/SD),0.1,0.1,0.0999237506124532,0.0,0.0,✅,✅,False
+health index,(2) treatment,[FWER p],0.98,0.97,0.9765,0.010000000000000009,0.0,⚠️,✅,True
+health index,(3) female rec.,[FWER p],0.04,0.04,0.0381,0.0,0.0,✅,✅,True
+health index,(4) monthly,[FWER p],0.54,0.54,0.5488,0.0,0.010000000000000009,✅,⚠️,True
+health index,(5) large,[FWER p],0.69,0.69,0.6994,0.0,0.010000000000000009,✅,⚠️,True
+education index,(1) control mean,coef/value,0.0,0.0,6.515971001456765e-09,0.0,0.0,✅,✅,False
+education index,(2) treatment,coef/value,-0.07,-0.07,-0.0681463426960348,0.0,0.0,✅,✅,False
+education index,(3) female rec.,coef/value,0.14,0.14,0.1427400800458713,0.0,0.0,✅,✅,False
+education index,(4) monthly,coef/value,0.16,0.16,0.1557332055496751,0.0,0.0,✅,✅,False
+education index,(5) large,coef/value,-0.05,-0.05,-0.0520247366207741,0.0,0.0,✅,✅,False
+education index,(6) N,coef/value,853.0,853.0,853.0,0.0,0.0,✅,✅,False
+education index,(1) control mean,(SE/SD),1.0,1.0,0.9994108998873772,0.0,0.0,✅,✅,False
+education index,(2) treatment,(SE/SD),0.06,0.06,0.062900263255598,0.0,0.0,✅,✅,False
+education index,(3) female rec.,(SE/SD),0.09,0.09,0.0871069162710167,0.0,0.0,✅,✅,False
+education index,(4) monthly,(SE/SD),0.09,0.09,0.0926846256707888,0.0,0.0,✅,✅,False
+education index,(5) large,(SE/SD),0.09,0.09,0.0873635814116426,0.0,0.0,✅,✅,False
+education index,(2) treatment,[FWER p],0.89,0.89,0.8939,0.0,0.0,✅,✅,True
+education index,(3) female rec.,[FWER p],0.41,0.41,0.4002,0.0,0.009999999999999953,✅,⚠️,True
+education index,(4) monthly,[FWER p],0.42,0.42,0.4175,0.0,0.0,✅,✅,True
+education index,(5) large,[FWER p],0.98,0.98,0.9795,0.0,0.0,✅,✅,True
+psychological well-being index,(1) control mean,coef/value,-0.0,-0.0,-3.9630513002462544e-10,0.0,0.0,✅,✅,False
+psychological well-being index,(2) treatment,coef/value,0.03,0.03,0.0257887652936875,0.0,0.0,✅,✅,False
+psychological well-being index,(3) female rec.,coef/value,0.02,0.02,0.0202651922869743,0.0,0.0,✅,✅,False
+psychological well-being index,(4) monthly,coef/value,0.19,0.19,0.1884003278760731,0.0,0.0,✅,✅,False
+psychological well-being index,(5) large,coef/value,0.18,0.18,0.1798989779691083,0.0,0.0,✅,✅,False
+psychological well-being index,(6) N,coef/value,1569.0,1569.0,1569.0,0.0,0.0,✅,✅,False
+psychological well-being index,(1) control mean,(SE/SD),1.0,1.0,0.9993668897597852,0.0,0.0,✅,✅,False
+psychological well-being index,(2) treatment,(SE/SD),0.05,0.05,0.0500386177261207,0.0,0.0,✅,✅,False
+psychological well-being index,(3) female rec.,(SE/SD),0.08,0.08,0.0784553612492177,0.0,0.0,✅,✅,False
+psychological well-being index,(4) monthly,(SE/SD),0.08,0.08,0.0834460853091078,0.0,0.0,✅,✅,False
+psychological well-being index,(5) large,(SE/SD),0.08,0.08,0.0808287296240016,0.0,0.0,✅,✅,False
+psychological well-being index,(2) treatment,[FWER p],0.98,0.97,0.9765,0.010000000000000009,0.0,⚠️,✅,True
+psychological well-being index,(3) female rec.,[FWER p],0.93,0.93,0.9284,0.0,0.0,✅,✅,True
+psychological well-being index,(4) monthly,[FWER p],0.14,0.13,0.1299,0.010000000000000009,0.010000000000000009,⚠️,⚠️,True
+psychological well-being index,(5) large,[FWER p],0.17,0.17,0.1627,0.0,0.010000000000000009,✅,⚠️,True
+female empowerment index,(1) control mean,coef/value,0.0,0.0,1.158079375391421e-09,0.0,0.0,✅,✅,False
+female empowerment index,(2) treatment,coef/value,-0.05,-0.05,-0.0518850038614884,0.0,0.0,✅,✅,False
+female empowerment index,(3) female rec.,coef/value,0.08,0.08,0.0765911792152136,0.0,0.0,✅,✅,False
+female empowerment index,(4) monthly,coef/value,0.18,0.18,0.1800635867178519,0.0,0.0,✅,✅,False
+female empowerment index,(5) large,coef/value,0.03,0.03,0.0259739901564426,0.0,0.0,✅,✅,False
+female empowerment index,(6) N,coef/value,751.0,751.0,751.0,0.0,0.0,✅,✅,False
+female empowerment index,(1) control mean,(SE/SD),1.0,1.0,0.9992740464928594,0.0,0.0,✅,✅,False
+female empowerment index,(2) treatment,(SE/SD),0.07,0.07,0.0744839761513138,0.0,0.0,✅,✅,False
+female empowerment index,(3) female rec.,(SE/SD),0.11,0.11,0.1097630796642009,0.0,0.0,✅,✅,False
+female empowerment index,(4) monthly,(SE/SD),0.12,0.12,0.1229062889162875,0.0,0.0,✅,✅,False
+female empowerment index,(5) large,(SE/SD),0.12,0.12,0.1249320114638831,0.0,0.0,✅,✅,False
+female empowerment index,(2) treatment,[FWER p],0.97,0.97,0.9744,0.0,0.0,✅,✅,True
+female empowerment index,(3) female rec.,[FWER p],0.93,0.93,0.9284,0.0,0.0,✅,✅,True
+female empowerment index,(4) monthly,[FWER p],0.52,0.53,0.5313,0.010000000000000009,0.010000000000000009,⚠️,⚠️,True
+female empowerment index,(5) large,[FWER p],0.99,0.99,0.9918,0.0,0.0,✅,✅,True
+joint test (p-value),(2) treatment,coef/value,0.64,0.64,0.6418959413747547,0.0,0.0,✅,✅,False
+joint test (p-value),(3) female rec.,coef/value,0.0,0.0,0.0041809394098893,0.0,0.0,✅,✅,False
+joint test (p-value),(4) monthly,coef/value,0.02,0.02,0.0166619232394077,0.0,0.0,✅,✅,False
+joint test (p-value),(5) large,coef/value,0.36,0.36,0.3644670089635169,0.0,0.0,✅,✅,False

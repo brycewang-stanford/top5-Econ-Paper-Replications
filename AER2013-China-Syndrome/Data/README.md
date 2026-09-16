@@ -9,6 +9,7 @@
 ```text
 Data/
 ├── ads.zip          作者文件包原始 zip（2.95 MB，保留以便核对）
+├── external/        第三方 shift-share 复现文件（见下文）
 ├── dta/             文件包 dta/ 子目录（作者原结构，2.9 MB）
 │   ├── workfile_china.dta             722 CZ × 2 期（1990–2000, 2000–2007）主分析文件 → 表 3–10、附表 1–5
 │   ├── workfile_china_preperiod.dta   722 CZ × 4 期（1970–2007）→ 表 2
@@ -39,6 +40,26 @@ for f in cbp_czone_merged cw_czone_state cw_czone_division cw_cty_czone cw_puma1
          cw_puma2000_czone cw_ctygrp1980_czone cw_hs6_sic87dd china9114 sic87dd_exposure_9114; do
   curl -L -o $f.zip https://www.ddorn.net/data/$f.zip && unzip -o -j -q $f.zip -x '__MACOSX/*' && rm $f.zip
 done
+```
+
+## Data/external — 现代 shift-share 推断所需的第三方复现文件（均为公开 GitHub 仓库）
+
+ADH 原始文件包不含 CZ×行业就业份额（作者 CBP 1980/1990/2000 份额未公开，ddorn.net 的 `cbp_czone_merged` 只有 1988/1991/1999/2007/2011 年，无法精确重建工具变量）。以下三份公开复现文件包含 David Dorn 提供给后续研究者的份额矩阵：
+
+| 子目录 | 来源 | 内容 | 用途 |
+|---|---|---|---|
+| `bhj_shift_share/` | Borusyak-Hull-Jaravel (2022, ReStud) `github.com/borusyak/shift-share` → `ADH.zip`（11 MB） | `Lshares.dta`（722 CZ×2 期×397 行业滞后份额）、`shocks.dta`（行业冲击 g）、`location_level.dta`、`industry_level(_ext).dta`、BHJ 的 Results/ | S·g 复现 ADH 工具变量（误差 5.9e-6）；AKM、BHJ 冲击层面回归、Rotemberg 权重 |
+| `gpss_bartik_weight/` | Goldsmith-Pinkham-Sorkin-Swift (2020, AER) `github.com/paulgp/bartik-weight` | `Lshares.dta`、`shocks.dta`、`ADHdata_AKM.csv`、`make_rotemberg_summary_ADH.do`、`rotemberg_summary_adh.tex` | Rotemberg 权重参考值 |
+| `akm_ShiftShareSE/` | Adão-Kolesár-Morales (2019, QJE) R 包 `github.com/kolesarm/ShiftShareSE` | `ADH.rda`（1444×770 份额矩阵）、测试脚本 | AKM 标准误参考 |
+
+```bash
+mkdir -p Data/external/{bhj_shift_share,gpss_bartik_weight,akm_ShiftShareSE}
+cd Data/external/bhj_shift_share && curl -L -o ADH.zip https://github.com/borusyak/shift-share/raw/master/ADH.zip && unzip -q ADH.zip && cd -
+cd Data/external/gpss_bartik_weight && for f in data/ADHdata_AKM.csv data/Lshares.dta data/shocks.dta data/sic_code_desc.dta \
+  code/make_rotemberg_summary_ADH.do output/rotemberg_summary_adh.tex; do \
+  curl -sL -o $(basename $f) https://raw.githubusercontent.com/paulgp/bartik-weight/master/$f; done; cd -
+cd Data/external/akm_ShiftShareSE && for f in data/ADH.rda man/ADH.Rd data-raw/data-prep.R tests/testthat/adh.do \
+  tests/testthat/test_adh.R; do curl -sL -o $(basename $f) https://raw.githubusercontent.com/kolesarm/ShiftShareSE/master/$f; done
 ```
 
 文件包中的 do/log/gph/tab-fig/other 子目录分别放在 `Program/do`、`Materials/package/author_logs_2013`、`Materials/package/author_gph_2013`、`Materials/package/tab-fig`、`Program/other`。

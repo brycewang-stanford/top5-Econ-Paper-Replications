@@ -40,6 +40,29 @@ import statspai as sp  # noqa: E402
 
 warnings.filterwarnings("ignore")
 
+# --- StatsPAI 1.28.0 workaround -------------------------------------------------
+# sp.rdrobust's signature accepts h/b as Tuple[float, float] (asymmetric bandwidths,
+# needed for bwselect='certwo'/'msecomb2' cells), and the estimator (_rd_estimate)
+# handles tuples, but the input validator _require_positive_float() calls float() on
+# the tuple and raises MethodIncompatibility("`h` must be a finite number").
+# Patch the validator to validate element-wise. Documented as a bug in Materials/.
+import importlib  # noqa: E402
+import sys  # noqa: E402
+
+importlib.import_module("statspai.rd.rdrobust")
+_sprd = sys.modules["statspai.rd.rdrobust"]  # package re-exports a function of the same name
+
+_orig_pos = _sprd._require_positive_float
+
+
+def _pos_float_or_pair(value, name):
+    if isinstance(value, (tuple, list)) and len(value) == 2:
+        return tuple(_orig_pos(v, name) for v in value)
+    return _orig_pos(value, name)
+
+
+_sprd._require_positive_float = _pos_float_or_pair
+
 ROOT = Path(__file__).resolve().parents[2]
 PKG = ROOT / "Data" / "Replication Materials"
 OUT = ROOT / "Results" / "statspai"
@@ -52,6 +75,10 @@ try:  # official rdpackages port, only used to obtain masspoints='off' bandwidth
 except ImportError:  # pragma: no cover
     rdpkg = None
 
+
+# Stata e(h_l,h_r,b_l,b_r) exported by Program/statspai/export_stata_estimates.do (fallback)
+_st = ROOT / "Results" / "statspai" / "stata_estimates.csv"
+STATA_BW = (pd.read_csv(_st).set_index(["exhibit", "row", "col"]).sort_index() if _st.exists() else None)
 
 # ----------------------------------------------------------------------------
 # data helpers
@@ -141,6 +168,13 @@ def build_specs() -> list[dict]:
                 c += 1
                 add("T7", f"nsbd{s}", c, "T7_Burden/NSBD_QJE_final.dta", "resid1_tfpop_s",
                     f"neg_ind0=={g} & nsbd_c=={s}", k)
+    # published-spec variants (the shipped do-files differ from what the paper reports)
+    for y, f in [(v, "water") for v in ["resid_log_cod", "resid_log_cod_intensity", "resid_log_nh",
+                                         "resid_log_nh_intensity", "resid_log_waste_water",
+                                         "resid_log_waste_water_intensity"]] + [(v, "air") for v in ["resid_log_so2", "resid_log_nox"]]:
+        add("T5", f"{y}@msecomb1", 3, f"T5_Emissions/{f}_emission_QJE_final.dta", y, "1", "uni", bw="msecomb1")
+    for c, k in enumerate(K3, 1):
+        add("T6", "fee@mserd", c, "T6_PE/pwf_QJE_final.dta", "resid1_l_pwf", "1", k)
     return S
 
 
@@ -162,7 +196,8 @@ def sp_cell(d: pd.DataFrame, y: str, kern: str, bw: str, h=None, b=None) -> dict
     if h is None:
         kw["bwselect"] = bw
     else:
-        kw["h"], kw["b"] = h, b
+        kw["h"] = h[0] if isinstance(h, tuple) and h[0] == h[1] else h
+        kw["b"] = b[0] if isinstance(b, tuple) and b[0] == b[1] else b
     r = sp.rdrobust(d, **kw)
     mi = r.model_info
     hh = mi["bandwidth_h"]
@@ -182,13 +217,22 @@ def run_rd_cells() -> pd.DataFrame:
         base = {k: s[k] for k in ["exhibit", "row", "col", "file", "y", "cond", "kernel", "bwselect", "masspts"]}
         nat = sp_cell(d, s["y"], s["kernel"], s["bwselect"])
         rows.append({**base, "version": "statspai_native", **nat})
-        if rdpkg is not None:
-            h, b = official_bw(d, s["y"], s["kernel"], s["bwselect"], s["masspts"])
+        if rdpkg is not None or STATA_BW is not None:
+            src = "rdrobust_py_masspoints_off"
+            try:
+                if rdpkg is None:
+                    raise RuntimeError("no rdrobust port")
+                h, b = official_bw(d, s["y"], s["kernel"], s["bwselect"], s["masspts"])
+            except Exception:  # official port crashes (ZeroDivisionError) on some cells
+                key = (s["exhibit"], s["row"], s["col"])
+                st = STATA_BW.loc[key]
+                h, b = (float(st.h_l), float(st.h_r)), (float(st.b_l), float(st.b_r))
+                src = "stata_e(h,b)"
             mat = sp_cell(d, s["y"], s["kernel"], s["bwselect"], h=h, b=b)
-            rows.append({**base, "version": "statspai_matched", **mat})
+            rows.append({**base, "version": "statspai_matched", "bw_source": src, **mat})
         print(f"  {s['exhibit']} {s['row']:<34} col{s['col']} {s['kernel']:<7} "
               f"native={nat['tau_cl']:.3f}({nat['se_cl']:.3f}) "
-              + (f"matched={mat['tau_cl']:.3f}({mat['se_cl']:.3f}) h={mat['h_l']:.3f}" if rdpkg else ""))
+              + f"matched={mat['tau_cl']:.3f}({mat['se_cl']:.3f}) h={mat['h_l']:.3f} [{src}]")
     df = pd.DataFrame(rows)
     df.to_csv(OUT / "statspai_rd_cells.csv", index=False)
     return df
@@ -332,21 +376,27 @@ def table8(cells: pd.DataFrame | None, t2: pd.DataFrame | None) -> pd.DataFrame:
     for j in range(6):
         out.append(dict(col=j + 1, mrs_xlsx_per10pct=mrs_xl[j] * 10 * 100, kappa=kappa[j],
                         loss_00_07_bn=va_loss(a, mrs_xl[j], range(4, 11)),
-                        annual_2pct_bn=b.iloc[4, 4] * (1 / (1 - mrs_xl[j] * 2) - 1) / 10,
-                        loss_16_20_bn=va_loss(b, mrs_xl[j], range(4, 9))))
+                        loss_16_20_bn=va_loss(b, mrs_xl[j], range(4, 9)),
+                        annual_16_20_bn=va_loss(b, mrs_xl[j], range(4, 9)) / 5))
     k = float(np.mean(kappa))
     # same calculation with StatsPAI's unrounded matched estimates
     if cells is not None and t2 is not None:
         m = cells[cells.version == "statspai_matched"]
         tfp_sp = [m[(m.exhibit == "T1") & (m.row == "resid1_tfpop_s") & (m.col == c)].tau_cl.iloc[0] for c in (1, 2, 3)]
-        cod_sp = [m[(m.exhibit == "T5") & (m.row == "resid_log_cod") & (m.col == c)].tau_cl.iloc[0] for c in (1, 2, 3)]
+        cod_sp = [m[(m.exhibit == "T5") & (m.row == "resid_log_cod") & (m.col == c)].tau_cl.iloc[0] for c in (1, 2)]
+        # published Table V uniform column (0.73) was produced with bwselect(msecomb1), not the
+        # mserd default in the shipped do-file (0.24) -- use the published specification here
+        dc = subset(load("T5_Emissions/water_emission_QJE_final.dta"), "1", "resid_log_cod")
+        hh, bb = official_bw(dc, "resid_log_cod", "uni", "msecomb1", "off")
+        cod_sp.append(sp_cell(dc, "resid_log_cod", "uni", "msecomb1", h=hh, b=bb)["tau_cl"])
         tfp_sp += list(t2[t2.row == "polluting"].sp_bc.values)
         cod_sp += cod_sp
         for j in range(6):
             mrs = (1 - np.exp(-tfp_sp[j])) / (1 - np.exp(-cod_sp[j])) / k / 100
             out[j].update(mrs_statspai_per10pct=mrs * 1000,
                           loss_00_07_bn_statspai=va_loss(a, mrs, range(4, 11)),
-                          loss_16_20_bn_statspai=va_loss(b, mrs, range(4, 9)))
+                          loss_16_20_bn_statspai=va_loss(b, mrs, range(4, 9)),
+                          annual_16_20_bn_statspai=va_loss(b, mrs, range(4, 9)) / 5)
     df = pd.DataFrame(out)
     df.to_csv(OUT / "statspai_table8_costs.csv", index=False)
     print(df.round(3).to_string(index=False))

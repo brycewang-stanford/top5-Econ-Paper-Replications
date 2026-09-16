@@ -1,0 +1,33 @@
+row,column,stat,paper,Stata re-run,StatsPAI,abs diff Stata,abs diff StatsPAI,Stata,SP,MC
+value of non-land assets (usd),lower,coef/value,283.39,283.39,283.3902137089986,0.0,0.0,✅,✅,False
+value of non-land assets (usd),upper,coef/value,302.19,302.19,302.1925781808215,0.0,0.0,✅,✅,False
+value of non-land assets (usd),lower,(SE/SD),38.82,38.82,38.82260837243155,0.0,0.0,✅,✅,False
+value of non-land assets (usd),upper,(SE/SD),32.54,32.54,32.53858036557938,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),lower,coef/value,30.58,30.58,30.577055448758273,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),upper,coef/value,35.01,35.01,35.00788279859631,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),lower,(SE/SD),8.64,8.64,8.63991852139878,0.0,0.0,✅,✅,False
+non-durable expenditure (usd),upper,(SE/SD),6.72,6.72,6.722265492875745,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",lower,coef/value,8.72,8.72,8.715720051076637,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",upper,coef/value,13.71,13.71,13.712087755425364,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",lower,(SE/SD),10.78,10.78,10.77889784341825,0.0,0.0,✅,✅,False
+"total revenue, monthly (usd)",upper,(SE/SD),6.23,6.23,6.233168121170169,0.0,0.0,✅,✅,False
+food security index,lower,coef/value,0.23,0.23,0.2275858833897465,0.0,0.0,✅,✅,False
+food security index,upper,coef/value,0.28,0.28,0.2831610617076477,0.0,0.0,✅,✅,False
+food security index,lower,(SE/SD),0.07,0.07,0.0746639520705806,0.0,0.0,✅,✅,False
+food security index,upper,(SE/SD),0.09,0.09,0.0900951222844126,0.0,0.0,✅,✅,False
+health index,lower,coef/value,-0.05,-0.05,-0.0479783235219434,0.0,0.0,✅,✅,False
+health index,upper,coef/value,0.0,0.0,0.0011143687257641,0.0,0.0,✅,✅,False
+health index,lower,(SE/SD),0.08,0.08,0.0766180728619919,0.0,0.0,✅,✅,False
+health index,upper,(SE/SD),0.08,0.08,0.0849087444126662,0.0,0.0,✅,✅,False
+education index,lower,coef/value,-0.1,-0.1,-0.0962089389287051,0.0,0.0,✅,✅,False
+education index,upper,coef/value,0.1,0.1,0.1034812958345313,0.0,0.0,✅,✅,False
+education index,lower,(SE/SD),0.08,0.08,0.0758593302088884,0.0,0.0,✅,✅,False
+education index,upper,(SE/SD),0.08,0.08,0.0788699782339794,0.0,0.0,✅,✅,False
+psychological well-being index,lower,coef/value,0.2,0.2,0.1955070897774682,0.0,0.0,✅,✅,False
+psychological well-being index,upper,coef/value,0.3,0.3,0.2953218950434435,0.0,0.0,✅,✅,False
+psychological well-being index,lower,(SE/SD),0.07,0.07,0.0696380884993192,0.0,0.0,✅,✅,False
+psychological well-being index,upper,(SE/SD),0.07,0.07,0.068042892970945,0.0,0.0,✅,✅,False
+female empowerment index,lower,coef/value,-0.03,-0.03,-0.032642156728926,0.0,0.0,✅,✅,False
+female empowerment index,upper,coef/value,0.02,0.02,0.019808330927095,0.0,0.0,✅,✅,False
+female empowerment index,lower,(SE/SD),0.09,0.09,0.0896239123215258,0.0,0.0,✅,✅,False
+female empowerment index,upper,(SE/SD),0.12,0.12,0.1238301486202677,0.0,0.0,✅,✅,False
