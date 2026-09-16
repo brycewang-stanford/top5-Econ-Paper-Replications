@@ -58,7 +58,7 @@ def main():
     ev, _ = pyreadstat.read_dta(str(DATA / "eventclassification.dta"))
     d = d.merge(ev[["statenum", "quarterdate", "overallcountgroup", "fedincrease", "toosmall"]],
                 on=["statenum", "quarterdate"], how="left", validate="1:1")
-    d["overallcountgroup"] = d["overallcountgroup"].fillna(0)
+    d["overallcountgroup"] = d["overallcountgroup"].astype(float).fillna(0)
     d = d.merge(cpi, on="quarterdate", how="left", validate="m:1")
     d = d.sort_values(["statenum", "quarterdate"]).reset_index(drop=True)
 
@@ -98,7 +98,8 @@ def main():
     e = d[keep + ["epop"]].rename(columns={"epop": "outcome"}).assign(epopoutcome=1)
     wv = d[keep + ["wagepc"]].rename(columns={"wagepc": "outcome"}).assign(epopoutcome=0)
     s = pd.concat([e, wv], ignore_index=True)
-    s["treat"] = s["treat"].fillna(0)
+    # treat = _treat + L._treat + L2._treat + L3._treat is missing in 1979q1-q3 -> reghdfe drops those rows
+    s = s[s["treat"].notna()].copy()
     lab = {"treat": "treat", **{f"F{j}treat": f"F{j}treat" for j in (4, 8, 12)},
            **{f"L{j}treat": f"L{j}treat" for j in (4, 8, 12, 16)}}
     xs = []

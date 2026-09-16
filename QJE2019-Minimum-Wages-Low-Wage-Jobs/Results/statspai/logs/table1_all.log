@@ -1,0 +1,6 @@
+00:10:37 reading state_panels_with3quant1979.dta (122 columns)
+00:11:07 read (906984, 122)
+00:11:08 constants: {"E": 0.571127315146625, "B": 0.08648194592435716, "EWB": 0.35083500676638035, "mwpc": 0.10129003140422747, "C": 17.286233005737664, "wagemult": 8.774882267779565, "n_events": 138}
+00:11:09 reused table1_spec1
+00:11:09 spec 1: below=-0.0183, above=0.0207, wage=0.0679, emp=0.0279, elas_mw=0.0238, elas_wage=0.4106
+00:11:09 [table1_spec5] hdfe_ols N=865,215 k=72 spec=5
