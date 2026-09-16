@@ -1,0 +1,6 @@
+figure,stat,value,N
+II,OLS slope kinship~small_scale (binscatter fit),-0.4502249571914779,
+III,OLS slope kinship~s_distance_mutation,-0.057577664371434745,
+VI,lfit slope trust~kinship,1.4610510154970016,72.0
+VII,"lfit slope disgust~kinship, US migrants",0.3884562982068582,88.0
+VIII,lfit slope PCA kernel~kinship,3.8333047099489703,33.0

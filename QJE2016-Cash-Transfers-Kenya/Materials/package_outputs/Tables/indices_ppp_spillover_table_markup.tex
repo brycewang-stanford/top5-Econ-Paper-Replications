@@ -1,0 +1,29 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{10}{SSSSS}}
+\toprule
+          &\multicolumn{6}{c}{Spillover Effects}                      &\multicolumn{2}{c}{Lee Bounds}&\multicolumn{2}{c}{Horowitz-Manski Bounds}\\\cmidrule(lr){2-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}&\multicolumn{1}{c}{(9)}&\multicolumn{1}{c}{(10)}\\
+          &\multicolumn{1}{c}{\specialcell{All HH\\Estimate}}&\multicolumn{1}{c}{\specialcell{All HH\\estimate}}&\multicolumn{1}{c}{\specialcell{Thatched\\estimate}}&\multicolumn{1}{c}{\specialcell{Thatched\\estimate}}&\multicolumn{1}{c}{\specialcell{Test (1)=(3)\\\emph{p}-value}}&\multicolumn{1}{c}{\specialcell{Test (2)=(4)\\\emph{p}-value}}&\multicolumn{1}{c}{\specialcell{Lower}}&\multicolumn{1}{c}{\specialcell{Upper}}&\multicolumn{1}{c}{\specialcell{Lower}}&\multicolumn{1}{c}{\specialcell{Upper}}\\
+\midrule
+Includes controls&     {No}&    {Yes}&     {No}&    {Yes}&     {No}&    {Yes}&     {No}&     {No}&     {No}&     {No}\\
+\midrule Value of non-land assets (USD)&     1.00&   -11.99&   -18.73&   -32.61&0.01$^{***}$&0.00$^{***}$&    -3.38&    12.84&    -2.38&     7.39\\
+          &  (21.44)&  (19.98)&  (21.14)&  (19.76)&         &         &  \sout{(17.62)}\textcolor{blue}{(20.07)}&  \sout{(18.68)}\textcolor{blue}{(20.94)}&  (19.92)&  (20.06)\\
+Non-durable expenditure (USD)&    -7.77&-11.89$^{*}$&    -7.31&-12.21$^{*}$&     0.82&     0.88&    -9.47&    -4.08&    -8.93&    -5.86\\
+          &   (7.20)&   (6.50)&   (7.27)&   (6.67)&         &         &   \sout{(6.36)}\textcolor{blue}{(6.08)}&   \sout{(6.37)}\textcolor{blue}{(6.32)}&   (5.79)&   (5.83)\\
+Total revenue, monthly (USD)&    -3.68&    -3.64&    -5.23&    -5.78&     0.56&     0.45&    -4.29&     2.32&    -4.18&    -1.91\\
+          &   (6.18)&   (6.35)&   (5.84)&   (6.01)&         &         &   \sout{(5.67)}\textcolor{blue}{(5.88)}&   \sout{(5.60)}\textcolor{blue}{(5.85)}&   (6.18)&   (6.22)\\
+Food security index&     0.06&     0.05&     0.06&     0.05&     0.93&     0.90&    -0.01&     0.08&     0.03&     0.07\\
+          &   (0.09)&   (0.09)&   (0.10)&   (0.10)&         &         &   \sout{(0.08)}\textcolor{blue}{(0.09)}&   (0.08)&   (0.08)&   (0.08)\\
+Health index&    -0.06&    -0.07&    -0.06&    -0.08&     0.80&     0.66&    -0.10&    -0.03&    -0.07&    -0.04\\
+          &   (0.08)&   (0.08)&   (0.08)&   (0.08)&         &         &   (0.07)&   (0.07)&   (0.07)&   (0.07)\\
+Education index&     0.01&    -0.01&    -0.00&    -0.03&     0.36&     0.29&    \sout{-0.16$^{**}$}\textcolor{orange}{-0.10}&     \sout{0.06}\textcolor{orange}{0.10}&    -0.01&     0.03\\
+          &   (0.07)&   (0.06)&   (0.08)&   (0.07)&         &         &   \sout{(0.08)}\textcolor{blue}{(0.10)}&   (0.08)&   (0.07)&   (0.07)\\
+Psychological well-being index&     \sout{0.11}\textcolor{red}{0.03}&     \sout{0.10}\textcolor{red}{0.03}&     \sout{0.11}\textcolor{red}{0.03}&     \sout{0.10}\textcolor{red}{0.02}&     \sout{0.92}\textcolor{red}{0.77}&     \sout{0.95}\textcolor{red}{0.71}&     0.03&     0.04&     0.01&     0.05\\
+          &   (0.07)&   (0.07)&   (0.07)&   (0.07)&         &         &   \sout{(0.05)}\textcolor{blue}{(0.06)}&   \sout{(0.05)}\textcolor{blue}{(0.06)}&   (0.05)&   (0.05)\\
+Female empowerment index&0.21$^{**}$&0.21$^{**}$&0.23$^{**}$&0.22$^{**}$&     0.50&     0.50&0.20$^{**}$&0.28$^{**}$&0.18$^{**}$&0.23$^{***}$\\
+          &   (0.09)&   (0.08)&   (0.09)&   (0.09)&         &         &   \sout{(0.08)}\textcolor{blue}{(0.10)}&   \sout{(0.08)}\textcolor{blue}{(0.11)}&   (0.08)&   (0.08)\\
+\midrule Joint test (\emph{p}-value)&     0.38&     0.25&     0.23&     0.11&         &         &         &         &         &         \\
+\bottomrule
+\end{tabular}
+}

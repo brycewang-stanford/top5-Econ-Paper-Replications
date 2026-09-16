@@ -1,0 +1,11 @@
+step,dofile,rc,seconds
+T1_Baseline,T1_Baseline/1_Baseline_replication.do,0,7
+F4_RD,F4_RD/F4_RD.do,0,10
+F5_Trend,F5_Trend/F5_Trend.do,0,1
+T3_Channels,T3_Channels/3_Channels_replication.do,0,25
+T4_Abatement,T4_Abatement/4_Abatement_replication.do,0,8
+T5_Emissions,T5_Emissions/5_Emissions_Replication.do,0,9
+T6_PE,T6_PE/6_PE_replication.do,0,12
+T7_Burden,T7_Burden/7_Burden_replication.do,0,15
+T2_MDRD,T2_MDRD/2_Within_Firm_RD_replication.do,0,2132
+TOTAL,,,2219

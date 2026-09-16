@@ -1,0 +1,14 @@
+	(1)	(2)	(3)
+VARIABLES	resid1_l_pwf	resid1_l_pwf	resid1_l_pwf
+			
+Conventional	-1.14***	-1.32***	-0.91*
+	(0.44)	(0.45)	(0.48)
+Bias-corrected	-1.24***	-1.42***	-0.96**
+	(0.44)	(0.45)	(0.48)
+Robust	-1.24**	-1.42***	-0.96*
+	(0.51)	(0.54)	(0.56)
+			
+Observations	3,050	3,050	3,050
+Kernel Type	Triangular	Epanechnikov	Uniform
+Standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

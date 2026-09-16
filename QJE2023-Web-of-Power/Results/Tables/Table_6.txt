@@ -1,0 +1,24 @@
+	(1)	(2)	(3)	(4)	(5)	(6)
+VARIABLES	alloff	alloff	alloff	alloff	alloff	alloff
+						
+hXZeng_all0_invdistXperiod	0.049***		-0.011			
+	(0.013)		(0.015)			
+Zeng_all0_invdistXperiod	0.011	0.010	0.011			
+	(0.011)	(0.011)	(0.011)			
+hunanXperiod	0.082	-0.018	-0.008	-0.020	-0.024	-0.022
+	(0.063)	(0.029)	(0.032)	(0.040)	(0.038)	(0.037)
+martyrs_tot_postXperiod		0.421***	0.427***	0.383***	0.387***	0.368***
+		(0.091)	(0.097)	(0.077)	(0.093)	(0.044)
+Zeng_exam0_invdistXperiod				0.006	0.007	0.007
+				(0.020)	(0.022)	(0.022)
+Zeng_Extraexam_invdistXperiod				0.022	0.019	0.019
+				(0.030)	(0.040)	(0.040)
+hXZeng_exam0_invdistXperiod					0.018	
+					(0.076)	
+hXZeng_Extraexam_invdistXperiod						0.008
+						(0.035)
+						
+Observations	149,786	149,786	149,786	149,786	149,786	149,786
+R-squared	0.384	0.392	0.392	0.019	0.019	0.019
+Robust standard errors in parentheses						
+*** p<0.01, ** p<0.05, * p<0.1						

@@ -1,0 +1,20 @@
+{\rtf1\fs24
+\trowd\trgaph75\trleft-75\intbl\trqc\clbrdrt\brdrs\cellx3312\clbrdrt\brdrs\cellx5328\clbrdrt\brdrs\cellx7344\clbrdrt\brdrs\cellx10080\clbrdrt\brdrs\cellx12816
+\ql \cell\qc (1)\cell\qc (2)\cell\qc (3)\cell\qc (4)\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx3312\cellx5328\cellx7344\cellx10080\cellx12816
+\trowd\trgaph75\trleft-75\trqc\clbrdrb\brdrs\cellx3312\clbrdrb\brdrs\cellx5328\clbrdrb\brdrs\cellx7344\clbrdrb\brdrs\cellx10080\clbrdrb\brdrs\cellx12816
+\ql VARIABLES\cell\qc std_lnmartyr1\cell\qc std_lnmartyr1\cell\qc std_lnGentryDeath1\cell\qc std_lnGentryDeath1\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx3312\cellx5328\cellx7344\cellx10080\cellx12816
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
+\ql Zeng_all0_invdist_Post\cell\qc 0.159***\cell\qc \cell\qc 0.148**\cell\qc \cell\row
+\ql \cell\qc (0.046)\cell\qc \cell\qc (0.065)\cell\qc \cell\row
+\ql Zeng_all0_Post\cell\qc \cell\qc 0.110***\cell\qc \cell\qc 0.099*\cell\row
+\ql \cell\qc \cell\qc (0.034)\cell\qc \cell\qc (0.051)\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
+\ql Observations\cell\qc 1,110\cell\qc 1,110\cell\qc 1,110\cell\qc 1,110\cell\row
+\trowd\trgaph75\trleft-75\trqc\trbrdrb\brdrs\clbrdrb\brdrs\cellx3312\clbrdrb\brdrs\cellx5328\clbrdrb\brdrs\cellx7344\clbrdrb\brdrs\cellx10080\clbrdrb\brdrs\cellx12816
+\ql R-squared\cell\qc 0.669\cell\qc 0.668\cell\qc 0.410\cell\qc 0.409\cell\row
+\pard\qc
+Robust standard errors in parentheses\par
+*** p<0.01, ** p<0.05, * p<0.1\par
+}

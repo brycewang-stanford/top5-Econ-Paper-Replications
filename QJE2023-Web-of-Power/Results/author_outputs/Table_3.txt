@@ -1,0 +1,20 @@
+	(1)	(2)	(3)	(4)	(5)	(6)	(7)
+VARIABLES	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr1	lnmartyr_surname1	lnmartyr_surname1	lnmartyr_surname1
+							
+Zenghu_all_invdist_Post	0.183***						
+	(0.038)						
+Zeng_BMF_invdist_Post		0.178***					
+		(0.043)					
+Zeng_Juren_invdist_Post			0.200**				
+			(0.095)				
+Zeng_exam0_invdist_Post				0.680**			
+				(0.282)			
+sur_invdis_zeng_all0_Post					0.223***	0.249***	0.214***
+					(0.067)	(0.073)	(0.061)
+oth_sur_invdis_zeng_all0_Post						0.056***	
+						(0.017)	
+							
+Observations	1,110	1,110	1,110	1,110	48,495	48,495	48,480
+R-squared	0.671	0.667	0.664	0.665	0.473	0.478	0.616
+Robust standard errors in parentheses							
+*** p<0.01, ** p<0.05, * p<0.1							

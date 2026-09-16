@@ -1,0 +1,3 @@
+QJE2019-Busting-the-Princelings/Data/firm_panel.dta filter=lfs diff=lfs merge=lfs -text
+QJE2019-Busting-the-Princelings/Data/price.dta filter=lfs diff=lfs merge=lfs -text
+QJE2023-AI-tocracy/Data/Replication.zip filter=lfs diff=lfs merge=lfs -text

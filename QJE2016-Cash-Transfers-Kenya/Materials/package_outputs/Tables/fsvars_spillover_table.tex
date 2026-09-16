@@ -1,0 +1,51 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{10}{SSSSS}}
+\toprule
+          &\multicolumn{6}{c}{Spillover Effects}                      &\multicolumn{2}{c}{Lee Bounds}&\multicolumn{2}{c}{Horowitz-Manski Bounds}\\\cmidrule(lr){2-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}&\multicolumn{1}{c}{(9)}&\multicolumn{1}{c}{(10)}\\
+          &\multicolumn{1}{c}{\specialcell{All HH\\Estimate}}&\multicolumn{1}{c}{\specialcell{All HH\\estimate}}&\multicolumn{1}{c}{\specialcell{Thatched\\estimate}}&\multicolumn{1}{c}{\specialcell{Thatched\\estimate}}&\multicolumn{1}{c}{\specialcell{Test (1)=(3)\\\emph{p}-value}}&\multicolumn{1}{c}{\specialcell{Test (2)=(4)\\\emph{p}-value}}&\multicolumn{1}{c}{\specialcell{Lower}}&\multicolumn{1}{c}{\specialcell{Upper}}&\multicolumn{1}{c}{\specialcell{Lower}}&\multicolumn{1}{c}{\specialcell{Upper}}\\
+\midrule
+Includes controls&     {No}&    {Yes}&     {No}&    {Yes}&     {No}&    {Yes}&     {No}&     {No}&     {No}&     {No}\\
+\midrule Meals skipped (adults, \# last month)&     0.12&     0.16&     0.25&     0.29&     0.27&     0.29&     0.07&     0.28&     0.07&     0.28\\
+          &   (0.49)&   (0.50)&   (0.49)&   (0.50)&         &         &   (0.37)&   (0.37)&   (0.39)&   (0.39)\\
+Whole days without food (adults, \# last month)&     0.12&     0.13&     0.07&     0.08&     0.48&     0.51&     0.12&0.28$^{*}$&     0.12&     0.15\\
+          &   (0.18)&   (0.18)&   (0.18)&   (0.18)&         &         &   (0.17)&   (0.16)&   (0.16)&   (0.16)\\
+Meals skipped (children, \# last month)&     0.27&     0.31&     0.48&     0.51&0.02$^{**}$&0.02$^{**}$&     0.08&     0.29&     0.25&     0.34\\
+          &   (0.37)&   (0.36)&   (0.40)&   (0.40)&         &         &   (0.41)&   (0.32)&   (0.30)&   (0.30)\\
+Whole days without food (children, \# last month)&     0.11&     0.12&     0.14&     0.15&     0.20&     0.28&     0.01&     0.11&     0.11&     0.14\\
+          &   (0.09)&   (0.09)&   (0.10)&   (0.10)&         &         &   (0.10)&   (0.09)&   (0.09)&   (0.09)\\
+Eat less preferred/cheaper foods (\# last month)&     0.78&     0.71&     0.87&     0.79&     0.49&     0.56&     0.70&0.91$^{*}$&     0.69&0.90$^{*}$\\
+          &   (0.72)&   (0.72)&   (0.72)&   (0.72)&         &         &   (0.46)&   (0.48)&   (0.50)&   (0.50)\\
+Rely on help from others for food (\# last month)&    -0.38&    -0.29&    -0.28&    -0.17&     0.15&0.03$^{**}$&    -0.40&    -0.19&    -0.40&    -0.32\\
+          &   (0.34)&   (0.33)&   (0.36)&   (0.35)&         &         &   (0.30)&   (0.31)&   (0.29)&   (0.29)\\
+Purchase food on credit (\# last month)&    -0.28&    -0.27&    -0.43&    -0.42&     0.18&     0.20&    -0.32&    -0.10&    -0.31&    -0.10\\
+          &   (0.42)&   (0.42)&   (0.44)&   (0.44)&         &         &   (0.30)&   (0.31)&   (0.32)&   (0.33)\\
+Hunt, gather wild food, harvest prematurely (\# last month)&    -0.27&    -0.35&    -0.15&    -0.23&     0.40&     0.39&    -0.31&    -0.10&    -0.31&    -0.10\\
+          &   (0.68)&   (0.69)&   (0.70)&   (0.72)&         &         &   (0.44)&   (0.45)&   (0.46)&   (0.47)\\
+Beg because not enough food in the house (\# last month)&    -0.10&    -0.10&    -0.08&    -0.08&     0.16&0.10$^{*}$&    -0.10&    -0.06&-0.10$^{*}$&    -0.08\\
+          &   (0.07)&   (0.07)&   (0.08)&   (0.08)&         &         &   (0.07)&   (0.07)&   (0.06)&   (0.06)\\
+All members usually eat two meals (dummy)&     0.02&     0.02&     0.03&     0.02&     0.74&     0.88&     0.02&     0.03&     0.01&     0.03\\
+          &   (0.02)&   (0.02)&   (0.02)&   (0.02)&         &         &   (0.02)&   (0.02)&   (0.02)&   (0.02)\\
+All members usually eat until content (dummy)&    -0.02&    -0.03&    -0.04&    -0.04&     0.18&     0.14&    -0.03&    -0.02&    -0.03&    -0.02\\
+          &   (0.03)&   (0.03)&   (0.03)&   (0.03)&         &         &   (0.03)&   (0.03)&   (0.03)&   (0.03)\\
+Number of times ate meat or fish (last week)&    -0.04&    -0.04&    -0.04&    -0.04&     1.00&     0.99&    -0.06&     0.03&    -0.06&     0.00\\
+          &   (0.20)&   (0.20)&   (0.22)&   (0.22)&         &         &   (0.13)&   (0.13)&   (0.13)&   (0.13)\\
+Enough food in the house for tomorrow? (dummy)&     0.01&     0.02&     0.02&     0.02&     0.62&     0.67&     0.01&     0.02&     0.01&     0.02\\
+          &   (0.04)&   (0.04)&   (0.04)&   (0.04)&         &         &   (0.03)&   (0.03)&   (0.03)&   (0.03)\\
+Respondent slept hungry (last week, dummy)&     0.02&     0.02&     0.03&     0.03&     0.66&     0.59&     0.02&     0.03&     0.02&     0.03\\
+          &   (0.03)&   (0.03)&   (0.04)&   (0.04)&         &         &   (0.03)&   (0.03)&   (0.03)&   (0.03)\\
+Respondent ate protein (last 24h, dummy)&    -0.03&    -0.03&    -0.03&    -0.03&     0.59&     0.53&    -0.04&    -0.02&    -0.04&    -0.02\\
+          &   (0.04)&   (0.04)&   (0.05)&   (0.04)&         &         &   (0.03)&   (0.03)&   (0.03)&   (0.03)\\
+Proportion of HH who ate protein (last 24h)&    -0.03&    -0.04&    -0.03&    -0.03&     0.90&     0.82&    -0.04&    -0.03&    -0.04&    -0.03\\
+          &   (0.04)&   (0.04)&   (0.04)&   (0.04)&         &         &   (0.03)&   (0.03)&   (0.03)&   (0.03)\\
+Proportion of children who ate protein (last 24h)&    -0.03&    -0.03&    -0.03&    -0.03&     0.84&     0.77&    -0.04&    -0.03&    -0.03&    -0.02\\
+          &   (0.04)&   (0.04)&   (0.04)&   (0.04)&         &         &   (0.03)&   (0.03)&   (0.03)&   (0.03)\\
+Food security index (children)&    -0.11&    -0.12&-0.14$^{*}$&-0.14$^{*}$&     0.22&     0.28&    -0.11&    -0.06&-0.13$^{*}$&    -0.09\\
+          &   (0.08)&   (0.08)&   (0.08)&   (0.08)&         &         &   (0.07)&   (0.08)&   (0.07)&   (0.07)\\
+Food security index&     0.06&     0.05&     0.06&     0.05&     0.93&     0.90&    -0.01&     0.08&     0.03&     0.07\\
+          &   (0.09)&   (0.09)&   (0.10)&   (0.10)&         &         &   (0.08)&   (0.08)&   (0.08)&   (0.08)\\
+\midrule Joint test (\emph{p}-value)&     0.24&     0.16&     0.11&0.10$^{*}$&         &         &         &         &         &         \\
+\bottomrule
+\end{tabular}
+}

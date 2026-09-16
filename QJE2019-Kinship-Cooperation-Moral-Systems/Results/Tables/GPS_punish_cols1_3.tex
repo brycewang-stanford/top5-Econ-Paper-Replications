@@ -1,0 +1,18 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         \\
+\midrule
+Kinship tightness $\qquad$&     1.20\sym{***}&     1.19\sym{***}&     0.83\sym{*}  \\
+                &   (0.36)         &   (0.39)         &   (0.49)         \\
+\addlinespace
+Country-level controls&       No         &      Yes         &      Yes         \\
+\addlinespace
+Continent FE    &       No         &       No         &      Yes         \\
+\midrule
+Observations    &       74         &       74         &       74         \\
+\(R^{2}\)       &     0.14         &     0.15         &     0.29         \\
+\bottomrule
+\end{tabular}
+}

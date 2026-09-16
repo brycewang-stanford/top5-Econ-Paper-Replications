@@ -1,0 +1,11 @@
+	(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	(10)	(11)	(12)
+VARIABLES	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p	resid1_tfpop_s_p
+												
+RD_Estimate	0.38**	0.35*	0.36**	0.13	0.11	0.11	0.89***	0.69**	0.94***	0.17	0.10	0.05
+	(0.19)	(0.18)	(0.18)	(0.11)	(0.10)	(0.11)	(0.31)	(0.32)	(0.31)	(0.16)	(0.18)	(0.25)
+												
+Observations	4,998	4,998	4,998	9,739	9,739	9,739	933	933	933	1,429	1,429	1,429
+Kernel Type	Epanechnikov	Triangular	Uniform	Epanechnikov	Triangular	Uniform	Epanechnikov	Triangular	Uniform	Epanechnikov	Triangular	Uniform
+bandwidth	4.522	5.103	3.877	4.972	5.718	4.498	5.711	6.689	4.969	5.016	5.715	8.375
+Standard errors in parentheses												
+*** p<0.01, ** p<0.05, * p<0.1												

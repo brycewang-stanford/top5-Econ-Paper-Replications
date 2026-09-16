@@ -1,0 +1,18 @@
+	(1)	(2)	(3)	(4)	(5)
+VARIABLES	lncntyquota_panel	lnjinshi_panel	alloff	alloff	alloff
+					
+lnjinshi_panel				0.031*	
+				(0.017)	
+lncntyquota_panel				0.036	
+				(0.064)	
+hXZeng_all0_invdistXperiod	0.019***	0.054**	0.049***	0.047***	0.046***
+	(0.005)	(0.023)	(0.013)	(0.013)	(0.013)
+lnjinshi_aft50Xperiod					0.028*
+					(0.016)
+lncntyquotaXperiod					0.035
+					(0.064)
+					
+Observations	3,292	3,292	149,786	149,786	149,786
+R-squared	0.996	0.932	0.384	0.384	0.384
+Robust standard errors in parentheses					
+*** p<0.01, ** p<0.05, * p<0.1					

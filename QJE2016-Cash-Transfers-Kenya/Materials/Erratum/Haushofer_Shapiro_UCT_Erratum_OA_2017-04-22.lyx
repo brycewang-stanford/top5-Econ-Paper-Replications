@@ -1,0 +1,8864 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{amsfonts}
+\usepackage{achicago}
+\usepackage{pdflscape}
+\usepackage{appendix}
+\usepackage{hyperref}
+\usepackage[letterpaper,top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage[bottom]{footmisc}
+%\usepackage{fancyhdr}
+\usepackage{bibentry}
+\usepackage{threeparttable}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+
+\setcounter{MaxMatrixCols}{10}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+% For centered entries: 
+% Allow line breaks with \\ in specialcells
+\newcommand{\specialcell}[2][c]{%
+\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}
+}
+
+% For left-aligned entries:
+%% Allow line breaks with \\ in specialcells
+%\newcommand{\specialcell}[2][c]{%
+%\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}% missing % in original
+%                       %%%
+%}
+
+% *****************************************************************
+% siunitx
+% *****************************************************************
+\newcommand{\sym}[1]{\rlap{#1}} % Thanks to Joseph Wright & David Carlisle
+
+\usepackage{siunitx}
+    \sisetup{
+        detect-mode,
+        group-digits            = false,
+        input-symbols           = ( ) [ ] - +,
+        tight-spacing		= true,
+        table-align-text-post   = false,
+        input-signs             = ,
+        }   
+
+% Packages for tables
+\usepackage{booktabs}% Pretty tables
+\usepackage{threeparttablex}% For Notes below table
+
+% Character substitution that prints brackets and the minus symbol in text mode. Thanks to David Carlisle
+\def\yyy{%
+  \bgroup\uccode`\~\expandafter`\string-%
+  \uppercase{\egroup\edef~{\noexpand\text{\llap{\textendash}\relax}}}%
+  \mathcode\expandafter`\string-"8000 }
+
+\def\xxxl#1{%
+\bgroup\uccode`\~\expandafter`\string#1%
+\uppercase{\egroup\edef~{\noexpand\text{\noexpand\llap{\string#1}}}}%
+\mathcode\expandafter`\string#1"8000 }
+
+\def\xxxr#1{%
+\bgroup\uccode`\~\expandafter`\string#1%
+\uppercase{\egroup\edef~{\noexpand\text{\noexpand\rlap{\string#1}}}}%
+\mathcode\expandafter`\string#1"8000 }
+
+\def\textsymbols{\xxxl[\xxxr]\xxxl(\xxxr)\yyy}
+
+
+% *****************************************************************
+% Estout related things
+% *****************************************************************
+\let\estinput=\input % define a new input command so that we can still flatten the document
+
+\newcommand{\estwide}[3]{
+        \vspace{.75ex}{
+            \textsymbols% Note the added command here
+            \begin{tabular*}
+            {\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}l*{#2}{#3}}
+            \toprule
+            \estinput{#1}
+            \bottomrule
+            \addlinespace[.75ex]
+            \end{tabular*}
+            }
+        }   
+
+\newcommand{\estauto}[3]{
+        \vspace{.75ex}{
+            \textsymbols% Note the added command here
+            \begin{tabular}{l*{#2}{#3}}
+            \toprule
+            \estinput{#1}
+            \bottomrule
+            \addlinespace[.75ex]
+            \end{tabular}
+            }
+        }
+
+% *****************************************************************
+% Custom subcaptions
+% *****************************************************************
+% Note/Source/Text after Tables
+% The new approach using threeparttables to generate notes that are the exact width of the table.
+\newcommand{\Figtext}[1]{%
+    \begin{tablenotes}[para,flushleft]
+    \hspace{6pt}
+    \hangindent=1.75em
+    #1
+    \end{tablenotes}
+    }
+\newcommand{\Fignote}[1]{\Figtext{\emph{Note:~}~#1}}
+\newcommand{\Figsource}[1]{\Figtext{\emph{Source:~}~#1}}
+\newcommand{\Starnote}{\Figtext{* p < 0.1, ** p < 0.05, *** p < 0.01. Standard errors in parentheses.}}% Add significance note with \starnote
+
+% To adjust margins: 
+\usepackage{changepage}
+
+\usepackage{bbm}
+\usepackage{bm}
+
+
+\usepackage{zref-xr}
+\zexternaldocument[OA-]{Haushofer_Shapiro_UCT_Online_Appendix_2015.11.17.lyx}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement !p
+\paperfontsize 11
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes true
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\author -1792238706 "Justin Abraham"
+\end_header
+
+\begin_body
+
+\begin_layout Title
+\paragraph_spacing onehalf
+THE SHORT-TERM IMPACT OF UNCONDITIONAL CASH TRANSFERS TO THE POOR: EXPERIMENTAL
+ EVIDENCE FROM KENYA
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+Erratum for Online Appendix
+\end_layout
+
+\begin_layout Author
+Johannes Haushofer
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Peretsman Scully Hall 427, Princeton University, Princeton, NJ 08540, and
+ Busara Center for Behavioral Economics, Nairobi, Kenya.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "haushofer@princeton.edu"
+target "haushofer@princeton.edu"
+type "mailto:"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ and Jeremy Shapiro
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Busara Center for Behavioral Economics, Nairobi, Kenya.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "jeremy.shapiro@busaracenter.org"
+target "jeremy.shapiro@busaracenter.org"
+type "mailto:"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tables 123-126 in the online appendix erroneously excluded male respondents
+ from the analytic sample and used unweighted observations.
+ The corrected version uses household and village weights and uses all individua
+l respondents.
+\end_layout
+
+\begin_layout Standard
+Tables 88, 97, and 111 in the online appendix reporting the effects of male
+ and female transfer recipients erroneously displayed results for monthly
+ versus lump sum transfers.
+ Table 104 in the online appendix for male and female transfer recipients
+ erroneously displayed results for large verus small transfers.
+ 
+\end_layout
+
+\begin_layout Standard
+The number of observations displayed in Tables 47, 54, 61, 68, 75, 82, 89,
+ 98, 105, 112, 119, 128, 135, 141, and 147 in the online appendix erroneously
+ included participants receiving large transfer amounts.
+ The correct number of observations is 1,244 for household level regressions,
+ 1,058 for households with school-aged children, 1,931 for individual level
+ regressions, and 908 for regressions with female respondents.
+\end_layout
+
+\begin_layout Standard
+Tables 37, 65, 72, 95, 102, and 132 in the online appendix erroneously omitted
+ observations with missing outcome variables when calculating differential
+ attrition rates for Lee treatment effect bounds.
+ The corrected version includes the entire original sample.
+ Tables 37, 44, 51, 58, 65, 72, 79
+\change_inserted -1792238706 1491946410
+,
+\change_unchanged
+ 86, 95, 102, 109, 116, 125, and 132 report slightly different standard
+ errors for the Lee bounds from the original publication as a result of
+ bootstrapping.
+\end_layout
+
+\begin_layout Standard
+Tables 34, 35, 38, 39, 40, and 41 in the online appendix erroneously calculated
+ FWER-adjusted p-values using only 1,000 bootstrap iterations.
+ The corrected tables report bootstrapped p-values with 10,000 iterations.
+\change_inserted -1792238706 1491946084
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946102
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+
+\backslash
+pagebreak
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946085
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946145
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946167
+
+
+\backslash
+setcounter{table}{33} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+\lang english
+Indices: Main Treatment Arms
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_maintable.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+OLS estimates of treatment effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses, and FWER-corrected p-value in brackets.
+ Column (1) reports the mean taken among control households in treatment
+ villages (spillover) for a given outcome variable.
+ Column (2) reports the treatment effect within villages, i.e.
+ comparing treatment households to spillover households.
+ Column (3) reports the difference in effect for households in which the
+ primary female received the transfer in comparison to households in which
+ the priamry male received the transfer.
+ Column (4) reports the difference in effect for households that received
+ monthly transfers in comparison to househods that received lump sum transfers.
+ Column (5) reports the the difference in effect or households that received
+ large transfers in comparison to households that received small transfers.
+ Column (6) reports the sample size.
+  Standard errors are clustered at the household level.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946240
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946085
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+Indices: Main Treatment Arms with Baseline Controls
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_maintable_baseline_controls.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+OLS estimates of treatment effects.
+ All estimates include the baseline controls specified above.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses, and FWER-corrected p-value in brackets.
+ Column (1) reports the mean taken among control households in treatment
+ villages (spillover) for a given outcome variable.
+ Column (2) reports the treatment effect within villages, i.e.
+ comparing treatment households to spillover households.
+ Column (3) reports the difference in effect for households in which the
+ primary female received the transfer in comparison to households in which
+ the priamry male received the transfer.
+ Column (4) reports the difference in effect for households that received
+ monthly transfers in comparison to househods that received lump sum transfers.
+ Column (5) reports the the difference in effect or households that received
+ large transfers in comparison to households that received small transfers.
+ Column (6) reports the sample size.
+  Standard errors are clustered at the household level.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946358
+
+
+\backslash
+setcounter{table}{36} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+Indices: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_spillover_table.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+Indices: Across Village Comparison
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_AcrossVillage.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+OLS estimates of treatment and spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+  Column (1) reports the mean of a given outcome variable among control
+ households in treatment villages.
+ Column (2) reports the treatment effect within villages, i.e.
+ comparing treatment households to spillover households.
+ Column (3) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households.
+ Column (4) reports the spillover effect, i.e.
+ comparing spillover households to pure control households.
+ For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses, and FWER-corrected p-value in brackets.
+ Standard errors are clustered at the village level in columns (3) and (4),
+ and at the household level in column (2).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+Indices: Female vs.
+ Male
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_RecGender_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+OLS estimates of treatment effects for treatment arms in which the primary
+ male or the primary female received the transfer.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables expect psychologica
+l well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ recipient was female or male respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ recipients were female or male, respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses, and FWER-corrected p-value in brackets.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+Indices: Monthly vs.
+ Lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables expect psychologica
+l well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses, and FWER-corrected p-value in brackets.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+Indices: Large vs.
+ Small
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_LargeSmall_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were large or small.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables expect psychologica
+l well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ were large or small respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ were lareg or small respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946241
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946443
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946241
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946444
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946444
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946453
+
+
+\backslash
+setcounter{table}{43} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+\lang english
+Indices in Logs: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indicesln_spillover_table.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946444
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946471
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946471
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946484
+
+
+\backslash
+setcounter{table}{46} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+\lang english
+Indices in Logs: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indicesln_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946512
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946471
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946650
+
+
+\backslash
+setcounter{table}{50} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+Assets: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/assetvarsnoroof_ppp_spillover_table.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables .
+ The sample includes all households and individuals.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946635
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491953232
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946635
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491953233
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491953238
+
+
+\backslash
+begin{landscape}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946666
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946683
+
+
+\backslash
+setcounter{table}{53} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+\lang english
+Assets: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/assetvarsnoroof_ppp_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491953245
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491953249
+
+
+\backslash
+end{landscape}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946666
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946843
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946843
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946747
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946759
+
+
+\backslash
+setcounter{table}{60} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+\lang english
+Assets in Logs: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/assetvarsln_ppp_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946774
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946747
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946774
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946786
+
+
+\backslash
+setcounter{table}{64} 
+\backslash
+centering  
+\backslash
+scalebox{0.65}{ 
+\backslash
+begin{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+\lang english
+Consumption: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/consvarsnew_ppp_m_spillover_table.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946796
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946774
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946797
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946810
+
+
+\backslash
+setcounter{table}{67} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+\lang english
+Consumption: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/consvarsnew_ppp_m_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946848
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946797
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946904
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946848
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946905
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946915
+
+
+\backslash
+setcounter{table}{71} 
+\backslash
+centering 
+\backslash
+scalebox{0.65}{ 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+\lang english
+Consumption in Logs: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/consvarsln_ppp_m_spillover_table.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946930
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946905
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946931
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946940
+
+
+\backslash
+setcounter{table}{74} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+\lang english
+Consumption in Logs: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/consvarsln_ppp_m_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946965
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946931
+
+
+\backslash
+pagebreak
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491946965
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946978
+
+
+\backslash
+setcounter{table}{78} 
+\backslash
+centering 
+\backslash
+scalebox{0.65}{ 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+\lang english
+Agricultural and Business Activities: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/entvars_ppp_spillover_table.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947149
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491946965
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947150
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947160
+
+
+\backslash
+setcounter{table}{81} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+\lang english
+Agricultural and Business Activities: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/entvars_ppp_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947174
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947150
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947175
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947185
+
+
+\backslash
+setcounter{table}{85} 
+\backslash
+centering 
+\backslash
+scalebox{0.65}{ 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+\lang english
+Agricultural and Business Activities in Logs: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/entvarsln_ppp_spillover_table.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947175
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947241
+
+
+\backslash
+setcounter{table}{87} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+Agricultural and Business Activities in Logs: Female vs.
+ Male
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/entvars_ppp_RecGender_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+OLS estimates of treatment effects for treatment arms in which the primary
+ male or the primary female received the transfer.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ recipient was female or male respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ recipients were female or male, respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+Agricultural and Business Activities in Logs: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/entvarsln_ppp_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491947226
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947218
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951496
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491947231
+
+
+\backslash
+end{landscape}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951496
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951509
+
+
+\backslash
+setcounter{table}{94} 
+\backslash
+centering 
+\backslash
+scalebox{0.65}{ 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+\lang english
+Food Security: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/fsvars_spillover_table.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951496
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951534
+
+
+\backslash
+setcounter{table}{96} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+Food Security: Male vs.
+ Female
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/fsvars_RecGender_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+OLS estimates of treatment effects for treatment arms in which the primary
+ male or the primary female received the transfer.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ recipient was female or male respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ recipients were female or male, respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+Food Security: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/fsvars_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951609
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951524
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951746
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951613
+
+
+\backslash
+end{landscape}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951746
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951759
+
+
+\backslash
+setcounter{table}{101} 
+\backslash
+centering 
+\backslash
+scalebox{0.65}{ 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+\lang english
+Health Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/medvars_ppp_spillover_table.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951746
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951800
+
+
+\backslash
+setcounter{table}{103} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+Health: Male vs.
+ Female
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/medvars_ppp_RecGender_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+OLS estimates of treatment effects for treatment arms in which the primary
+ male or the primary female received the transfer.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ recipient was female or male respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ recipients were female or male, respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+Health: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/medvars_ppp_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951822
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951776
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951823
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951838
+
+
+\backslash
+setcounter{table}{108} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+\lang english
+Education: Main Treatment Arms with Baseline Controls
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/edvars_ppp_maintable_baseline_controls.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+OLS estimates of treatment effects.
+ All estimates include the baseline controls specified above.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables, restricting
+ to households with schoolage children.
+ For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Column (1) reports the mean taken among control households in treatment
+ villages (spillover) for a given outcome variable.
+ Column (2) reports the treatment effect within villages, i.e.
+ comparing treatment households to spillover households.
+ Column (3) reports the difference in effect for households in which the
+ primary female received the transfer in comparison to households in which
+ the priamry male received the transfer.
+ Column (4) reports the difference in effect for households that received
+ monthly transfers in comparison to househods that received lump sum transfers.
+ Column (5) reports the the difference in effect or households that received
+ large transfers in comparison to households that received small transfers.
+ Column (6) reports the sample size.
+  Standard errors are clustered at the household level.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951823
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951823
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951958
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951861
+
+
+\backslash
+end{landscape}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951973
+
+
+\backslash
+setcounter{table}{110} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+Education: Male vs.
+ Female
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/edvars_ppp_RecGender_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+OLS estimates of treatment effects for treatment arms in which the primary
+ male or the primary female received the transfer.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables, restricting
+ to households with schoolage children.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ recipient was female or male respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ recipients were female or male, respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+Education: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/edvars_ppp_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables, restricting
+ to households with schoolage children.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952001
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491951958
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952002
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952013
+
+
+\backslash
+setcounter{table}{115} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+\lang english
+Psychological Wellbeing: Spillover Analysis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_spillover_table.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables expect psychological
+ well-being, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952782
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952002
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952790
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952785
+
+
+\backslash
+clearpage
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952791
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952795
+
+
+\backslash
+begin{landscape}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952040
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952050
+
+
+\backslash
+setcounter{table}{118} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+\lang english
+Psychological Wellbeing: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+ The unit of observation is the individual for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952253
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952040
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952086
+
+
+\backslash
+end{landscape}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952303
+
+
+\backslash
+setcounter{table}{122} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+Psychological Wellbeing: Main Treatment Arms (weighted for household and
+ village)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_weighted2_maintable.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+OLS estimates of treatment effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the individual for all variables.
+ In each regression, we use inverseve probability weights based on the number
+ of individual respondents per household and households per village.
+ For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Column (1) reports the mean taken among control households in treatment
+ villages (spillover) for a given outcome variable.
+ Column (2) reports the treatment effect within villages, i.e.
+ comparing treatment households to spillover households.
+ Column (3) reports the difference in effect for households in which the
+ primary female received the transfer in comparison to households in which
+ the priamry male received the transfer.
+ Column (4) reports the difference in effect for households that received
+ monthly transfers in comparison to househods that received lump sum transfers.
+ Column (5) reports the the difference in effect or households that received
+ large transfers in comparison to households that received small transfers.
+ Column (6) reports the sample size.
+  Standard errors are clustered at the household level.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+Psychological Wellbeing: Main Treatment Arms with Baseline Controls (weighted
+ for household and village)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_weighted2_maintable_baseline_controls.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+OLS estimates of treatment effects.
+ All estimates include the baseline controls specified above.
+ Outcome variables are listed on the left.
+ The unit of observation is the individual for all variables.
+ In each regression, we use inverseve probability weights based on the number
+ of individual respondents per household and households per village.
+ In each regression, we use inverseve probability weights based on the number
+ of individual respondents per household and households per village.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Column (1) reports the mean taken among control households in treatment
+ villages (spillover) for a given outcome variable.
+ Column (2) reports the treatment effect within villages, i.e.
+ comparing treatment households to spillover households.
+ Column (3) reports the difference in effect for households in which the
+ primary female received the transfer in comparison to households in which
+ the priamry male received the transfer.
+ Column (4) reports the difference in effect for households that received
+ monthly transfers in comparison to househods that received lump sum transfers.
+ Column (5) reports the the difference in effect or households that received
+ large transfers in comparison to households that received small transfers.
+ Column (6) reports the sample size.
+  Standard errors are clustered at the household level.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+Psychological Wellbeing: Spillover Analysis (weighted for household and
+ village)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_weighted2_spillover_table.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the individual.
+ In each regression, we use inverseve probability weights based on the number
+ of individual respondents per household and households per village.
+  The sample includes all households and individuals, except for the intrahouseh
+old index, where it is restricted to co-habitating couples, and for the
+ education index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+Psychological Wellbeing: Across Village (weighted for household and village)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_weighted2_AcrossVillage.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+OLS estimates of treatment and spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the individual for all variables.
+ In each regression, we use inverseve probability weights based on the number
+ of individual respondents per household and households per village.
+  Column (1) reports the mean of a given outcome variable among control
+ households in treatment villages.
+ Column (2) reports the treatment effect within villages, i.e.
+ comparing treatment households to spillover households.
+ Column (3) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households.
+ Column (4) reports the spillover effect, i.e.
+ comparing spillover households to pure control households.
+ For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (3) and (4),
+ and at the household level in column (2).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952756
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952756
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952263
+
+
+\backslash
+setcounter{table}{127} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+Psychological Wellbeing: Monthly vs.
+ lump-sum (weighted for household and village)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_weighted2_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+ The unit of observation is the individual for all variables.
+ In each regression, we use inverseve probability weights based on the number
+ of individual respondents per household and households per village.
+  Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952490
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952254
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952490
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952501
+
+
+\backslash
+setcounter{table}{131} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+\lang english
+Psychological Wellbeing: Spillover Analysis (weighted for household)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_weighted_spillover_table.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the individual.
+ In each regression, we use inverseve probability weights based on the number
+ of individual respondents per household.
+  The sample includes all households and individuals, except for the intrahouseh
+old index, where it is restricted to co-habitating couples, and for the
+ education index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the "naive" estimate of spillover effects, including
+ spillover households that upgraded to metal roofs between baseline and
+ endline.
+ Column (3) and (4) report estimate of the spillover effect excluding metal
+ roof households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the p-value of the equality for the coefficient estimates
+ in (1) and (3) after joint-estimation of the two models using SUR.
+ Column (6) reports the p-value of the equality for the coefficient estimates
+ in (2) and (4) after joint-estimation of the two models using SUR.
+ The last row reports p-values on the joint-significance of all coefficients
+ in a given column after joint-estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee effect-size bounds adjusting
+ for differential attrition generated by restricting to thatched roof households.
+ This attrition is due to the higher rate of upgrade to metal roofs among
+ spillover households and represents approximately 5 households or 10 individual
+s.
+ Columns (9) and (10) report lower and upper Manski-Horowitz bounds, imputing
+ outcomes for the 5 attriting households using he 95th and 5th percentile
+ of observed outcomes resepectively.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952512
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952490
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952512
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952524
+
+
+\backslash
+setcounter{table}{134} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+\lang english
+Psychological Wellbeing: Monthly vs.
+ lump-sum (weighted for household)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/psyvars_weighted_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+ The unit of observation is the individual for all variables.
+ In each regression, we use inverseve probability weights based on the number
+ of individual respondents per household.
+  Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952562
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952512
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952563
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952606
+
+
+\backslash
+setcounter{table}{140} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+\lang english
+Labor Variables: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/laborvars_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952583
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952563
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952583
+
+\lang english
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952591
+
+
+\backslash
+setcounter{table}{146} 
+\backslash
+centering 
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+\lang english
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+\lang english
+Durable and Nondurable: Monthly vs.
+ lump-sum
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/investvars_Monthly_Regs.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+scriptsize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+OLS estimates of treatment effects for treatment arms in which transfers
+ were made on a monthly basis or lump sum.
+ Outcome variables are listed on the left.
+  The unit of observation is the household for all variables.
+ Column (1) reports the mean of the outcome among control households in
+ treatment villages.
+ Columns (2) and (3) report the treatment effect within villages, i.e.
+ comparing treatment households to spillover households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (4) the difference between these two groups.
+ Columns (5) and (6) reports the treatment effect across villages, i.e.
+ comparing treatment households to pure control households, when the transfer
+ in which transfers were made on a monthly basis or lump sum respectively.
+ Column (7) reports the number of observations.
+  For each outcome variable, we report the coefficient of interest and its
+ standard error in parentheses.
+ Standard errors are clustered at the village level in columns (5) and (6),
+ and at the household level in columns (1), (2), and (3).
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491952673
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952583
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1792238706 1491953021
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1792238706 1491952678
+
+
+\backslash
+end{landscape}
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

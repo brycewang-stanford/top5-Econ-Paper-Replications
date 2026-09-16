@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS noise
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Replication data (author file archive + ddorn.net companion files) — local only
+Data/**
+!Data/README.md
+!Data/*/
+!Data/*/.gitkeep
+
+# Generated binaries (keep small text outputs tracked)
+Results/**/*.gph
+Results/**/*.dta
+Program/do/temp.dta

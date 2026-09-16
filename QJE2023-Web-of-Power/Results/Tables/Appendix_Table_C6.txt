@@ -1,0 +1,22 @@
+	(1)	(2)
+VARIABLES	alloff	alloff
+		
+martyrs_tot_postXperiod	0.622***	0.563***
+	(0.162)	(0.155)
+Zeng_exam0_invdistXperiod	0.017	0.014
+	(0.017)	(0.028)
+hXinvdist0_L1Xperiod		0.004
+		(0.202)
+invdist0_L1Xperiod		-0.046
+		(0.039)
+hXinvdist0_F1Xperiod		-0.034
+		(0.061)
+invdist0_F1Xperiod		0.070
+		(0.049)
+hunanXperiod	-0.086	-0.060
+	(0.061)	(0.039)
+		
+Observations	149,786	149,786
+R-squared	0.015	0.017
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		

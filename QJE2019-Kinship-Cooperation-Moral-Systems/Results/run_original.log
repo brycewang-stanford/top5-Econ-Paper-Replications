@@ -1,0 +1,2139 @@
+-------------------------------------------------------------------------------
+      name:  main
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Kinship-Cooperation-Moral-Systems/Results/run_original.log
+  log type:  text
+ opened on:  16 Sep 2026, 00:04:31
+
+. 
+. * ---- required user-written packages ---------------------------------------
+> --
+. foreach p in estout binscatter {
+  2.     capture which `p'
+  3.     if _rc ssc install `p', replace
+  4. }
+
+. 
+. * ---- globals copied verbatim from Generate_results.do ---------------------
+> --
+. global controls_country "ln_time_obs_ea small_scale"
+
+. global controls_country_drop "small_scale"
+
+. global controls_country_migrant "corigin_ln_time_obs_ea corigin_small_scale"
+
+. global controls_country_migrant_drop "corigin_small_scale"
+
+. global controls_ind "i.age female"
+
+. global controls_ind_drop "*age"
+
+. global controls_ethnic "ln_time_obs_ea_e small_scale"
+
+. global controls_ethnic_drop "small_scale"
+
+. global controls_history_origins "ln_time_obs_ea"
+
+. global controls_history "ln_time_obs_ea"
+
+. global controls_history_drop ""
+
+. 
+. * ---- steps, in the order of Generate_results.do ---------------------------
+> --
+. local steps ///
+>     EA/Table_3 EA/Table_4 EA/Table_5 EA/Figures_2_3 EA/Figure_4 EA/Table_11 /
+> //
+>     Country/Tables_6_7_9_10 Country/Figure_5 Country/Figures_6_8 Country/Figu
+> re_9 ///
+>     MFQ/Table_8 MFQ/Figure_7
+
+. 
+. tempname steplog
+
+. postfile `steplog' str40 step rc seconds using "$ROOT/Results/run_original_st
+> eps.dta", replace
+(file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Ki
+    > nship-Cooperation-Moral-Systems/Results/run_original_steps.dta not
+    found)
+
+. 
+. local i = 0
+
+. foreach s of local steps {
+  2.     local ++i
+  3.     display as text _n "{hline 78}" _n "STEP `i': `s'" _n "{hline 78}"
+  4.     set seed 20190001
+  5.     timer clear 1
+  6.     timer on 1
+  7.     capture noisily do "Data_programs/Do-files/`s'.do"
+  8.     local rc = _rc
+  9.     timer off 1
+ 10.     quietly timer list 1
+ 11.     local secs = r(t1)
+ 12.     post `steplog' ("`s'") (`rc') (`secs')
+ 13.     display as result "STEP `s' finished: rc=`rc'  seconds=" %9.1f `secs'
+ 14. 
+.     * Table 10 cols (1)-(3): estimates are left in memory by Tables_6_7_9_10.
+> do
+.     if "`s'" == "Country/Tables_6_7_9_10" & `rc' == 0 {
+ 15.         capture noisily esttab using "$ROOT/Results/Tables/GPS_punish_cols
+> 1_3.tex", ///
+>             booktabs nonotes replace compress label nomtitles ///
+>             indicate("Country-level controls=ln_time_obs_ea" "Continent FE=*c
+> ont*") ///
+>             drop(_cons $controls_country_drop) se(2) b(a2) r2(2) star(* 0.10 
+> ** 0.05 *** 0.01)
+ 16.         capture noisily esttab, se b(%9.4f) r2 drop(_cons) star(* 0.10 ** 
+> 0.05 *** 0.01)
+ 17.     }
+ 18. }
+
+------------------------------------------------------------------------------
+STEP 1: EA/Table_3
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/EAShort.dta", clear
+
+. 
+. 
+. 
+. 
+. * Table 3
+. 
+. 
+. eststo clear
+
+. eststo: reg kinship_score s_malariaindex,cluster(cluster)
+
+Linear regression                               Number of obs     =      1,226
+                                                F(1, 115)         =      68.64
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1591
+                                                Root MSE          =     .28215
+
+                              (Std. err. adjusted for 116 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+kinship_sc~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+s_malariai~x |   .1234234   .0148968     8.29   0.000     .0939157    .1529311
+       _cons |   .6944121   .0305229    22.75   0.000     .6339521    .7548721
+------------------------------------------------------------------------------
+(est1 stored)
+
+. eststo: reg kinship_score small_scale s_malariaindex,cluster(cluster)
+
+Linear regression                               Number of obs     =      1,225
+                                                F(2, 115)         =      73.52
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2424
+                                                Root MSE          =     .26801
+
+                              (Std. err. adjusted for 116 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+kinship_sc~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ small_scale |  -.3502373   .0863227    -4.06   0.000    -.5212259   -.1792487
+s_malariai~x |   .0980775     .01195     8.21   0.000     .0744069    .1217481
+       _cons |   .7907153   .0356212    22.20   0.000     .7201566     .861274
+------------------------------------------------------------------------------
+(est2 stored)
+
+. eststo: reg kinship_score small_scale s_malariaindex cont_* $controls_history
+> _origins, cluster(cluster)
+
+Linear regression                               Number of obs     =      1,216
+                                                F(9, 115)         =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.3443
+                                                Root MSE          =     .24886
+
+                              (Std. err. adjusted for 116 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+kinship_sc~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ small_scale |  -.1728964   .0966984    -1.79   0.076    -.3644373    .0186445
+s_malariai~x |   .0327024   .0131458     2.49   0.014     .0066631    .0587418
+    cont_ssa |   .0971369   .0386911     2.51   0.013     .0204973    .1737765
+   cont_mena |  -.0168893   .0387511    -0.44   0.664    -.0936478    .0598692
+    cont_eca |  -.2315788   .0576493    -4.02   0.000    -.3457709   -.1173867
+    cont_sas |   .0195127   .0364418     0.54   0.593    -.0526714    .0916968
+    cont_eap |  -.0451994   .0410253    -1.10   0.273    -.1264627    .0360639
+    cont_nam |  -.1986825   .0558287    -3.56   0.001    -.3092684   -.0880966
+    cont_lac |  -.2175246   .0471121    -4.62   0.000    -.3108446   -.1242046
+ln_time_ob~a |   .0359734   .0311818     1.15   0.251    -.0257916    .0977385
+       _cons |     .62103   .1617236     3.84   0.000     .3006867    .9413734
+------------------------------------------------------------------------------
+(est3 stored)
+
+. eststo: bs,reps(500): reg kinship_score s_malariaindex if malaria_sample==1,c
+> luster(cluster)
+(running regress on estimation sample)
+
+Bootstrap replications (500): .........10.........20.........30.........40.....
+> ....50.........60.........70.........80.........90.........100.........110...
+> ......120.........130.........140.........150.........160.........170........
+> .180.........190.........200.........210.........220.........230.........240.
+> ........250.........260.........270.........280.........290.........300......
+> ...310.........320.........330.........340.........350.........360.........37
+> 0.........380.........390.........400.........410.........420.........430....
+> .....440.........450.........460.........470.........480.........490.........
+> 500 done
+
+Linear regression                                       Number of obs =    504
+                                                        Replications  =    500
+                                                        Wald chi2(1)  =   5.08
+                                                        Prob > chi2   = 0.0243
+                                                        R-squared     = 0.0374
+                                                        Adj R-squared = 0.0355
+                                                        Root MSE      = 0.1805
+
+                                (Replications based on 20 clusters in cluster)
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+kinship_sc~e | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+s_malariai~x |   .0311387   .0138208     2.25   0.024     .0040503    .0582271
+       _cons |   .8563701    .027653    30.97   0.000     .8021712     .910569
+------------------------------------------------------------------------------
+(est4 stored)
+
+. eststo: bs,reps(500): reg kinship_score s_malariaindex small_scale $controls_
+> history_origins if malaria_sample==1,cluster(cluster)
+(running regress on estimation sample)
+
+Bootstrap replications (500): .........10.........20.........30.........40.....
+> ....50.........60.........70.........80.........90.........100.........110...
+> ......120.........130.........140.........150.........160.........170........
+> .180.........190.........200.........210.........220.........230.........240.
+> ........250.........260.........270.........280.........290.........300......
+> ...310.........320.........330.........340.........350.........360.........37
+> 0.........380.........390.........400.........410.........420.........430....
+> .....440.........450.........460.........470.........480.........490.........
+> 500 done
+
+Linear regression                                       Number of obs =    504
+                                                        Replications  =    500
+                                                        Wald chi2(3)  =  10.24
+                                                        Prob > chi2   = 0.0166
+                                                        R-squared     = 0.1169
+                                                        Adj R-squared = 0.1116
+                                                        Root MSE      = 0.1733
+
+                                (Replications based on 20 clusters in cluster)
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+kinship_sc~e | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+s_malariai~x |   .0298129   .0122707     2.43   0.015     .0057627    .0538631
+ small_scale |  -.4217343   .1846679    -2.28   0.022    -.7836767   -.0597919
+ln_time_ob~a |  -.0204242   .0549769    -0.37   0.710     -.128177    .0873287
+       _cons |   1.013812   .2313769     4.38   0.000     .5603211    1.467302
+------------------------------------------------------------------------------
+(est5 stored)
+
+. eststo: bs,reps(500): reg kinship_score s_distance_mutation if malaria_sample
+> ==1,cluster(cluster)
+(running regress on estimation sample)
+
+Bootstrap replications (500): .........10.........20.........30.........40.....
+> ....50.........60.........70.........80.........90.........100.........110...
+> ......120.........130.........140.........150.........160.........170........
+> .180.........190.........200.........210.........220.........230.........240.
+> ........250.........260.........270.........280.........290.........300......
+> ...310.........320.........330.........340.........350.........360.........37
+> 0.........380.........390.........400.........410.........420.........430....
+> .....440.........450.........460.........470.........480.........490.........
+> 500 done
+
+Linear regression                                       Number of obs =    501
+                                                        Replications  =    500
+                                                        Wald chi2(1)  =   5.50
+                                                        Prob > chi2   = 0.0191
+                                                        R-squared     = 0.0993
+                                                        Adj R-squared = 0.0975
+                                                        Root MSE      = 0.1748
+
+                                (Replications based on 20 clusters in cluster)
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+kinship_sc~e | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+s_distance~n |  -.0575777   .0245621    -2.34   0.019    -.1057184   -.0094369
+       _cons |   .8807229   .0198065    44.47   0.000     .8419029    .9195429
+------------------------------------------------------------------------------
+(est6 stored)
+
+. eststo: bs,reps(500): reg kinship_score s_distance_mutation small_scale $cont
+> rols_history_origins if malaria_sample==1,cluster(cluster)
+(running regress on estimation sample)
+
+Bootstrap replications (500): .........10.........20.........30.........40.....
+> ....50.........60.........70.........80.........90.........100.........110...
+> ......120.........130.........140.........150.........160.........170........
+> .180.........190.........200.........210.........220.........230.........240.
+> ........250.........260.........270.........280.........290.........300......
+> ...310.........320.........330.........340.........350.........360.........37
+> 0.........380.........390.........400.........410.........420.........430....
+> .....440.........450.........460.........470.........480.........490.........
+> 500 done
+
+Linear regression                                       Number of obs =    501
+                                                        Replications  =    500
+                                                        Wald chi2(3)  =  19.95
+                                                        Prob > chi2   = 0.0002
+                                                        R-squared     = 0.1653
+                                                        Adj R-squared = 0.1603
+                                                        Root MSE      = 0.1686
+
+                                (Replications based on 20 clusters in cluster)
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+kinship_sc~e | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+s_distance~n |  -.0531263   .0167191    -3.18   0.001    -.0858951   -.0203574
+ small_scale |  -.3895054   .1551906    -2.51   0.012    -.6936733   -.0853375
+ln_time_ob~a |  -.0052427   .0627876    -0.08   0.933    -.1283042    .1178188
+       _cons |   .9630233   .2712923     3.55   0.000     .4313003    1.494746
+------------------------------------------------------------------------------
+(est7 stored)
+
+. eststo: bs,reps(500): reg kinship_score s_tsi if malaria_sample==1,cluster(cl
+> uster)
+(running regress on estimation sample)
+
+Bootstrap replications (500): .........10.........20.........30.........40.....
+> ....50.........60.........70.........80.........90.........100.........110...
+> ......120.........130.........140.........150.........160.........170........
+> .180.........190.........200.........210.........220.........230.........240.
+> ........250.........260.........270.........280.........290.........300......
+> ...310.........320.........330.........340.........350.........360.........37
+> 0.........380.........390.........400.........410.........420.........430....
+> .....440.........450.........460.........470.........480.........490.........
+> 500 done
+
+Linear regression                                       Number of obs =    500
+                                                        Replications  =    500
+                                                        Wald chi2(1)  =  19.27
+                                                        Prob > chi2   = 0.0000
+                                                        R-squared     = 0.0384
+                                                        Adj R-squared = 0.0365
+                                                        Root MSE      = 0.1767
+
+                                (Replications based on 20 clusters in cluster)
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+kinship_sc~e | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       s_tsi |   .0350052   .0079742     4.39   0.000      .019376    .0506343
+       _cons |    .882563   .0168934    52.24   0.000     .8494525    .9156735
+------------------------------------------------------------------------------
+(est8 stored)
+
+. eststo: bs,reps(500): reg kinship_score s_tsi small_scale $controls_history_o
+> rigins if malaria_sample==1,cluster(cluster)
+(running regress on estimation sample)
+
+Bootstrap replications (500): .........10.........20.........30.........40.....
+> ....50.........60.........70.........80.........90.........100.........110...
+> ......120.........130.........140.........150.........160.........170........
+> .180.........190.........200.........210.........220.........230.........240.
+> ........250.........260.........270.........280.........290.........300......
+> ...310.........320.........330.........340.........350.........360.........37
+> 0.........380.........390.........400.........410.........420.........430....
+> .....440.........450.........460.........470.........480.........490.........
+> 500 done
+
+Linear regression                                       Number of obs =    500
+                                                        Replications  =    500
+                                                        Wald chi2(3)  =  31.99
+                                                        Prob > chi2   = 0.0000
+                                                        R-squared     = 0.1103
+                                                        Adj R-squared = 0.1050
+                                                        Root MSE      = 0.1703
+
+                                (Replications based on 20 clusters in cluster)
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+kinship_sc~e | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       s_tsi |   .0409963   .0075789     5.41   0.000      .026142    .0558505
+ small_scale |  -.4101114   .1846341    -2.22   0.026    -.7719877   -.0482351
+ln_time_ob~a |  -.0250788   .0588699    -0.43   0.670    -.1404617    .0903041
+       _cons |    1.05785   .2553689     4.14   0.000     .5573363    1.558364
+------------------------------------------------------------------------------
+(est9 stored)
+
+. eststo: bs,reps(500): reg kinship_score s_malariaindex s_tsi small_scale $con
+> trols_history_origins if malaria_sample==1,cluster(cluster)
+(running regress on estimation sample)
+
+Bootstrap replications (500): .........10.........20.........30.........40.....
+> ....50.........60.........70.........80.........90.........100.........110...
+> ......120.........130.........140.........150.........160.........170........
+> .180.........190.........200.........210.........220.........230.........240.
+> ........250.........260.........270.........280.........290.........300......
+> ...310.........320.........330.........340.........350.........360.........37
+> 0.........380.........390.........400.........410.........420.........430....
+> .....440.........450.........460.........470.........480.........490.........
+> 500 done
+
+Linear regression                                       Number of obs =    500
+                                                        Replications  =    500
+                                                        Wald chi2(4)  =  28.94
+                                                        Prob > chi2   = 0.0000
+                                                        R-squared     = 0.1359
+                                                        Adj R-squared = 0.1289
+                                                        Root MSE      = 0.1680
+
+                                (Replications based on 20 clusters in cluster)
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+kinship_sc~e | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+s_malariai~x |   .0254773   .0122402     2.08   0.037      .001487    .0494676
+       s_tsi |   .0379842   .0096929     3.92   0.000     .0189866    .0569819
+ small_scale |  -.4080754   .1461961    -2.79   0.005    -.6946145   -.1215362
+ln_time_ob~a |  -.0107348   .0542579    -0.20   0.843    -.1170782    .0956087
+       _cons |   .9720497   .2304208     4.22   0.000     .5204333    1.423666
+------------------------------------------------------------------------------
+(est10 stored)
+
+. eststo: bs,reps(500): reg kinship_score s_distance_mutation s_tsi small_scale
+>  $controls_history_origins if malaria_sample==1,cluster(cluster)
+(running regress on estimation sample)
+
+Bootstrap replications (500): .........10.........20.........30.........40.....
+> ....50.........60.........70.........80.........90.........100.........110...
+> ......120.........130.........140.........150.........160.........170........
+> .180.........190.........200.........210.........220.........230.........240.
+> ........250.........260.........270.........280.........290.........300......
+> ...310.........320.........330.........340.........350.........360.........37
+> 0.........380.........390.........400.........410.........420.........430....
+> .....440.........450.........460.........470.........480.........490.........
+> 500 done
+
+Linear regression                                       Number of obs =    497
+                                                        Replications  =    500
+                                                        Wald chi2(4)  =  28.45
+                                                        Prob > chi2   = 0.0000
+                                                        R-squared     = 0.1467
+                                                        Adj R-squared = 0.1398
+                                                        Root MSE      = 0.1671
+
+                                (Replications based on 20 clusters in cluster)
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+kinship_sc~e | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+s_distance~n |   -.041255   .0172878    -2.39   0.017    -.0751385   -.0073715
+       s_tsi |   .0192151   .0089562     2.15   0.032     .0016613    .0367688
+ small_scale |  -.3659953    .146665    -2.50   0.013    -.6534535   -.0785371
+ln_time_ob~a |  -.0035173   .0613327    -0.06   0.954    -.1237271    .1166925
+       _cons |   .9529395   .2650604     3.60   0.000     .4334307    1.472448
+------------------------------------------------------------------------------
+(est11 stored)
+
+. esttab using Source_files/Tables/Determinants_EA.tex, booktabs nonotes replac
+> e compress  label nomtitles indicate("Continent FE=*cont_*" "Log [\# of years
+>  since obs.]=ln_time_obs_ea")  drop(_cons) se(2) b(a2) r2(2)  star(* 0.10 ** 
+> 0.05 *** 0.01) prehead("{\begin{tabular}{l*{11}{c}}\toprule\toprule&\multicol
+> umn{11}{c}{\textit{Dependent variable:}}\\[.1cm] & \multicolumn{11}{c}{Kinshi
+> p tightness [0--1]}\\\cmidrule(lr){2-12} \\ &\multicolumn{3}{c}{Full sample} 
+> &\multicolumn{8}{c}{Common sample (Africa)}\\\cmidrule(lr){2-4}\cmidrule(lr){
+> 5-12}")
+(file Source_files/Tables/Determinants_EA.tex not found)
+(output written to Source_files/Tables/Determinants_EA.tex)
+
+. 
+. 
+. 
+end of do-file
+STEP EA/Table_3 finished: rc=0  seconds=     18.5
+
+------------------------------------------------------------------------------
+STEP 2: EA/Table_4
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/EAShort.dta", clear
+
+. 
+. 
+. * Table 4
+. fvset base 1 isonum
+
+. 
+. eststo clear
+
+. eststo: qui bs,reps(500): reg s_diff_violence kinship_score small_scale, clus
+> ter(cluster)
+(est1 stored)
+
+. eststo: qui bs,reps(500): reg s_diff_violence kinship_score small_scale $cont
+> rols_history, cluster(cluster)
+(est2 stored)
+
+. eststo: qui reg s_moral_god kinship_score small_scale, cluster(cluster)
+(est3 stored)
+
+. eststo: qui reg s_moral_god kinship_score small_scale s_have_god $controls_hi
+> story cont_*, cluster(cluster)
+(est4 stored)
+
+. eststo: qui reg s_moral_god kinship_score small_scale s_have_god $controls_hi
+> story i.isonum, cluster(cluster)
+(est5 stored)
+
+. eststo: qui bs,reps(500): reg s_loyalty_local kinship_score small_scale, clus
+> ter(cluster)
+(est6 stored)
+
+. eststo: qui bs,reps(500): reg s_loyalty_local kinship_score small_scale $cont
+> rols_history, cluster(cluster)
+(est7 stored)
+
+. eststo: qui reg s_sex_taboo kinship_score small_scale, cluster(cluster)
+(est8 stored)
+
+. eststo: qui reg s_sex_taboo kinship_score small_scale $controls_history cont_
+> *, cluster(cluster)
+(est9 stored)
+
+. eststo: qui reg s_hierabovelocal kinship_score small_scale, cluster(cluster)
+(est10 stored)
+
+. eststo: qui reg s_hierabovelocal kinship_score small_scale $controls_history 
+> cont_*, cluster(cluster)
+(est11 stored)
+
+. eststo: qui reg s_hierabovelocal kinship_score small_scale $controls_history 
+> i.isonum, cluster(cluster)
+(est12 stored)
+
+. eststo: qui reg s_hierlocal_village kinship_score small_scale, cluster(cluste
+> r)
+(est13 stored)
+
+. eststo: qui reg s_hierlocal_village kinship_score small_scale $controls_histo
+> ry cont_*, cluster(cluster)
+(est14 stored)
+
+. eststo: qui reg s_hierlocal_village kinship_score small_scale $controls_histo
+> ry i.isonum, cluster(cluster)
+(est15 stored)
+
+. esttab using Source_files/Tables/Enforcement_EA.tex, booktabs nonotes replace
+>  compress  label nomtitles indicate("Dependence on hg=small_scale" "Log [\# o
+> f years since obs.]=ln_time_obs_ea" "Continent FE=*cont*" "Country FE=*isonum
+> *")  drop(_cons $controls_history_drop) se(2) b(a2) r2(2)  star(* 0.10 ** 0.0
+> 5 *** 0.01) prehead("{\begin{tabular}{l*{15}{c}}\toprule\toprule&\multicolumn
+> {15}{c}{\textit{Dependent variable:}}\\[.1cm] &\multicolumn{2}{c}{$\Delta$ Vi
+> olence}&\multicolumn{3}{c}{Religion}& \multicolumn{4}{c}{Morality}&   \multic
+> olumn{6}{c}{Institutions: Jurisdictional hierarchy}  \\\cmidrule(lr){4-6}\cmi
+> drule(lr){7-10}\cmidrule(lr){11-16} & \multicolumn{2}{c}{[Out- vs. in-group]}
+>  &\multicolumn{3}{c}{Moralizing god}  &\multicolumn{2}{c}{Loyalty community} 
+> &\multicolumn{2}{c}{Purity (sex taboo)} &\multicolumn{3}{c}{Above local level
+> } &\multicolumn{3}{c}{Village level}\\\cmidrule(lr){2-3}\cmidrule(lr){4-6}\cm
+> idrule(lr){7-8}\cmidrule(lr){9-10}\cmidrule(lr){11-13}\cmidrule(lr){14-16}")
+(file Source_files/Tables/Enforcement_EA.tex not found)
+(output written to Source_files/Tables/Enforcement_EA.tex)
+
+. 
+. 
+end of do-file
+STEP EA/Table_4 finished: rc=0  seconds=      6.8
+
+------------------------------------------------------------------------------
+STEP 3: EA/Table_5
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/EA_contiguous.dta", clear
+
+. 
+. * Table 5
+. 
+. preserve
+
+. keep if geodist<=500
+(2,408 observations deleted)
+
+. 
+. foreach i in moral_god hierabovelocal hierlocal_village have_god{
+  2. egen s_`i'=std(`i')
+  3. }
+(6,122 missing values generated)
+(970 missing values generated)
+(970 missing values generated)
+(4,141 missing values generated)
+
+. 
+. label var s_have_god "1 if society has high god [std.]"
+
+. label var s_moral_god "Belief in moralizing god [std.]"
+
+. label var s_hierabovelocal "Jurisdictional hierarchy beyond local community [
+> std.]"
+
+. label var s_hierlocal_village "Has village-level jurisdictional hierarchy [st
+> d.]"
+
+. 
+. 
+. 
+. eststo clear
+
+. eststo: qui areg s_moral_god kinship_score small_scale,a(match) cluster(clust
+> er)
+(est1 stored)
+
+. eststo: qui areg s_moral_god kinship_score small_scale $controls_history s_ha
+> ve_god,a(match) cluster(cluster)
+(est2 stored)
+
+. eststo: qui areg s_hierabovelocal kinship_score small_scale,a(match) cluster(
+> cluster)
+(est3 stored)
+
+. eststo: qui areg s_hierabovelocal kinship_score small_scale $controls_history
+>  ,a(match) cluster(cluster)
+(est4 stored)
+
+. eststo: qui areg s_hierlocal_village kinship_score small_scale,a(match) clust
+> er(cluster)
+(est5 stored)
+
+. eststo: qui areg s_hierlocal_village kinship_score small_scale $controls_hist
+> ory, a(match) cluster(cluster)
+(est6 stored)
+
+. esttab using Source_files/Tables/Contiguous_EA.tex, booktabs nonotes replace 
+> compress  label nomtitles indicate("Dependence on hg=small_scale" "Log [\# of
+>  years since obs.]=ln_time_obs_ea")  drop(_cons $controls_history_drop) se(2)
+>  b(a2) r2(2)  star(* 0.10 ** 0.05 *** 0.01) prehead("{\begin{tabular}{l*{6}{c
+> }}\toprule\toprule&\multicolumn{6}{c}{\textit{Dependent variable:}}\\[.1cm] &
+>     \multicolumn{2}{c}{Religion}&\multicolumn{4}{c}{Institutions: Jurisdictio
+> nal hierarchy}\\\cmidrule(lr){2-3}\cmidrule(lr){4-7}  & \multicolumn{2}{c}{Mo
+> ralizing god}&\multicolumn{2}{c}{Above local level} & \multicolumn{2}{c}{Vill
+> age level}\\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}")
+(file Source_files/Tables/Contiguous_EA.tex not found)
+(output written to Source_files/Tables/Contiguous_EA.tex)
+
+. restore
+
+. 
+. 
+. 
+end of do-file
+STEP EA/Table_5 finished: rc=0  seconds=      0.4
+
+------------------------------------------------------------------------------
+STEP 4: EA/Figures_2_3
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/EAShort.dta", clear
+
+. 
+. 
+. * Figs 2-3
+. 
+. binscatter kinship_score small_scale, title("Kinship tightness and hunter-gat
+> herer subsistence") ytitle("Kinship tightness") yscale(range(.4 .9)) xtitle("
+> Dependence on hunting and gathering") legend(off) note("") graphregion(fcolor
+> (white) lcolor(white))
+
+. graph export Source_files/Figs/Hunter_kinship.pdf, replace
+file Source_files/Figs/Hunter_kinship.pdf saved as PDF format
+
+. 
+. 
+. binscatter kinship_score s_distance_mutation, nquant(15) title("Kinship tight
+> ness and distance to origin of sickle cell") ytitle("Kinship tightness") xtit
+> le("Shortest distance to origin of any of four sickle cell mutations") legend
+> (off) note("") graphregion(fcolor(white) lcolor(white))
+
+. graph export Source_files/Figs/Sickle_kinship.pdf, replace
+file Source_files/Figs/Sickle_kinship.pdf saved as PDF format
+
+. 
+. 
+. 
+end of do-file
+STEP EA/Figures_2_3 finished: rc=0  seconds=      0.9
+
+------------------------------------------------------------------------------
+STEP 5: EA/Figure_4
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/EAShort.dta", clear
+
+. 
+. * Figure 4
+. 
+. preserve
+
+. 
+. gen type=1 if kinship_score>=.25
+(73 missing values generated)
+
+. replace type=2 if kinship_score<.25
+(73 real changes made)
+
+. gen b=1
+
+. 
+. foreach i in s_diff_violence s_loyalty_local{
+  2. gen se_`i'=.
+  3. 
+. forvalues j=1/2{
+  4. qui bs, reps(500):  reg `i' if type==`j', cluster(cluster)
+  5. replace se_`i'=_se[_cons] if type==`j'
+  6. }
+  7. }
+(1,246 missing values generated)
+(1,173 real changes made)
+(73 real changes made)
+(1,246 missing values generated)
+(1,173 real changes made)
+(73 real changes made)
+
+. 
+. foreach i in s_moral_god s_hierlocal_village s_hierabovelocal s_sex_taboo{
+  2. gen se_`i'=.
+  3. 
+. forvalues j=1/2{
+  4. reg `i' if type==`j', cluster(cluster)
+  5. replace se_`i'=_se[_cons] if type==`j'
+  6. }
+  7. }
+(1,246 missing values generated)
+
+Linear regression                               Number of obs     =        738
+                                                F(0, 101)         =       0.00
+                                                Prob > F          =          .
+                                                R-squared         =     0.0000
+                                                Root MSE          =     .98451
+
+                              (Std. err. adjusted for 102 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+ s_moral_god | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |  -.0283102   .1304295    -0.22   0.829    -.2870472    .2304268
+------------------------------------------------------------------------------
+(1,173 real changes made)
+
+Linear regression                               Number of obs     =         48
+                                                F(0, 20)          =       0.00
+                                                Prob > F          =          .
+                                                R-squared         =     0.0000
+                                                Root MSE          =      1.139
+
+                               (Std. err. adjusted for 21 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+ s_moral_god | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   .4352692   .2498605     1.74   0.097    -.0859307     .956469
+------------------------------------------------------------------------------
+(73 real changes made)
+(1,246 missing values generated)
+
+Linear regression                               Number of obs     =      1,098
+                                                F(0, 112)         =       0.00
+                                                Prob > F          =          .
+                                                R-squared         =     0.0000
+                                                Root MSE          =     1.0249
+
+                              (Std. err. adjusted for 113 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+s_hierloca~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   .0234614   .0536805     0.44   0.663    -.0828996    .1298225
+------------------------------------------------------------------------------
+(1,173 real changes made)
+
+Linear regression                               Number of obs     =         66
+                                                F(0, 20)          =       0.00
+                                                Prob > F          =          .
+                                                R-squared         =          .
+                                                Root MSE          =          0
+
+                               (Std. err. adjusted for 21 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+s_hierloca~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   -.390313          .        .       .            .           .
+------------------------------------------------------------------------------
+(73 real changes made)
+(1,246 missing values generated)
+
+Linear regression                               Number of obs     =      1,102
+                                                F(0, 111)         =       0.00
+                                                Prob > F          =          .
+                                                R-squared         =     0.0000
+                                                Root MSE          =     .96433
+
+                              (Std. err. adjusted for 112 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+s_hierabov~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |  -.0124585   .0848867    -0.15   0.884    -.1806672    .1557502
+------------------------------------------------------------------------------
+(1,173 real changes made)
+
+Linear regression                               Number of obs     =         68
+                                                F(0, 21)          =       0.00
+                                                Prob > F          =          .
+                                                R-squared         =     0.0000
+                                                Root MSE          =     1.4568
+
+                               (Std. err. adjusted for 22 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+s_hierabov~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   .2019009   .3699384     0.55   0.591    -.5674281    .9712299
+------------------------------------------------------------------------------
+(73 real changes made)
+(1,246 missing values generated)
+
+Linear regression                               Number of obs     =        350
+                                                F(0, 81)          =       0.00
+                                                Prob > F          =          .
+                                                R-squared         =     0.0000
+                                                Root MSE          =     .99153
+
+                               (Std. err. adjusted for 82 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+ s_sex_taboo | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   .0460516   .0925961     0.50   0.620    -.1381856    .2302888
+------------------------------------------------------------------------------
+(1,173 real changes made)
+
+Linear regression                               Number of obs     =         26
+                                                F(0, 11)          =       0.00
+                                                Prob > F          =          .
+                                                R-squared         =     0.0000
+                                                Root MSE          =     .91989
+
+                               (Std. err. adjusted for 12 clusters in cluster)
+------------------------------------------------------------------------------
+             |               Robust
+ s_sex_taboo | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |  -.6199257   .1823003    -3.40   0.006    -1.021166   -.2186854
+------------------------------------------------------------------------------
+(73 real changes made)
+
+. 
+. 
+. collapse s_diff_violence s_sex_taboo s_loyalty_local s_moral_god s_hierlocal_
+>  s_hierabovelocal se_s_diff_violence se_s_sex_taboo se_s_loyalty_local se_s_m
+> oral_god se_s_hierlocal_village se_s_hierabovelocal, by(type)
+
+. 
+. stack s_diff_violence se_s_diff_violence type s_moral_god se_s_moral_god type
+>  s_loyalty_local se_s_loyalty_local type s_sex_taboo se_s_sex_taboo type s_hi
+> erlocal_village se_s_hierlocal_village type s_hierabovelocal se_s_hierabovelo
+> cal type, into(mean se type)
+Warning: data in memory will be lost.
+         Press any key to continue, Ctrl-Break to abort.
+
+. 
+. gen upper=mean+se
+
+. gen lower=mean-se
+
+. rename _ stack
+
+. 
+. drop if type==0
+(0 observations deleted)
+
+. gen order=1 if stack==1 & type==1
+(11 missing values generated)
+
+. replace order=2 if stack==1 & type==2
+(1 real change made)
+
+. 
+. replace order=4 if stack==2 & type==1
+(1 real change made)
+
+. replace order=5 if stack==2 & type==2
+(1 real change made)
+
+. 
+. replace order=7 if stack==3 & type==1
+(1 real change made)
+
+. replace order=8 if stack==3 & type==2
+(1 real change made)
+
+. 
+. replace order=10 if stack==4 & type==1
+(1 real change made)
+
+. replace order=11 if stack==4 & type==2
+(1 real change made)
+
+. 
+. replace order=13 if stack==5 & type==1
+(1 real change made)
+
+. replace order=14 if stack==5 & type==2
+(1 real change made)
+
+. 
+. replace order=16 if stack==6 & type==1
+(1 real change made)
+
+. replace order=17 if stack==6 & type==2
+(1 real change made)
+
+. drop if order==.
+(0 observations deleted)
+
+. 
+. graph twoway (bar mean order if stack==1 & type==1,color(navy)) (bar mean ord
+> er if stack==1 & type==2, color(maroon)) (bar mean order if stack==2 & type==
+> 1,color(navy)) (bar mean order if stack==2 & type==2, color(maroon)) (bar mea
+> n order if stack==3 & type==1,color(navy)) (bar mean order if stack==3 & type
+> ==2, color(maroon)) (bar mean order if stack==4 & type==1,color(navy)) (bar m
+> ean order if stack==4 & type==2, color(maroon)) (bar mean order if stack==5 &
+>  type==1,color(navy)) (bar mean order if stack==5 & type==2, color(maroon)) (
+> bar mean order if stack==6 & type==1,color(navy)) (bar mean order if stack==6
+>  & type==2, color(maroon)) (bar mean order if stack==7 & type==1,color(navy))
+>  (bar mean order if stack==7 & type==2, color(maroon))   (rcap upper lower or
+> der, lcolor(black) xtitle("") yline(0,lcolor(black) lpattern(dash)) xlabel(1.
+> 5 `""{it:Δ Violence}" "{it:Out- vs. in-group}""' 4.5 `""{it:Moralizing}" {it:
+> god}"' 7.5 `""{it:Loyalty}" {it:community}"' 10.5 `""{it:Purity}" {it:concern
+> s}"' 13.5 `""{it:Village}" "{it:institutions}""' 16.5 `""{it:Global}" {it:ins
+> titutions}"') title("Historical moral systems") ytitle("Average ± s.e.m. (z-s
+> cores)") ylabel(-.9 -.6 -.3 0 .3 .6) yscale(range(-.75 .5)) legend(order(1 2)
+>  label(1 "Tight") label(2 "Loose")) graphregion(fcolor(white) lcolor(white)))
+
+. graph export Source_files/Figs/Overview_ea.pdf, replace
+file Source_files/Figs/Overview_ea.pdf saved as PDF format
+
+. 
+. restore
+
+. 
+. 
+end of do-file
+STEP EA/Figure_4 finished: rc=0  seconds=      5.2
+
+------------------------------------------------------------------------------
+STEP 6: EA/Table_11
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/EAShort.dta", clear
+
+. 
+. 
+. * Table 11
+. 
+. eststo clear
+
+. eststo: qui reg s_ln_popd kinship_score, cluster(cluster)
+(est1 stored)
+
+. eststo: qui reg s_ln_popd kinship_score small_scale $controls_history cont_*,
+>  cluster(cluster)
+(est2 stored)
+
+. eststo: qui reg s_settlement_patterns kinship_score, cluster(cluster)
+(est3 stored)
+
+. eststo: qui reg s_settlement_patterns kinship_score small_scale $controls_his
+> tory cont_*, cluster(cluster)
+(est4 stored)
+
+. eststo: qui reg s_size_community kinship_score, cluster(cluster)
+(est5 stored)
+
+. eststo: qui reg s_size_community kinship_score small_scale $controls_history 
+> cont_*, cluster(cluster)
+(est6 stored)
+
+. esttab using Source_files/Tables/Development_EA.tex, booktabs nonotes replace
+>  compress  label nomtitles indicate("Continent FE=*cont*" "Log [\# of years s
+> ince obs.]=ln_time_obs_ea")  drop(_cons  $controls_history_drop) se(2) b(a2) 
+> r2(2)  star(* 0.10 ** 0.05 *** 0.01) prehead("{\begin{tabular}{l*{6}{c}}\topr
+> ule\toprule&\multicolumn{6}{c}{\textit{Dependent variable:}}\\[.1cm] &  \mult
+> icolumn{2}{c}{Log [1+ Population} &\multicolumn{2}{c}{Complexity} &\multicolu
+> mn{2}{c}{Size of}\\ &\multicolumn{2}{c}{density]} & \multicolumn{2}{c}{settle
+> ments} & \multicolumn{2}{c}{community}\\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\
+> cmidrule(lr){6-7}")
+(file Source_files/Tables/Development_EA.tex not found)
+(output written to Source_files/Tables/Development_EA.tex)
+
+. 
+. 
+end of do-file
+STEP EA/Table_11 finished: rc=0  seconds=      0.2
+
+------------------------------------------------------------------------------
+STEP 7: Country/Tables_6_7_9_10
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/CountryData.dta", clear
+
+. 
+. 
+. * Table 6
+. 
+. eststo clear
+
+. eststo: qui reg s_diff_trust_out_in kinship_score, ro
+(est1 stored)
+
+. eststo: qui reg s_diff_trust_out_in kinship_score cont_* $controls_country, r
+> o
+(est2 stored)
+
+. eststo: qui reg s_diff_trust_family kinship_score, ro
+(est3 stored)
+
+. eststo: qui reg s_diff_trust_family kinship_score cont_* $controls_country, r
+> o
+(est4 stored)
+
+. 
+. preserve
+
+. use "Data_programs/Data/WVS_EA_Ind.dta", clear
+
+. eststo: qui reg s_diff_trust_out_in kinship_score dum_country* i.wave, cl(gro
+> up)
+(est5 stored)
+
+. eststo: qui reg s_diff_trust_out_in kinship_score dum_country* i.wave $contro
+> ls_ind $controls_ethnic, cl(group)
+(est6 stored)
+
+. eststo: qui reg s_diff_trust_family kinship_score dum_country* i.wave, cl(gro
+> up)
+(est7 stored)
+
+. eststo: qui reg s_diff_trust_family kinship_score dum_country* i.wave $contro
+> ls_ind $controls_ethnic, cl(group)
+(est8 stored)
+
+. 
+. esttab using Source_files/Tables/Trust.tex, booktabs nonotes replace compress
+>   label nomtitles indicate("Country-level controls=ln_time_obs_ea" "Continent
+>  FE=*cont*" "Country FE=*dum_*" "Wave FE=*wave*" "Individual-level controls=f
+> emale" "Ethnicity-level controls=ln_time_obs_ea_e")  drop(_cons $controls_cou
+> ntry_drop $controls_ind_drop $controls_ethnic_drop) se(2) b(a2) r2(2)  star(*
+>  0.10 ** 0.05 *** 0.01) prehead("{\begin{tabular}{l*{8}{c}}\toprule\toprule V
+> ariation is across:& \multicolumn{4}{c}{Countries} &\multicolumn{4}{c}{Ethnic
+>  groups (WVS)}\\\cmidrule(lr){2-5}\cmidrule(lr){6-9}\\ &\multicolumn{8}{c}{\t
+> extit{Dependent variable:}}\\ &\multicolumn{8}{c}{$\Delta$ Trust in:}\\\cmidr
+> ule(lr){2-9} &\multicolumn{2}{c}{In- vs. out-group} &\multicolumn{2}{c}{Famil
+> y vs. others} &\multicolumn{2}{c}{In- vs. out-group} &\multicolumn{2}{c}{Fami
+> ly vs. others}   \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmi
+> drule(lr){8-9}")
+(file Source_files/Tables/Trust.tex not found)
+(output written to Source_files/Tables/Trust.tex)
+
+. restore
+
+. 
+. 
+. 
+. 
+. 
+. * Table 7
+. 
+. eststo clear
+
+. eststo: qui reg s_religion_hell kinship_score, ro
+(est1 stored)
+
+. eststo: qui reg s_religion_hell kinship_score s_religion_god, ro
+(est2 stored)
+
+. eststo: qui reg s_religion_hell kinship_score $controls_country s_religion_go
+> d, ro
+(est3 stored)
+
+. eststo: qui reg s_religion_hell kinship_score cont_* $controls_country s_reli
+> gion_god, ro
+(est4 stored)
+
+. 
+. preserve
+
+. use "Data_programs/Data/WVS_EA_Ind.dta", clear
+
+. eststo: qui reg s_religion_hell kinship_score dum_country* i.wave, cl(group)
+(est5 stored)
+
+. eststo: qui reg s_religion_hell kinship_score dum_country* i.wave s_religion_
+> god, cl(group)
+(est6 stored)
+
+. eststo: qui reg s_religion_hell kinship_score dum_country* i.wave $controls_i
+> nd s_religion_god, cl(group)
+(est7 stored)
+
+. eststo: qui reg s_religion_hell kinship_score dum_country* i.wave $controls_i
+> nd $controls_ethnic s_religion_god, cl(group)
+(est8 stored)
+
+. 
+. esttab using Source_files/Tables/Religion.tex, booktabs nonotes replace compr
+> ess  label nomtitles indicate("Country-level controls=ln_time_obs_ea" "Contin
+> ent FE=*cont*" "Country FE=*dum_*" "Wave FE=*wave*" "Individual-level control
+> s=female" "Ethnicity-level controls=ln_time_obs_ea_e")  drop(_cons $controls_
+> country_drop $controls_ind_drop $controls_ethnic_drop) se(2) b(a2) r2(2)  sta
+> r(* 0.10 ** 0.05 *** 0.01) prehead("{\begin{tabular}{l*{8}{c}}\toprule\toprul
+> e Variation is across:& \multicolumn{4}{c}{Countries} &\multicolumn{4}{c}{Eth
+> nic groups (WVS)}\\\cmidrule(lr){2-5}\cmidrule(lr){6-9}\\ &\multicolumn{8}{c}
+> {\textit{Dependent variable:}}\\ &\multicolumn{8}{c}{Belief in hell}\\\cmidru
+> le(lr){2-9}")
+(file Source_files/Tables/Religion.tex not found)
+(output written to Source_files/Tables/Religion.tex)
+
+. restore
+
+. 
+. 
+. 
+. 
+. * Table 9
+. 
+. eststo clear
+
+. preserve
+
+. use "Data_programs/Data/ISEAR_Ind.dta", clear
+(Written by R.              )
+
+. eststo: qui reg s_disgust kinship_score, cluster(isocode)
+(est1 stored)
+
+. eststo: qui reg s_disgust kinship_score $controls_ind, cluster(isocode)
+(est2 stored)
+
+. eststo: qui reg s_disgust kinship_score $controls_ind $controls_country, clus
+> ter(isocode)
+(est3 stored)
+
+. eststo: qui reg s_diff_shame_guilt_overall kinship_score, cluster(isocode)
+(est4 stored)
+
+. eststo: qui reg s_diff_shame_guilt_overall kinship_score $controls_ind, clust
+> er(isocode)
+(est5 stored)
+
+. eststo: qui reg s_diff_shame_guilt_overall kinship_score $controls_ind $contr
+> ols_country, cluster(isocode)
+(est6 stored)
+
+. restore
+
+. preserve
+
+. use "Data_programs/Data/GTrends.dta", clear
+
+. eststo: qui reg s_diff_shame_guilt kinship_score i.lang, cl(isocode)
+(est7 stored)
+
+. eststo: qui reg s_diff_shame_guilt kinship_score i.lang $controls_country, cl
+> (isocode)
+(est8 stored)
+
+. restore
+
+. esttab using Source_files/Tables/Shame.tex, booktabs nonotes replace compress
+>   label nomtitles rename() indicate("Individual-level controls=female" "Count
+> ry-level controls=ln_time_obs_ea" "Language FE=*lang*")  drop(_cons $controls
+> _ind_drop $controls_country_drop) se(2) b(a2) r2(2)  star(* 0.10 ** 0.05 *** 
+> 0.01) prehead("{\begin{tabular}{l*{8}{c}}\toprule\toprule&\multicolumn{8}{c}{
+> \textit{Dependent variable:}}\\[.1cm] & \multicolumn{3}{c}{Disgust} &\multico
+> lumn{5}{c}{$\Delta$ [Shame -- guilt]}\\\cmidrule(lr){2-4}\cmidrule(lr){5-9} &
+> \multicolumn{3}{c}{ISEAR (self-reports)} &\multicolumn{3}{c}{ISEAR (self-repo
+> rts)} &\multicolumn{2}{c}{Google searches} \\\cmidrule(lr){2-4}\cmidrule(lr){
+> 5-7}\cmidrule(lr){8-9}")
+(file Source_files/Tables/Shame.tex not found)
+(output written to Source_files/Tables/Shame.tex)
+
+. 
+. 
+. 
+. 
+. * Table 10
+. 
+. * Please note that the individual-level GPS data cannot be shared because of 
+> a license agreement with Gallup that prohibits the sharing of information on 
+> country of birth
+. * The individual-level data on punishment can be downloaded from https://www.
+> briq-institute.org/global-preferences/home
+. * These can be merged with the country of origin kinship tightness score if a
+>  Gallup World Poll license is available
+. * Columns (4)--(6) can then be replicated
+. 
+. eststo clear
+
+. eststo: qui reg s_gps_punish_revenge kinship_score, ro
+(est1 stored)
+
+. eststo: qui reg s_gps_punish_revenge kinship_score $controls_country, ro
+(est2 stored)
+
+. eststo: qui reg s_gps_punish_revenge kinship_score cont_* $controls_country, 
+> ro
+(est3 stored)
+
+. 
+. preserve
+
+. *eststo: qui reg s_punish_revenge corigin_kinship_score dum_country*, cl(isoc
+> ode_past)
+. *eststo: qui reg s_punish_revenge corigin_kinship_score dum_country* $control
+> s_ind, cl(isocode_past)
+. *eststo: qui reg s_punish_revenge corigin_kinship_score dum_country* $control
+> s_ind $controls_country_migrant, cl(isocode_past)
+. 
+. *esttab using Source_files/Tables/GPS_punish.tex, booktabs nonotes replace co
+> mpress rename(kinship_score corigin_kinship_score) label nomtitles indicate("
+> Country-level controls=ln_time_obs_ea" "Continent FE=*cont*" "Country FE=*dum
+> _*" "Individual-level controls=female" "Country of origin controls=corigin_ln
+> _time_obs_ea")  drop(_cons $controls_country_drop $controls_ind_drop $control
+> s_country_migrant_drop) se(2) b(a2) r2(2)  star(* 0.10 ** 0.05 *** 0.01) preh
+> ead("{\begin{tabular}{l*{6}{c}}\toprule\toprule Variation is across:& \multic
+> olumn{3}{c}{Countries} &\multicolumn{3}{c}{Migrants (GPS)}\\\cmidrule(lr){2-4
+> }\cmidrule(lr){5-7}\\ &\multicolumn{6}{c}{\textit{Dependent variable:}}\\ & \
+> multicolumn{6}{c}{$\Delta$ Willingness to punish [Revenge vs. Altruistic]}\\\
+> cmidrule(lr){2-7}")
+. restore
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+end of do-file
+STEP Country/Tables_6_7_9_10 finished: rc=0  seconds=      6.2
+(file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Ki
+    > nship-Cooperation-Moral-Systems/Results/Tables/GPS_punish_cols1_3.tex
+    not found)
+(output written to /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replicatio
+> ns/QJE2019-Kinship-Cooperation-Moral-Systems/Results/Tables/GPS_punish_cols1_
+> 3.tex)
+
+------------------------------------------------------------
+                      (1)             (2)             (3)   
+             s_gps_puni~e    s_gps_puni~e    s_gps_puni~e   
+------------------------------------------------------------
+kinship_sc~e       1.2032***       1.1881***       0.8310*  
+                 (0.3615)        (0.3909)        (0.4904)   
+
+ln_time_ob~a                       0.1901          0.2212   
+                                 (0.1896)        (0.2019)   
+
+small_scale                       -0.5020         -1.2039   
+                                 (2.6136)        (3.5667)   
+
+cont_ssa                                          -0.4672   
+                                                 (0.4588)   
+
+cont_mena                                         -0.4476   
+                                                 (0.5435)   
+
+cont_eca                                          -0.6539   
+                                                 (0.4511)   
+
+cont_sas                                           0.0000   
+                                                      (.)   
+
+cont_eap                                          -0.0891   
+                                                 (0.5572)   
+
+cont_nam                                          -2.4928***
+                                                 (0.5738)   
+
+cont_lac                                          -0.4871   
+                                                 (0.4889)   
+------------------------------------------------------------
+N                      74              74              74   
+R-sq                0.141           0.149           0.290   
+------------------------------------------------------------
+Standard errors in parentheses
+* p<0.10, ** p<0.05, *** p<0.01
+
+------------------------------------------------------------------------------
+STEP 8: Country/Figure_5
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/CountryData.dta", clear
+
+. 
+. 
+. * Fig 5
+. 
+. preserve
+
+. gen type=1 if kinship_score>=.25
+(36 missing values generated)
+
+. replace type=2 if kinship_score<.25
+(36 real changes made)
+
+. 
+. collapse s_diff_trust_out_in s_religion_hell s_values_uniform s_mfq_disgustin
+> g s_diff_shame_guilt_overall s_gps_punish_revenge (semean) se_s_diff_trust_ou
+> t_in=s_diff_trust_out_in se_s_religion_hell=s_religion_hell se_s_values_unifo
+> rm=s_values_uniform se_s_mfq_disgusting=s_mfq_disgusting se_s_diff_shame_guil
+> t_overall=s_diff_shame_guilt_overall se_s_gps_punish_revenge=s_gps_punish_rev
+> enge, by(type)
+
+. 
+. stack s_diff_trust_out_in se_s_diff_trust_out_in type s_religion_hell se_s_re
+> ligion_hell type s_values_uniform se_s_values_uniform type s_mfq_disgusting s
+> e_s_mfq_disgusting type s_diff_shame_guilt_overall se_s_diff_shame_guilt_over
+> all type s_gps_punish_revenge se_s_gps_punish_revenge type, into(mean se type
+> )
+Warning: data in memory will be lost.
+         Press any key to continue, Ctrl-Break to abort.
+
+. 
+. gen upper=mean+se
+
+. gen lower=mean-se
+
+. rename _ stack
+
+. 
+. gen order=1 if stack==1 & type==1
+(11 missing values generated)
+
+. replace order=2 if stack==1 & type==2
+(1 real change made)
+
+. 
+. replace order=4 if stack==2 & type==1
+(1 real change made)
+
+. replace order=5 if stack==2 & type==2
+(1 real change made)
+
+. 
+. replace order=7 if stack==3 & type==1
+(1 real change made)
+
+. replace order=8 if stack==3 & type==2
+(1 real change made)
+
+. 
+. replace order=10 if stack==4 & type==1
+(1 real change made)
+
+. replace order=11 if stack==4 & type==2
+(1 real change made)
+
+. 
+. replace order=13 if stack==5 & type==1
+(1 real change made)
+
+. replace order=14 if stack==5 & type==2
+(1 real change made)
+
+. 
+. replace order=16 if stack==6 & type==1
+(1 real change made)
+
+. replace order=17 if stack==6 & type==2
+(1 real change made)
+
+. 
+. 
+. graph twoway (bar mean order if stack==1 & type==1,color(navy)) (bar mean ord
+> er if stack==1 & type==2, color(maroon)) (bar mean order if stack==2 & type==
+> 1,color(navy)) (bar mean order if stack==2 & type==2, color(maroon)) (bar mea
+> n order if stack==3 & type==1,color(navy)) (bar mean order if stack==3 & type
+> ==2, color(maroon)) (bar mean order if stack==4 & type==1,color(navy)) (bar m
+> ean order if stack==4 & type==2, color(maroon)) (bar mean order if stack==5 &
+>  type==1,color(navy)) (bar mean order if stack==5 & type==2, color(maroon)) (
+> bar mean order if stack==6 & type==1,color(navy)) (bar mean order if stack==6
+>  & type==2, color(maroon))   (rcap upper lower order, lcolor(black) xtitle(""
+> ) yline(0,lcolor(black) lpattern(dash)) xlabel(1.5 `""{it:Δ Trust}" "{it:In- 
+> vs. out-group}""' 4.5 `""{it:Belief in}" "{it:hell}""' 7.5 `""{it:Communal vs
+> .}" "{it:universal values}""' 10.5 "{it:Disgust}" 13.5 `""{it:Shame vs.}" "{i
+> t:guilt}""' 16.5 `""{it:Revenge vs.}" "{it:altr. punishm.}""') title("Contemp
+> orary moral systems") ytitle("Average ± s.e.m. (z-scores)") ylabel(-1 -.5 0 .
+> 5) legend(order(1 2) label(1 "Tight") label(2 "Loose")) graphregion(fcolor(wh
+> ite) lcolor(white)))
+
+. graph export Source_files/Figs/Overview_country.pdf, replace
+file Source_files/Figs/Overview_country.pdf saved as PDF format
+
+. restore
+
+. 
+end of do-file
+STEP Country/Figure_5 finished: rc=0  seconds=      1.0
+
+------------------------------------------------------------------------------
+STEP 9: Country/Figures_6_8
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/CountryData.dta", clear
+
+. 
+. 
+. *** Figure 6
+. 
+. tw (scatter s_diff_trust_out_in kinship_score,mlabel(isocode)) (lfit s_diff_t
+> rust_o kinship_score, title("Kinship tightness and in-group vs. out-group tru
+> st") xtitle("Kinship tightness") xscale(range(0 1.02)) ytitle("Δ Trust [In-gr
+> oup vs. out-group]") ylabel(-2 -1 0 1 2) legend(off) note("") graphregion(fco
+> lor(white) lcolor(white)))
+
+. graph export Source_files/Figs/Trust_kinship.pdf, replace
+file Source_files/Figs/Trust_kinship.pdf saved as PDF format
+
+. 
+. 
+. 
+. * Figure 8
+. 
+. pca s_diff_trust_out_in s_religion_hell s_values_uniform s_mfq_disgusting s_g
+> ps_punish_revenge
+
+Principal components/correlation                 Number of obs    =         33
+                                                 Number of comp.  =          5
+                                                 Trace            =          5
+    Rotation: (unrotated = principal)            Rho              =     1.0000
+
+    --------------------------------------------------------------------------
+       Component |   Eigenvalue   Difference         Proportion   Cumulative
+    -------------+------------------------------------------------------------
+           Comp1 |      2.47347      1.46855             0.4947       0.4947
+           Comp2 |      1.00492      .366532             0.2010       0.6957
+           Comp3 |      .638391      .108005             0.1277       0.8234
+           Comp4 |      .530387      .177561             0.1061       0.9294
+           Comp5 |      .352826            .             0.0706       1.0000
+    --------------------------------------------------------------------------
+
+Principal components (eigenvectors) 
+
+    ----------------------------------------------------------------
+        Variable |    Comp1     Comp2     Comp3     Comp4     Comp5 
+    -------------+--------------------------------------------------
+    s_diff_tru~n |   0.4875   -0.0223   -0.2757   -0.8263    0.0563 
+    s_religion~l |   0.4328   -0.3710    0.7484    0.0386    0.3369 
+    s_values_u~m |   0.2322    0.8969    0.1566    0.0831    0.3319 
+    s_mfq_disg~g |   0.5435    0.1157    0.0878    0.2342   -0.7929 
+    s_gps_puni~e |   0.4751   -0.2099   -0.5759    0.5040    0.3802 
+    ----------------------------------------------------------------
+
+    ---------------------------
+        Variable | Unexplained 
+    -------------+-------------
+    s_diff_tru~n |           0 
+    s_religion~l |           0 
+    s_values_u~m |           0 
+    s_mfq_disg~g |           0 
+    s_gps_puni~e |           0 
+    ---------------------------
+
+. predict communal_kernel
+(score assumed)
+(4 components skipped)
+
+Scoring coefficients 
+    sum of squares(column-loading) = 1
+
+    ----------------------------------------------------------------
+        Variable |    Comp1     Comp2     Comp3     Comp4     Comp5 
+    -------------+--------------------------------------------------
+    s_diff_tru~n |   0.4875   -0.0223   -0.2757   -0.8263    0.0563 
+    s_religion~l |   0.4328   -0.3710    0.7484    0.0386    0.3369 
+    s_values_u~m |   0.2322    0.8969    0.1566    0.0831    0.3319 
+    s_mfq_disg~g |   0.5435    0.1157    0.0878    0.2342   -0.7929 
+    s_gps_puni~e |   0.4751   -0.2099   -0.5759    0.5040    0.3802 
+    ----------------------------------------------------------------
+
+. 
+. tw (scatter communal_kernel kinship_score,mlabel(isocode)) (lfit communal_ker
+> nel kinship_score, title("Kinship tightness and morality kernel") xtitle("Kin
+> ship tightness") xscale(range(0 1.02)) ylabel(-3 -1.5 0 1.5 3) ytitle("PCA of
+>  moral variables") legend(off) note("") graphregion(fcolor(white) lcolor(whit
+> e)))
+
+. graph export Source_files/Figs/Kernel_kinship.pdf, replace
+file Source_files/Figs/Kernel_kinship.pdf saved as PDF format
+
+. 
+. 
+. 
+end of do-file
+STEP Country/Figures_6_8 finished: rc=0  seconds=      0.6
+
+------------------------------------------------------------------------------
+STEP 10: Country/Figure_9
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/CountryData.dta", clear
+
+. 
+. mi unset, asis
+
+. 
+. keep if frac_native>=.5 & frac_native!=. 
+(93 observations deleted)
+
+. 
+. 
+. forvalues i=1500(100)1600{
+  2. gen ln_pd`i'=ln(1+popd`i')
+  3. }
+
+. 
+. forvalues i=1700(10)1950{
+  2. gen ln_pd`i'=ln(1+popd`i')
+  3. }
+
+. 
+. 
+. *** Compute OLS coefficients over time
+. 
+. foreach j in ln_pd urbfrac{
+  2. 
+.         forvalues i=1500(100)1600{
+  3.                 qui reg `j'`i' kinship_score small_scale, ro
+  4.                 gen coef_`j'_`i'=_b[kinship_score]
+  5.                 gen `j'_p_value_`i'=(2 * ttail(e(df_r), abs(_b[kinship_sco
+> re]/_se[kinship_score])))
+  6.                 gen `j'_sig_`i'=0
+  7.                 replace `j'_sig_`i'=1 if `j'_p_value_`i'<0.1
+  8.                 replace `j'_sig_`i'=2 if `j'_p_value_`i'<0.05
+  9.                 replace `j'_sig_`i'=3 if `j'_p_value_`i'<0.01
+ 10. 
+.                 qui reg `j'`i' kinship_score small_scale colony_*, ro
+ 11.                 gen coef_`j'_col_`i'=_b[kinship_score]
+ 12.                 gen `j'_p_value_col_`i'=(2 * ttail(e(df_r), abs(_b[kinship
+> _score]/_se[kinship_score])))
+ 13.                 gen `j'_sig_col_`i'=0
+ 14.                 replace `j'_sig_col_`i'=1 if `j'_p_value_col_`i'<0.1
+ 15.                 replace `j'_sig_col_`i'=2 if `j'_p_value_col_`i'<0.05
+ 16.                 replace `j'_sig_col_`i'=3 if `j'_p_value_col_`i'<0.01
+ 17.         }
+ 18. 
+.         
+.         
+.         forvalues i=1700(10)1950{
+ 19.                 qui reg `j'`i' kinship_score small_scale, ro
+ 20.                 gen coef_`j'_`i'=_b[kinship_score]
+ 21.                 gen `j'_p_value_`i'=(2 * ttail(e(df_r), abs(_b[kinship_sco
+> re]/_se[kinship_score])))
+ 22.                 gen `j'_sig_`i'=0
+ 23.                 replace `j'_sig_`i'=1 if `j'_p_value_`i'<0.1
+ 24.                 replace `j'_sig_`i'=2 if `j'_p_value_`i'<0.05
+ 25.                 replace `j'_sig_`i'=3 if `j'_p_value_`i'<0.01
+ 26. 
+.                 qui reg `j'`i' kinship_score small_scale colony_*, ro
+ 27.                 gen coef_`j'_col_`i'=_b[kinship_score]
+ 28.                 gen `j'_p_value_col_`i'=(2 * ttail(e(df_r), abs(_b[kinship
+> _score]/_se[kinship_score])))
+ 29.                 gen `j'_sig_col_`i'=0
+ 30.                 replace `j'_sig_col_`i'=1 if `j'_p_value_col_`i'<0.1
+ 31.                 replace `j'_sig_col_`i'=2 if `j'_p_value_col_`i'<0.05
+ 32.                 replace `j'_sig_col_`i'=3 if `j'_p_value_col_`i'<0.01
+ 33.         }
+ 34. }
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+(123 real changes made)
+(123 real changes made)
+(0 real changes made)
+(123 real changes made)
+(0 real changes made)
+(0 real changes made)
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. *** Collapse data
+. 
+. rename *ln_pd* *pd*
+
+. 
+. collapse coef_* *_sig*
+
+. 
+. rename *_1* *1*
+
+. gen a=0
+
+. reshape long coef_urbfrac coef_urbfrac_col coef_pd coef_pd_col urbfrac_sig ur
+> bfrac_sig_col pd_sig pd_sig_col, i(a) j(time)
+(j = 1500 1600 1700 1710 1720 1730 1740 1750 1760 1770 1780 1790 1800 1810 1820
+>  1830 1840 1850 1860 1870 1880 1890 1900 1910 1920 1930 1940 1950)
+
+Data                               Wide   ->   Long
+-----------------------------------------------------------------------------
+Number of observations                1   ->   28          
+Number of variables                 225   ->   10          
+j variable (28 values)                    ->   time
+xij variables:
+coef_urbfrac1500 coef_urbfrac1600 ... coef_urbfrac1950->coef_urbfrac
+coef_urbfrac_col1500 coef_urbfrac_col1600 ... coef_urbfrac_col1950->coef_urbfra
+> c_col
+coef_pd1500 coef_pd1600 ... coef_pd1950   ->   coef_pd
+coef_pd_col1500 coef_pd_col1600 ... coef_pd_col1950->coef_pd_col
+urbfrac_sig1500 urbfrac_sig1600 ... urbfrac_sig1950->urbfrac_sig
+urbfrac_sig_col1500 urbfrac_sig_col1600 ... urbfrac_sig_col1950->urbfrac_sig_co
+> l
+   pd_sig1500 pd_sig1600 ... pd_sig1950   ->   pd_sig
+pd_sig_col1500 pd_sig_col1600 ... pd_sig_col1950->pd_sig_col
+-----------------------------------------------------------------------------
+
+. 
+. destring time, replace
+time already numeric; no replace
+
+. 
+. 
+. 
+. 
+. *** Do plots
+. 
+. 
+. twoway (line coef_urbfrac time) (scatter coef_urbfrac time if urbfrac_sig==3,
+> msymbol(Oh) mcolor(red) yline(0,lstyle(grid)))  (scatter coef_urbfrac time if
+>  urbfrac_sig==2,msymbol(Dh) mcolor(blue)) (scatter coef_urbfrac time if urbfr
+> ac_sig==1,msymbol(Th) mcolor(magenta)) (scatter coef_urbfrac time if urbfrac_
+> sig==0), title("{it:Urbanization rate and kinship tightness}") legend(off) yt
+> itle("Coefficient on kinship tightness") xtitle("Year") graphregion(fcolor(wh
+> ite) lcolor(white))
+
+. graph export Source_files/Figs/Urbfrac.pdf, replace
+file Source_files/Figs/Urbfrac.pdf saved as PDF format
+
+. 
+. twoway (line coef_pd time, lcolor(navy)) (scatter coef_pd time if pd_sig==3,m
+> symbol(Oh) mcolor(red))  (scatter coef_pd time if pd_sig==2,msymbol(Dh) mcolo
+> r(blue)) (scatter coef_pd time if pd_sig==1,msymbol(Th) mcolor(magenta)) (sca
+> tter coef_pd time if pd_sig==0,mcolor(green)), title("{it:Log Population dens
+> ity and kinship tightness}") ytitle("Coefficient of kinship tightness") yline
+> (0, lstyle(grid)) xtitle("Year") legend(off) graphregion(fcolor(white) lcolor
+> (white))
+
+. graph export Source_files/Figs/Pd.pdf, replace
+file Source_files/Figs/Pd.pdf saved as PDF format
+
+. 
+. 
+. 
+. 
+. 
+end of do-file
+STEP Country/Figure_9 finished: rc=0  seconds=      1.6
+
+------------------------------------------------------------------------------
+STEP 11: MFQ/Table_8
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/MFQ_Ind.dta", clear
+
+. 
+. 
+. 
+. * Table 8
+. eststo clear
+
+. eststo: qui reg s_mfq_loyalty corigin_kinship_score dum_country* i.year $cont
+> rols_ind $controls_country_migrant, cl(isocode_past)
+(est1 stored)
+
+. eststo: qui reg s_mfq_rights corigin_kinship_score dum_country* i.year $contr
+> ols_ind $controls_country_migrant, cl(isocode_past)
+(est2 stored)
+
+. eststo: qui reg s_values_uniform corigin_kinship_score dum_country* i.year, c
+> l(isocode_past)
+(est3 stored)
+
+. eststo: qui reg s_values_uniform corigin_kinship_score dum_country* i.year $c
+> ontrols_ind $controls_country_migrant, cl(isocode_past)
+(est4 stored)
+
+. eststo: qui reg s_mfq_disgusting corigin_kinship_score dum_country* i.year, c
+> l(isocode_past)
+(est5 stored)
+
+. eststo: qui reg s_mfq_disgusting corigin_kinship_score dum_country* i.year $c
+> ontrols_ind $controls_country_migrant, cl(isocode_past)
+(est6 stored)
+
+. eststo: qui reg s_mfq_decency corigin_kinship_score dum_country* i.year, cl(i
+> socode_past)
+(est7 stored)
+
+. eststo: qui reg s_mfq_decency corigin_kinship_score dum_country* i.year $cont
+> rols_ind $controls_country_migrant, cl(isocode_past)
+(est8 stored)
+
+. esttab using Source_files/Tables/Moral_values.tex, booktabs nonotes replace c
+> ompress  label nomtitles indicate("Country FE=*dum_country*" "Year FE=*year" 
+> "Individual-level controls=female" "Country of origin controls=corigin_ln_tim
+> e_obs_ea")  drop(_cons $controls_ind_drop $controls_country_migrant_drop) se(
+> 2) b(a2) r2(2)  star(* 0.10 ** 0.05 *** 0.01) prehead("{\begin{tabular}{l*{8}
+> {c}}\toprule\toprule &\multicolumn{4}{c}{Communal vs. universal values} & \mu
+> lticolumn{4}{c}{Disgust}\\\cmidrule(lr){2-5}\cmidrule(lr){6-9}\\ &\multicolum
+> n{8}{c}{\textit{Dependent variable:}}\\[.1cm] & \multicolumn{8}{c}{Moral rele
+> vance of:}\\\cmidrule(lr){2-9} &\multicolumn{1}{c}{Loyalty}& \multicolumn{1}{
+> c}{Rights} &\multicolumn{2}{c}{$\Delta$ [Comm. -- universal]} &\multicolumn{2
+> }{c}{Disgust} & \multicolumn{2}{c}{Purity}\\\cmidrule(lr){2-2}\cmidrule(lr){3
+> -3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}")
+(file Source_files/Tables/Moral_values.tex not found)
+(output written to Source_files/Tables/Moral_values.tex)
+
+. 
+. 
+. 
+. 
+. 
+end of do-file
+STEP MFQ/Table_8 finished: rc=0  seconds=      8.7
+
+------------------------------------------------------------------------------
+STEP 12: MFQ/Figure_7
+------------------------------------------------------------------------------
+
+. use "Data_programs/Data/MFQ_Ind.dta", clear
+
+. 
+. 
+. * Figure 7
+. 
+. preserve
+
+. keep if isocode_curr=="USA"
+(14,682 observations deleted)
+
+. 
+. collapse s_mfq_disgusting corigin_kinship_score (count) no=s_mfq_disgusting, 
+> by(isocode_past)
+
+. keep if no>=20
+(92 observations deleted)
+
+. 
+. tw (scatter s_mfq_disgusting corigin_kinship_score,mlabel(isocode)) (lfit s_m
+> fq_disgusting corigin_kinship_score, title("Kinship tightness and moral relev
+> ance of disgust") xtitle("Kinship tightness") xscale(range(0 1.02)) ytitle("M
+> oral relevance of disgust") ylabel(-.4 0 .4 .8) yline(.8,lstyle(grid)) legend
+> (off) note("") graphregion(fcolor(white) lcolor(white)))
+
+. graph export Source_files/Figs/Disgust_kinship.pdf, replace
+file Source_files/Figs/Disgust_kinship.pdf saved as PDF format
+
+. restore
+
+. 
+. 
+. 
+end of do-file
+STEP MFQ/Figure_7 finished: rc=0  seconds=      0.3
+
+. postclose `steplog'
+
+. 
+. * ---- summary --------------------------------------------------------------
+> --
+. use "$ROOT/Results/run_original_steps.dta", clear
+
+. list, noobs clean
+
+                       step   rc   seconds  
+                 EA/Table_3    0    18.518  
+                 EA/Table_4    0     6.834  
+                 EA/Table_5    0      .423  
+             EA/Figures_2_3    0      .906  
+                EA/Figure_4    0     5.249  
+                EA/Table_11    0      .177  
+    Country/Tables_6_7_9_10    0     6.197  
+           Country/Figure_5    0     1.025  
+        Country/Figures_6_8    0      .567  
+           Country/Figure_9    0     1.595  
+                MFQ/Table_8    0     8.667  
+               MFQ/Figure_7    0      .321  
+
+. export delimited using "$ROOT/Results/run_original_steps.csv", replace
+(file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Ki
+    > nship-Cooperation-Moral-Systems/Results/run_original_steps.csv not
+    found)
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Kin
+> ship-Cooperation-Moral-Systems/Results/run_original_steps.csv saved
+
+. quietly summarize seconds
+
+. display as result "TOTAL seconds: " %9.1f r(sum)
+TOTAL seconds:      50.5
+
+. 
+. log close main
+      name:  main
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Kinship-Cooperation-Moral-Systems/Results/run_original.log
+  log type:  text
+ closed on:  16 Sep 2026, 00:05:21
+-------------------------------------------------------------------------------

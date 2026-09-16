@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS noise
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Replication data (Harvard Dataverse package, ~5.5 GB zipped) — never tracked
+Data/**
+!Data/README.md
+!Data/download.sh
+!Data/*/
+!Data/*/.gitkeep
+
+# Generated output: track small text outputs, ignore heavy binaries
+Results/**/*.dta
+Results/**/*.ster
+Results/**/*.gph
+Results/**/*.smcl
+Results/**/*.zip
+Materials/author_outputs/estimates/*.ster
+Program/**/*.log

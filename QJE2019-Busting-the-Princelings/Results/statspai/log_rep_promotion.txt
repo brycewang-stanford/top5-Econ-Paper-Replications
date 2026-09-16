@@ -1,0 +1,53 @@
+Table VIII (province_panel)
+  VIII col1: oprobit N=399 k=43  23.6s
+  VIII col2: oprobit N=380 k=50  27.1s
+  VIII col3: LPM N=380
+  VIII col4: oprobit N=382 k=50  25.9s
+  VIII col5: oprobit N=382 k=50  27.9s
+  VIII col6: oprobit N=399 k=43  15.7s
+  VIII col7: oprobit N=388 k=50  25.7s
+  VIII col8: LPM N=388
+  VIII col9: oprobit N=390 k=50  26.4s
+  VIII col10: oprobit N=390 k=50  26.8s
+Table IX (prefecture_panel)
+  IX col1: oprobit N=3237 k=343  3016.4s
+  IX col2: oprobit N=2756 k=300  2012.9s
+  IX col3: LPM N=2756
+  IX col4: oprobit N=2755 k=300  1989.8s
+  IX col5: oprobit N=2756 k=300  1644.4s
+  IX col6: oprobit N=3048 k=343  2495.0s
+  IX col7: oprobit N=2569 k=300  1764.8s
+  IX col8: LPM N=2569
+  IX col9: oprobit N=2568 k=300  1316.3s
+  IX col10: oprobit N=2568 k=300  1323.9s
+Table XII
+  XII col1: oprobit N=380 k=51  10.2s
+  XII col2: oprobit N=380 k=52  10.4s
+  XII col3: oprobit N=2756 k=301  1459.8s
+  XII col4: oprobit N=2756 k=302  1926.1s
+  XII col5: oprobit N=382 k=51  9.6s
+  XII col6: oprobit N=382 k=52  10.4s
+  XII col7: oprobit N=2755 k=301  1598.7s
+  XII col8: oprobit N=2755 k=302  1350.8s
+  XII col9: oprobit N=382 k=51  9.3s
+  XII col10: oprobit N=382 k=52  10.2s
+  XII col11: oprobit N=2756 k=300  1212.5s
+  XII col12: oprobit N=2756 k=302  1431.4s
+    24816.33 real     24212.78 user        24.63 sys
+           516816896  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              158693  page reclaims
+                  64  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                2669  voluntary context switches
+              810293  involuntary context switches
+     387919038864621  instructions retired
+      72628552166401  cycles elapsed
+           476775864  peak memory footprint

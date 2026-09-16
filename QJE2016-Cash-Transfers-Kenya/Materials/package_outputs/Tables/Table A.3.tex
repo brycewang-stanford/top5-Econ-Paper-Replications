@@ -1,0 +1,221 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 0},backref=false,colorlinks=true]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+\usepackage{amsfonts}
+\usepackage{achicago}
+\usepackage{pdflscape}
+\usepackage{appendix}
+\usepackage{hyperref}
+\usepackage[letterpaper,top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage[bottom]{footmisc}
+%\usepackage{fancyhdr}
+\usepackage{bibentry}
+\usepackage{threeparttable}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+
+\setcounter{MaxMatrixCols}{10}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+% For centered entries: 
+% Allow line breaks with \\ in specialcells
+\newcommand{\specialcell}[2][c]{%
+\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}
+}
+
+% For left-aligned entries:
+%% Allow line breaks with \\ in specialcells
+%\newcommand{\specialcell}[2][c]{%
+%\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}% missing % in original
+%                       %%%
+%}
+
+% *****************************************************************
+% siunitx
+% *****************************************************************
+\newcommand{\sym}[1]{\rlap{#1}} % Thanks to Joseph Wright & David Carlisle
+
+\usepackage{siunitx}
+    \sisetup{
+        detect-mode,
+        group-digits            = false,
+        input-symbols           = ( ) [ ] - +,
+        tight-spacing		= true,
+        table-align-text-post   = false,
+        input-signs             = ,
+        }   
+
+% Packages for tables
+\usepackage{booktabs}% Pretty tables
+\usepackage{threeparttablex}% For Notes below table
+
+% Character substitution that prints brackets and the minus symbol in text mode. Thanks to David Carlisle
+\def\yyy{%
+  \bgroup\uccode`\~\expandafter`\string-%
+  \uppercase{\egroup\edef~{\noexpand\text{\llap{\textendash}\relax}}}%
+  \mathcode\expandafter`\string-"8000 }
+
+\def\xxxl#1{%
+\bgroup\uccode`\~\expandafter`\string#1%
+\uppercase{\egroup\edef~{\noexpand\text{\noexpand\llap{\string#1}}}}%
+\mathcode\expandafter`\string#1"8000 }
+
+\def\xxxr#1{%
+\bgroup\uccode`\~\expandafter`\string#1%
+\uppercase{\egroup\edef~{\noexpand\text{\noexpand\rlap{\string#1}}}}%
+\mathcode\expandafter`\string#1"8000 }
+
+\def\textsymbols{\xxxl[\xxxr]\xxxl(\xxxr)\yyy}
+
+
+% *****************************************************************
+% Estout related things
+% *****************************************************************
+\let\estinput=\input % define a new input command so that we can still flatten the document
+
+\newcommand{\estwide}[3]{
+        \vspace{.75ex}{
+            \textsymbols% Note the added command here
+            \begin{tabular*}
+            {\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}l*{#2}{#3}}
+            \toprule
+            \estinput{#1}
+            \bottomrule
+            \addlinespace[.75ex]
+            \end{tabular*}
+            }
+        }   
+
+\newcommand{\estauto}[3]{
+        \vspace{.75ex}{
+            \textsymbols% Note the added command here
+            \begin{tabular}{l*{#2}{#3}}
+            \toprule
+            \estinput{#1}
+            \bottomrule
+            \addlinespace[.75ex]
+            \end{tabular}
+            }
+        }
+
+% *****************************************************************
+% Custom subcaptions
+% *****************************************************************
+% Note/Source/Text after Tables
+% The new approach using threeparttables to generate notes that are the exact width of the table.
+\newcommand{\Figtext}[1]{%
+    \begin{tablenotes}[para,flushleft]
+    \hspace{6pt}
+    \hangindent=1.75em
+    #1
+    \end{tablenotes}
+    }
+\newcommand{\Fignote}[1]{\Figtext{\emph{Note:~}~#1}}
+\newcommand{\Figsource}[1]{\Figtext{\emph{Source:~}~#1}}
+\newcommand{\Starnote}{\Figtext{* p < 0.1, ** p < 0.05, *** p < 0.01. Standard errors in parentheses.}}% Add significance note with \starnote
+
+% To adjust margins: 
+\usepackage{changepage}
+
+\usepackage{bbm}
+\usepackage{bm}
+
+\makeatother
+
+\begin{document}
+\begin{tabular}{>{\raggedright}p{6cm}>{\raggedright}p{6cm}>{\raggedright}p{5cm}}
+\hline 
+ &  & \tabularnewline
+{\footnotesize{}Pre-analysis Plan } & {\footnotesize{}Modification} & {\footnotesize{}Location}\tabularnewline
+\hline 
+ &  & \tabularnewline
+{\footnotesize{}Outcome variables:} &  & \tabularnewline
+{\footnotesize{}\enskip{}Total assets} & {\footnotesize{}Include roof values (forgot to include in PAP) and
+omit land values (badly measured)} & {\footnotesize{}Main paper Tables I--II}\tabularnewline
+{\footnotesize{}\enskip{}Non-durable expenditures} & {\footnotesize{}Omit durable spending and spending on home repair
+(creates a better measure of flow consumption)} & {\footnotesize{}Main paper Tables I--II}\tabularnewline
+{\footnotesize{}\enskip{}Female empowerment (index)} & {\footnotesize{}Replace dummies for whether violent incident was reported
+with variables for the number of types of incidents reported (more
+sensitive measure)} & {\footnotesize{}Main paper Tables I--II}\tabularnewline
+{\footnotesize{}\enskip{}Financial variables} & {\footnotesize{}Omit value of outstanding loans and inability to pay
+loans (not relevant for remittance results)} & {\footnotesize{}OA Table 34}\tabularnewline
+{\footnotesize{}\enskip{}Preference \& political variables} & {\footnotesize{}Omit for space reasons} & {\footnotesize{}Omitted}\tabularnewline
+{\footnotesize{}\enskip{}Village-level price index} & {\footnotesize{}Substitute a weighted average of all individual prices
+for a sum} & {\footnotesize{}OA Table 151}\tabularnewline
+ &  & \tabularnewline
+{\footnotesize{}Within-village treatment effect estimation (PAP equations
+3--6)} & {\footnotesize{}In addition to conditioning on baseline outcomes,
+we include a missing-value indicator variable} & {\footnotesize{}Main paper equations 5--8}\tabularnewline
+ &  & \tabularnewline
+{\footnotesize{}Heterogenous treatment effects effects (PAP equations
+8--12)} & {\footnotesize{}Omit for space reasons} & {\footnotesize{}Omitted}\tabularnewline
+ &  & \tabularnewline
+{\footnotesize{}Temporal dynamics: early transfers vs. late transfers
+(PAP equations 13--17)} & {\footnotesize{}Omit for space reasons} & {\footnotesize{}Omitted}\tabularnewline
+ &  & \tabularnewline
+{\footnotesize{}Temporal Dynamics: treatment effects broken out for
+transfers completed >1 month, 1-3 months, 4-6 months, and 6-12 months
+before endline (PAP equation 18).} & {\footnotesize{}Changed timing buckets to <1 month, 1-4 months, and
+>4 months before endline (correction of PAP typo and increase of power
+at long time horizons)} & {\footnotesize{}OA Table 20 and Figure 4}\tabularnewline
+ &  & \tabularnewline
+{\footnotesize{}Endline timing: create separate treatment dummies
+based on the date of the endline survey (PAP section 5.5)} & {\footnotesize{}Replaced this analysis with the original treatment
+effect calculation with controls for endline timing} & {\footnotesize{}OA Tables 16--19}\tabularnewline
+ &  & \tabularnewline
+{\footnotesize{}Midline treatment effects} & {\footnotesize{}Omitted for space reasons} & {\footnotesize{}Omitted}\tabularnewline
+ &  & \tabularnewline
+{\footnotesize{}Village-level general equilibrium effects (PAP equation
+20)} & {\footnotesize{}Instead of regressing at the individual level, we
+collapse to the village level} & {\footnotesize{}OA Tables 151--161}\tabularnewline
+ &  & \tabularnewline
+\hline 
+\end{tabular}
+\end{document}

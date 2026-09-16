@@ -1,0 +1,51 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{SSSSSc}}
+\toprule
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+          &\multicolumn{1}{c}{\specialcell{Control\\mean (SD)}}&\multicolumn{1}{c}{\specialcell{Treatment\\effect}}&\multicolumn{1}{c}{\specialcell{Female\\recipient}}&\multicolumn{1}{c}{\specialcell{Monthly\\transfer}}&\multicolumn{1}{c}{\specialcell{Large\\transfer}}&\multicolumn{1}{c}{N}\\
+\midrule
+Wage labor primary income (dummy)&     0.16&    -0.00&     0.01&     0.02&     0.01&      940\\
+          &   (0.37)&   (0.02)&   (0.04)&   (0.04)&   (0.04)&         \\
+Own farm  primary income (dummy)&     0.56&    -0.01&     0.00&    -0.00&     0.01&      940\\
+          &   (0.50)&   (0.03)&   (0.05)&   (0.05)&   (0.05)&         \\
+Non-ag business primary income (dummy)&     0.12&     0.02&    -0.02&     0.00&     0.01&      940\\
+          &   (0.32)&   (0.02)&   (0.04)&   (0.04)&   (0.04)&         \\
+Non-agricultural business owner (dummy)&     0.32&     0.01&    -0.02&0.09$^{*}$&     0.02&      940\\
+          &   (0.47)&   (0.03)&   (0.05)&   (0.05)&   (0.05)&         \\
+Number of employees working in non-ag business&     0.00&0.03$^{***}$&     0.00&    -0.02&     0.00&      940\\
+          &   (0.00)&   (0.01)&   (0.02)&   (0.02)&   (0.02)&         \\
+Non-ag business revenue, monthly (USD)&    28.62&10.70$^{*}$&     4.86&    12.56&     0.68&      940\\
+          &  (86.25)&   (5.68)&   (9.90)&  (10.36)&   (8.62)&         \\
+Non-ag business flow expenses, monthly (USD)&    16.61&9.87$^{**}$&     5.61&    10.09&    -2.46&      940\\
+          &  (60.12)&   (4.10)&   (7.12)&   (7.46)&   (6.15)&         \\
+Non-ag business profit imputed, monthly (USD)&    12.01&    -0.41&     0.37&     2.93&     2.98&      940\\
+          &  (44.10)&   (3.64)&   (6.57)&   (7.80)&   (5.28)&         \\
+Non-ag business profit self-reported, monthly (USD)&     8.26&     1.64&     0.31&     1.43&     0.49&      940\\
+          &  (24.73)&   (1.73)&   (3.13)&   (3.03)&   (2.80)&         \\
+Non-ag business investment in durables, monthly (USD)&     0.17&0.23$^{***}$&    -0.17&     0.00&    -0.14&      940\\
+          &   (0.74)&   (0.08)&   (0.17)&   (0.17)&   (0.13)&         \\
+Farm revenue, monthly (USD)&     9.66&     0.20&    -0.37&    -0.04&     0.11&      940\\
+          &   (8.89)&   (0.51)&   (0.89)&   (0.86)&   (0.80)&         \\
+Farm flow expenses, monthly (USD)&     5.01&1.46$^{***}$&    -0.67&    -0.15&1.35$^{**}$&      940\\
+          &   (5.84)&   (0.35)&   (0.63)&   (0.58)&   (0.65)&         \\
+Farm profit, monthly (USD)&     4.65&-1.22$^{***}$&     0.27&     0.13&-1.28$^{*}$&      940\\
+          &   (7.47)&   (0.45)&   (0.79)&   (0.77)&   (0.76)&         \\
+Livestock flow revenue, monthly (USD)&     6.44&3.13$^{***}$&     0.77&3.18$^{*}$&    -1.14&      940\\
+          &  (14.04)&   (0.95)&   (1.83)&   (1.81)&   (1.49)&         \\
+Livestock flow expenses, monthly (USD)&     2.33&1.32$^{***}$&    -0.44&    -0.81&2.44$^{***}$&      940\\
+          &   (4.64)&   (0.32)&   (0.63)&   (0.52)&   (0.65)&         \\
+Livestock flow profit, monthly (USD)&     4.11&1.80$^{**}$&     1.19&3.95$^{**}$&-3.63$^{***}$&      940\\
+          &  (13.21)&   (0.91)&   (1.76)&   (1.75)&   (1.37)&         \\
+Livestock sales and meat revenue, monthly (USD)&     4.25&2.28$^{***}$&    -0.47&    -0.30&    -0.62&      940\\
+          &   (8.40)&   (0.61)&   (1.20)&   (1.12)&   (1.05)&         \\
+Total revenue, monthly (USD)&    48.98&16.38$^{***}$&     4.68&    15.43&    -0.88&      940\\
+          &  (90.52)&   (5.86)&  (10.21)&  (10.61)&   (8.92)&         \\
+Total expenses, monthly (USD)&    23.95&12.62$^{***}$&     4.55&     9.16&     1.33&      940\\
+          &  (61.71)&   (4.17)&   (7.23)&   (7.55)&   (6.31)&         \\
+Total profit, monthly (USD)&    20.78&     0.15&     1.68&     6.90&    -2.03&      940\\
+          &  (46.22)&   (3.70)&   (6.66)&   (7.90)&   (5.27)&         \\
+\midrule Joint test (\emph{p}-value)&         &0.00$^{***}$&     0.99&     0.65&0.05$^{**}$&         \\
+\bottomrule
+\end{tabular}
+}

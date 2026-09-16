@@ -1,0 +1,26 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{2}{c}}
+\toprule
+                &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+                &\multicolumn{1}{c}{\specialcell{Number of\\Activities}}&\multicolumn{1}{c}{\specialcell{Number of\\Activities}}\\
+\midrule
+Alcohol         &     0.19         &                  \\
+                &   (0.14)         &                  \\
+\addlinespace
+Alcohol x Treatment&     0.24         &                  \\
+                &   (0.20)         &                  \\
+\addlinespace
+Tobacco         &                  &     0.08         \\
+                &                  &   (0.14)         \\
+\addlinespace
+Tobacco x Treatment&                  &    -0.05         \\
+                &                  &   (0.23)         \\
+\addlinespace
+Constant        &     2.92\sym{***}&     2.97\sym{***}\\
+                &   (0.07)         &   (0.07)         \\
+\midrule
+Observations    &      300         &      314         \\
+\bottomrule
+\end{tabular}
+}

@@ -1,0 +1,31 @@
+# Auto-detect text files and normalize line endings.
+* text=auto
+
+# Stata do-files: enforce LF
+*.do text eol=lf
+
+# Markdown
+*.md text eol=lf
+*.markdown text eol=lf
+
+# Plain-text citation / metadata files
+*.txt text eol=lf
+
+# PDF and other binary files (also enforce binary handling on checkout)
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+*.gz binary
+*.tar binary
+
+# Python
+*.py text eol=lf
+
+# Shell / scripts
+*.sh text eol=lf
+
+# Stata data files (in case any are added later)
+*.dta binary

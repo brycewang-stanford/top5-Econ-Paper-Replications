@@ -1,0 +1,6 @@
+step	exhibits	rc	seconds
+import_stats_final		0	.02
+figure1		0	.498
+czone_analysis_preperiod_final		0	.254
+czone_analysis_ipw_final		0	9.253
+czone_plot_import_long_final		0	.462

@@ -1,0 +1,14 @@
+	(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	(10)	(11)	(12)	(13)	(14)	(15)	(16)	(17)	(18)	(19)	(20)	(21)	(22)	(23)	(24)
+VARIABLES	resid_log_cod	resid_log_cod	resid_log_cod	resid_log_cod_intensity	resid_log_cod_intensity	resid_log_cod_intensity	resid_log_nh	resid_log_nh	resid_log_nh	resid_log_nh_intensity	resid_log_nh_intensity	resid_log_nh_intensity	resid_log_waste_water	resid_log_waste_water	resid_log_waste_water	resid_log_waste_water_intensity	resid_log_waste_water_intensity	resid_log_waste_water_intensity	resid_log_so2	resid_log_so2	resid_log_so2	resid_log_nox	resid_log_nox	resid_log_nox
+																								
+Conventional	0.84**	0.75*	0.24	0.77***	0.70***	0.73***	0.87	0.76	0.63	1.23***	1.01**	0.85**	0.34	0.33	0.06	0.44**	0.40**	0.24	0.03	0.06	-0.16	0.09	0.14	-0.05
+	(0.43)	(0.39)	(0.32)	(0.29)	(0.27)	(0.26)	(0.90)	(0.76)	(0.69)	(0.45)	(0.44)	(0.43)	(0.31)	(0.33)	(0.28)	(0.21)	(0.20)	(0.19)	(0.29)	(0.30)	(0.25)	(0.28)	(0.29)	(0.20)
+Bias-corrected	1.00**	0.92**	0.31	0.90***	0.82***	0.77***	1.02	0.96	0.89	1.35***	1.14***	0.96**	0.44	0.45	0.04	0.52**	0.47**	0.29	0.10	0.14	-0.16	0.13	0.18	-0.05
+	(0.43)	(0.39)	(0.32)	(0.29)	(0.27)	(0.26)	(0.90)	(0.76)	(0.69)	(0.45)	(0.44)	(0.43)	(0.31)	(0.33)	(0.28)	(0.21)	(0.20)	(0.19)	(0.29)	(0.30)	(0.25)	(0.28)	(0.29)	(0.20)
+Robust	1.00**	0.92**	0.31	0.90***	0.82**	0.77**	1.02	0.96	0.89	1.35**	1.14**	0.96*	0.44	0.45	0.04	0.52**	0.47*	0.29	0.10	0.14	-0.16	0.13	0.18	-0.05
+	(0.47)	(0.44)	(0.35)	(0.35)	(0.33)	(0.34)	(1.19)	(1.05)	(0.95)	(0.55)	(0.54)	(0.58)	(0.37)	(0.39)	(0.30)	(0.25)	(0.25)	(0.22)	(0.34)	(0.34)	(0.30)	(0.34)	(0.36)	(0.24)
+																								
+Observations	9,797	9,797	9,797	9,797	9,797	9,797	4,772	4,772	4,772	4,752	4,752	4,752	9,797	9,797	9,797	9,797	9,797	9,797	4,740	4,740	4,740	4,740	4,740	4,740
+Kernel Type	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform
+Standard errors in parentheses																								
+*** p<0.01, ** p<0.05, * p<0.1																								

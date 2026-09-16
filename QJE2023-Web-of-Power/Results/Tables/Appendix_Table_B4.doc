@@ -1,0 +1,20 @@
+{\rtf1\fs24
+\trowd\trgaph75\trleft-75\intbl\trqc\clbrdrt\brdrs\cellx3312\clbrdrt\brdrs\cellx4752\clbrdrt\brdrs\cellx6192\clbrdrt\brdrs\cellx7632\clbrdrt\brdrs\cellx9072\clbrdrt\brdrs\cellx10512\clbrdrt\brdrs\cellx11952
+\ql \cell\qc (1)\cell\qc (2)\cell\qc (3)\cell\qc (4)\cell\qc (5)\cell\qc (6)\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx3312\cellx4752\cellx6192\cellx7632\cellx9072\cellx10512\cellx11952
+\trowd\trgaph75\trleft-75\trqc\clbrdrb\brdrs\cellx3312\clbrdrb\brdrs\cellx4752\clbrdrb\brdrs\cellx6192\clbrdrb\brdrs\cellx7632\clbrdrb\brdrs\cellx9072\clbrdrb\brdrs\cellx10512\clbrdrb\brdrs\cellx11952
+\ql VARIABLES\cell\qc lnmartyr1\cell\qc lnmartyr1\cell\qc lnmartyr1\cell\qc lnmartyr1\cell\qc lnmartyr1\cell\qc lnmartyr1\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx3312\cellx4752\cellx6192\cellx7632\cellx9072\cellx10512\cellx11952
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
+\ql Zeng_all0_invdist_Post\cell\qc 0.260***\cell\qc 0.277***\cell\qc 0.295***\cell\qc \cell\qc \cell\qc \cell\row
+\ql \cell\qc (0.066)\cell\qc (0.079)\cell\qc (0.068)\cell\qc \cell\qc \cell\qc \cell\row
+\ql Zeng_all0_Post\cell\qc \cell\qc \cell\qc \cell\qc 0.180***\cell\qc 0.189***\cell\qc 0.197***\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc (0.053)\cell\qc (0.057)\cell\qc (0.055)\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\qc \cell\row
+\ql Observations\cell\qc 1,110\cell\qc 1,110\cell\qc 1,110\cell\qc 1,110\cell\qc 1,110\cell\qc 1,110\cell\row
+\trowd\trgaph75\trleft-75\trqc\trbrdrb\brdrs\clbrdrb\brdrs\cellx3312\clbrdrb\brdrs\cellx4752\clbrdrb\brdrs\cellx6192\clbrdrb\brdrs\cellx7632\clbrdrb\brdrs\cellx9072\clbrdrb\brdrs\cellx10512\clbrdrb\brdrs\cellx11952
+\ql R-squared\cell\qc 0.671\cell\qc 0.669\cell\qc 0.673\cell\qc 0.670\cell\qc 0.669\cell\qc 0.672\cell\row
+\pard\qc
+Robust standard errors in parentheses\par
+*** p<0.01, ** p<0.05, * p<0.1\par
+}

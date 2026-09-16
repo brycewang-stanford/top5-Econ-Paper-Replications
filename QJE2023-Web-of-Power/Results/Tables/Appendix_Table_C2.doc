@@ -1,0 +1,22 @@
+{\rtf1\fs24
+\trowd\trgaph75\trleft-75\intbl\trqc\clbrdrt\brdrs\cellx3888\clbrdrt\brdrs\cellx5760\clbrdrt\brdrs\cellx8640\clbrdrt\brdrs\cellx11952
+\ql \cell\qc (1)\cell\qc (2)\cell\qc (3)\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx3888\cellx5760\cellx8640\cellx11952
+\trowd\trgaph75\trleft-75\trqc\clbrdrb\brdrs\cellx3888\clbrdrb\brdrs\cellx5760\clbrdrb\brdrs\cellx8640\clbrdrb\brdrs\cellx11952
+\ql VARIABLES\cell\qc alloff_byavg\cell\qc ZengConnected_byavg\cell\qc NotZengConnected_byavg\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx3888\cellx5760\cellx8640\cellx11952
+\ql \cell\qc \cell\qc \cell\qc \cell\row
+\ql hXZeng_all0_invdistXperiod\cell\qc 0.527***\cell\qc 0.847***\cell\qc 0.452***\cell\row
+\ql \cell\qc (0.136)\cell\qc (0.280)\cell\qc (0.135)\cell\row
+\ql Zeng_all0_invdistXperiod\cell\qc 0.117\cell\qc 0.221\cell\qc 0.093\cell\row
+\ql \cell\qc (0.120)\cell\qc (0.184)\cell\qc (0.125)\cell\row
+\ql hunanXperiod\cell\qc 0.880\cell\qc 0.079\cell\qc 1.067\cell\row
+\ql \cell\qc (0.679)\cell\qc (0.746)\cell\qc (0.705)\cell\row
+\ql \cell\qc \cell\qc \cell\qc \cell\row
+\ql Observations\cell\qc 149,786\cell\qc 149,786\cell\qc 149,786\cell\row
+\trowd\trgaph75\trleft-75\trqc\trbrdrb\brdrs\clbrdrb\brdrs\cellx3888\clbrdrb\brdrs\cellx5760\clbrdrb\brdrs\cellx8640\clbrdrb\brdrs\cellx11952
+\ql R-squared\cell\qc 0.384\cell\qc 0.228\cell\qc 0.327\cell\row
+\pard\qc
+Robust standard errors in parentheses\par
+*** p<0.01, ** p<0.05, * p<0.1\par
+}

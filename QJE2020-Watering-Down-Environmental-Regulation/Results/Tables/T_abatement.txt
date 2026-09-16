@@ -1,0 +1,14 @@
+	(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	(10)	(11)	(12)
+VARIABLES	resid prod hours	resid prod hours	resid prod hours	resid log water input	resid log water input	resid log water input	resid abate machine	resid abate machine	resid abate machine	resid abate capacity	resid abate capacity	resid abate capacity
+												
+Conventional	288***	256**	171*	0.62***	0.60**	0.40	-1.15*	-1.07*	-1.29*	-7,381**	-8,594**	-7,849**
+	(101)	(105)	(92)	(0.23)	(0.25)	(0.28)	(0.62)	(0.62)	(0.69)	(3,733)	(3,855)	(3,714)
+Bias-corrected	332***	306***	209**	0.70***	0.71***	0.52*	-1.39**	-1.34**	-1.63**	-7,145*	-9,016**	-9,205**
+	(101)	(105)	(92)	(0.23)	(0.25)	(0.28)	(0.62)	(0.62)	(0.69)	(3,733)	(3,855)	(3,714)
+Robust	332***	306**	209*	0.70***	0.71**	0.52	-1.39*	-1.34*	-1.63**	-7,145	-9,016*	-9,205**
+	(115)	(121)	(118)	(0.26)	(0.29)	(0.36)	(0.74)	(0.74)	(0.79)	(4,474)	(4,688)	(4,329)
+												
+Observations	7,302	7,302	7,302	6,606	6,606	6,606	7,265	7,265	7,265	4,624	4,624	4,624
+Kernel Type	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform
+Standard errors in parentheses												
+*** p<0.01, ** p<0.05, * p<0.1												

@@ -1,0 +1,10 @@
+	(1)	(2)
+VARIABLES	lnmartyrs_battle1	lnmartyrs_battle1
+		
+Zeng_all0_invdist_P	0.034**	0.034**
+	(0.014)	(0.014)
+		
+Observations	52,050	52,050
+R-squared	0.196	0.206
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		

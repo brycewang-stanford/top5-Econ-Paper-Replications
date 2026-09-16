@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS noise
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Replication data (Dataverse package: proprietary ASIF/ESR extracts) — local only
+Data/**
+!Data/README.md
+!Data/.gitkeep
+
+# Generated binaries (keep small text outputs: .txt/.csv/.md/.log/.tex)
+Results/**/*.gph
+Results/**/*.xlsx
+Results/**/*.xml
+Results/**/*.dta

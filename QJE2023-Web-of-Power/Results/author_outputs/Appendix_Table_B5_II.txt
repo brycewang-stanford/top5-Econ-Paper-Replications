@@ -1,0 +1,12 @@
+	(1)	(2)	(3)	(4)
+VARIABLES	std_lnmartyr1	std_lnmartyr1	std_lnGentryDeath1	std_lnGentryDeath1
+				
+Zeng_all0_invdist_Post	0.159***		0.148**	
+	(0.046)		(0.065)	
+Zeng_all0_Post		0.110***		0.099*
+		(0.034)		(0.051)
+				
+Observations	1,110	1,110	1,110	1,110
+R-squared	0.669	0.668	0.410	0.409
+Robust standard errors in parentheses				
+*** p<0.01, ** p<0.05, * p<0.1				

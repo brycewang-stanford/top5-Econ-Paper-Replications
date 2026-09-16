@@ -1,0 +1,47 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{10}{SSSSS}}
+\toprule
+          &\multicolumn{6}{c}{Spillover Effects}                      &\multicolumn{2}{c}{Lee Bounds}&\multicolumn{2}{c}{Horowitz-Manski Bounds}\\\cmidrule(lr){2-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}&\multicolumn{1}{c}{(9)}&\multicolumn{1}{c}{(10)}\\
+          &\multicolumn{1}{c}{\specialcell{All HH\\Estimate}}&\multicolumn{1}{c}{\specialcell{All HH\\estimate}}&\multicolumn{1}{c}{\specialcell{Thatched\\estimate}}&\multicolumn{1}{c}{\specialcell{Thatched\\estimate}}&\multicolumn{1}{c}{\specialcell{Test (1)=(3)\\\emph{p}-value}}&\multicolumn{1}{c}{\specialcell{Test (2)=(4)\\\emph{p}-value}}&\multicolumn{1}{c}{\specialcell{Lower}}&\multicolumn{1}{c}{\specialcell{Upper}}&\multicolumn{1}{c}{\specialcell{Lower}}&\multicolumn{1}{c}{\specialcell{Upper}}\\
+\midrule
+Includes controls&     {No}&    {Yes}&     {No}&    {Yes}&     {No}&    {Yes}&     {No}&     {No}&     {No}&     {No}\\
+\midrule Medical expenses per episode, entire HH (USD)&     0.48&     0.47&     0.81&     0.82&     0.16&     0.12&    -1.57&     0.69&     0.41&     0.62\\
+          &   (1.06)&   (1.06)&   (1.13)&   (1.12)&         &         &   (1.03)&   (1.06)&   (1.03)&   (1.03)\\
+Medical expenses per episode, spouses (USD)&    -0.57&    -0.32&     0.20&     0.53&0.05$^{*}$&0.04$^{**}$&-6.18$^{***}$&     1.39&    -0.78&    -0.16\\
+          &   (2.61)&   (2.52)&   (2.88)&   (2.83)&         &         &   (1.75)&   (2.95)&   (2.66)&   (2.66)\\
+Medical expenses per episode, children (USD)&     0.63&     0.77&     0.68&     0.81&     0.67&     0.72&    -0.88&1.13$^{*}$&     0.57&     0.75\\
+          &   (0.79)&   (0.71)&   (0.80)&   (0.73)&         &         &   (0.65)&   (0.59)&   (0.70)&   (0.70)\\
+Proportion of household sick/injured (1 month)&0.05$^{*}$&0.05$^{**}$&0.05$^{*}$&0.05$^{*}$&     0.78&     0.89&0.04$^{*}$&0.05$^{**}$&0.04$^{**}$&0.05$^{***}$\\
+          &   (0.03)&   (0.03)&   (0.03)&   (0.03)&         &         &   (0.02)&   (0.02)&   (0.02)&   (0.02)\\
+Proportion of children sick/injured (1 month)&0.05$^{*}$&0.05$^{*}$&0.05$^{*}$&0.05$^{*}$&     0.84&     0.75&     0.04&0.05$^{*}$&0.04$^{*}$&0.05$^{**}$\\
+          &   (0.03)&   (0.03)&   (0.03)&   (0.03)&         &         &   (0.03)&   (0.03)&   (0.03)&   (0.03)\\
+Proportion of sick/injured who could afford treatment&     0.03&     0.02&     0.02&     0.02&     0.52&     0.42&     0.02&0.06$^{*}$&     0.02&     0.03\\
+          &   (0.03)&   (0.03)&   (0.03)&   (0.03)&         &         &   (0.03)&   (0.03)&   (0.02)&   (0.02)\\
+Average number of sick days per HH member&     0.00&    -0.01&    -0.01&     0.00&     0.84&     0.77&    -0.02&     0.26&    -0.02&     0.05\\
+          &   (0.24)&   (0.21)&   (0.26)&   (0.23)&         &         &   (0.22)&   (0.21)&   (0.21)&   (0.22)\\
+Propotion of illnesses where doctor was consulted&    -0.03&    -0.03&    -0.03&    -0.04&     0.85&     0.72&    -0.04&    -0.01&    -0.04&    -0.03\\
+          &   (0.03)&   (0.03)&   (0.03)&   (0.03)&         &         &   (0.03)&   (0.03)&   (0.03)&   (0.03)\\
+Proportion of newborns vaccinated&0.15$^{**}$&     0.11&     0.12&     0.07&     0.17&     0.17&     0.12&0.18$^{**}$&0.13$^{**}$&0.16$^{***}$\\
+          &   (0.07)&   (0.07)&   (0.07)&   (0.07)&         &         &   (0.08)&   (0.09)&   (0.06)&   (0.06)\\
+Proportion of children <14 getting checkup (6 months)&    -0.03&    -0.02&    -0.03&    -0.02&     0.75&     0.66&    -0.04&    -0.03&    -0.03&    -0.02\\
+          &   (0.04)&   (0.04)&   (0.04)&   (0.04)&         &         &   (0.04)&   (0.03)&   (0.03)&   (0.03)\\
+Proportion of children <5 who died (1 year)&    -0.01&    -0.00&    -0.01&     0.00&0.01$^{***}$&0.01$^{**}$&-0.04$^{***}$&    -0.01&    -0.01&    -0.01\\
+          &   (0.01)&   (0.01)&   (0.01)&   (0.01)&         &         &   (0.01)&   (0.01)&   (0.01)&   (0.01)\\
+BMI to age z-score&     0.01&     0.02&    -0.02&    -0.01&     0.56&     0.61&-0.30$^{***}$&     0.19&    -0.02&     0.04\\
+          &   (0.12)&   (0.12)&   (0.11)&   (0.12)&         &         &   (0.09)&   (0.15)&   (0.12)&   (0.12)\\
+Height to age z-score&     0.15&     0.21&     0.09&     0.14&0.04$^{**}$&0.06$^{*}$&    -0.25&0.65$^{***}$&     0.08&     0.20\\
+          &   (0.13)&   (0.14)&   (0.14)&   (0.14)&         &         &   (0.22)&   (0.18)&   (0.15)&   (0.14)\\
+Weight to age z-score&     0.14&     0.15&     0.13&     0.16&     0.89&     0.83&    -0.20&0.53$^{**}$&     0.06&     0.20\\
+          &   (0.15)&   (0.14)&   (0.15)&   (0.15)&         &         &   (0.21)&   (0.21)&   (0.14)&   (0.14)\\
+Arm circumference to age z-score&    -0.08&    -0.03&    -0.08&    -0.05&     0.95&     0.60&-0.57$^{***}$&0.35$^{*}$&    -0.13&    -0.02\\
+          &   (0.14)&   (0.15)&   (0.15)&   (0.15)&         &         &   (0.19)&   (0.21)&   (0.14)&   (0.14)\\
+Health index (children)&    -0.00&    -0.02&    -0.01&    -0.04&     0.41&     0.35&    -0.01&     0.02&    -0.02&     0.02\\
+          &   (0.09)&   (0.09)&   (0.10)&   (0.09)&         &         &   (0.09)&   (0.09)&   (0.08)&   (0.08)\\
+Health index&    -0.06&    -0.07&    -0.06&    -0.08&     0.80&     0.66&    -0.10&    -0.03&    -0.07&    -0.04\\
+          &   (0.08)&   (0.08)&   (0.08)&   (0.08)&         &         &   (0.06)&   (0.06)&   (0.07)&   (0.07)\\
+\midrule Joint test (\emph{p}-value)&0.01$^{**}$&0.01$^{***}$&0.03$^{**}$&0.01$^{**}$&         &         &         &         &         &         \\
+\bottomrule
+\end{tabular}
+}

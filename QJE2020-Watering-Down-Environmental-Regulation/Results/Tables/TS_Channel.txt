@@ -1,0 +1,14 @@
+	(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	(10)	(11)	(12)	(13)	(14)	(15)	(16)	(17)	(18)	(19)	(20)	(21)
+VARIABLES	resid1_lrze	resid1_lrze	resid1_lrze	resid1_lnv	resid1_lnv	resid1_lnv	resid1_lnl	resid1_lnl	resid1_lnl	resid1_lnk	resid1_lnk	resid1_lnk	resid1_lnm	resid1_lnm	resid1_lnm	resid1_lnv_l	resid1_lnv_l	resid1_lnv_l	resid1_lnv_k	resid1_lnv_k	resid1_lnv_k
+																					
+Conventional	478.59	441.18	693.76	0.05	0.07	0.11	-0.22	-0.19	-0.09	-0.40*	-0.45*	-0.61**	-0.05	-0.04	-0.05	0.08	0.08	0.05	0.25**	0.27***	0.28***
+	(470.49)	(524.34)	(595.49)	(0.19)	(0.19)	(0.18)	(0.16)	(0.16)	(0.16)	(0.22)	(0.27)	(0.29)	(0.24)	(0.24)	(0.18)	(0.08)	(0.08)	(0.08)	(0.10)	(0.10)	(0.10)
+Bias-corrected	378.19	343.93	511.31	-0.01	0.03	0.07	-0.27*	-0.23	-0.08	-0.48**	-0.50*	-0.70**	-0.07	-0.06	-0.02	0.08	0.08	0.03	0.24**	0.27***	0.28***
+	(470.49)	(524.34)	(595.49)	(0.19)	(0.19)	(0.18)	(0.16)	(0.16)	(0.16)	(0.22)	(0.27)	(0.29)	(0.24)	(0.24)	(0.18)	(0.08)	(0.08)	(0.08)	(0.10)	(0.10)	(0.10)
+Robust	378.19	343.93	511.31	-0.01	0.03	0.07	-0.27	-0.23	-0.08	-0.48*	-0.50	-0.70*	-0.07	-0.06	-0.02	0.08	0.08	0.03	0.24**	0.27**	0.28**
+	(551.76)	(607.71)	(597.07)	(0.23)	(0.23)	(0.23)	(0.21)	(0.20)	(0.20)	(0.28)	(0.33)	(0.36)	(0.29)	(0.29)	(0.22)	(0.10)	(0.10)	(0.10)	(0.12)	(0.12)	(0.12)
+																					
+Observations	5,520	5,520	5,520	5,520	5,520	5,520	5,473	5,473	5,473	5,380	5,380	5,380	5,540	5,540	5,540	5,540	5,540	5,540	5,532	5,532	5,532
+Kernel Type	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform
+Standard errors in parentheses																					
+*** p<0.01, ** p<0.05, * p<0.1																					

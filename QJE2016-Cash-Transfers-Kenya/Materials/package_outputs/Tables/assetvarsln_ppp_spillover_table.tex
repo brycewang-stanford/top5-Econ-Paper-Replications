@@ -1,0 +1,39 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{10}{SSSSS}}
+\toprule
+          &\multicolumn{6}{c}{Spillover Effects}                      &\multicolumn{2}{c}{Lee Bounds}&\multicolumn{2}{c}{Horowitz-Manski Bounds}\\\cmidrule(lr){2-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}&\multicolumn{1}{c}{(9)}&\multicolumn{1}{c}{(10)}\\
+          &\multicolumn{1}{c}{\specialcell{All HH\\Estimate}}&\multicolumn{1}{c}{\specialcell{All HH\\estimate}}&\multicolumn{1}{c}{\specialcell{Thatched\\estimate}}&\multicolumn{1}{c}{\specialcell{Thatched\\estimate}}&\multicolumn{1}{c}{\specialcell{Test (1)=(3)\\\emph{p}-value}}&\multicolumn{1}{c}{\specialcell{Test (2)=(4)\\\emph{p}-value}}&\multicolumn{1}{c}{\specialcell{Lower}}&\multicolumn{1}{c}{\specialcell{Upper}}&\multicolumn{1}{c}{\specialcell{Lower}}&\multicolumn{1}{c}{\specialcell{Upper}}\\
+\midrule
+Includes controls&     {No}&    {Yes}&     {No}&    {Yes}&     {No}&    {Yes}&     {No}&     {No}&     {No}&     {No}\\
+\midrule Value of non-land assets excluding roof (USD)&     0.01&    -0.03&    -0.05&    -0.09&0.00$^{***}$&0.00$^{***}$&    -0.03&     0.03&    -0.01&     0.02\\
+          &   (0.07)&   (0.06)&   (0.07)&   (0.06)&         &         &   (0.05)&   (0.06)&   (0.06)&   (0.06)\\
+Value of livestock (USD)&    -0.03&    -0.16&    -0.15&-0.29$^{*}$&0.00$^{***}$&0.00$^{***}$&    -0.08&     0.00&    -0.08&    -0.00\\
+          &   (0.15)&   (0.14)&   (0.16)&   (0.15)&         &         &   (0.13)&   (0.13)&   (0.14)&   (0.14)\\
+\hspace{0.2cm}Value of cows (USD)&     0.07&    -0.04&    -0.06&    -0.17&0.05$^{*}$&0.05$^{**}$&     0.05&     0.11&     0.05&     0.12\\
+          &   (0.20)&   (0.20)&   (0.20)&   (0.20)&         &         &   (0.18)&   (0.19)&   (0.19)&   (0.19)\\
+\hspace{0.2cm}Value of small livestock (USD)&    -0.27&-0.37$^{**}$&-0.33$^{*}$&-0.43$^{**}$&     0.20&     0.17&-0.29$^{*}$&    -0.22&-0.29$^{*}$&    -0.23\\
+          &   (0.18)&   (0.18)&   (0.19)&   (0.18)&         &         &   (0.15)&   (0.16)&   (0.15)&   (0.16)\\
+\hspace{0.2cm}Value of birds (USD)&    -0.06&    -0.16&    -0.12&    -0.22&     0.14&0.09$^{*}$&    -0.10&    -0.03&    -0.10&    -0.04\\
+          &   (0.15)&   (0.14)&   (0.17)&   (0.16)&         &         &   (0.11)&   (0.11)&   (0.12)&   (0.12)\\
+Value of durable goods (USD)&     0.00&    -0.01&    -0.04&    -0.06&0.01$^{**}$&0.00$^{***}$&    -0.04&     0.02&    -0.01&     0.01\\
+          &   (0.06)&   (0.06)&   (0.07)&   (0.06)&         &         &   (0.05)&   (0.05)&   (0.05)&   (0.05)\\
+\hspace{0.2cm}Value of furniture (USD)&     0.03&     0.03&    -0.00&    -0.01&     0.17&0.10$^{*}$&    -0.02&     0.05&     0.01&     0.04\\
+          &   (0.07)&   (0.06)&   (0.07)&   (0.07)&         &         &   (0.06)&   (0.07)&   (0.06)&   (0.06)\\
+\hspace{0.2cm}Value of agricultural tools (USD)&     0.03&    -0.01&    -0.02&    -0.06&0.02$^{**}$&0.02$^{**}$&     0.00&     0.06&     0.01&     0.04\\
+          &   (0.08)&   (0.08)&   (0.08)&   (0.08)&         &         &   (0.06)&   (0.06)&   (0.07)&   (0.07)\\
+\hspace{0.2cm}Value of radio/TV (USD)&    -0.03&    -0.05&    -0.13&    -0.17&0.00$^{***}$&0.00$^{***}$&    -0.05&     0.01&    -0.05&    -0.00\\
+          &   (0.11)&   (0.11)&   (0.13)&   (0.12)&         &         &   (0.09)&   (0.09)&   (0.11)&   (0.11)\\
+\hspace{0.2cm}Value of bike/motorbike (USD)&    -0.21&-0.29$^{*}$&-0.37$^{**}$&-0.45$^{***}$&0.00$^{***}$&0.00$^{***}$&    -0.23&    -0.17&    -0.22&    -0.17\\
+          &   (0.16)&   (0.16)&   (0.16)&   (0.16)&         &         &   (0.15)&   (0.15)&   (0.15)&   (0.15)\\
+\hspace{0.2cm}Value of appliances (USD)&     0.02&     0.02&    -0.03&    -0.03&0.04$^{**}$&0.03$^{**}$&     0.01&     0.05&     0.01&     0.04\\
+          &   (0.08)&   (0.08)&   (0.09)&   (0.08)&         &         &   (0.09)&   (0.09)&   (0.08)&   (0.08)\\
+\hspace{0.2cm}Value of cell phone (USD)&    -0.23&-0.26$^{*}$&-0.32$^{**}$&-0.35$^{**}$&0.02$^{**}$&0.00$^{***}$&-0.26$^{*}$&    -0.20&-0.26$^{*}$&    -0.20\\
+          &   (0.15)&   (0.14)&   (0.16)&   (0.14)&         &         &   (0.14)&   (0.15)&   (0.13)&   (0.13)\\
+Value of savings (USD)&     0.11&     0.12&     0.09&     0.11&     0.61&     0.64&     0.10&     0.16&     0.10&     0.15\\
+          &   (0.13)&   (0.13)&   (0.14)&   (0.14)&         &         &   (0.13)&   (0.12)&   (0.12)&   (0.12)\\
+\midrule Joint test (\emph{p}-value)&     0.63&     0.38&     0.46&0.09$^{*}$&         &         &         &         &         &         \\
+\bottomrule
+\end{tabular}
+}

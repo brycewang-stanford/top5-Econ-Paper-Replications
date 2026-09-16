@@ -1,0 +1,10 @@
+	(1)	(2)	(3)
+VARIABLES	lnmartyr1	lnmartyr1	lnmartyr1
+			
+Zeng_all0_invdist_Post	0.213***	0.380***	0.529***
+	(0.059)	(0.115)	(0.196)
+			
+Observations	1,125	1,095	1,050
+R-squared	0.478	0.462	0.411
+Robust standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

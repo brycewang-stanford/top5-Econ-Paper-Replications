@@ -1,0 +1,15 @@
+	(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	(10)	(11)	(12)
+VARIABLES	pe_tfpop_p	pe_tfpop_p	pe_tfpop_p	pe_tfpop_np	pe_tfpop_np	pe_tfpop_np	pe_tfpop_p	pe_tfpop_p	pe_tfpop_p	pe_tfpop_np	pe_tfpop_np	pe_tfpop_np
+												
+Conventional	0.06	0.13	0.17	-0.01	-0.04	0.04	0.49***	0.52***	0.52***	0.02	0.03	0.02
+	(0.41)	(0.36)	(0.39)	(0.16)	(0.16)	(0.18)	(0.16)	(0.17)	(0.17)	(0.11)	(0.11)	(0.10)
+Bias-corrected	-0.04	0.03	0.07	-0.06	-0.06	-0.01	0.52***	0.55***	0.54***	0.03	0.03	-0.01
+	(0.41)	(0.36)	(0.39)	(0.16)	(0.16)	(0.18)	(0.16)	(0.17)	(0.17)	(0.11)	(0.11)	(0.10)
+Robust	-0.04	0.03	0.07	-0.06	-0.06	-0.01	0.52***	0.55***	0.54***	0.03	0.03	-0.01
+	(0.46)	(0.45)	(0.46)	(0.19)	(0.21)	(0.18)	(0.19)	(0.20)	(0.19)	(0.13)	(0.13)	(0.12)
+												
+Observations	1,829	1,829	1,829	3,981	3,981	3,981	4,818	4,818	4,818	8,765	8,765	8,765
+Kernel Type	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform	Triangular	Epanechnikov	Uniform
+bandwidth	4.589	5.116	3.757	4.199	3.798	4.021	5.147	4.846	4.756	5.079	5.242	5.755
+Standard errors in parentheses												
+*** p<0.01, ** p<0.05, * p<0.1												

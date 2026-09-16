@@ -1,0 +1,16 @@
+table,col,var,coef,se,N,adj_r2,spec
+V,1,princeling,-0.8080879751471242,0.024961196084443055,1144507,0.6916881505713739,lnprice ~ princeling + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=all
+V,2,princeling,-0.9043407886938514,0.03443100865510083,334232,0.7270080026883255,lnprice ~ princeling + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near1500
+V,3,princeling,-0.8439756064891863,0.032744527515513294,191896,0.7548104103821035,lnprice ~ princeling + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near500
+V,4,princeling,-0.5450951800957089,0.03519948038540417,1144507,0.6919877978202237,lnprice ~ princeling + pscm + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=all
+V,4,pscm,-0.4415796190172525,0.03717076989378655,1144507,0.6919877978202237,lnprice ~ princeling + pscm + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=all
+V,5,princeling,-0.6655871110931844,0.04305553045184127,334232,0.7276799498830618,lnprice ~ princeling + pscm + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near1500
+V,5,pscm,-0.42030616816206245,0.04833757991189796,334232,0.7276799498830618,lnprice ~ princeling + pscm + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near1500
+V,6,princeling,-0.6195185465567636,0.04250766837582441,191896,0.7557941627429904,lnprice ~ princeling + pscm + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near500
+V,6,pscm,-0.3960885737920498,0.04879529231052354,191896,0.7557941627429904,lnprice ~ princeling + pscm + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near500
+V,7,princeling,-0.8078825034768515,0.03021421803580321,1144507,0.6916878740297301,lnprice ~ princeling + retired + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=all
+V,7,retired,-0.0010966246147191357,0.05622433477353787,1144507,0.6916878740297301,lnprice ~ princeling + retired + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=all
+V,8,princeling,-0.8941862656921894,0.03997951146252739,334232,0.7270138826186541,lnprice ~ princeling + retired + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near1500
+V,8,retired,-0.05111106255655042,0.0627798892048007,334232,0.7270138826186541,lnprice ~ princeling + retired + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near1500
+V,9,princeling,-0.8353633953207623,0.03763231299059905,191896,0.7548171646878656,lnprice ~ princeling + retired + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near500
+V,9,retired,-0.043823407730283176,0.0580086209230365,191896,0.7548171646878656,lnprice ~ princeling + retired + quality + lnarea | cityyearusage + ind + month + salemethod + state + size; CRV1 provid+firmid; sample=near500

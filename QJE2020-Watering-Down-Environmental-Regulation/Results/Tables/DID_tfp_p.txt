@@ -1,0 +1,14 @@
+	(1)	(2)	(3)
+VARIABLES	p_tfp	p_tfp	p_tfp
+			
+Conventional	0.16**	0.17**	0.15**
+	(0.07)	(0.08)	(0.07)
+Bias-corrected	0.20***	0.21***	0.20***
+	(0.07)	(0.08)	(0.07)
+Robust	0.20**	0.21**	0.20**
+	(0.09)	(0.09)	(0.09)
+			
+Observations	7,079	5,268	4,968
+Kernel Type	Triangular	Epanechnikov	Uniform
+Standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

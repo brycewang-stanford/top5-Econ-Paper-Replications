@@ -1,0 +1,738 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,english,american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 0},backref=false,colorlinks=true]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+\usepackage{amsfonts}
+\usepackage{achicago}
+\usepackage{pdflscape}
+\usepackage{appendix}
+\usepackage{hyperref}
+\usepackage[letterpaper,top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage[bottom]{footmisc}
+%\usepackage{fancyhdr}
+\usepackage{bibentry}
+\usepackage{threeparttable}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+
+\setcounter{MaxMatrixCols}{10}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+% For centered entries: 
+% Allow line breaks with \\ in specialcells
+\newcommand{\specialcell}[2][c]{%
+\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}
+}
+
+% For left-aligned entries:
+%% Allow line breaks with \\ in specialcells
+%\newcommand{\specialcell}[2][c]{%
+%\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}% missing % in original
+%                       %%%
+%}
+
+% *****************************************************************
+% siunitx
+% *****************************************************************
+\newcommand{\sym}[1]{\rlap{#1}} % Thanks to Joseph Wright & David Carlisle
+
+\usepackage{siunitx}
+    \sisetup{
+        detect-mode,
+        group-digits            = false,
+        input-symbols           = ( ) [ ] - +,
+        tight-spacing		= true,
+        table-align-text-post   = false,
+        input-signs             = ,
+        }   
+
+% Packages for tables
+\usepackage{booktabs}% Pretty tables
+\usepackage{threeparttablex}% For Notes below table
+
+% Character substitution that prints brackets and the minus symbol in text mode. Thanks to David Carlisle
+\def\yyy{%
+  \bgroup\uccode`\~\expandafter`\string-%
+  \uppercase{\egroup\edef~{\noexpand\text{\llap{\textendash}\relax}}}%
+  \mathcode\expandafter`\string-"8000 }
+
+\def\xxxl#1{%
+\bgroup\uccode`\~\expandafter`\string#1%
+\uppercase{\egroup\edef~{\noexpand\text{\noexpand\llap{\string#1}}}}%
+\mathcode\expandafter`\string#1"8000 }
+
+\def\xxxr#1{%
+\bgroup\uccode`\~\expandafter`\string#1%
+\uppercase{\egroup\edef~{\noexpand\text{\noexpand\rlap{\string#1}}}}%
+\mathcode\expandafter`\string#1"8000 }
+
+\def\textsymbols{\xxxl[\xxxr]\xxxl(\xxxr)\yyy}
+
+
+% *****************************************************************
+% Estout related things
+% *****************************************************************
+\let\estinput=\input % define a new input command so that we can still flatten the document
+
+\newcommand{\estwide}[3]{
+        \vspace{.75ex}{
+            \textsymbols% Note the added command here
+            \begin{tabular*}
+            {\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}l*{#2}{#3}}
+            \toprule
+            \estinput{#1}
+            \bottomrule
+            \addlinespace[.75ex]
+            \end{tabular*}
+            }
+        }   
+
+\newcommand{\estauto}[3]{
+        \vspace{.75ex}{
+            \textsymbols% Note the added command here
+            \begin{tabular}{l*{#2}{#3}}
+            \toprule
+            \estinput{#1}
+            \bottomrule
+            \addlinespace[.75ex]
+            \end{tabular}
+            }
+        }
+
+% *****************************************************************
+% Custom subcaptions
+% *****************************************************************
+% Note/Source/Text after Tables
+% The new approach using threeparttables to generate notes that are the exact width of the table.
+\newcommand{\Figtext}[1]{%
+    \begin{tablenotes}[para,flushleft]
+    \hspace{6pt}
+    \hangindent=1.75em
+    #1
+    \end{tablenotes}
+    }
+\newcommand{\Fignote}[1]{\Figtext{\emph{Note:~}~#1}}
+\newcommand{\Figsource}[1]{\Figtext{\emph{Source:~}~#1}}
+\newcommand{\Starnote}{\Figtext{* p < 0.1, ** p < 0.05, *** p < 0.01. Standard errors in parentheses.}}% Add significance note with \starnote
+
+% To adjust margins: 
+\usepackage{changepage}
+
+\usepackage{bbm}
+\usepackage{bm}
+
+\makeatother
+
+\begin{document}
+\begin{landscape}
+
+
+
+\selectlanguage{english}%
+\begin{longtable}[l]{l>{\raggedright}m{16cm}}
+\toprule 
+\selectlanguage{american}%
+\textbf{\scriptsize{}Index Variables}\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\midrule 
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+{\scriptsize{}\ Value of non-land assets (USD)}\selectlanguage{english}%
+ & \selectlanguage{american}%
+{\scriptsize{}Total value (in 2012 USD PPP) of all non-land assets
+owned by the household, including savings, livestock, durable goods,
+and metal roofs.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+{\scriptsize{}\ Non-durable expenditure (USD)}\selectlanguage{english}%
+ & \selectlanguage{american}%
+{\scriptsize{}Total monthly spending (in 2012 USD PPP) on non-durables,
+including food, temptation goods, medical care, education expenditures,
+and social expenditures. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+{\scriptsize{}\ Total revenue, monthly (USD)}\selectlanguage{english}%
+ & \selectlanguage{american}%
+{\scriptsize{}Total monthly revenue (in 2012 USD PPP) from all household
+enterprises, including revenue from agriculture, stock and flow revenue
+from animals owned by the household, and revenue from all non-farm
+enterprises owned by any household member.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Food security index}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}A standardized weighted average of the (negatively coded)
+number of times household adults and children skipped meals, went
+whole days without food, had to eat cheaper or less preferred food,
+had to rely on others for food, had to purchase food on credit, had
+to hunt for or gather food, had to beg for food, or went to sleep
+hungry in the preceding week; a (negatively coded) indicator for whether
+the respondent went to sleep hungry in the preceding week; the (positively
+coded) number of times household members ate meat or fish in the preceding
+week; (positively coded) indicators for whether household members
+ate at least two meals per day, ate until content, had enough food
+for the next day, and whether the respondent ate protein in the last
+24 hours; and the (positively coded) proportion of household members
+who ate protein in the last 24 hours, and proportion of children who
+ate protein in the last 24 hours.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Health index}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}A standardized weighted average of the (negatively coded)
+proportion of household adults who were sick or injured in the last
+month, the (negatively coded) proportion of household children who
+were sick or injured in the last month, the (positively coded) proportion
+of sick or injured family members for whom the household could afford
+treatment, the (positively coded) proportion of illnesses for which
+a doctor was consulted, the (positively coded) proportion of newborns
+who were vaccinated, the (positively coded) proportion of children
+below age 14 who received a health checkup in the preceding six months,
+the (negatively coded) proportion of children under 5 who died in
+the preceding year, and a children's anthropometrics index consisting
+of BMI, height-for-age, weight-for-age, and upper arm circumference
+relative to WHO development benchmarks.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Education index}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}A standardized weighted average of the proportion of
+household children enrolled in school and the amount spent by the
+household on educational expenses per child. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+{\scriptsize{}\ Psychological well-being index}\selectlanguage{english}%
+ & \selectlanguage{american}%
+{\scriptsize{}A standardized weighted average of their (negatively
+coded) scores on the CES-D scale \shortcite{radloff_ces-d_1977},
+a custom worries questionnaire (negatively coded), Cohen's stress
+scale \shortcite{cohen_global_1983} (negatively coded), their response
+to the the World Values Survey happiness and life satisfaction questions,
+and their log cortisol levels adjusted for confounders (negatively
+coded). }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Female Empowerment Index}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}A standardized weighted average of a measure of two
+other indices, a violence and an attitude index. The violence index
+is a weighted standardized average of the frequency with which the
+respondent reports having been physically, sexually, or emotionally
+abused by her husband in the preceding six months; the attitude index
+is a weighted standardized average of a measure of the respondent\textquoteright s
+view of the justifiability of violence against women, and a scale
+of male-focused attitudes.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\midrule
+\selectlanguage{american}%
+\textbf{\scriptsize{}Psychological Wellbeing}\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Log cortisol (no controls)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}Log of salivary cortisol levels in nm/l, taken as the
+average of level across two samples.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Log cortisol (with controls)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}Residuals of an OLS regression of the log-transformed
+cortisol levels on dummies for having ingested food, drinks, alcohol,
+nicotine, or medications in the two hours preceding the interview,
+for having performed vigorous physical activity on the day of the
+interview, and for the time elapsed since waking, rounded to the next
+full hour}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+{\scriptsize{}\ Depression (CESD)}\selectlanguage{english}%
+ & \selectlanguage{american}%
+{\scriptsize{}The standardized total of the score from the 20 elements
+of the CES-D questionnaire \shortcite{radloff_ces-d_1977}.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Worries}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The standardized total of the score from the 16 elements
+of a custom worries questionnaire.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Stress (Cohen)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The standardized total of score from 4 elements of Cohen's
+stress scale \shortcite{cohen_global_1983}.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Happiness (WVS)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The standardized numerical response to the World Values
+Survey happiness question: Taking all things together, would you say
+you are \textquotedblleft very happy\textquotedblright{} (1), \textquotedblleft quite
+happy\textquotedblright{} (2), \textquotedblleft not very happy\textquotedblright{}
+(3), or \textquotedblleft not at all happy\textquotedblright{} (4)?}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Life satisfaction (WVS)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The standardized numerical response to the World Values
+Survey life satisfaction question: All things considered, how satisfied
+are you with your life as a whole these days on a scale of 1 to 10?
+(1= very dissatisfied...10= very satisfied)}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Trust (WVS)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The standardized numerical response to the World Values
+Survey life satisfaction question: Generally speaking, would you say
+that most people can be trusted (1) or that you need to be very careful
+in dealing with people (2)?}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Locus of control}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The standardized weighted average of the total score
+on Rotter's locus of control questionnaire and the numerical response
+the World Values Survey locus of control question (Some people believe
+that individuals can decide their own destiny, while others think
+that it is impossible to escape a predetermined fate. Please tell
+me which comes closest to your view on this scale on which 1 means
+\textquotedblleft everything in life is determined by fate\textquotedblright{}
+and 10 means \textquotedblleft people shape their fate themselves.\textquotedblright )
+Higher scores indicate a more internal locus of control.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Optimism (Scheier)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The standardized total score on the 6 question Scheier
+optimism questionnaire. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Self-esteem (Rosenberg)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The standardized total score on the 10 question Rosenberg
+optimism questionnaire. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\midrule
+\selectlanguage{american}%
+\textbf{\scriptsize{}Consumption}\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Food total (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The combined monthly total (in 2012 USD PPP) of all
+spending on food by the household and the value of all food produced
+from agriculture and livestock that was consumed by the household
+(calculated as the monthly average of total production in the last
+year). }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Cereals (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The monthly total spending (in 2012 USD PPP) by all
+members of the household on all cereal grains, flours, breads, pastas,
+cakes and biscuits. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Meat \& fish (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The monthly total spending (in 2012 USD PPP) by all
+members of the household on all meat and fish. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Alcohol (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The monthly total spending (in 2012 USD PPP) by all
+members of the household on alcoholic beverages.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Tobacco (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The monthly total spending (in 2012 USD PPP) by all
+members of the household on tobacco products, including cigarettes,
+cigars, tobacco, snuff, khatt, and miraa. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Social expenditure (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The monthly total spending (in 2012 USD PPP) by all
+members of the household on ceremonies, weddings, funerals, dowries
+/ bride prices, charitable donations, village elder fees, and recreation
+or entertainment. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Medical expenditure past month (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The monthly total spending (in 2012 USD PPP) on medical
+care for all household members including consultation fees, medicines,
+hospital costs, lab test costs, ambulance costs, and related transport. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Education expenditure (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The monthly total spending (in 2012 USD PPP) for household
+members on school/college fees, uniforms, books, and other supplies. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\midrule
+\selectlanguage{american}%
+\textbf{\scriptsize{}Assets}\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Value of livestock (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The total value (in 2012 USD PPP) of all cattle (cows,
+bulls, or calves), birds (chicken, turkeys, doves, quails, etc.),
+and small livestock (pigs, sheep, goats, etc.) owned by the household. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Value of durable goods (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The total value (in 2012 USD PPP) of all durable goods,
+including transportation, furniture, agricultural equipment, appliances,
+radios and televisions, and phones owned by the household. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Value of savings (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The total value (in 2012 USD PPP) of all savings held
+by all members of the household in any account (post bank, SACCO,
+village bank, M-Pesa, Zap, ROSCA, commercial bank, microfinance institution,
+etc.), at home, or held by friends, relatives or colleagues. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Land owned (acres)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}The total value (in 2012 USD PPP) of all land owned
+by any household member.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Has non-thatched roof (dummy)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}An indicator variable taking the value of one if the
+household's primary residence has a metal or concrete roof and zero
+otherwise. }\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\midrule
+\selectlanguage{american}%
+\textbf{\scriptsize{}Business Activities}\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Wage labor primary income (dummy)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}An indicator variable taking the value of one if the
+household's primary source of income is wage labor and zero otherwise.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Own farm primary income (dummy)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}An indicator variable taking the value of one if the
+household's primary source of income is a farm owned by the household
+and zero otherwise.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Non-agricultural business owner (dummy)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}An indicator variable taking the value of one if any
+member of the household is full or part owner of a non-agricultural
+enterprise and zero otherwise.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Total revenue, monthly (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}Total monthly revenue (in 2012 USD PPP) from all household
+enterprises, including revenue from agriculture, stock and flow revenue
+from animals owned by the household, and revenue from all non-farm
+enterprises owned by any household member.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Total expenses, monthly (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}Total in 2012 USD PPP of all expenses on agricultural
+enterprises including seeds, fertilizers / herbicides / pesticides,
+hired machines, water, and labor, and all expenses on non-agricultural
+enterprises including machinery / durable goods, inputs / inventory,
+salaries / wage, transport, electricity, and water.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\multirow{1}{*}{\selectlanguage{american}%
+{\scriptsize{}\ Total profit, monthly (USD)}\selectlanguage{english}%
+} & \selectlanguage{american}%
+{\scriptsize{}Total imputed profit in 2012 USD PPP from all agricultural
+and non-agricultural enterprises owned by the household.}\selectlanguage{english}%
+\tabularnewline
+\selectlanguage{american}%
+\selectlanguage{english}%
+ & \selectlanguage{american}%
+\selectlanguage{english}%
+\tabularnewline
+\bottomrule
+\end{longtable}
+
+\selectlanguage{american}%
+\end{landscape}
+\end{document}

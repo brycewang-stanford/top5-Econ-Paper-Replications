@@ -1,0 +1,78 @@
+     sample                                 var        N       mean
+0       All                             lnprice  1151357   5.863532
+1       All                          princeling  1208621   0.016392
+2       All                             quality  1208621  12.969276
+3       All                              lnarea  1184522   4.812897
+4       All  salemethod=1 (Bilateral agreement)   226910   0.187743
+5       All      salemethod=2 (English auction)    99854   0.082618
+6       All      salemethod=3 (Invited bidding)    14281   0.011816
+7       All      salemethod=4 (Listing auction)   867576   0.717823
+8   <=1500m                             lnprice   335860   5.971202
+9   <=1500m                          princeling   359539   0.055104
+10  <=1500m                             quality   359539  13.875610
+11  <=1500m                              lnarea   349929   4.691389
+12  <=1500m  salemethod=1 (Bilateral agreement)    82733   0.230109
+13  <=1500m      salemethod=2 (English auction)    29096   0.080926
+14  <=1500m      salemethod=3 (Invited bidding)     4698   0.013067
+15  <=1500m      salemethod=4 (Listing auction)   243012   0.675899
+16   <=500m                             lnprice   193053   5.747954
+17   <=500m                          princeling   207564   0.095450
+18   <=500m                             quality   207564  13.448373
+19   <=500m                              lnarea   201515   4.689605
+20   <=500m  salemethod=1 (Bilateral agreement)    44905   0.216343
+21   <=500m      salemethod=2 (English auction)    14655   0.070605
+22   <=500m      salemethod=3 (Invited bidding)     2627   0.012656
+23   <=500m      salemethod=4 (Listing auction)   145377   0.700396
+Table V
+  V col1: N=1144507  b=-0.8081 se=0.0250  85s
+  V col2: N=334232  b=-0.9043 se=0.0344  13s
+  V col3: N=191896  b=-0.8440 se=0.0327  6s
+  V col4: N=1144507  b=-0.5451 se=0.0352  63s
+  V col5: N=334232  b=-0.6656 se=0.0431  12s
+  V col6: N=191896  b=-0.6195 se=0.0425  6s
+  V col7: N=1144507  b=-0.8079 se=0.0302  63s
+  V col8: N=334232  b=-0.8942 se=0.0400  13s
+  V col9: N=191896  b=-0.8354 se=0.0376  6s
+Table X
+  X col1: N=1144507  b=-0.9068 se=0.0288  62s
+  X col2: N=191896  b=-0.9201 se=0.0397  5s
+  X col3: N=1144507  b=-0.8253 se=0.0241  58s
+  X col4: N=191896  b=-0.8577 se=0.0318  5s
+  X col5: N=1144507  b=-0.8697 se=0.0285  54s
+  X col6: N=191896  b=-0.8959 se=0.0355  5s
+  X col7: N=1144507  b=-0.9071 se=0.0289  54s
+  X col8: N=191896  b=-0.9205 se=0.0396  5s
+  X col9: N=1144507  b=-0.8176 se=0.0228  53s
+  X col10: N=191896  b=-0.8474 se=0.0278  5s
+Figure V
+  figure_V_event_study: N=1144507 55s
+    year   coef     se  ci_lo  ci_hi        N
+0   2006 -0.618  0.141 -0.894 -0.343  1144507
+1   2007 -0.992  0.042 -1.073 -0.910  1144507
+2   2008 -1.024  0.050 -1.121 -0.926  1144507
+3   2009 -0.881  0.067 -1.011 -0.750  1144507
+4   2010 -0.932  0.039 -1.008 -0.855  1144507
+5   2011 -0.773  0.065 -0.900 -0.645  1144507
+6   2012 -0.874  0.063 -0.997 -0.750  1144507
+7   2013 -0.593  0.076 -0.743 -0.444  1144507
+8   2014 -0.444  0.046 -0.534 -0.353  1144507
+9   2015 -0.374  0.057 -0.485 -0.263  1144507
+10  2016 -0.075  0.093 -0.256  0.107  1144507
+      633.39 real       451.89 user         3.63 sys
+          4308303872  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             1196079  page reclaims
+                3277  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                2655  voluntary context switches
+               90862  involuntary context switches
+       4704034325056  instructions retired
+       1195857416801  cycles elapsed
+          6898276976  peak memory footprint

@@ -1,0 +1,1024 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{amsfonts}
+\usepackage{achicago}
+\usepackage{pdflscape}
+\usepackage{appendix}
+\usepackage{hyperref}
+\usepackage[letterpaper,top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage[bottom]{footmisc}
+%\usepackage{fancyhdr}
+\usepackage{bibentry}
+\usepackage{threeparttable}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+\usepackage[normalem]{ulem}
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+
+\setcounter{MaxMatrixCols}{10}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+% For centered entries: 
+% Allow line breaks with \\ in specialcells
+\newcommand{\specialcell}[2][c]{%
+\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}
+}
+
+% For left-aligned entries:
+%% Allow line breaks with \\ in specialcells
+%\newcommand{\specialcell}[2][c]{%
+%\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}% missing % in original
+%                       %%%
+%}
+
+% *****************************************************************
+% siunitx
+% *****************************************************************
+\newcommand{\sym}[1]{\rlap{#1}} % Thanks to Joseph Wright & David Carlisle
+
+\usepackage{siunitx}
+    \sisetup{
+        detect-mode,
+        group-digits            = false,
+        input-symbols           = ( ) [ ] - +,
+        tight-spacing		= true,
+        table-align-text-post   = false,
+        input-signs             = ,
+        }   
+
+% Packages for tables
+\usepackage{booktabs}% Pretty tables
+\usepackage{threeparttablex}% For Notes below table
+
+% Character substitution that prints brackets and the minus symbol in text mode. Thanks to David Carlisle
+\def\yyy{%
+  \bgroup\uccode`\~\expandafter`\string-%
+  \uppercase{\egroup\edef~{\noexpand\text{\llap{\textendash}\relax}}}%
+  \mathcode\expandafter`\string-"8000 }
+
+\def\xxxl#1{%
+\bgroup\uccode`\~\expandafter`\string#1%
+\uppercase{\egroup\edef~{\noexpand\text{\noexpand\llap{\string#1}}}}%
+\mathcode\expandafter`\string#1"8000 }
+
+\def\xxxr#1{%
+\bgroup\uccode`\~\expandafter`\string#1%
+\uppercase{\egroup\edef~{\noexpand\text{\noexpand\rlap{\string#1}}}}%
+\mathcode\expandafter`\string#1"8000 }
+
+\def\textsymbols{\xxxl[\xxxr]\xxxl(\xxxr)\yyy}
+
+
+% *****************************************************************
+% Estout related things
+% *****************************************************************
+\let\estinput=\input % define a new input command so that we can still flatten the document
+
+\newcommand{\estwide}[3]{
+        \vspace{.75ex}{
+            \textsymbols% Note the added command here
+            \begin{tabular*}
+            {\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}l*{#2}{#3}}
+            \toprule
+            \estinput{#1}
+            \bottomrule
+            \addlinespace[.75ex]
+            \end{tabular*}
+            }
+        }   
+
+\newcommand{\estauto}[3]{
+        \vspace{.75ex}{
+            \textsymbols% Note the added command here
+            \begin{tabular}{l*{#2}{#3}}
+            \toprule
+            \estinput{#1}
+            \bottomrule
+            \addlinespace[.75ex]
+            \end{tabular}
+            }
+        }
+
+% *****************************************************************
+% Custom subcaptions
+% *****************************************************************
+% Note/Source/Text after Tables
+% The new approach using threeparttables to generate notes that are the exact width of the table.
+\newcommand{\Figtext}[1]{%
+    \begin{tablenotes}[para,flushleft]
+    \hspace{6pt}
+    \hangindent=1.75em
+    #1
+    \end{tablenotes}
+    }
+\newcommand{\Fignote}[1]{\Figtext{\emph{Note:~}~#1}}
+\newcommand{\Figsource}[1]{\Figtext{\emph{Source:~}~#1}}
+\newcommand{\Starnote}{\Figtext{* p < 0.1, ** p < 0.05, *** p < 0.01. Standard errors in parentheses.}}% Add significance note with \starnote
+
+% To adjust margins: 
+\usepackage{changepage}
+
+\usepackage{bbm}
+\usepackage{bm}
+
+
+\usepackage{zref-xr}
+\zexternaldocument[OA-]{Haushofer_Shapiro_UCT_Online_Appendix_2015.11.17.lyx}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement !p
+\paperfontsize 11
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+\paragraph_spacing onehalf
+THE SHORT-TERM IMPACT OF UNCONDITIONAL CASH TRANSFERS TO THE POOR: EXPERIMENTAL
+ EVIDENCE FROM KENYA
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+Erratum
+\end_layout
+
+\begin_layout Author
+Johannes Haushofer
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Peretsman Scully Hall 427, Princeton University, Princeton, NJ 08540, and
+ Busara Center for Behavioral Economics, Nairobi, Kenya.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "haushofer@princeton.edu"
+target "haushofer@princeton.edu"
+type "mailto:"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ and Jeremy Shapiro
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Busara Center for Behavioral Economics, Nairobi, Kenya.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "jeremy.shapiro@busaracenter.org"
+target "jeremy.shapiro@busaracenter.org"
+type "mailto:"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tables I and II in Haushofer and Shapiro (2016) erroneously calculated FWER-adju
+sted p-values using only 1,000 bootstrap iterations.
+ The corrected tables report bootstrapped p-values with 10,000 iterations.
+\end_layout
+
+\begin_layout Standard
+Table III in Haushofer and Shapiro (2016) reporting spillover results for
+ summary indices erroneously weighted the index of psychological well-being
+ with household and village weights.
+ The corrected version removes village and household weights.
+ Table III also erroneously omitted observations with missing outcome variables
+ when calculating differential attrition rates for Lee treatment effect
+ bounds.
+ The corrected version includes the entire original sample.
+ Table III reports slightly different standard errors for the Lee bounds
+ from the original publication as a result of bootstrapping.
+\end_layout
+
+\begin_layout Standard
+The corrected versions of Tables I, II, and III are included below as Tables
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Baseline_Balance"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:indices_comprehensive"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:spillover_table"
+
+\end_inset
+
+, respectively.
+ Text printed in 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textcolor{green}{green}
+\end_layout
+
+\end_inset
+
+ indicates changes due to increasing the corrected p-value bootstrap iterations
+ to 10,000.
+ Text printed in 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textcolor{red}{red}
+\end_layout
+
+\end_inset
+
+ indicates changes due to the removal of weights.
+ Text printed in 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textcolor{orange}{orange}
+\end_layout
+
+\end_inset
+
+ indicates changes due to the inclusion of the entire sample to calculate
+ Lee bounds.
+ Text printed in 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textcolor{blue}{blue}
+\end_layout
+
+\end_inset
+
+ indicates changes due to pseudo-random results from bootstrap estimation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+thetable}{
+\backslash
+Roman{table}}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Baseline_Balance"
+
+\end_inset
+
+Baseline differences in index variables
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+footnotesize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/baseline_indices_ppp_maintable_markup.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+footnotesize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+OLS estimates of baseline differences in treatment arms.
+ Outcome variables are listed on the left.
+ For each outcome variable, we report the coefficients of interest and their
+ standard errors in parentheses.
+ FWER-corrected $p$-values are shown in brackets.
+ Column (1) reports the mean and standard deviation of the control group
+ for a given outcome variable.
+ Column (2) reports the basic treatment effect, i.e.
+ comparing treatment households to control households within villages.
+ Column (3) reports the relative treatment effect of transferring to the
+ female compared to the male; column (4) the relative effect of monthly
+ compared to lump-sum transfers; and column (5) that of large compared to
+ small transfers.
+ The unit of observation is the household for all outcome variables except
+ for the psychological variables index, where it is the individual.
+ The sample is restricted to co-habitating couples for the female empowerment
+ index and households with school-age children for the education index.
+ The comparison of monthly to lump-sum transfers excludes large transfer
+ recipient households, and that for male vs.
+ female recipients excludes single-headed households.
+ All columns include village-level fixed effects and cluster standard errors
+ at the household level.
+ The last row shows joint significance of the coefficients in the corresponding
+ column from SUR estimation.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{40 mm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tablenotes}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+thetable}{
+\backslash
+Roman{table}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:indices_comprehensive"
+
+\end_inset
+
+Treatment effects: Index variables
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+footnotesize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_maintable_markup.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+footnotesize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+OLS estimates of treatment effects.
+ Outcome variables are listed on the left.
+ Higher values correspond to ``positive'' outcomes.
+ For each outcome variable, we report the coefficients of interest and their
+ standard errors in parentheses.
+ FWER-corrected $p$-values are shown in brackets.
+ Column (1) reports the mean and standard deviation of the spillover group,
+ column (2) the basic treatment effect, i.e.
+ comparing treatment households to control households within villages.
+ Column (3) reports the relative treatment effect of transferring to the
+ female compared to the male; column (4) the relative effect of monthly
+ compared to lump-sum transfers; and column (5) that of large compared to
+ small transfers.
+ The unit of observation is the household for all outcome variables except
+ for the psychological variables index, where it is the individual.
+ The sample is restricted to co-habitating couples for the female empowerment
+ index, and households with school-age children for the education index.
+ The comparison of monthly to lump-sum transfers excludes large transfer
+ recipient households, and that for male vs.
+ female recipients excludes single-headed households.
+ All columns include village-level fixed effects, control for baseline outcomes,
+ and cluster standard errors at the household level.
+ The last row shows joint significance of the coefficients in the corresponding
+ column from SUR estimation.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tablenotes}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+placement !t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{threeparttable}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+thetable}{
+\backslash
+Roman{table}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:spillover_table"
+
+\end_inset
+
+Spillover effects: Index variables
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+scriptsize
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand input
+filename "../Tables/indices_ppp_spillover_table_markup.tex"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tablenotes}[flushleft] 
+\backslash
+footnotesize 
+\backslash
+item 
+\backslash
+emph{Notes:} 
+\end_layout
+
+\begin_layout Plain Layout
+
+OLS estimates of spillover effects.
+ Outcome variables are listed on the left.
+ The unit of observation is the household for all variables except psychological
+ wellbeing, where it is the individual.
+ The sample includes all households and individuals, except for the intrahouseho
+ld index, where it is restricted to co-habitating couples, and for the education
+ index, where it is restricted to households with school-age children.
+ Columns (1) and (2) report the ``na{
+\backslash
+"i}ve'' estimate of spillover effects, including spillover households that
+ upgraded to metal roofs between baseline and endline.
+ Column (3) and (4) report estimates of the spillover effect excluding metal-roo
+f households.
+ Columns (1) and (3) exclude baseline covariates.
+ Columns (2) and (4) include baseline covariates.
+ Column (5) reports the $p$-value of the equality for the coefficient estimates
+ in (1) and (3) after joint estimation of the two models using SUR.
+ Column (6) reports the $p$-value of the equality for the coefficient estimates
+ in (2) and (4) after joint estimation of the two models using SUR.
+ The last row reports $p$-values on the joint significance of all coefficients
+ in a given column after joint estimation using SUR.
+ Columns (7) and (8) report the lower and upper Lee bounds adjusting for
+ differential ``attrition'' of five spillover households into metal-roof
+ upgrade.
+ Columns (9) and (10) report lower and upper Horowitz-Manski bounds, imputing
+ outcomes for the five attriting households using the 95th and 5th percentiles
+ of observed outcomes, respectively.
+ The sample is restricted as in the previous tables.
+ In columns (1) through (4), standard errors clustered at the village level
+ are reported in parentheses.
+ In columns (7) through (10), bootstrapped standard errors are reported
+ in parentheses.
+ * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct.
+ level.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tablenotes} 
+\backslash
+end{threeparttable} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

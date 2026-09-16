@@ -1,0 +1,40 @@
+{\rtf1\fs24
+\trowd\trgaph75\trleft-75\intbl\trqc\clbrdrt\brdrs\cellx2160\clbrdrt\brdrs\cellx4752\clbrdrt\brdrs\cellx7344
+\ql \cell\qc (1)\cell\qc (2)\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx2160\cellx4752\cellx7344
+\trowd\trgaph75\trleft-75\trqc\clbrdrb\brdrs\cellx2160\clbrdrb\brdrs\cellx4752\clbrdrb\brdrs\cellx7344
+\ql VARIABLES\cell\qc Zeng_all0_invdist\cell\qc Zeng_all0_invdist\cell\row
+\trowd\trgaph75\trleft-75\trqc\cellx2160\cellx4752\cellx7344
+\ql \cell\qc \cell\qc \cell\row
+\ql lncntyarea\cell\qc 2.530*\cell\qc -0.033\cell\row
+\ql \cell\qc (1.367)\cell\qc (0.081)\cell\row
+\ql lncntypop\cell\qc 0.556\cell\qc 0.344***\cell\row
+\ql \cell\qc (0.778)\cell\qc (0.087)\cell\row
+\ql lnrice\cell\qc -1.713\cell\qc 0.313\cell\row
+\ql \cell\qc (1.937)\cell\qc (0.194)\cell\row
+\ql lnwheat\cell\qc 0.059\cell\qc -0.327\cell\row
+\ql \cell\qc (2.982)\cell\qc (0.223)\cell\row
+\ql mainriv\cell\qc 0.255\cell\qc 0.121\cell\row
+\ql \cell\qc (0.637)\cell\qc (0.118)\cell\row
+\ql dist2canal\cell\qc 0.572\cell\qc -0.004\cell\row
+\ql \cell\qc (0.870)\cell\qc (0.041)\cell\row
+\ql lnurbanpop\cell\qc -0.169\cell\qc -0.083**\cell\row
+\ql \cell\qc (0.368)\cell\qc (0.040)\cell\row
+\ql prefcap\cell\qc 0.379\cell\qc 0.448**\cell\row
+\ql \cell\qc (0.777)\cell\qc (0.180)\cell\row
+\ql lnjinshi\cell\qc 1.275**\cell\qc 0.556***\cell\row
+\ql \cell\qc (0.490)\cell\qc (0.110)\cell\row
+\ql lncntyquota0\cell\qc -3.120**\cell\qc -0.202**\cell\row
+\ql \cell\qc (1.477)\cell\qc (0.097)\cell\row
+\ql dist_nanjing\cell\qc -0.362\cell\qc 0.022\cell\row
+\ql \cell\qc (0.927)\cell\qc (0.054)\cell\row
+\ql Taiping_route1\cell\qc 1.517*\cell\qc 0.860**\cell\row
+\ql \cell\qc (0.779)\cell\qc (0.346)\cell\row
+\ql \cell\qc \cell\qc \cell\row
+\ql Observations\cell\qc 75\cell\qc 1,646\cell\row
+\trowd\trgaph75\trleft-75\trqc\trbrdrb\brdrs\clbrdrb\brdrs\cellx2160\clbrdrb\brdrs\cellx4752\clbrdrb\brdrs\cellx7344
+\ql R-squared\cell\qc 0.420\cell\qc 0.141\cell\row
+\pard\qc
+Robust standard errors in parentheses\par
+*** p<0.01, ** p<0.05, * p<0.1\par
+}
