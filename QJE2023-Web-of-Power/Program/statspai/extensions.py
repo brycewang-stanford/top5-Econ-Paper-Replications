@@ -22,7 +22,7 @@ import statspai as sp
 from scipy import stats
 from statspai.core.results import CausalResult
 
-from common import HUNAN_CTRL, NAT_CTRL, OUT, hunan, national, ols
+from common import HUNAN_CTRL, NAT_CTRL, OUT, coef_vcov, hunan, national, ols
 
 T0 = time.time()
 LOG: dict = {}
@@ -120,9 +120,10 @@ def e3_event_study():
     for y, nm in zip(yrs, names):
         h[nm] = h.Zeng_all0_invdist * (h.year == y)
     rows, r = ols("lnmartyr1", names + HUNAN_CTRL, ["year", "cntyid", "prefidXyear"], h, "cntyid", keep=names)
-    V = pd.DataFrame(np.asarray(r.vcov), index=r.coef.index, columns=r.coef.index).loc[names, names]
-    b = r.coef[names].to_numpy()
-    se = r.se[names].to_numpy()
+    cf, VV, nobs = coef_vcov(r)
+    V = VV.loc[names, names]
+    b = cf[names].to_numpy()
+    se = np.sqrt(np.diag(V.values))
     rel = np.array(yrs) - 1854  # 1853 (last pre-war year, omitted) -> -1 ; 1854 -> 0
     es = pd.DataFrame(dict(relative_time=rel, att=b, se=se))
     es["ci_lower"], es["ci_upper"] = b - 1.96 * se, b + 1.96 * se
@@ -131,7 +132,7 @@ def e3_event_study():
     post_avg = float(b[rel >= 0].mean())
     cr = CausalResult(method="TWFE event study (continuous exposure x year)", estimand="ATT", estimate=post_avg,
                       se=float(np.sqrt(np.ones(11) @ V.values[3:, 3:] @ np.ones(11)) / 11), pvalue=np.nan, ci=(np.nan, np.nan),
-                      alpha=0.05, n_obs=int(r.n_obs), detail=es,
+                      alpha=0.05, n_obs=nobs, detail=es,
                       model_info={"event_study": es, "vcv_pre": V.loc[pre, pre].values, "df_resid": 73,
                                   "vcv": V.values})
     out = {}
@@ -276,20 +277,20 @@ def e6_national_pretrend():
     H = [f"h_{y}" for y in years]
     xs = H + [f"z_{y}" for y in years] + [f"hun_{y}" for y in years] + NAT_CTRL
     _, r = ols("alloff", xs, ["year", "samcntyid"], n, "prefid", keep=H)
-    V = pd.DataFrame(np.asarray(r.vcov), index=r.coef.index, columns=r.coef.index)
+    cf, V, _ = coef_vcov(r)
     G = n.prefid.nunique()
     out = {}
     for label, yy in [("1821-1853 (all pre-war)", range(1821, 1854)), ("1821-1849", range(1821, 1850)),
                       ("1850-1853", range(1850, 1854))]:
         nm = [f"h_{y}" for y in yy]
-        bb = r.coef[nm].to_numpy()
+        bb = cf[nm].to_numpy()
         vv = V.loc[nm, nm].to_numpy()
         w = float(bb @ np.linalg.pinv(vv) @ bb)
         k = len(nm)
         out[label] = dict(k=k, wald=w, p_chi2=float(stats.chi2.sf(w, k)), p_F=float(stats.f.sf(w / k, k, G - 1)),
                           mean_coef=float(bb.mean()))
     post = [f"h_{y}" for y in range(1854, 1911)]
-    out["mean post 1854-1910 minus mean pre 1821-1853"] = float(r.coef[post].mean() - r.coef[[f"h_{y}" for y in range(1821, 1854)]].mean())
+    out["mean post 1854-1910 minus mean pre 1821-1853"] = float(cf[post].mean() - cf[[f"h_{y}" for y in range(1821, 1854)]].mean())
     with open(OUT / "ext_E6_national_ddd_pretrends.json", "w") as f:
         json.dump(out, f, indent=2)
     LOG["E6"] = out

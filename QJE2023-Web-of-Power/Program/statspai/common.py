@@ -141,7 +141,7 @@ def ols(y: str, x: list[str], fe: list[str], data: pd.DataFrame, cluster, keep: 
     b, se0 = r.params, r.std_errors
     N, K, G = len(d), len(b), d[cluster].nunique()
     dfa = absorbed_dof(d, fe, clusters)
-    fac = np.sqrt(G / (G - 1) * (N - 1) / (N - K - dfa))
+    fac = np.sqrt(G / (G - 1) * (N - 1) / (N - K - dfa - 1))  # reghdfe counts _cons in K
     keep = keep or x
     rows = [dict(var=v, coef=float(b[v]), se=float(se0[v] * fac), N=N) for v in keep if v in b.index]
     r.reghdfe_se = se0 * fac
@@ -233,3 +233,14 @@ def status(r) -> str:
     if abs(r.coef - r.paper_coef) <= 0.0015 and abs(r.se - r.paper_se) <= 0.0015:
         return "⚠️"
     return "❌"
+
+
+def coef_vcov(r):
+    """(coef Series, reghdfe-scaled vcov DataFrame, N) for a result returned by `ols`."""
+    if hasattr(r, "_pyfixest_fit"):
+        f = r._pyfixest_fit
+        names = list(f._coefnames)
+        V = pd.DataFrame(np.asarray(f._vcov) * getattr(r, "reghdfe_vcov_factor", 1.0), index=names, columns=names)
+        return pd.Series(np.asarray(f._beta_hat), index=names), V, int(f._N)
+    V = pd.DataFrame(np.asarray(r.vcov), index=r.coef.index, columns=r.coef.index)
+    return r.coef, V, int(r.n_obs)

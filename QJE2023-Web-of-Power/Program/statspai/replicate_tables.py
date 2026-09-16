@@ -204,6 +204,39 @@ def table6():
     print("Table 6 done", round(time.time() - T0, 1))
 
 
+# ============================================================================ StatsPAI hdfe_ols issue record
+def hdfe_ols_issue_record():
+    """Same regressions through sp.hdfe_ols (native solver) vs Stata, to document StatsPAI bug #1."""
+    h = hunan()
+    s = h[h.cntyid != 25]
+    u = read("HuaiYr")
+    u["Post"] = np.where(u.year < 1854, 0.0, 1.0)
+    for v in ("Zeng_exam0_invdist invdist0_L1 invdist0_F1 prefcap lnurbanpop lnjinshi lncntyquota0 Taiping_route1 "
+              "dist_nanjing mainriv dist2canal lnrice lnwheat lncntypop lncntyarea").split():
+        u[f"{v}_Post"] = u[v] * u.Post
+    uc = ("prefcap_Post lnurbanpop_Post lnjinshi_Post lncntyquota0_Post Taiping_route1_Post dist_nanjing_Post "
+          "mainriv_Post dist2canal_Post lnrice_Post lnwheat_Post lncntypop_Post lncntyarea_Post").split()
+    jobs = [
+        ("Table 2 col 1 (FE year+county)", "lnmartyr1", ["Zeng_all0_invdist_Post"], ["year", "cntyid"], h, "cntyid",
+         "Zeng_all0_invdist_Post", 0.2135619, 0.058086),
+        ("Table 4 col 1 (FE year+county+pref x year)", "lnmartyr1", ["Zeng_exam0_invdist_Post", "invdist0_L1_Post"] + HUNAN_CTRL,
+         ["year", "cntyid", "prefidXyear"], s, "cntyid", "invdist0_L1_Post", -0.027685, 0.2535065),
+        ("Table 4 col 9 Huai (FE year+county+pref x year)", "lnmartyr_yr", uc + ["Zeng_exam0_invdist_Post", "invdist0_L1_Post"],
+         ["year", "samcntyid", "prefidXyear"], u, "samcntyid", "invdist0_L1_Post", 0.0213931, 0.0474195),
+        ("Table 4 col 11 Huai", "lnmartyr_yr", uc + ["Zeng_exam0_invdist_Post", "invdist0_L1_Post", "invdist0_F1_Post"],
+         ["year", "samcntyid", "prefidXyear"], u, "samcntyid", "invdist0_F1_Post", np.nan, np.nan),
+    ]
+    rows = []
+    for name, y, x, fe, d, cl, v, sb, ss in jobs:
+        rn, rn_obj = ols(y, x, fe, d, cl, keep=[v], engine="hdfe_ols")
+        rf, _ = ols(y, x, fe, d, cl, keep=[v])
+        rows.append(dict(regression=name, var=v, stata_coef=sb, stata_se=ss, hdfe_ols_coef=rn[0]["coef"], hdfe_ols_se=rn[0]["se"],
+                         hdfe_ols_iters=getattr(rn_obj, "iters", None), hdfe_ols_dof_fe=getattr(rn_obj, "dof_fe", None),
+                         feols_reghdfe_coef=rf[0]["coef"], feols_reghdfe_se=rf[0]["se"]))
+    pd.DataFrame(rows).to_csv(OUT / "statspai_hdfe_ols_issue.csv", index=False)
+    print("hdfe_ols issue record done", round(time.time() - T0, 1))
+
+
 if __name__ == "__main__":
     table1()
     table2()
@@ -211,6 +244,7 @@ if __name__ == "__main__":
     table4()
     table5()
     table6()
+    hdfe_ols_issue_record()
     out = pd.concat(ALL, ignore_index=True)
     out["status"] = out.apply(status, axis=1)
     cols = ["table", "col", "var", "paper_coef", "paper_se", "paper_N", "stata_coef", "stata_se", "stata_N", "coef", "se",
