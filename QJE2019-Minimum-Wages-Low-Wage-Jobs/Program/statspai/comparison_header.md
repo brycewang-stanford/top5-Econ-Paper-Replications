@@ -11,8 +11,8 @@ estimate and s.e.); ⚠️ small difference, explained; ❌ failure, explained.
 
 | Exhibit | Original Stata code (our run) | StatsPAI (`sp.hdfe_ols`) |
 |---|---|---|
-| Table 1 cols 1–6 | ⏳ full run in progress (12 reghdfe, ≈19 h so far on the shared machine). Regenerated `.ster` for cols 1, 2, 4, 5 (before+after) and col 3 (before) equal the shipped estimates: max abs diff 9e-16 in coefficients, 3e-10 in s.e.; `Table1.tex` is written only after the last (col 6) regression | ✅ all 36 cells; coefficients = author .ster to ~1e-9, cluster s.e. to ~1e-9 |
-| Table 1 col 7 | ⏳ produced by `Table1_last_column_for_QJE.do` at the end of the Table 1 run (still running); shipped `simplermethod_belowupperw.ster` = paper (0.065/0.027/0.023/0.410) | ✅ all 4 cells, N = 14,484 |
+| Table 1 cols 1–6 | ✅ full run finished (12 reghdfe, ≈22 h wall-clock on the shared machine); regenerated `Results/Tables/Table1.tex` is byte-identical to the shipped `Table1.tex` (`cmp`), and the regenerated `.ster` equal the shipped estimates (max abs diff 9e-16 in coefficients, 3e-10 in s.e.) | ✅ all 36 cells; coefficients = author .ster to ~1e-9, cluster s.e. to ~1e-9 |
+| Table 1 col 7 | ✅ produced by `Table1_last_column_for_QJE.do` at the end of the Table 1 run; part of the byte-identical `Table1.tex` (0.065/0.027/0.023/0.410) | ✅ all 4 cells, N = 14,484 |
 | Table 2 cols 1–5 | ✅ `Table_2.tex` identical to shipped `Table2.tex` (regressions are commented out in the shipped do-file → built from shipped .ster) | ✅ 30/30 (re-estimated) |
 | Table 2 cols 6–8 | ✅ identical (est-use copy of `CK_groups_regressions_longfigure_QJE.do`, see below) | ✅ 18/18 (re-estimated) |
 | Table 3 | ✅ full run (8 reghdfe, 3.6 h): `Table3.tex` identical to shipped | ✅ 48/48, N = 554,931 |

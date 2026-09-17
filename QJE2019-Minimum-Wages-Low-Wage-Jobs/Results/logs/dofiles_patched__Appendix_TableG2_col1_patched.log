@@ -4,13 +4,15 @@
 > 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/dofiles_patched__Appendix_Table
 > G2_col1_patched.log
   log type:  text
- opened on:  17 Sep 2026, 20:25:28
+ opened on:  18 Sep 2026, 01:13:26
 
 . * PATCHED COPY of Program/dofiles/Appendix_TableG2_col1.do.
 . * Author bug: the file merges on the tempfile qcew without ever creating it (
 > r(198) "invalid file specification").
 . * Fix: prepend the qcew tempfile block copied verbatim from Appendix_TableG2_
 > cols_2_3_4.do (lines 7-11). Nothing else changed.
+. * Fix 2: a debugging `stop` inside the regression loop (shipped line 299) hal
+> ts with r(199); it is commented out.
 . use "${data}qcew_multiplier.dta", clear
 
 . keep statenum quarterdate multiplier 
@@ -20,7 +22,7 @@
 . tempfile qcew
 
 . save `qcew'
-file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000001 saved
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St01668.000001 saved
     as .dta format
 
 . 
@@ -74,7 +76,7 @@ file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000001 saved
 . tempfile grouppop
 
 . save `grouppop'
-file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000002 saved
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St01668.000002 saved
     as .dta format
 
 . 
@@ -92,7 +94,7 @@ file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000002 saved
 . tempfile pop
 
 . save `pop'
-file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000003 saved
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St01668.000003 saved
     as .dta format
 
 . 
@@ -242,7 +244,7 @@ xij variables:
 . tempfile cpiquarter
 
 . save `cpiquarter'
-file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000005 saved
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St01668.000005 saved
     as .dta format
 
 . restore
@@ -615,9 +617,9 @@ Panel variable: statenum (strongly balanced)
 . tempfile temptemp
 
 . save `temptemp', replace        
-(file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000006 not
+(file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St01668.000006 not
     found)
-file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000006 saved
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St01668.000006 saved
     as .dta format
 
 . 
@@ -666,36 +668,37 @@ file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27009.000006 saved
 >  statname(allemp)
  18.                                 local allempb = e(allempb)
  19.                                 local allempse = e(allempse)
- 20.                                 stop
- 21.                                 
+ 20.                                 * stop  // PATCH 2: debugging halt left in
+>  the shipped do-file; commented out so the table is produced
+.                                 
 .                                 reghdfe limited_percap`k' $treat if  year>=`b
 > ' & cleansample==1   ${weight`w'}, a( ${a`s'}  i.postcont i.postcont i.postco
 > ntf  i.precont i.precontf i.earlycont i.earlycontf ) cluster(statenum)
- 22.                                 lincomestadd (($lincomagg ) * (1/5))*${C},
+ 21.                                 lincomestadd (($lincomagg ) * (1/5))*${C},
 >  statname(below15emp)
- 23. 
+ 22. 
 .                                 local below15empb = e(below15empb)
- 24.                                 local below15empse = e(below15empse)
- 25.                                 
+ 23.                                 local below15empse = e(below15empse)
+ 24.                                 
 .                                 reghdfe upper_percap`k' $treat if  year>=`b' 
 > & cleansample==1   ${weight`w'}, a( ${a`s'}  i.postcont i.postcont i.postcont
 > f  i.precont i.precontf i.earlycont i.earlycontf ) cluster(statenum)
- 26.                                 lincomestadd (($lincomagg ) * (1/5))*${C},
+ 25.                                 lincomestadd (($lincomagg ) * (1/5))*${C},
 >  statname(over15emp)
- 27.                                                                 
+ 26.                                                                 
 .                                 estadd local below15empb "`below15empb'"
- 28.                                 estadd local below15empse "`below15empse'"
- 29. 
+ 27.                                 estadd local below15empse "`below15empse'"
+ 28. 
 .                                 estadd local allempb "`allempb'"
- 30.                                 estadd local allempse "`allempse'"
- 31.                                 
+ 29.                                 estadd local allempse "`allempse'"
+ 30.                                 
 .                                 est save "${estimates}eventbased_aggregate_CK
 > group`k'_empelas_${label`s'}", replace                             
- 32.                                 
+ 31.                                 
 .                                 }
- 33.                         }
- 34.                 }
- 35.         }
+ 32.                         }
+ 33.                 }
+ 34.         }
 
     Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
 -------------+-----------------------------------------------------------------
@@ -761,7 +764,1119 @@ added macro:
 
 added macro:
            e(allempse) : "(0.009)"
-command stop is unrecognized
-r(199);
+(MWFE estimator converged in 16 iterations)
 
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       3.45
+Statistics robust to heteroskedasticity           Prob > F        =     0.0031
+                                                  R-squared       =     0.7254
+                                                  Adj R-squared   =     0.7168
+                                                  Within R-sq.    =     0.0036
+Number of clusters (statenum) =         51        Root MSE        =     0.0083
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_pe~1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0008782   .0007184    -1.22   0.227    -.0023212    .0005648
+     F8treat |  -.0005828   .0008059    -0.72   0.473    -.0022015     .001036
+     F4treat |  -.0009767   .0008051    -1.21   0.231    -.0025937    .0006403
+       treat |  -.0008666   .0006365    -1.36   0.179     -.002145    .0004119
+     L4treat |  -.0002726    .000641    -0.43   0.672    -.0015602    .0010149
+     L8treat |  -.0006343   .0010285    -0.62   0.540    -.0027001    .0014315
+    L12treat |    .000424   .0006095     0.70   0.490    -.0008002    .0016481
+    L16treat |   .0007269   .0006202     1.17   0.247    -.0005189    .0019727
+       _cons |   .0539286   .0003822   141.09   0.000     .0531609    .0546964
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |       142           1         141     |
+    postcont |         8           1           7     |
+    postcont |         8           8           0    ?|
+   postcontf |         4           1           3    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_pe~1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0144951   .0070512     2.06   0.045     .0003324    .0286579
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.014**"
+
+added macro:
+       e(below15empse) : "(0.007)"
+(MWFE estimator converged in 16 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       5.59
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5708
+                                                  Adj R-squared   =     0.5573
+                                                  Within R-sq.    =     0.0070
+Number of clusters (statenum) =         51        Root MSE        =     0.0021
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_perc~1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0004314   .0003098    -1.39   0.170    -.0010537    .0001909
+     F8treat |  -.0001095   .0001919    -0.57   0.571    -.0004949    .0002759
+     F4treat |   -.000446   .0002319    -1.92   0.060    -.0009118    .0000197
+       treat |  -.0002335     .00018    -1.30   0.200     -.000595    .0001279
+     L4treat |  -.0001297   .0001516    -0.86   0.396    -.0004342    .0001748
+     L8treat |  -.0002103   .0001211    -1.74   0.089    -.0004536     .000033
+    L12treat |  -.0002085   .0001535    -1.36   0.180    -.0005168    .0000998
+    L16treat |  -.0000231   .0001482    -0.16   0.877    -.0003209    .0002747
+       _cons |   .0037757   .0000812    46.48   0.000     .0036125    .0039388
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |       142           1         141     |
+    postcont |         8           1           7     |
+    postcont |         8           8           0    ?|
+   postcontf |         4           1           3    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_perc~1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0048479   .0035258     1.37   0.175     -.002234    .0119297
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "0.005"
+
+added macro:
+        e(over15empse) : "(0.004)"
+
+added macro:
+        e(below15empb) : "0.014**"
+
+added macro:
+       e(below15empse) : "(0.007)"
+
+added macro:
+            e(allempb) : "0.019**"
+
+added macro:
+           e(allempse) : "(0.009)"
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_CKgroup1_empe
+> las_TWFE.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   677763561    .8028209   .4050374   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     138   682035582    7.686473   .8686171   6.075942   10.49291
+(MWFE estimator converged in 16 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.23
+Statistics robust to heteroskedasticity           Prob > F        =     0.3020
+                                                  R-squared       =     0.7486
+                                                  Adj R-squared   =     0.7407
+                                                  Within R-sq.    =     0.0127
+Number of clusters (statenum) =         51        Root MSE        =     0.0172
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0006994   .0015467     0.45   0.653    -.0024071     .003806
+     F8treat |   .0015696   .0013366     1.17   0.246    -.0011151    .0042542
+     F4treat |    .002284   .0014571     1.57   0.123    -.0006426    .0052106
+       treat |    .003934   .0017873     2.20   0.032     .0003441    .0075239
+     L4treat |   .0026771   .0017909     1.49   0.141    -.0009199    .0062741
+     L8treat |   .0039118   .0017968     2.18   0.034     .0003027    .0075208
+    L12treat |   .0028791   .0014922     1.93   0.059    -.0001181    .0058763
+    L16treat |   .0055727   .0019272     2.89   0.006     .0017017    .0094436
+       _cons |   .2202351   .0008369   263.15   0.000     .2185541    .2219161
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |       142           1         141     |
+    postcont |         8           1           7     |
+    postcont |         8           8           0    ?|
+   postcontf |         4           1           3    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+     percap2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0257002   .0196041     1.31   0.196    -.0136759    .0650762
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "0.026"
+
+added macro:
+           e(allempse) : "(0.020)"
+(MWFE estimator converged in 16 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       5.03
+Statistics robust to heteroskedasticity           Prob > F        =     0.0001
+                                                  R-squared       =     0.7639
+                                                  Adj R-squared   =     0.7565
+                                                  Within R-sq.    =     0.0551
+Number of clusters (statenum) =         51        Root MSE        =     0.0151
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_pe~2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0038698   .0014339     2.70   0.009     .0009898    .0067499
+     F8treat |   .0039475   .0011794     3.35   0.002     .0015786    .0063163
+     F4treat |   .0059526   .0019168     3.11   0.003     .0021026    .0098027
+       treat |   .0066885   .0020342     3.29   0.002     .0026026    .0107743
+     L4treat |   .0060779   .0017774     3.42   0.001     .0025078     .009648
+     L8treat |   .0069456   .0016548     4.20   0.000     .0036219    .0102693
+    L12treat |   .0052953   .0011424     4.64   0.000     .0030007    .0075899
+    L16treat |   .0075683   .0014642     5.17   0.000     .0046274    .0105092
+       _cons |   .1302915   .0008561   152.20   0.000      .128572     .132011
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |       142           1         141     |
+    postcont |         8           1           7     |
+    postcont |         8           8           0    ?|
+   postcontf |         4           1           3    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_pe~2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |    .009567   .0179303     0.53   0.596    -.0264471    .0455812
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.010"
+
+added macro:
+       e(below15empse) : "(0.018)"
+(MWFE estimator converged in 16 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       4.04
+Statistics robust to heteroskedasticity           Prob > F        =     0.0009
+                                                  R-squared       =     0.7609
+                                                  Adj R-squared   =     0.7534
+                                                  Within R-sq.    =     0.0221
+Number of clusters (statenum) =         51        Root MSE        =     0.0123
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_perc~2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0031704   .0010536    -3.01   0.004    -.0052866   -.0010542
+     F8treat |  -.0023779   .0007042    -3.38   0.001    -.0037922   -.0009635
+     F4treat |  -.0036686   .0015314    -2.40   0.020    -.0067446   -.0005927
+       treat |  -.0027545   .0008508    -3.24   0.002    -.0044635   -.0010456
+     L4treat |  -.0034007   .0008156    -4.17   0.000    -.0050389   -.0017626
+     L8treat |  -.0030338   .0010282    -2.95   0.005    -.0050989   -.0009686
+    L12treat |  -.0024162   .0010066    -2.40   0.020     -.004438   -.0003944
+    L16treat |  -.0019956   .0010845    -1.84   0.072    -.0041738    .0001826
+       _cons |   .0899436   .0003956   227.34   0.000     .0891489    .0907382
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |       142           1         141     |
+    postcont |         8           1           7     |
+    postcont |         8           8           0    ?|
+   postcontf |         4           1           3    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_perc~2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0161331   .0264622     0.61   0.545    -.0370177     .069284
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "0.016"
+
+added macro:
+        e(over15empse) : "(0.026)"
+
+added macro:
+        e(below15empb) : "0.010"
+
+added macro:
+       e(below15empse) : "(0.018)"
+
+added macro:
+            e(allempb) : "0.026"
+
+added macro:
+           e(allempse) : "(0.020)"
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_CKgroup2_empe
+> las_TWFE.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   677763561    .8028209   .4050374   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     138   682035582    7.686473   .8686171   6.075942   10.49291
+(MWFE estimator converged in 16 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       5.14
+Statistics robust to heteroskedasticity           Prob > F        =     0.0001
+                                                  R-squared       =     0.8747
+                                                  Adj R-squared   =     0.8707
+                                                  Within R-sq.    =     0.0472
+Number of clusters (statenum) =         51        Root MSE        =     0.0212
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0059102   .0023173    -2.55   0.014    -.0105646   -.0012559
+     F8treat |  -.0058342    .002414    -2.42   0.019    -.0106829   -.0009854
+     F4treat |  -.0067539   .0035248    -1.92   0.061    -.0138337    .0003259
+       treat |  -.0076604   .0037811    -2.03   0.048    -.0152549   -.0000658
+     L4treat |  -.0067001   .0042418    -1.58   0.121    -.0152199    .0018198
+     L8treat |  -.0089824   .0039032    -2.30   0.026    -.0168223   -.0011425
+    L12treat |  -.0073698    .002227    -3.31   0.002    -.0118429   -.0028967
+    L16treat |  -.0115933    .003516    -3.30   0.002    -.0186554   -.0045311
+       _cons |   .2888428   .0019056   151.58   0.000     .2850153    .2926703
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |       142           1         141     |
+    postcont |         8           1           7     |
+    postcont |         8           8           0    ?|
+   postcontf |         4           1           3    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+     percap3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0290408   .0232718    -1.25   0.218    -.0757835    .0177019
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "-0.029"
+
+added macro:
+           e(allempse) : "(0.023)"
+(MWFE estimator converged in 16 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       3.59
+Statistics robust to heteroskedasticity           Prob > F        =     0.0023
+                                                  R-squared       =     0.7557
+                                                  Adj R-squared   =     0.7481
+                                                  Within R-sq.    =     0.0011
+Number of clusters (statenum) =         51        Root MSE        =     0.0096
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_pe~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0004073   .0008814     0.46   0.646    -.0013631    .0021777
+     F8treat |   .0000359   .0006228     0.06   0.954    -.0012151    .0012869
+     F4treat |  -.0000729   .0008918    -0.08   0.935    -.0018642    .0017184
+       treat |  -.0008013    .000675    -1.19   0.241     -.002157    .0005544
+     L4treat |   .0002474   .0013899     0.18   0.859    -.0025442    .0030391
+     L8treat |   .0004202   .0012188     0.34   0.732    -.0020278    .0028683
+    L12treat |    .000767   .0010149     0.76   0.453    -.0012715    .0028056
+    L16treat |  -.0004086   .0011032    -0.37   0.713    -.0026244    .0018072
+       _cons |   .0634877   .0005429   116.95   0.000     .0623973    .0645781
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |       142           1         141     |
+    postcont |         8           1           7     |
+    postcont |         8           8           0    ?|
+   postcontf |         4           1           3    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_pe~3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0020045   .0099589     0.20   0.841    -.0179985    .0220075
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.002"
+
+added macro:
+       e(below15empse) : "(0.010)"
+(MWFE estimator converged in 16 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       4.06
+Statistics robust to heteroskedasticity           Prob > F        =     0.0009
+                                                  R-squared       =     0.8778
+                                                  Adj R-squared   =     0.8740
+                                                  Within R-sq.    =     0.0544
+Number of clusters (statenum) =         51        Root MSE        =     0.0197
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_perc~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0063176   .0018167    -3.48   0.001    -.0099665   -.0026686
+     F8treat |  -.0058701       .002    -2.94   0.005    -.0098872    -.001853
+     F4treat |   -.006681   .0028378    -2.35   0.023    -.0123809    -.000981
+       treat |  -.0068591   .0033126    -2.07   0.044    -.0135127   -.0002054
+     L4treat |  -.0069475   .0030749    -2.26   0.028    -.0131237   -.0007713
+     L8treat |  -.0094026   .0031129    -3.02   0.004     -.015655   -.0031502
+    L12treat |  -.0081368   .0017388    -4.68   0.000    -.0116293   -.0046444
+    L16treat |  -.0111847   .0028171    -3.97   0.000    -.0168431   -.0055263
+       _cons |   .2253551   .0014691   153.39   0.000     .2224042    .2283059
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |       142           1         141     |
+    postcont |         8           1           7     |
+    postcont |         8           8           0    ?|
+   postcontf |         4           1           3    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_perc~3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0310453   .0215193    -1.44   0.155     -.074268    .0121774
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "-0.031"
+
+added macro:
+        e(over15empse) : "(0.022)"
+
+added macro:
+        e(below15empb) : "0.002"
+
+added macro:
+       e(below15empse) : "(0.010)"
+
+added macro:
+            e(allempb) : "-0.029"
+
+added macro:
+           e(allempse) : "(0.023)"
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_CKgroup3_empe
+> las_TWFE.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   677763561    .8028209   .4050374   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     138   682035582    7.686473   .8686171   6.075942   10.49291
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.41
+Statistics robust to heteroskedasticity           Prob > F        =     0.0278
+                                                  R-squared       =     0.7841
+                                                  Adj R-squared   =     0.7757
+                                                  Within R-sq.    =     0.0031
+Number of clusters (statenum) =         51        Root MSE        =     0.0082
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0007198   .0006189    -1.16   0.250     -.001963    .0005234
+     F8treat |   4.64e-06   .0005762     0.01   0.994    -.0011526    .0011619
+     F4treat |  -.0005964   .0005388    -1.11   0.274    -.0016786    .0004857
+       treat |  -.0001214   .0007585    -0.16   0.874    -.0016449    .0014022
+     L4treat |    .000416   .0005613     0.74   0.462    -.0007114    .0015433
+     L8treat |   .0000476    .000459     0.10   0.918    -.0008744    .0009697
+    L12treat |   .0009216   .0005147     1.79   0.079    -.0001121    .0019553
+    L16treat |   .0014784   .0006693     2.21   0.032      .000134    .0028227
+       _cons |   .0572035   .0002046   279.59   0.000     .0567925    .0576144
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+     percap1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0194738     .00885     2.20   0.032      .001698    .0372496
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "0.019**"
+
+added macro:
+           e(allempse) : "(0.009)"
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.55
+Statistics robust to heteroskedasticity           Prob > F        =     0.0205
+                                                  R-squared       =     0.7549
+                                                  Adj R-squared   =     0.7454
+                                                  Within R-sq.    =     0.0020
+Number of clusters (statenum) =         51        Root MSE        =     0.0079
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_pe~1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0003648   .0005523    -0.66   0.512    -.0014742    .0007445
+     F8treat |   9.67e-07   .0005333     0.00   0.999    -.0010702    .0010722
+     F4treat |   -.000307   .0005496    -0.56   0.579    -.0014108    .0007969
+       treat |  -.0000997   .0006783    -0.15   0.884    -.0014621    .0012627
+     L4treat |    .000378    .000518     0.73   0.469    -.0006625    .0014185
+     L8treat |  -.0000171   .0005202    -0.03   0.974     -.001062    .0010277
+    L12treat |   .0009011   .0004202     2.14   0.037     .0000571    .0017451
+    L16treat |   .0012008   .0005458     2.20   0.032     .0001044    .0022971
+       _cons |   .0535456   .0001874   285.68   0.000     .0531691     .053922
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_pe~1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0132603   .0075605     1.75   0.086    -.0019254     .028446
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.013*"
+
+added macro:
+       e(below15empse) : "(0.008)"
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       4.94
+Statistics robust to heteroskedasticity           Prob > F        =     0.0002
+                                                  R-squared       =     0.6193
+                                                  Adj R-squared   =     0.6045
+                                                  Within R-sq.    =     0.0040
+Number of clusters (statenum) =         51        Root MSE        =     0.0020
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_perc~1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0003549   .0002197    -1.62   0.113    -.0007963    .0000864
+     F8treat |   3.68e-06   .0001258     0.03   0.977    -.0002491    .0002564
+     F4treat |  -.0002895   .0000919    -3.15   0.003    -.0004741   -.0001048
+       treat |  -.0000217   .0001294    -0.17   0.868    -.0002817    .0002383
+     L4treat |    .000038   .0001167     0.33   0.746    -.0001965    .0002724
+     L8treat |   .0000648   .0001929     0.34   0.739    -.0003228    .0004523
+    L12treat |   .0000205   .0002341     0.09   0.931    -.0004498    .0004908
+    L16treat |   .0002776   .0002333     1.19   0.240    -.0001911    .0007463
+       _cons |   .0036579   .0000468    78.10   0.000     .0035638     .003752
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_perc~1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0062135    .003205     1.94   0.058    -.0002239    .0126509
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "0.006*"
+
+added macro:
+        e(over15empse) : "(0.003)"
+
+added macro:
+        e(below15empb) : "0.013*"
+
+added macro:
+       e(below15empse) : "(0.008)"
+
+added macro:
+            e(allempb) : "0.019**"
+
+added macro:
+           e(allempse) : "(0.009)"
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_CKgroup1_empe
+> las_ST.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   677763561    .8028209   .4050374   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     138   682035582    7.686473   .8686171   6.075942   10.49291
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.37
+Statistics robust to heteroskedasticity           Prob > F        =     0.2335
+                                                  R-squared       =     0.8154
+                                                  Adj R-squared   =     0.8082
+                                                  Within R-sq.    =     0.0020
+Number of clusters (statenum) =         51        Root MSE        =     0.0148
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0001379   .0015358    -0.09   0.929    -.0032226    .0029469
+     F8treat |   .0007738   .0011226     0.69   0.494     -.001481    .0030287
+     F4treat |   .0007993   .0016208     0.49   0.624    -.0024561    .0040548
+       treat |   .0022105    .001274     1.74   0.089    -.0003483    .0047694
+     L4treat |   .0006965   .0010159     0.69   0.496     -.001344     .002737
+     L8treat |   .0006894   .0011487     0.60   0.551    -.0016179    .0029967
+    L12treat |  -.0003547   .0009711    -0.37   0.716    -.0023052    .0015958
+    L16treat |   .0013986    .001122     1.25   0.218    -.0008551    .0036522
+       _cons |   .2215441   .0006065   365.25   0.000     .2203258    .2227624
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+     percap2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0021896    .020822     0.11   0.917    -.0396326    .0440117
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "0.002"
+
+added macro:
+           e(allempse) : "(0.021)"
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       3.76
+Statistics robust to heteroskedasticity           Prob > F        =     0.0016
+                                                  R-squared       =     0.8482
+                                                  Adj R-squared   =     0.8423
+                                                  Within R-sq.    =     0.0142
+Number of clusters (statenum) =         51        Root MSE        =     0.0121
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_pe~2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0018691   .0009343     2.00   0.051    -7.48e-06    .0037457
+     F8treat |   .0021005   .0007349     2.86   0.006     .0006245    .0035766
+     F4treat |   .0032621   .0008275     3.94   0.000     .0016001    .0049242
+       treat |   .0035069   .0008563     4.10   0.000     .0017869    .0052268
+     L4treat |    .003038   .0007852     3.87   0.000      .001461    .0046151
+     L8treat |   .0023487   .0009329     2.52   0.015      .000475    .0042225
+    L12treat |   .0013752   .0007195     1.91   0.062      -.00007    .0028204
+    L16treat |   .0023065   .0009254     2.49   0.016     .0004478    .0041652
+       _cons |   .1323309    .000364   363.57   0.000     .1315998     .133062
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_pe~2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0127074   .0128197    -0.99   0.326    -.0384566    .0130418
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "-0.013"
+
+added macro:
+       e(below15empse) : "(0.013)"
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.91
+Statistics robust to heteroskedasticity           Prob > F        =     0.0096
+                                                  R-squared       =     0.7961
+                                                  Adj R-squared   =     0.7882
+                                                  Within R-sq.    =     0.0076
+Number of clusters (statenum) =         51        Root MSE        =     0.0114
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_perc~2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   -.002007   .0010577    -1.90   0.064    -.0041314    .0001175
+     F8treat |  -.0013267   .0007774    -1.71   0.094    -.0028882    .0002348
+     F4treat |  -.0024628   .0016592    -1.48   0.144    -.0057954    .0008698
+       treat |  -.0012964   .0009995    -1.30   0.201    -.0033039    .0007112
+     L4treat |  -.0023415    .000768    -3.05   0.004    -.0038842   -.0007989
+     L8treat |  -.0016593   .0008939    -1.86   0.069    -.0034548    .0001361
+    L12treat |  -.0017299   .0009277    -1.86   0.068    -.0035933    .0001335
+    L16treat |  -.0009079   .0008003    -1.13   0.262    -.0025153    .0006996
+       _cons |   .0892132   .0004589   194.41   0.000     .0882915    .0901349
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_perc~2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0148969   .0244694     0.61   0.545    -.0342513    .0640452
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "0.015"
+
+added macro:
+        e(over15empse) : "(0.024)"
+
+added macro:
+        e(below15empb) : "-0.013"
+
+added macro:
+       e(below15empse) : "(0.013)"
+
+added macro:
+            e(allempb) : "0.002"
+
+added macro:
+           e(allempse) : "(0.021)"
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_CKgroup2_empe
+> las_ST.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   677763561    .8028209   .4050374   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     138   682035582    7.686473   .8686171   6.075942   10.49291
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.80
+Statistics robust to heteroskedasticity           Prob > F        =     0.0121
+                                                  R-squared       =     0.9369
+                                                  Adj R-squared   =     0.9344
+                                                  Within R-sq.    =     0.0031
+Number of clusters (statenum) =         51        Root MSE        =     0.0151
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0016317   .0010922    -1.49   0.141    -.0038255     .000562
+     F8treat |  -.0017555   .0011027    -1.59   0.118    -.0039702    .0004593
+     F4treat |  -.0011243    .001145    -0.98   0.331    -.0034241    .0011756
+       treat |  -.0012659    .001493    -0.85   0.401    -.0042646    .0017329
+     L4treat |  -.0004104   .0016474    -0.25   0.804    -.0037192    .0028984
+     L8treat |  -.0005427   .0015592    -0.35   0.729    -.0036746    .0025891
+    L12treat |  -.0006267   .0012665    -0.49   0.623    -.0031705    .0019171
+    L16treat |  -.0027919   .0013612    -2.05   0.046    -.0055259   -.0000579
+       _cons |    .284905   .0006022   473.10   0.000     .2836954    .2861145
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+     percap3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0000556   .0173213    -0.00   0.997    -.0348463    .0347352
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "-0.000"
+
+added macro:
+           e(allempse) : "(0.017)"
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.92
+Statistics robust to heteroskedasticity           Prob > F        =     0.0093
+                                                  R-squared       =     0.8198
+                                                  Adj R-squared   =     0.8128
+                                                  Within R-sq.    =     0.0073
+Number of clusters (statenum) =         51        Root MSE        =     0.0083
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_pe~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0011354   .0006418     1.77   0.083    -.0001538    .0024245
+     F8treat |   .0010169   .0003613     2.81   0.007     .0002913    .0017425
+     F4treat |   .0013737   .0004793     2.87   0.006      .000411    .0023363
+       treat |   .0008497   .0004084     2.08   0.043     .0000294      .00167
+     L4treat |      .0017   .0009624     1.77   0.083     -.000233     .003633
+     L8treat |   .0017309   .0007077     2.45   0.018     .0003095    .0031523
+    L12treat |   .0014761   .0007351     2.01   0.050    -4.50e-07    .0029526
+    L16treat |   .0007013   .0005698     1.23   0.224    -.0004432    .0018458
+       _cons |   .0627303   .0002748   228.24   0.000     .0621783    .0632824
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_pe~3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0013955   .0081125    -0.17   0.864      -.01769    .0148989
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "-0.001"
+
+added macro:
+       e(below15empse) : "(0.008)"
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.51
+Statistics robust to heteroskedasticity           Prob > F        =     0.0223
+                                                  R-squared       =     0.9306
+                                                  Adj R-squared   =     0.9279
+                                                  Within R-sq.    =     0.0086
+Number of clusters (statenum) =         51        Root MSE        =     0.0149
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_perc~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0027671   .0009163    -3.02   0.004    -.0046076   -.0009266
+     F8treat |  -.0027723   .0012271    -2.26   0.028    -.0052371   -.0003076
+     F4treat |  -.0024979   .0010436    -2.39   0.020     -.004594   -.0004019
+       treat |  -.0021156   .0014872    -1.42   0.161    -.0051028    .0008717
+     L4treat |  -.0021104   .0011411    -1.85   0.070    -.0044023    .0001815
+     L8treat |  -.0022736   .0013728    -1.66   0.104    -.0050309    .0004837
+    L12treat |  -.0021028   .0010779    -1.95   0.057    -.0042679    .0000623
+    L16treat |  -.0034933   .0011377    -3.07   0.003    -.0057783   -.0012082
+       _cons |   .2221746   .0005098   435.84   0.000     .2211508    .2231985
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------+
+            Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------+---------------------------------------|
+               statenum |        51          51           0    *|
+ statenum#c.quarterdate |        51           0          51    ?|
+            quarterdate |       142           1         141     |
+               postcont |         8           1           7     |
+               postcont |         8           8           0    ?|
+              postcontf |         4           1           3    ?|
+                precont |         4           1           3    ?|
+               precontf |         3           1           2    ?|
+              earlycont |         5           1           4    ?|
+             earlycontf |         3           1           2    ?|
+----------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.00953*F4treat + 3.401905*treat + 3.401905*L4treat +
+       3.401905*L8treat + 3.401905*L12treat + 3.401905*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_perc~3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |     .00134   .0148261     0.09   0.928    -.0284391    .0311191
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "0.001"
+
+added macro:
+        e(over15empse) : "(0.015)"
+
+added macro:
+        e(below15empb) : "-0.001"
+
+added macro:
+       e(below15empse) : "(0.008)"
+
+added macro:
+            e(allempb) : "-0.000"
+
+added macro:
+           e(allempse) : "(0.017)"
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_CKgroup3_empe
+> las_ST.ster saved
+
+. *
+. *       
+. 
+. 
+. 
+. 
 end of do-file

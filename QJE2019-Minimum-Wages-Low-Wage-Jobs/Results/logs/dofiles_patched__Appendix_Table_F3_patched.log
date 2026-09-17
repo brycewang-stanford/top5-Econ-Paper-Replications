@@ -1,0 +1,1041 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/dofiles_patched__Appendix_Table
+> _F3_patched.log
+  log type:  text
+ opened on:  18 Sep 2026, 01:12:42
+
+. * PATCHED COPY of dofiles/Appendix_Table_F3.do (replication project): the onl
+> y change reads me_corrected_logwages.dta
+. * from ${data} (where the package ships it and where Appendix_Figure_F4.do re
+> ads it) instead of ${stn_bsamples}.
+. 
+. *This do file is created by DC on 05/09/2016.
+. 
+.                 
+. **** DEFINE REGRESSION COMMAND AND CONTROLS *****
+. 
+.  
+.         global rtype1 reghdfe
+
+. 
+. 
+. global a1  i.wagebinstate i.wagequarterdate  // distributional TWFE
+
+. 
+. 
+. global label1 TWFE
+
+. local truewmin = 4
+
+. local truewmax = 4
+
+. local placebo1wmax = 13
+
+. local prevwmax = `placebo1wmax'
+
+. local placebo2wmax = 16
+
+. 
+. 
+. use "${data}qcew_state_overall_counts_2016.dta", clear
+
+. rename statefips statenum
+
+. gen quarterdate = yq(year, quarter)
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St01218.000001 saved
+    as .dta format
+
+. 
+. treatmentcontrolwindows
+
+. 
+. placebowindows1, truewmax(`truewmax') wmax(`placebo1wmax')
+Placebo wmin and wmax should not be too far apart.
+13 - 5
+
+. 
+. placebowindows2, prevwmax(`prevwmax') wmax(`placebo2wmax')
+Placebo wmin and wmax should not be too far apart.
+16 - 14
+
+. 
+. 
+. *use "${stn_bsamples}annual_me_corrected_logwages.dta", clear
+. use "${data}me_corrected_logwages.dta", clear  // PATCH: shipped file lives i
+> n ${data}, not ${stn_bsamples}
+
+. merge 1:1 statenum quarterdate wagebins using "${data}state_panels_with3quant
+> 1979.dta", nogenerate assert(2 3) 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        27,655
+        from master                         0  
+        from using                     27,655  
+
+    Matched                           879,329  
+    -----------------------------------------
+
+. replace density=0 if density==.
+(27,655 real changes made)
+
+. cap drop count
+
+. cap drop overallcountpc
+
+. cap drop overallcountpcall
+
+. bys statenum quarterdate: egen density_all = total(density)
+
+. gen count = countall * density/density_all
+
+. 
+. merge m:1 statenum quarterdate using `qcew',assert(3) nogenerate
+(variable quarterdate was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+. 
+. 
+.         replace count = count*emp/countall  if emp!=0
+(803,037 real changes made)
+
+.         replace countall = countall*emp/countall  if emp!=0
+(905,112 real changes made)
+
+.         gen overallcountpc = count/population
+
+.         gen overallcountpcall = countall/population
+
+. *
+. 
+. 
+. *****************************************************************************
+> ***
+. ********************      Dropping unnecessary variables        *************
+> ***
+. *****************************************************************************
+> ***
+. 
+. cap drop HSD*
+
+. cap drop HSL*
+
+. cap drop black*
+
+. cap drop female*
+
+. cap drop BH*
+
+. cap drop teen*  
+
+. 
+. *****************************************************************************
+> ***
+. *****************          Placebo sample correction          ***************
+> ***
+. *****************************************************************************
+> ***
+. 
+. placebosamplecorr1, wmax(`placebo1wmax') truewmax(`truewmax') 
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+(552 real changes made)
+(17,901 missing values generated)
+(552 real changes made)
+(17,901 missing values generated)
+(552 real changes made)
+(17,901 missing values generated)
+(552 real changes made)
+(17,901 missing values generated)
+(552 real changes made)
+(17,901 missing values generated)
+(552 real changes made)
+(17,901 missing values generated)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+  variable quarterdate was float now int
+  variable windowpl1_p5 was float now byte
+  variable windowpl1_p6 was float now byte
+  variable windowpl1_p7 was float now byte
+  variable windowpl1_p8 was float now byte
+  variable windowpl1_p9 was float now byte
+  variable windowpl1_p10 was float now byte
+  variable windowpl1_p11 was float now byte
+  variable windowpl1_p12 was float now byte
+  variable windowpl1_p13 was float now byte
+  (26,302,536 bytes saved)
+
+. placebosamplecorr2, wmax(`placebo2wmax') prevwmax(`placebo1wmax')
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+(552 real changes made)
+(17,901 missing values generated)
+(552 real changes made)
+(17,901 missing values generated)
+(552 real changes made)
+(17,901 missing values generated)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(2,706 real changes made)
+(17,901 missing values generated)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(17,901 missing values generated)
+  variable windowpl2_p14 was float now byte
+  variable windowpl2_p15 was float now byte
+  variable windowpl2_p16 was float now byte
+  variable windowpl2_p17 was float now byte
+  variable sum_inf was float now byte
+  (13,604,760 bytes saved)
+
+. 
+. 
+. abovebelowbunch
+
+. 
+. abovebelowfull
+Make sure that belowL16 and aboveL16 exists. Otherwise the program does not wor
+> k. Assertion will be false.
+
+. 
+. 
+. *****************************************************************************
+> ***
+. ****************           Weights                                ***********
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. 
+. cap drop wt 
+
+. foreach Y in   overall { 
+  2.         foreach b of numlist 1979{
+  3.                                         global weight`Y'`b' "[aw=wt`Y'`b']
+> " 
+  4.                                         }
+  5. }  
+
+. *
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. **************     Sample and Control Specific Macros           *************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. local limittreat "_stateonly"
+
+. 
+. 
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. **************      To name the graph              **************************
+> ***
+. *****************************************************************************
+> ***
+. 
+.         
+. *****************************************************************************
+> ***
+. ***************          Useful to Find Below Share Wages               *****
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. cap drop statequarterdate
+
+. egen statequarterdate = group(state quarterdate)
+
+. sort statequarterdate wagebins
+
+. 
+. cap drop overallWB*
+
+. g overallWBFH = wagebins*count/(100)
+
+. g overallWBpcFH = wagebins*count/(100*population)
+
+. 
+. cap drop overallWBpcrsumFH
+
+. g overallWBpcrsumFH=0
+
+. replace overallWBpcrsumFH = overallWBpcFH if wagebins==100
+(2,807 real changes made)
+
+. replace overallWBpcrsumFH = overallWBpcrsumFH[_n-1] + overallWBpcFH if wagebi
+> ns>100
+(873,047 real changes made)
+
+.         
+. cap drop overallcountpcrsum
+
+. g overallcountpcrsum=0
+
+. replace overallcountpcrsum = overallcountpc if wagebins==100
+(2,807 real changes made)
+
+. replace overallcountpcrsum = overallcountpcrsum[_n-1] + overallcountpc if wag
+> ebins>100
+(873,047 real changes made)
+
+.         
+.         
+. 
+. *****************************************************************************
+> *** 
+. **********************       REGRESSIONS AND FIGURES        *****************
+> ***
+. *****************************************************************************
+> ***
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. compress
+  variable statequarterdate was float now int
+  (1,813,968 bytes saved)
+
+. 
+. local counter  = 1
+
+. cap drop one
+
+. gen one = 1
+
+. foreach Y in   overall { 
+  2. foreach b in   1979 {
+  3.                                         ***  define MW change ***
+.                                 sum DMW_real if fedincrease!=1 & overallcount
+> gr>0 & year>=`b' & cleansample ==1   ${weight`Y'`b'}
+  4.                                 local mwc = r(mean)
+  5.                                 
+.                                 sum MW_real if  F.fedincrease!=1 & F.overallc
+> ountgr>0 & year>=`b' & cleansample ==1   ${weight`Y'`b'}
+  6.                                 local mw = r(mean)
+  7.                                 local mwpc = `mwc'/`mw'
+  8.                                 local mwpc2 : di  %04.3f `mwpc'
+  9. 
+.                                 sum `Y'countpcall if ((F.fedincrease != 1 & F
+> .fedincrease != . & F.overallcountgr>0 & F.overallcountgr!=. ) | ///
+>                                 (F2.fedincrease != 1 & F2.overallcountgr>0 & 
+> F2.fedincrease != . & F2.overallcountgr!=. ) ///
+>                                 | (F3.fedincrease != 1 & F3.overallcountgr>0 
+> & F3.fedincrease != . & F3.overallcountgr!=. ) ///
+>                                 | (F4.fedincrease != 1 & F4.overallcountgr>0 
+> & F4.fedincrease != . & F4.overallcountgr!=. ) ) & year>=`b' & cleansample ==
+> 1 ///
+>                                  ${weight`Y'`b'}                 // CHECK THI
+> S  2/2/16
+ 10.                                 
+.                                 local epop = r(mean)
+ 11.                                 global E = `epop'
+ 12.                                         
+.                                 global C = 1/(`epop'*`mwpc')
+ 13.                                 
+.                                 *Below share
+. 
+.                                 
+.                                 sum overallcountpcrsum if ( F.fedincrease!=1 
+> & F.overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.  & (wagebins+25
+> )/100==F1MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> F2.fedincrease!=. & F2.overallcountgr!=. & (wagebins+25)/100==F2MW_realM25 ) 
+> | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0 & F
+> 3.fedincrease!=. & F3.overallcountgr!=.  & (wagebins+25)/100==F3MW_realM25) |
+>  ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> F4.fedincrease!=. & F4.overallcountgr!=. & (wagebins+25)/100==F4MW_realM25 ) 
+> ///
+>                                 & year>=`b' & cleansample ==1      ${weight`Y
+> '`b'}                                      
+ 14.                                 
+.                                 global B = r(mean)/${E}
+ 15.                                 local belsh2 : di  %04.3f $B
+ 16. 
+.                                 *Affected share
+.                                 
+.                                 sum `Y'countpcrsum if (  F.fedincrease!=1 & F
+> .overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.  & (wagebins)/100=
+> =MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> F2.fedincrease!=. & F2.overallcountgr!=. & (wagebins)/100==MW_realM25 ) | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0 & F
+> 3.fedincrease!=. & F3.overallcountgr!=.  & (wagebins)/100==MW_realM25) | ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> F4.fedincrease!=. & F4.overallcountgr!=. & (wagebins)/100==MW_realM25 ) ///
+>                                 & year>=1979 & cleansample ==1    ${weight`Y'
+> `b'}                       
+ 17.                                 
+.                                 global AS`Y' = $B - (r(mean)/${E})
+ 18.                                 local affsh`Y' : di  %04.3f ${AS`Y'}
+ 19.                                 
+.                                 
+.                                 *********************************************
+> *******************
+.                                 *************    Wagebill related globals    
+>    ****************
+.                                 *********************************************
+> *******************
+.                                 sum overallWBpcrsumFH if (  F.fedincrease!=1 
+> & F.overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.   & (wagebins+2
+> 5)/100==F1MW_realM25) | ///
+>                                  (F2.fedincrease!=1 & F2.overallcountgr>0 & F
+> 2.fedincrease!=. & F2.overallcountgr!=. & (wagebins+25)/100==F2MW_realM25 ) |
+>  ///
+>                                 (F3.fedincrease!=1 & F3.overallcountgr>0 & F3
+> .fedincrease!=. & F3.overallcountgr!=.  & (wagebins+25)/100==F3MW_realM25) | 
+> ///
+>                                  (  F4.fedincrease!=1 & F4.overallcountgr>0 &
+>  F4.fedincrease!=. & F4.overallcountgr!=.  & (wagebins+25)/100==F4MW_realM25 
+> ) ///
+>                                 & year>=`b' & cleansample ==1     ${weight`Y'
+> `b'}                       
+ 20.         
+.                                 global EWB = r(mean)
+ 21.                                 local EWB2 : di  %04.3f $EWB
+ 22.                                 cap drop tempweight     
+ 23.                                 global CWB = 1/(${EWB}*`mwpc')
+ 24. 
+. 
+.                                 sum wagebins if treat_p0 == 1  & year>=`b' & 
+> cleansample ==1   ${weight`Y'`b'}, meanonly
+ 25.                                 global wagemult = r(mean)/100
+ 26.                                 
+.                                 *We have to do this here because multipliers 
+> are calculated in the loop.
+.                                 
+.                                 abovebelowWBbunch,wagemult(${wagemult})
+ 27.                                 abovebelowWBfull
+ 28. 
+.                                 local counter = `counter' + 1
+ 29.                                 cap drop temp 
+ 30.                                 gen temp = (overallcountgr>0 & overallcoun
+> tgr!=. & fedincrease!=1) 
+ 31.                                 count if temp==1
+ 32.                                 assert r(N) == 16146
+ 33. 
+.                         
+.                                 foreach s in   1 {              
+ 34.                                 *** REGRESSION *** 
+.                                 *di "${rtype`s'} `Y'countpc  ${treatafter} on
+> e if  year>=`b' & temp==0 & cleansample==1 ${weight`Y'`b'} , a(${a`s'} ${cont
+> rolbefore}  ${window} ${placebocontafter1} ${placebobefore1} ${windowpl1} ${p
+> lacebocontafter2} ${placebobefore2} ${windowpl2} ${controlf}  ${control}  )  
+> cluster(statenum)"
+.                                 *${rtype`s'} `Y'countpc  ${treatafter} one if
+>   year>=`b'  & temp==0 & cleansample==1 ${weight`Y'`b'} , a(${a`s'} ${control
+> before}  ${window} ${placebocontafter1} ${placebobefore1} ${windowpl1} ${plac
+> ebocontafter2} ${placebobefore2} ${windowpl2} ${controlf}  ${control}  )  clu
+> ster(statenum)
+.                                 *est save "${estimates}forplacebofig_mec_true
+> `counter'`limitsample'`limittreat'_`s'_`Y'_`b'_w`w'_`temp1'_`temp2'_${Tmax}${
+> Tmin}", replace 
+. 
+. 
+.                                 local tmax = 16
+ 35.                                 *Alternatively, we can use the original es
+> timated values for the true window
+.                                 est use "${estimates}forplacebofig_mec_true`c
+> ounter'`limitsample'`limittreat'_`s'_`Y'_`b'_w`w'_`temp1'_`temp2'_${Tmax}${Tm
+> in}" 
+ 36.                                 *est use  "${estimates}Table1aafterqcew`li
+> mitsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+. 
+.                                 local dof = e(df_r)
+ 37.                                 local numberobs = e(N)
+ 38.                                 count if fedincrease!=1 & overallcountgr>0
+>  & wagebins==300              // The wage bin does not matter.
+ 39.                                 local numberevent = r(N)
+ 40. 
+.                                 
+.                                 local denominator = (1/(1+(`tmax'/4)))
+ 41.                                 local wmax = `truewmax'
+ 42.                                 local wmin = `truewmin'
+ 43.                                 
+.                                 
+.                                 
+.                                                         
+.                         *****************************************************
+> ***************
+.                         ****************          Table           ***********
+> ***************
+.                         *****************************************************
+> ***************
+. 
+.                                 est use "${estimates}forplacebofig_mec_true`c
+> ounter'`limitsample'`limittreat'_`s'_`Y'_`b'_w`w'_`temp1'_`temp2'_${Tmax}${Tm
+> in}" 
+ 44.                         
+.                         
+.                         
+.                         lincomestadd (${below_full})*(4*`denominator')*(1/${E
+> })                                                 , statname(below_E)       
+>                       // Multiplying by 4 because bins are in 25 cent precisi
+> on. To average by time, dividing by 5.
+ 45.                         lincomestadd (${above_full})*(4*`denominator')*(1/
+> ${E})                                                 , statname(above_E)    
+>                                  // Multiplying by 4 because bins are in 25 c
+> ent precision. To average by time, dividing by 5.
+ 46. *                       lincomestadd (${below_full} + ${above_full})*(4*`d
+> enominator')*(1/${E})                 , statname(chemp_E)                    
+>                  // Multiplying by 4 because bins are in 25 cent precision. T
+> o average by time, dividing by 5. 
+.                         lincomestadd ((${below_full} + ${above_full})*(4*`den
+> ominator')*(1/${E}))/${B}  , statname(bunching_E)                          //
+>  Multiplying by 4 because bins are in 25 cent precision. To average by time, 
+> dividing by 5.                   
+ 47.                         
+.                         lincomestadd (${below_full} + ${above_full})*(4*`deno
+> minator')*${C}                             , statname(bunchelas_E)           
+>               // Multiplying by 4 because bins are in 25 cent precision. To a
+> verage by time, dividing by 5.
+ 48.                         
+.                         
+.                         nlcomestadd ((((${belowWB_full}+${aboveWB_full})*(4*`
+> denominator')/$EWB ) - ///
+>                         (((${below_full} + ${above_full})*(4*`denominator')*(
+> 1/${E}))/${B}))) / ///
+>                         (1+(((${below_full} + ${above_full})*(4*`denominator'
+> )*(1/${E}))/${B}))         , statname(WB_E)  dof(`dof')                      
+>               // Multiplying by 4 because bins are in 25 cent precision. To a
+> verage by time, dividing by 5.
+ 49.                         
+.                         nlcomestadd (((${below_full} + ${above_full})*(4*`den
+> ominator')*(1/${E}))/${B}) /  ///
+>                         (((((${belowWB_full}+${aboveWB_full})*(4*`denominator
+> ')/$EWB ) - ///
+>                         (((${below_full} + ${above_full})*(4*`denominator')*(
+> 1/${E}))/${B}))) / ///
+>                         (1+(((${below_full} + ${above_full})*(4*`denominator'
+> )*(1/${E}))/${B})))                , statname(labordem_E)   dof(`dof')       
+>                       // Multiplying by 4 because bins are in 25 cent precisi
+> on. To average by time, dividing by 5.
+ 50.                                                 
+.                         
+.                         estadd local numobs = "`numberobs'"
+ 51.                         estadd local numevent = "`numberevent'"
+ 52.                         estadd local minwpc     = "`mwpc2'"
+ 53.                         estadd local belsh      = "`belsh2'"
+ 54.                         estadd local wagebinstate               = "Y"     
+>               
+ 55. 
+.                         
+.                         estadd local wagebinperiod              = "Y"
+ 56. 
+.                         
+. 
+.                         
+.                         eststo ta_`Y'_`b'_${label`s'}_`counter'
+ 57. 
+.                         
+.                 }
+ 58.                         
+.         }
+ 59.  }
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |  16,029  8.5825e+10    .7960962    .399756   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |  22,113  1.1584e+11    7.859571   .9471371   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~l |  63,999  3.4011e+11    .5711273   .0651657   .4235719   1.447222
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |     552  2.9312e+09    .0458432   .0199105   .0026186   .1587512
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |     547  2.9069e+09    .0273487   .0137544   7.56e-07   .1251258
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallW~mFH |     552  2.9312e+09    .3356046   .1741017   .0218948   1.233774
+Make sure that belowL16 and aboveL16 exists. Otherwise the program does not wor
+> k. Assertion will be false.
+  16,146
+  138
+
+ ( 1)  1.400738*treat_m4 + 1.400738*treat_m3 + 1.400738*treat_m2 +
+       1.400738*treat_m1 + 1.400738*L4treat_m4 + 1.400738*L4treat_m3 +
+       1.400738*L4treat_m2 + 1.400738*L4treat_m1 + 1.400738*L8treat_m4 +
+       1.400738*L8treat_m3 + 1.400738*L8treat_m2 + 1.400738*L8treat_m1 +
+       1.400738*L12treat_m4 + 1.400738*L12treat_m3 + 1.400738*L12treat_m2 +
+       1.400738*L12treat_m1 + 1.400738*L16treat_m4 + 1.400738*L16treat_m3 +
+       1.400738*L16treat_m2 + 1.400738*L16treat_m1 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0169267   .0043937    -3.85   0.000    -.0257516   -.0081017
+------------------------------------------------------------------------------
+
+added macro:
+           e(below_Eb) : "-0.017***"
+
+added macro:
+          e(below_Ese) : "(0.004)"
+
+ ( 1)  1.400738*treat_p0 + 1.400738*treat_p1 + 1.400738*treat_p2 +
+       1.400738*treat_p3 + 1.400738*treat_p4 + 1.400738*L4treat_p0 +
+       1.400738*L4treat_p1 + 1.400738*L4treat_p2 + 1.400738*L4treat_p3 +
+       1.400738*L4treat_p4 + 1.400738*L8treat_p0 + 1.400738*L8treat_p1 +
+       1.400738*L8treat_p2 + 1.400738*L8treat_p3 + 1.400738*L8treat_p4 +
+       1.400738*L12treat_p0 + 1.400738*L12treat_p1 + 1.400738*L12treat_p2 +
+       1.400738*L12treat_p3 + 1.400738*L12treat_p4 + 1.400738*L16treat_p0 +
+       1.400738*L16treat_p1 + 1.400738*L16treat_p2 + 1.400738*L16treat_p3 +
+       1.400738*L16treat_p4 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0206909   .0029703     6.97   0.000      .014725    .0266569
+------------------------------------------------------------------------------
+
+added macro:
+           e(above_Eb) : "0.021***"
+
+added macro:
+          e(above_Ese) : "(0.003)"
+
+ ( 1)  17.4508*treat_m4 + 17.4508*treat_m3 + 17.4508*treat_m2 +
+       17.4508*treat_m1 + 17.4508*treat_p0 + 17.4508*treat_p1 +
+       17.4508*treat_p2 + 17.4508*treat_p3 + 17.4508*treat_p4 +
+       17.4508*L4treat_m4 + 17.4508*L4treat_m3 + 17.4508*L4treat_m2 +
+       17.4508*L4treat_m1 + 17.4508*L4treat_p0 + 17.4508*L4treat_p1 +
+       17.4508*L4treat_p2 + 17.4508*L4treat_p3 + 17.4508*L4treat_p4 +
+       17.4508*L8treat_m4 + 17.4508*L8treat_m3 + 17.4508*L8treat_m2 +
+       17.4508*L8treat_m1 + 17.4508*L8treat_p0 + 17.4508*L8treat_p1 +
+       17.4508*L8treat_p2 + 17.4508*L8treat_p3 + 17.4508*L8treat_p4 +
+       17.4508*L12treat_m4 + 17.4508*L12treat_m3 + 17.4508*L12treat_m2 +
+       17.4508*L12treat_m1 + 17.4508*L12treat_p0 + 17.4508*L12treat_p1 +
+       17.4508*L12treat_p2 + 17.4508*L12treat_p3 + 17.4508*L12treat_p4 +
+       17.4508*L16treat_m4 + 17.4508*L16treat_m3 + 17.4508*L16treat_m2 +
+       17.4508*L16treat_m1 + 17.4508*L16treat_p0 + 17.4508*L16treat_p1 +
+       17.4508*L16treat_p2 + 17.4508*L16treat_p3 + 17.4508*L16treat_p4 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0468965    .038573     1.22   0.230    -.0305796    .1243726
+------------------------------------------------------------------------------
+
+added macro:
+        e(bunching_Eb) : "0.047"
+
+added macro:
+       e(bunching_Ese) : "(0.039)"
+
+ ( 1)  13.82899*treat_m4 + 13.82899*treat_m3 + 13.82899*treat_m2 +
+       13.82899*treat_m1 + 13.82899*treat_p0 + 13.82899*treat_p1 +
+       13.82899*treat_p2 + 13.82899*treat_p3 + 13.82899*treat_p4 +
+       13.82899*L4treat_m4 + 13.82899*L4treat_m3 + 13.82899*L4treat_m2 +
+       13.82899*L4treat_m1 + 13.82899*L4treat_p0 + 13.82899*L4treat_p1 +
+       13.82899*L4treat_p2 + 13.82899*L4treat_p3 + 13.82899*L4treat_p4 +
+       13.82899*L8treat_m4 + 13.82899*L8treat_m3 + 13.82899*L8treat_m2 +
+       13.82899*L8treat_m1 + 13.82899*L8treat_p0 + 13.82899*L8treat_p1 +
+       13.82899*L8treat_p2 + 13.82899*L8treat_p3 + 13.82899*L8treat_p4 +
+       13.82899*L12treat_m4 + 13.82899*L12treat_m3 + 13.82899*L12treat_m2 +
+       13.82899*L12treat_m1 + 13.82899*L12treat_p0 + 13.82899*L12treat_p1 +
+       13.82899*L12treat_p2 + 13.82899*L12treat_p3 + 13.82899*L12treat_p4 +
+       13.82899*L16treat_m4 + 13.82899*L16treat_m3 + 13.82899*L16treat_m2 +
+       13.82899*L16treat_m1 + 13.82899*L16treat_p0 + 13.82899*L16treat_p1 +
+       13.82899*L16treat_p2 + 13.82899*L16treat_p3 + 13.82899*L16treat_p4 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0371634   .0305674     1.22   0.230     -.024233    .0985598
+------------------------------------------------------------------------------
+
+added macro:
+       e(bunchelas_Eb) : "0.037"
+
+added macro:
+      e(bunchelas_Ese) : "(0.031)"
+
+       _nl_1: ((((((_b[treat_m1])*(8.774882267779565-1) ) + ((_b[treat_m2])*(8.
+> 774882267779565-2) ) + ((_b[treat_m3])*(8.774882267779565-3) ) + ((_b[treat_m
+> 4])*(8.774882267779565-4) ) + ((_b[L4treat_m1])*(8.774882267779565-1) ) + ((_
+> b[L4treat_m2])*(8.774882267779565-2)) + ((_b[L4treat_m3])*(8.774882267779565-
+> 3)) + ((_b[L4treat_m4])*(8.774882267779565-4)) + ((_b[L8treat_m1])*(8.7748822
+> 67779565-1) ) + ((_b[L8treat_m2])*(8.774882267779565-2)) + ((_b[L8treat_m3])*
+> (8.774882267779565-3)) + ((_b[L8treat_m4])*(8.774882267779565-4)) + ((_b[L12t
+> reat_m1])*(8.774882267779565-1) ) + ((_b[L12treat_m2])*(8.774882267779565-2))
+>  + ((_b[L12treat_m3])*(8.774882267779565-3)) + ((_b[L12treat_m4])*(8.77488226
+> 7779565-4)) + ((_b[L16treat_m1])*(8.774882267779565-1) ) + ((_b[L16treat_m2])
+> *(8.774882267779565-2)) + ((_b[L16treat_m3])*(8.774882267779565-3)) + ((_b[L1
+> 6treat_m4])*(8.774882267779565-4))+((_b[treat_p0])*(8.774882267779565+0)) + (
+> (_b[treat_p1])*(8.774882267779565+1) ) + ((_b[treat_p2])*(8.774882267779565+2
+> ) ) + ((_b[treat_p3])*(8.774882267779565+3) ) + ((_b[treat_p4])*(8.7748822677
+> 79565+4) ) + ((_b[L4treat_p0])*(8.774882267779565+0)) + ((_b[L4treat_p1])*(8.
+> 774882267779565+1)) + ((_b[L4treat_p2])*(8.774882267779565+2)) + ((_b[L4treat
+> _p3])*(8.774882267779565+3)) + ((_b[L4treat_p4])*(8.774882267779565+4)) + ((_
+> b[L8treat_p0])*(8.774882267779565+0)) + ((_b[L8treat_p1])*(8.774882267779565+
+> 1)) + ((_b[L8treat_p2])*(8.774882267779565+2)) + ((_b[L8treat_p3])*(8.7748822
+> 67779565+3)) + ((_b[L8treat_p4])*(8.774882267779565+4)) + ((_b[L12treat_p0])*
+> (8.774882267779565+0)) + ((_b[L12treat_p1])*(8.774882267779565+1)) + ((_b[L12
+> treat_p2])*(8.774882267779565+2)) + ((_b[L12treat_p3])*(8.774882267779565+3))
+>  + ((_b[L12treat_p4])*(8.774882267779565+4)) + ((_b[L16treat_p0])*(8.77488226
+> 7779565+0)) + ((_b[L16treat_p1])*(8.774882267779565+1)) + ((_b[L16treat_p2])*
+> (8.774882267779565+2)) + ((_b[L16treat_p3])*(8.774882267779565+3)) + ((_b[L16
+> treat_p4])*(8.774882267779565+4)))*(4*.2)/.3356046180402453 ) - ((((_b[treat_
+> m1] ) + (_b[treat_m2] ) + (_b[treat_m3] ) + (_b[treat_m4] ) + (_b[L4treat_m1]
+> ) + (_b[L4treat_m2]) + (_b[L4treat_m3]) + (_b[L4treat_m4]) + (_b[L8treat_m1])
+>  + (_b[L8treat_m2]) + (_b[L8treat_m3]) + (_b[L8treat_m4]) + (_b[L12treat_m1])
+>  + (_b[L12treat_m2]) + (_b[L12treat_m3]) + (_b[L12treat_m4]) + (_b[L16treat_m
+> 1]) + (_b[L16treat_m2]) + (_b[L16treat_m3]) + (_b[L16treat_m4]) + (_b[treat_p
+> 0]) + (_b[treat_p1] ) + (_b[treat_p2] ) + (_b[treat_p3] ) + (_b[treat_p4] ) +
+>  (_b[L4treat_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p2]) + (_b[L4treat_p3]) + 
+> (_b[L4treat_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1]) + (_b[L8treat_p2]) + (
+> _b[L8treat_p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0]) + (_b[L12treat_p1]) + 
+> (_b[L12treat_p2]) + (_b[L12treat_p3]) + (_b[L12treat_p4]) + (_b[L16treat_p0])
+>  + (_b[L16treat_p1]) + (_b[L16treat_p2]) + (_b[L16treat_p3]) + (_b[L16treat_p
+> 4]))*(4*.2)*(1/.5711273156241218))/.0802678560501346))) / (1+((((_b[treat_m1]
+>  ) + (_b[treat_m2] ) + (_b[treat_m3] ) + (_b[treat_m4] ) + (_b[L4treat_m1]) +
+>  (_b[L4treat_m2]) + (_b[L4treat_m3]) + (_b[L4treat_m4]) + (_b[L8treat_m1]) + 
+> (_b[L8treat_m2]) + (_b[L8treat_m3]) + (_b[L8treat_m4]) + (_b[L12treat_m1]) + 
+> (_b[L12treat_m2]) + (_b[L12treat_m3]) + (_b[L12treat_m4]) + (_b[L16treat_m1])
+>  + (_b[L16treat_m2]) + (_b[L16treat_m3]) + (_b[L16treat_m4]) + (_b[treat_p0])
+>  + (_b[treat_p1] ) + (_b[treat_p2] ) + (_b[treat_p3] ) + (_b[treat_p4] ) + (_
+> b[L4treat_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p2]) + (_b[L4treat_p3]) + (_b
+> [L4treat_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1]) + (_b[L8treat_p2]) + (_b[
+> L8treat_p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0]) + (_b[L12treat_p1]) + (_b
+> [L12treat_p2]) + (_b[L12treat_p3]) + (_b[L12treat_p4]) + (_b[L16treat_p0]) + 
+> (_b[L16treat_p1]) + (_b[L16treat_p2]) + (_b[L16treat_p3]) + (_b[L16treat_p4])
+> )*(4*.2)*(1/.5711273156241218))/.0802678560501346))
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _nl_1 |   .0743921    .012211     6.09   0.000      .050459    .0983252
+------------------------------------------------------------------------------
+
+added macro:
+              e(WB_Eb) : "0.074***"
+
+added macro:
+             e(WB_Ese) : "(0.012)"
+
+       _nl_1: ((((_b[treat_m1] ) + (_b[treat_m2] ) + (_b[treat_m3] ) + (_b[trea
+> t_m4] ) + (_b[L4treat_m1]) + (_b[L4treat_m2]) + (_b[L4treat_m3]) + (_b[L4trea
+> t_m4]) + (_b[L8treat_m1]) + (_b[L8treat_m2]) + (_b[L8treat_m3]) + (_b[L8treat
+> _m4]) + (_b[L12treat_m1]) + (_b[L12treat_m2]) + (_b[L12treat_m3]) + (_b[L12tr
+> eat_m4]) + (_b[L16treat_m1]) + (_b[L16treat_m2]) + (_b[L16treat_m3]) + (_b[L1
+> 6treat_m4]) + (_b[treat_p0]) + (_b[treat_p1] ) + (_b[treat_p2] ) + (_b[treat_
+> p3] ) + (_b[treat_p4] ) + (_b[L4treat_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p
+> 2]) + (_b[L4treat_p3]) + (_b[L4treat_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1
+> ]) + (_b[L8treat_p2]) + (_b[L8treat_p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0
+> ]) + (_b[L12treat_p1]) + (_b[L12treat_p2]) + (_b[L12treat_p3]) + (_b[L12treat
+> _p4]) + (_b[L16treat_p0]) + (_b[L16treat_p1]) + (_b[L16treat_p2]) + (_b[L16tr
+> eat_p3]) + (_b[L16treat_p4]))*(4*.2)*(1/.5711273156241218))/.0802678560501346
+> ) / (((((((_b[treat_m1])*(8.774882267779565-1) ) + ((_b[treat_m2])*(8.7748822
+> 67779565-2) ) + ((_b[treat_m3])*(8.774882267779565-3) ) + ((_b[treat_m4])*(8.
+> 774882267779565-4) ) + ((_b[L4treat_m1])*(8.774882267779565-1) ) + ((_b[L4tre
+> at_m2])*(8.774882267779565-2)) + ((_b[L4treat_m3])*(8.774882267779565-3)) + (
+> (_b[L4treat_m4])*(8.774882267779565-4)) + ((_b[L8treat_m1])*(8.77488226777956
+> 5-1) ) + ((_b[L8treat_m2])*(8.774882267779565-2)) + ((_b[L8treat_m3])*(8.7748
+> 82267779565-3)) + ((_b[L8treat_m4])*(8.774882267779565-4)) + ((_b[L12treat_m1
+> ])*(8.774882267779565-1) ) + ((_b[L12treat_m2])*(8.774882267779565-2)) + ((_b
+> [L12treat_m3])*(8.774882267779565-3)) + ((_b[L12treat_m4])*(8.774882267779565
+> -4)) + ((_b[L16treat_m1])*(8.774882267779565-1) ) + ((_b[L16treat_m2])*(8.774
+> 882267779565-2)) + ((_b[L16treat_m3])*(8.774882267779565-3)) + ((_b[L16treat_
+> m4])*(8.774882267779565-4))+((_b[treat_p0])*(8.774882267779565+0)) + ((_b[tre
+> at_p1])*(8.774882267779565+1) ) + ((_b[treat_p2])*(8.774882267779565+2) ) + (
+> (_b[treat_p3])*(8.774882267779565+3) ) + ((_b[treat_p4])*(8.774882267779565+4
+> ) ) + ((_b[L4treat_p0])*(8.774882267779565+0)) + ((_b[L4treat_p1])*(8.7748822
+> 67779565+1)) + ((_b[L4treat_p2])*(8.774882267779565+2)) + ((_b[L4treat_p3])*(
+> 8.774882267779565+3)) + ((_b[L4treat_p4])*(8.774882267779565+4)) + ((_b[L8tre
+> at_p0])*(8.774882267779565+0)) + ((_b[L8treat_p1])*(8.774882267779565+1)) + (
+> (_b[L8treat_p2])*(8.774882267779565+2)) + ((_b[L8treat_p3])*(8.77488226777956
+> 5+3)) + ((_b[L8treat_p4])*(8.774882267779565+4)) + ((_b[L12treat_p0])*(8.7748
+> 82267779565+0)) + ((_b[L12treat_p1])*(8.774882267779565+1)) + ((_b[L12treat_p
+> 2])*(8.774882267779565+2)) + ((_b[L12treat_p3])*(8.774882267779565+3)) + ((_b
+> [L12treat_p4])*(8.774882267779565+4)) + ((_b[L16treat_p0])*(8.774882267779565
+> +0)) + ((_b[L16treat_p1])*(8.774882267779565+1)) + ((_b[L16treat_p2])*(8.7748
+> 82267779565+2)) + ((_b[L16treat_p3])*(8.774882267779565+3)) + ((_b[L16treat_p
+> 4])*(8.774882267779565+4)))*(4*.2)/.3356046180402453 ) - ((((_b[treat_m1] ) +
+>  (_b[treat_m2] ) + (_b[treat_m3] ) + (_b[treat_m4] ) + (_b[L4treat_m1]) + (_b
+> [L4treat_m2]) + (_b[L4treat_m3]) + (_b[L4treat_m4]) + (_b[L8treat_m1]) + (_b[
+> L8treat_m2]) + (_b[L8treat_m3]) + (_b[L8treat_m4]) + (_b[L12treat_m1]) + (_b[
+> L12treat_m2]) + (_b[L12treat_m3]) + (_b[L12treat_m4]) + (_b[L16treat_m1]) + (
+> _b[L16treat_m2]) + (_b[L16treat_m3]) + (_b[L16treat_m4]) + (_b[treat_p0]) + (
+> _b[treat_p1] ) + (_b[treat_p2] ) + (_b[treat_p3] ) + (_b[treat_p4] ) + (_b[L4
+> treat_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p2]) + (_b[L4treat_p3]) + (_b[L4t
+> reat_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1]) + (_b[L8treat_p2]) + (_b[L8tr
+> eat_p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0]) + (_b[L12treat_p1]) + (_b[L12
+> treat_p2]) + (_b[L12treat_p3]) + (_b[L12treat_p4]) + (_b[L16treat_p0]) + (_b[
+> L16treat_p1]) + (_b[L16treat_p2]) + (_b[L16treat_p3]) + (_b[L16treat_p4]))*(4
+> *.2)*(1/.5711273156241218))/.0802678560501346))) / (1+((((_b[treat_m1] ) + (_
+> b[treat_m2] ) + (_b[treat_m3] ) + (_b[treat_m4] ) + (_b[L4treat_m1]) + (_b[L4
+> treat_m2]) + (_b[L4treat_m3]) + (_b[L4treat_m4]) + (_b[L8treat_m1]) + (_b[L8t
+> reat_m2]) + (_b[L8treat_m3]) + (_b[L8treat_m4]) + (_b[L12treat_m1]) + (_b[L12
+> treat_m2]) + (_b[L12treat_m3]) + (_b[L12treat_m4]) + (_b[L16treat_m1]) + (_b[
+> L16treat_m2]) + (_b[L16treat_m3]) + (_b[L16treat_m4]) + (_b[treat_p0]) + (_b[
+> treat_p1] ) + (_b[treat_p2] ) + (_b[treat_p3] ) + (_b[treat_p4] ) + (_b[L4tre
+> at_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p2]) + (_b[L4treat_p3]) + (_b[L4trea
+> t_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1]) + (_b[L8treat_p2]) + (_b[L8treat
+> _p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0]) + (_b[L12treat_p1]) + (_b[L12tre
+> at_p2]) + (_b[L12treat_p3]) + (_b[L12treat_p4]) + (_b[L16treat_p0]) + (_b[L16
+> treat_p1]) + (_b[L16treat_p2]) + (_b[L16treat_p3]) + (_b[L16treat_p4]))*(4*.2
+> )*(1/.5711273156241218))/.0802678560501346)))
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _nl_1 |   .6303963   .5219763     1.21   0.227    -.3926584    1.653451
+------------------------------------------------------------------------------
+
+added macro:
+        e(labordem_Eb) : "0.630"
+
+added macro:
+       e(labordem_Ese) : "(0.522)"
+
+added macro:
+             e(numobs) : "831285"
+
+added macro:
+           e(numevent) : "138"
+
+added macro:
+             e(minwpc) : "0.101"
+
+added macro:
+              e(belsh) : "0.080"
+
+added macro:
+       e(wagebinstate) : "Y"
+
+added macro:
+      e(wagebinperiod) : "Y"
+
+. *
+. 
+. 
+.                         est use "${estimates}Table1_TWFE_estimates_full"
+
+.                         eststo ta_overall_1979_TWFE
+
+. 
+. 
+. 
+. Table_create TWFE  TWFE_2  , group(overall) tablename(measurement_error_corre
+> cted) footnotes(Affected share is `affshoverall')
+2
+(file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Tables/measurement_error_corrected.te
+    > x not found)
+(output written to /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replicatio
+> ns/QJE2019-Minimum-Wages-Low-Wage-Jobs/Results/Tables/measurement_error_corre
+> cted.tex)
+
+. 
+end of do-file

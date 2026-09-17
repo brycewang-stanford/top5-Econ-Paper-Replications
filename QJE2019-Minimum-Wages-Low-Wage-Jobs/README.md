@@ -60,8 +60,8 @@ re-implementation of every main-text table and the headline figures in
 
 | Exhibit | Original Stata code | StatsPAI | Notes |
 |---|---|---|---|
-| Table 1 cols 1–6 | ⏳ full run still in progress (≈20 h on the shared machine); regenerated `.ster` for cols 1, 2, 4, 5 equal the shipped estimates to 1e-10 | ✅ 36/36 cells | cols 3 and 6 (quadratic bin-state trends) take 3–4 h per regression |
-| Table 1 col 7 | ⏳ (runs at the end of Table 1) | ✅ 4/4 | state-quarter "simpler method" |
+| Table 1 cols 1–6 | ✅ full run finished (12 reghdfe, ≈22 h wall-clock on the shared machine): regenerated `Table1.tex` is **byte-identical** to the shipped `Table1.tex` | ✅ 36/36 cells | cols 3 and 6 (quadratic bin-state trends) take 3–4 h per regression |
+| Table 1 col 7 | ✅ produced by `Table1_last_column_for_QJE.do` at the end of the Table 1 run; included in the identical `Table1.tex` | ✅ 4/4 | state-quarter "simpler method" |
 | Table 2 (8 cols) | ✅ identical to shipped `.tex` | ✅ 48/48 | cols 6–8 via est-use copy |
 | Table 3 (8 cols) | ✅ identical (full run, 3.6 h) | ✅ 48/48 | |
 | Table 4 | ✅ identical | ✅ 30/30 | incl. incumbent/new entrant rows |
@@ -69,7 +69,7 @@ re-implementation of every main-text table and the headline figures in
 | Figure 3 | ✅ | ✅ match to 1e-9 | |
 | Figure 4 | ✅ (est-use copy) | ✅ / ⚠️ | stale hard-coded Δa/Δb annotation in the author's do-file |
 | Figures 5, 6, A11 | ✅ slopes / elasticity match | — | |
-| Appendix (≈45 steps) | ✅ most; A3, A5, A7, F1, F2, G3, G4, G6, G7, G8 match; ❌ A4 (missing `statefed` dataset), G5 panel C (estimates never created); G2 col 1 and A4 col 9 fixed via documented patched copies | — | see [Results/comparison.md](Results/comparison.md) |
+| Appendix (≈45 steps) | ✅ most; A3, A5, A7, F1, F2, G3, G4, G6, G7, G8 match; A4 col 9 matches the paper in all rows; F3 ⚠️ (col 2 off by 0.001 in 3 cells); ❌ A4 cols 1–8 (missing `statefed` dataset), A1_A2 (needs an `_estadd.ster` no shipped file creates), G5 panel C (estimates never created); G2 col 1, A4 col 9 and F3 run via documented patched copies | — | see [Results/comparison.md](Results/comparison.md) |
 | Extensions | — | stacked TWFE, `stacked_did`, CS, SA, BJS, HonestDiD | bunching employment effect ≈ 0 under every estimator |
 
 ## Reading notes

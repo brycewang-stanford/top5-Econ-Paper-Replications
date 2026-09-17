@@ -271,7 +271,12 @@ def figure_checks() -> list[str]:
 
 
 NOTES = {
-    "Table1_for_QJE": "6 specs × 2 reghdfe; col 3/6 quadratic bin-state trends are the bottleneck",
+    "Table1_for_QJE": "6 specs × 2 reghdfe; col 3/6 quadratic bin-state trends are the bottleneck; ✅ finished after ≈22 h, `Table1.tex` byte-identical to shipped (incl. col 7); row recovered from `Results/logs/batch_t1/run_original.log` (`STEP Table1_for_QJE rc=0`) because the wrapper's csv append then failed with r(198)",
+    "Appendix_Table_F3": "**author path bug**: reads `${stn_bsamples}me_corrected_logwages.dta`, but the package ships it in `${data}` (where Appendix_Figure_F4 reads it) → r(601); rerun as patched copy",
+    "Appendix_Table_F3_patched": "⚠️ `measurement_error_corrected.tex` vs shipped `TableF3.tex`: col 1 identical; col 2 differs by 0.001 in 3 cells (%Δ wages 0.074 vs 0.075, %Δ employment 0.047 (0.039) vs 0.046 (0.038))",
+    "Appendix_Table_A1_A2": "**not reproducible from package**: needs `Table1aafterqcew_stateonly_1_…_estadd.ster`, which no shipped do-file writes and which is not among the shipped estimates → r(601); the CK and demographic variants (`_CK`, `_demog`) ran",
+    "Appendix_TableG2_col1_patched": "✅ ran after 2 documented fixes (missing `qcew` tempfile; debugging `stop` left in the loop, r(199)); estimates only, no table written by this file",
+    "Appendix_Table_A4_col9_patched": "✅ `TableA4_col9.tex` = paper Table A.4 col 9 in all 10 rows (−0.016/0.019/0.069/0.028/0.023/0.401, b₋₁ 0.086, %ΔMW 0.101, 138 events, N 847,314); ≈4.7 h",
     "Figure6_for_QJE": "timer shows '.' because the do-file itself calls `timer clear`; rc=0, Figure 6 + A11 produced",
     "Appendix_Figure_D1": "timer cleared inside do-file; rc=0", "Appendix_Figure_D2": "timer cleared inside do-file; rc=0",
     "Appendix_Figures_G2_A_C": "timer cleared inside do-file; rc=0",

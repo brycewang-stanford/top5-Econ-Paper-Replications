@@ -11,8 +11,8 @@ estimate and s.e.); ⚠️ small difference, explained; ❌ failure, explained.
 
 | Exhibit | Original Stata code (our run) | StatsPAI (`sp.hdfe_ols`) |
 |---|---|---|
-| Table 1 cols 1–6 | ⏳ full run in progress (12 reghdfe, ≈19 h so far on the shared machine). Regenerated `.ster` for cols 1, 2, 4, 5 (before+after) and col 3 (before) equal the shipped estimates: max abs diff 9e-16 in coefficients, 3e-10 in s.e.; `Table1.tex` is written only after the last (col 6) regression | ✅ all 36 cells; coefficients = author .ster to ~1e-9, cluster s.e. to ~1e-9 |
-| Table 1 col 7 | ⏳ produced by `Table1_last_column_for_QJE.do` at the end of the Table 1 run (still running); shipped `simplermethod_belowupperw.ster` = paper (0.065/0.027/0.023/0.410) | ✅ all 4 cells, N = 14,484 |
+| Table 1 cols 1–6 | ✅ full run finished (12 reghdfe, ≈22 h wall-clock on the shared machine); regenerated `Results/Tables/Table1.tex` is byte-identical to the shipped `Table1.tex` (`cmp`), and the regenerated `.ster` equal the shipped estimates (max abs diff 9e-16 in coefficients, 3e-10 in s.e.) | ✅ all 36 cells; coefficients = author .ster to ~1e-9, cluster s.e. to ~1e-9 |
+| Table 1 col 7 | ✅ produced by `Table1_last_column_for_QJE.do` at the end of the Table 1 run; part of the byte-identical `Table1.tex` (0.065/0.027/0.023/0.410) | ✅ all 4 cells, N = 14,484 |
 | Table 2 cols 1–5 | ✅ `Table_2.tex` identical to shipped `Table2.tex` (regressions are commented out in the shipped do-file → built from shipped .ster) | ✅ 30/30 (re-estimated) |
 | Table 2 cols 6–8 | ✅ identical (est-use copy of `CK_groups_regressions_longfigure_QJE.do`, see below) | ✅ 18/18 (re-estimated) |
 | Table 3 | ✅ full run (8 reghdfe, 3.6 h): `Table3.tex` identical to shipped | ✅ 48/48, N = 554,931 |
@@ -31,46 +31,46 @@ Overall cell count in the auto-generated tables below: 167 ✅ / 0 ⚠️ / 0 �
 
 | Column | Row | Paper | Original Stata | StatsPAI | abs diff (SP−paper) | ✓ |
 |---|---|---|---|---|---|---|
-| 1 | Missing jobs below new MW (Δb) | -0.018 (0.004) | — | -0.018 (0.004) | 0.0003 / 0.0002 | ✅ |
-| 1 | Excess jobs above new MW (Δa) | 0.021 (0.003) | — | 0.021 (0.003) | 0.0003 / 0.0004 | ✅ |
-| 1 | %Δ affected wages | 0.068 (0.010) | — | 0.068 (0.010) | 0.0001 / 0.0002 | ✅ |
-| 1 | %Δ affected employment | 0.028 (0.029) | — | 0.028 (0.029) | 0.0001 / 0.0003 | ✅ |
-| 1 | Employment elasticity w.r.t. MW | 0.024 (0.025) | — | 0.024 (0.025) | 0.0002 / 0.0000 | ✅ |
-| 1 | Emp. elasticity w.r.t. affected wage | 0.411 (0.430) | — | 0.411 (0.430) | 0.0004 / 0.0003 | ✅ |
-| 2 | Missing jobs below new MW (Δb) | -0.018 (0.004) | — | -0.018 (0.004) | 0.0002 / 0.0004 | ✅ |
-| 2 | Excess jobs above new MW (Δa) | 0.018 (0.003) | — | 0.018 (0.003) | 0.0002 / 0.0003 | ✅ |
-| 2 | %Δ affected wages | 0.057 (0.010) | — | 0.057 (0.010) | 0.0004 / 0.0000 | ✅ |
-| 2 | %Δ affected employment | 0.000 (0.023) | — | 0.000 (0.023) | 0.0004 / 0.0001 | ✅ |
-| 2 | Employment elasticity w.r.t. MW | 0.000 (0.020) | — | 0.000 (0.020) | 0.0003 / 0.0003 | ✅ |
-| 2 | Emp. elasticity w.r.t. affected wage | 0.006 (0.402) | — | 0.006 (0.402) | 0.0004 / 0.0004 | ✅ |
-| 3 | Missing jobs below new MW (Δb) | -0.018 (0.004) | — | -0.018 (0.004) | 0.0003 / 0.0002 | ✅ |
-| 3 | Excess jobs above new MW (Δa) | 0.020 (0.003) | — | 0.020 (0.003) | 0.0004 / 0.0003 | ✅ |
-| 3 | %Δ affected wages | 0.068 (0.012) | — | 0.068 (0.012) | 0.0003 / 0.0000 | ✅ |
-| 3 | %Δ affected employment | 0.022 (0.021) | — | 0.022 (0.021) | 0.0003 / 0.0004 | ✅ |
-| 3 | Employment elasticity w.r.t. MW | 0.019 (0.018) | — | 0.019 (0.018) | 0.0000 / 0.0003 | ✅ |
-| 3 | Emp. elasticity w.r.t. affected wage | 0.326 (0.313) | — | 0.326 (0.313) | 0.0001 / 0.0003 | ✅ |
-| 4 | Missing jobs below new MW (Δb) | -0.016 (0.002) | — | -0.016 (0.002) | 0.0003 / 0.0005 | ✅ |
-| 4 | Excess jobs above new MW (Δa) | 0.016 (0.002) | — | 0.016 (0.002) | 0.0004 / 0.0004 | ✅ |
-| 4 | %Δ affected wages | 0.049 (0.010) | — | 0.049 (0.010) | 0.0004 / 0.0003 | ✅ |
-| 4 | %Δ affected employment | -0.002 (0.021) | — | -0.002 (0.021) | 0.0004 / 0.0002 | ✅ |
-| 4 | Employment elasticity w.r.t. MW | -0.001 (0.018) | — | -0.001 (0.018) | 0.0003 / 0.0001 | ✅ |
-| 4 | Emp. elasticity w.r.t. affected wage | -0.032 (0.439) | — | -0.032 (0.439) | 0.0001 / 0.0003 | ✅ |
-| 5 | Missing jobs below new MW (Δb) | -0.016 (0.002) | — | -0.016 (0.002) | 0.0002 / 0.0004 | ✅ |
-| 5 | Excess jobs above new MW (Δa) | 0.014 (0.003) | — | 0.014 (0.003) | 0.0002 / 0.0005 | ✅ |
-| 5 | %Δ affected wages | 0.043 (0.010) | — | 0.043 (0.010) | 0.0002 / 0.0004 | ✅ |
-| 5 | %Δ affected employment | -0.019 (0.021) | — | -0.019 (0.021) | 0.0002 / 0.0004 | ✅ |
-| 5 | Employment elasticity w.r.t. MW | -0.016 (0.018) | — | -0.016 (0.018) | 0.0004 / 0.0002 | ✅ |
-| 5 | Emp. elasticity w.r.t. affected wage | -0.449 (0.574) | — | -0.449 (0.574) | 0.0000 / 0.0004 | ✅ |
-| 6 | Missing jobs below new MW (Δb) | -0.015 (0.002) | — | -0.015 (0.002) | 0.0001 / 0.0004 | ✅ |
-| 6 | Excess jobs above new MW (Δa) | 0.015 (0.003) | — | 0.015 (0.003) | 0.0001 / 0.0002 | ✅ |
-| 6 | %Δ affected wages | 0.050 (0.011) | — | 0.050 (0.011) | 0.0003 / 0.0003 | ✅ |
-| 6 | %Δ affected employment | -0.000 (0.023) | — | -0.000 (0.023) | 0.0002 / 0.0004 | ✅ |
-| 6 | Employment elasticity w.r.t. MW | -0.000 (0.019) | — | -0.000 (0.019) | 0.0001 / 0.0003 | ✅ |
-| 6 | Emp. elasticity w.r.t. affected wage | -0.003 (0.455) | — | -0.003 (0.455) | 0.0003 / 0.0004 | ✅ |
-| 7 | %Δ affected wages | 0.065 (0.010) | — | 0.065 (0.010) | 0.0003 / 0.0003 | ✅ |
-| 7 | %Δ affected employment | 0.027 (0.028) | — | 0.027 (0.028) | 0.0005 / 0.0001 | ✅ |
-| 7 | Employment elasticity w.r.t. MW | 0.023 (0.024) | — | 0.023 (0.024) | 0.0004 / 0.0002 | ✅ |
-| 7 | Emp. elasticity w.r.t. affected wage | 0.410 (0.421) | — | 0.410 (0.421) | 0.0002 / 0.0002 | ✅ |
+| 1 | Missing jobs below new MW (Δb) | -0.018 (0.004) | -0.018 (0.004) | -0.018 (0.004) | 0.0003 / 0.0002 | ✅ |
+| 1 | Excess jobs above new MW (Δa) | 0.021 (0.003) | 0.021 (0.003) | 0.021 (0.003) | 0.0003 / 0.0004 | ✅ |
+| 1 | %Δ affected wages | 0.068 (0.010) | 0.068 (0.010) | 0.068 (0.010) | 0.0001 / 0.0002 | ✅ |
+| 1 | %Δ affected employment | 0.028 (0.029) | 0.028 (0.029) | 0.028 (0.029) | 0.0001 / 0.0003 | ✅ |
+| 1 | Employment elasticity w.r.t. MW | 0.024 (0.025) | 0.024 (0.025) | 0.024 (0.025) | 0.0002 / 0.0000 | ✅ |
+| 1 | Emp. elasticity w.r.t. affected wage | 0.411 (0.430) | 0.411 (0.430) | 0.411 (0.430) | 0.0004 / 0.0003 | ✅ |
+| 2 | Missing jobs below new MW (Δb) | -0.018 (0.004) | -0.018 (0.004) | -0.018 (0.004) | 0.0002 / 0.0004 | ✅ |
+| 2 | Excess jobs above new MW (Δa) | 0.018 (0.003) | 0.018 (0.003) | 0.018 (0.003) | 0.0002 / 0.0003 | ✅ |
+| 2 | %Δ affected wages | 0.057 (0.010) | 0.057 (0.010) | 0.057 (0.010) | 0.0004 / 0.0000 | ✅ |
+| 2 | %Δ affected employment | 0.000 (0.023) | 0.000 (0.023) | 0.000 (0.023) | 0.0004 / 0.0001 | ✅ |
+| 2 | Employment elasticity w.r.t. MW | 0.000 (0.020) | 0.000 (0.020) | 0.000 (0.020) | 0.0003 / 0.0003 | ✅ |
+| 2 | Emp. elasticity w.r.t. affected wage | 0.006 (0.402) | 0.006 (0.402) | 0.006 (0.402) | 0.0004 / 0.0004 | ✅ |
+| 3 | Missing jobs below new MW (Δb) | -0.018 (0.004) | -0.018 (0.004) | -0.018 (0.004) | 0.0003 / 0.0002 | ✅ |
+| 3 | Excess jobs above new MW (Δa) | 0.020 (0.003) | 0.020 (0.003) | 0.020 (0.003) | 0.0004 / 0.0003 | ✅ |
+| 3 | %Δ affected wages | 0.068 (0.012) | 0.068 (0.012) | 0.068 (0.012) | 0.0003 / 0.0000 | ✅ |
+| 3 | %Δ affected employment | 0.022 (0.021) | 0.022 (0.021) | 0.022 (0.021) | 0.0003 / 0.0004 | ✅ |
+| 3 | Employment elasticity w.r.t. MW | 0.019 (0.018) | 0.019 (0.018) | 0.019 (0.018) | 0.0000 / 0.0003 | ✅ |
+| 3 | Emp. elasticity w.r.t. affected wage | 0.326 (0.313) | 0.326 (0.313) | 0.326 (0.313) | 0.0001 / 0.0003 | ✅ |
+| 4 | Missing jobs below new MW (Δb) | -0.016 (0.002) | -0.016 (0.002) | -0.016 (0.002) | 0.0003 / 0.0005 | ✅ |
+| 4 | Excess jobs above new MW (Δa) | 0.016 (0.002) | 0.016 (0.002) | 0.016 (0.002) | 0.0004 / 0.0004 | ✅ |
+| 4 | %Δ affected wages | 0.049 (0.010) | 0.049 (0.010) | 0.049 (0.010) | 0.0004 / 0.0003 | ✅ |
+| 4 | %Δ affected employment | -0.002 (0.021) | -0.002 (0.021) | -0.002 (0.021) | 0.0004 / 0.0002 | ✅ |
+| 4 | Employment elasticity w.r.t. MW | -0.001 (0.018) | -0.001 (0.018) | -0.001 (0.018) | 0.0003 / 0.0001 | ✅ |
+| 4 | Emp. elasticity w.r.t. affected wage | -0.032 (0.439) | -0.032 (0.439) | -0.032 (0.439) | 0.0001 / 0.0003 | ✅ |
+| 5 | Missing jobs below new MW (Δb) | -0.016 (0.002) | -0.016 (0.002) | -0.016 (0.002) | 0.0002 / 0.0004 | ✅ |
+| 5 | Excess jobs above new MW (Δa) | 0.014 (0.003) | 0.014 (0.003) | 0.014 (0.003) | 0.0002 / 0.0005 | ✅ |
+| 5 | %Δ affected wages | 0.043 (0.010) | 0.043 (0.010) | 0.043 (0.010) | 0.0002 / 0.0004 | ✅ |
+| 5 | %Δ affected employment | -0.019 (0.021) | -0.019 (0.021) | -0.019 (0.021) | 0.0002 / 0.0004 | ✅ |
+| 5 | Employment elasticity w.r.t. MW | -0.016 (0.018) | -0.016 (0.018) | -0.016 (0.018) | 0.0004 / 0.0002 | ✅ |
+| 5 | Emp. elasticity w.r.t. affected wage | -0.449 (0.574) | -0.449 (0.574) | -0.449 (0.574) | 0.0000 / 0.0004 | ✅ |
+| 6 | Missing jobs below new MW (Δb) | -0.015 (0.002) | -0.015 (0.002) | -0.015 (0.002) | 0.0001 / 0.0004 | ✅ |
+| 6 | Excess jobs above new MW (Δa) | 0.015 (0.003) | 0.015 (0.003) | 0.015 (0.003) | 0.0001 / 0.0002 | ✅ |
+| 6 | %Δ affected wages | 0.050 (0.011) | 0.050 (0.011) | 0.050 (0.011) | 0.0003 / 0.0003 | ✅ |
+| 6 | %Δ affected employment | -0.000 (0.023) | -0.000 (0.023) | -0.000 (0.023) | 0.0002 / 0.0004 | ✅ |
+| 6 | Employment elasticity w.r.t. MW | -0.000 (0.019) | -0.000 (0.019) | -0.000 (0.019) | 0.0001 / 0.0003 | ✅ |
+| 6 | Emp. elasticity w.r.t. affected wage | -0.003 (0.455) | -0.003 (0.455) | -0.003 (0.455) | 0.0003 / 0.0004 | ✅ |
+| 7 | %Δ affected wages | 0.065 (0.010) | 0.065 (0.010) | 0.065 (0.010) | 0.0003 / 0.0003 | ✅ |
+| 7 | %Δ affected employment | 0.027 (0.028) | 0.027 (0.028) | 0.027 (0.028) | 0.0005 / 0.0001 | ✅ |
+| 7 | Employment elasticity w.r.t. MW | 0.023 (0.024) | 0.023 (0.024) | 0.023 (0.024) | 0.0004 / 0.0002 | ✅ |
+| 7 | Emp. elasticity w.r.t. affected wage | 0.410 (0.421) | 0.410 (0.421) | 0.410 (0.421) | 0.0002 / 0.0002 | ✅ |
 
 ### Table 2 — cols 1–5 (demographic groups; linear wage formula used by Table2_for_QJE.do)
 
@@ -371,6 +371,16 @@ The incumbent Δa/Δb box values (0.014 / −0.013) are **hard-coded strings** i
 | `Table3_for_QJE` | 0 | 12821.65 | ✅ Table3.tex identical to shipped |
 | `Appendix_Table_A5` | 0 | 9533.83 | ✅ Table_A5.tex = paper Table A.5 (all 5 columns, all rows) |
 | `Appendix_Table_A4_col9` | 198 | .001 | **author bug**: master calls it without the 3 arguments it reads → r(198); rerun as patched copy with the program defaults (500 400 25) |
+| `Appendix_Figure_D3_Table_D1_cols2_4` | 0 | 14746.858 | ran |
+| `Appendix_Table_D1` | 0 | . | ran |
+| `Appendix_Table_F3` | 601 | .017 | **author path bug**: reads `${stn_bsamples}me_corrected_logwages.dta`, but the package ships it in `${data}` (where Appendix_Figure_F4 reads it) → r(601); rerun as patched copy |
+| `Appendix_Figure_A6` | 0 | 36.897 | ran |
+| `Appendix_Figure_F5` | 0 | 11.017 | ran |
+| `Appendix_Table_A1_A2` | 601 | .056 | **not reproducible from package**: needs `Table1aafterqcew_stateonly_1_…_estadd.ster`, which no shipped do-file writes and which is not among the shipped estimates → r(601); the CK and demographic variants (`_CK`, `_demog`) ran |
+| `Table1_for_QJE` | 0 | 79073.801 | 6 specs × 2 reghdfe; col 3/6 quadratic bin-state trends are the bottleneck; ✅ finished after ≈22 h, `Table1.tex` byte-identical to shipped (incl. col 7); row recovered from `Results/logs/batch_t1/run_original.log` (`STEP Table1_for_QJE rc=0`) because the wrapper's csv append then failed with r(198) |
+| `../dofiles_patched/Appendix_Table_A4_col9_patched` | 0 | 16983.606 | ✅ `TableA4_col9.tex` = paper Table A.4 col 9 in all 10 rows (−0.016/0.019/0.069/0.028/0.023/0.401, b₋₁ 0.086, %ΔMW 0.101, 138 events, N 847,314); ≈4.7 h |
+| `../dofiles_patched/Appendix_Table_F3_patched` | 0 | 44.232 | ⚠️ `measurement_error_corrected.tex` vs shipped `TableF3.tex`: col 1 identical; col 2 differs by 0.001 in 3 cells (%Δ wages 0.074 vs 0.075, %Δ employment 0.047 (0.039) vs 0.046 (0.038)) |
+| `../dofiles_patched/Appendix_TableG2_col1_patched` | 0 | 4.364 | ✅ ran after 2 documented fixes (missing `qcew` tempfile; debugging `stop` left in the loop, r(199)); estimates only, no table written by this file |
 
 ## Extensions (not replication)
 

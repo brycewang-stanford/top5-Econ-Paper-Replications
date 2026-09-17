@@ -1,6 +1,7 @@
 * PATCHED COPY of Program/dofiles/Appendix_TableG2_col1.do.
 * Author bug: the file merges on the tempfile qcew without ever creating it (r(198) "invalid file specification").
 * Fix: prepend the qcew tempfile block copied verbatim from Appendix_TableG2_cols_2_3_4.do (lines 7-11). Nothing else changed.
+* Fix 2: a debugging `stop` inside the regression loop (shipped line 299) halts with r(199); it is commented out.
 use "${data}qcew_multiplier.dta", clear
 keep statenum quarterdate multiplier 
 assert multiplier!=0
@@ -304,7 +305,7 @@ foreach b in   1979   {
 				lincomestadd (($lincomagg ) * (1/5))*${C}, statname(allemp)
 				local allempb = e(allempb)
 				local allempse = e(allempse)
-				stop
+				* stop  // PATCH 2: debugging halt left in the shipped do-file; commented out so the table is produced
 				
 				reghdfe limited_percap`k' $treat if  year>=`b' & cleansample==1   ${weight`w'}, a( ${a`s'}  i.postcont i.postcont i.postcontf  i.precont i.precontf i.earlycont i.earlycontf ) cluster(statenum)
 				lincomestadd (($lincomagg ) * (1/5))*${C}, statname(below15emp)

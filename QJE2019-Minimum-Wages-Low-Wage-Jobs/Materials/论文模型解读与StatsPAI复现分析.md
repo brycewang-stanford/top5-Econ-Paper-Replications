@@ -122,8 +122,8 @@ reghdfe overallcountpc treat_{m4..p4} L4treat_* ... L16treat_* one  [aw=wtoveral
 
 | 展品 | 原始 Stata 代码 | StatsPAI |
 |---|---|---|
-| Table 1 第 1–6 列 | ⏳ 全量运行中（共享机器上已约 19 小时）；已重新估计的第 1、2、4、5 列与第 3 列 before 回归的 `.ster` 与作者提供的完全一致（系数差 ≤ 9e-16，标准误差 ≤ 3e-10） | ✅ 36/36 格与论文一致 |
-| Table 1 第 7 列 | ⏳ 在 Table 1 do-file 末尾运行；作者 `.ster` 与论文一致 | ✅ 4/4，N=14,484 |
+| Table 1 第 1–6 列 | ✅ 全量运行完成（12 个 reghdfe，共享机器上约 22 小时）；重新生成的 `Table1.tex` 与作者提供的逐字节相同；`.ster` 系数差 ≤ 9e-16，标准误差 ≤ 3e-10 | ✅ 36/36 格与论文一致 |
+| Table 1 第 7 列 | ✅ 在 Table 1 do-file 末尾运行完成，包含在逐字节相同的 `Table1.tex` 中 | ✅ 4/4，N=14,484 |
 | Table 2 | ✅ `Table_2.tex` 与作者提供的逐字相同（第 1–5 列 do-file 本身就是 `est use`；第 6–8 列用 est-use 副本） | ✅ 48/48（重新估计 8 个回归） |
 | Table 3 | ✅ 全量 8 个回归（3.6 小时），与作者提供的逐字相同 | ✅ 48/48 |
 | Table 4 | ✅ 逐字相同 | ✅ 30/30（10 行 × 3 列，含匹配 CPS 的在职者/新进入者） |
@@ -131,7 +131,7 @@ reghdfe overallcountpc treat_{m4..p4} L4treat_* ... L16treat_* one  [aw=wtoveral
 | Figure 3 | ✅ Table 1 运行中生成 | ✅ 14 个点差 1e-9 |
 | Figure 4 | ✅ est-use 副本重绘 | ✅ 就业/工资效应一致；在职者 Δa/Δb 图框 ⚠️（作者 do-file 中硬编码的旧注释 0.014/−0.013，作者自己的 `.ster` 给出 0.0126/−0.0122，与 StatsPAI 相同） |
 | Figure 5、6、A11 | ✅ 斜率 0.139/−0.133/0.006、弹性 −0.089 全部一致 | — |
-| 附录 | 约 45 个步骤；Table A3、A5、A7、F1、F2、G3、G4、G6、G7、G8 与作者提供/论文一致；失败项见 `Results/comparison.md`（2 个作者 bug 已打补丁，1 个缺数据，1 个缺存储估计） | —（以现代 DID 扩展代替） |
+| 附录 | 约 45 个步骤；Table A3、A5、A7、F1、F2、G3、G4、G6、G7、G8 与作者提供/论文一致；Table A4 第 9 列 10 行全部与论文一致；Table F3 第 2 列有 3 格差 0.001；失败项见 `Results/comparison.md`（3 个作者 bug 已打补丁：G2 第 1 列缺 tempfile 且遗留调试用 `stop`、A4 第 9 列缺参数、F3 数据路径错误；A4 第 1–8 列缺数据；A1_A2 所需 `_estadd.ster` 无任何 do-file 生成；G5 panel C 缺存储估计） | —（以现代 DID 扩展代替） |
 
 自动生成的比较表共 167 个 ✅、0 个 ⚠️、0 个 ❌（仅统计主文表格单元）。
 
