@@ -53,11 +53,24 @@ re-implementation of every main-text table and the headline figures in
    are commented out in the shipped code.
 5. StatsPAI: `cd Program/statspai && python3.13 replicate_table1.py` etc. (see [Program/statspai/README.md](Program/statspai/README.md)).
 
-**Edits to the author's code: none.** All path handling is in `run_original.do`.
+**Edits to the author's code: none in `Program/dofiles/`.** All path handling is in `run_original.do`. Two documented copies exist:
+`Program/dofiles_estuse/` (auto-generated; only `reghdfe`/`est save` lines commented out so heavy exhibits are rebuilt from the shipped `.ster`) and `Program/dofiles_patched/` (fixes for two author bugs: `Appendix_TableG2_col1` never creates its `qcew` tempfile; `Appendix_Table_A4_col9` is called by the master without its 3 arguments). Long step lists should be run with `Program/run_steps_sequential.sh` (one Stata batch per step).
 
 ## Replication status
 
-REPLICATION_STATUS_TABLE
+| Exhibit | Original Stata code | StatsPAI | Notes |
+|---|---|---|---|
+| Table 1 cols 1–6 | ⏳ full run still in progress (≈20 h on the shared machine); regenerated `.ster` for cols 1, 2, 4, 5 equal the shipped estimates to 1e-10 | ✅ 36/36 cells | cols 3 and 6 (quadratic bin-state trends) take 3–4 h per regression |
+| Table 1 col 7 | ⏳ (runs at the end of Table 1) | ✅ 4/4 | state-quarter "simpler method" |
+| Table 2 (8 cols) | ✅ identical to shipped `.tex` | ✅ 48/48 | cols 6–8 via est-use copy |
+| Table 3 (8 cols) | ✅ identical (full run, 3.6 h) | ✅ 48/48 | |
+| Table 4 | ✅ identical | ✅ 30/30 | incl. incumbent/new entrant rows |
+| Figure 2 | ✅ (est-use copy) | ✅ bins match author `.ster` to 1e-10 | |
+| Figure 3 | ✅ | ✅ match to 1e-9 | |
+| Figure 4 | ✅ (est-use copy) | ✅ / ⚠️ | stale hard-coded Δa/Δb annotation in the author's do-file |
+| Figures 5, 6, A11 | ✅ slopes / elasticity match | — | |
+| Appendix (≈45 steps) | ✅ most; A3, A5, A7, F1, F2, G3, G4, G6, G7, G8 match; ❌ A4 (missing `statefed` dataset), G5 panel C (estimates never created); G2 col 1 and A4 col 9 fixed via documented patched copies | — | see [Results/comparison.md](Results/comparison.md) |
+| Extensions | — | stacked TWFE, `stacked_did`, CS, SA, BJS, HonestDiD | bunching employment effect ≈ 0 under every estimator |
 
 ## Reading notes
 

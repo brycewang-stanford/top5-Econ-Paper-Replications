@@ -11,7 +11,7 @@
 | 项目 | 结论 |
 |---|---|
 | 可复现性 | 复现包提供全部**中间数据**（州 × $0.25 工资档 × 季度面板等，约 16 GB），但**不含 CPS-MORG 原始微观数据**，所以数据构建步骤（`state_panels_cents_new_QJE.do` 等）无法重跑；分析步骤全部可跑。 |
-| 原始 Stata 代码 | 无需任何修改即可运行（只需在包装脚本里设置全局路径宏）；但有若干 do-file 直接 `est use` 作者预先存好的 `.ster`（其回归被注释掉），必须先把作者的 `estimates/` 复制到 `${estimates}`。机器负载下 Table 1 的 12 个 reghdfe 回归需要十几个小时。 |
+| 原始 Stata 代码 | 无需任何修改即可运行（只需在包装脚本里设置全局路径宏）；但有若干 do-file 直接 `est use` 作者预先存好的 `.ster`（其回归被注释掉），必须先把作者的 `estimates/` 复制到 `${estimates}`。机器负载下 Table 1 的 12 个 reghdfe 回归需要 20 小时以上（第 3、6 列的工资档 × 州二次趋势最慢）；Figure 2/4 与 Table 2 第 6–8 列的回归吸收约 180 个线性斜率，单个回归 2.5 小时未完成，因此改用只注释掉 reghdfe/est save 行的 est-use 副本从作者 `.ster` 重建，并由 StatsPAI 独立重估验证。 |
 | StatsPAI 复现 | 主文所有回归表（Table 1 全 7 列、Table 2 全 8 列、Table 3 全 8 列、Table 4）以及 Figure 2/3/4 均用 `sp.hdfe_ols` 重写；系数与作者 `.ster` 在 1e-9 量级一致，聚类标准误一致到 1e-8，发表表格数字（3 位小数）全部吻合（细节见 `Results/comparison.md`）。 |
 | 关键陷阱 | ① Stata float 存储 + 精确相等比较；② Stata 缺失值 = +∞；③ `A or B or C or D & year>=b & cleansample==1`（Stata 中 `&` 优先于 or） 的运算符优先级；④ Table 2 第 1–5 列与 Table 4 用了**不同的工资效应公式**；⑤ 第 7 列简化方法中 `treat` 在 1979q1–q3 缺失导致样本少 153 个州-季度。 |
 | StatsPAI 缺口 | `sp.stacked_did` 不支持权重、不支持多次（非吸收）处理与自定义"干净对照"规则、也不接受事件 × 工资档的多结果堆叠；`sp.callaway_santanna` 州级聚类必须 bootstrap；`sp.did_imputation` 对 pretrends 个数的检查；`hdfe_ols` 结果对象 `vcov` 是无标签 ndarray。详见 §5。 |
@@ -120,7 +120,20 @@ reghdfe overallcountpc treat_{m4..p4} L4treat_* ... L16treat_* one  [aw=wtoveral
 
 详见 [Results/comparison.md](../Results/comparison.md)。
 
-RESULTS_SUMMARY_PLACEHOLDER
+| 展品 | 原始 Stata 代码 | StatsPAI |
+|---|---|---|
+| Table 1 第 1–6 列 | ⏳ 全量运行中（共享机器上已约 19 小时）；已重新估计的第 1、2、4、5 列与第 3 列 before 回归的 `.ster` 与作者提供的完全一致（系数差 ≤ 9e-16，标准误差 ≤ 3e-10） | ✅ 36/36 格与论文一致 |
+| Table 1 第 7 列 | ⏳ 在 Table 1 do-file 末尾运行；作者 `.ster` 与论文一致 | ✅ 4/4，N=14,484 |
+| Table 2 | ✅ `Table_2.tex` 与作者提供的逐字相同（第 1–5 列 do-file 本身就是 `est use`；第 6–8 列用 est-use 副本） | ✅ 48/48（重新估计 8 个回归） |
+| Table 3 | ✅ 全量 8 个回归（3.6 小时），与作者提供的逐字相同 | ✅ 48/48 |
+| Table 4 | ✅ 逐字相同 | ✅ 30/30（10 行 × 3 列，含匹配 CPS 的在职者/新进入者） |
+| Figure 2 | ✅ est-use 副本重绘 | ✅ 22 个工资档与作者 `.ster` 差 1e-10 |
+| Figure 3 | ✅ Table 1 运行中生成 | ✅ 14 个点差 1e-9 |
+| Figure 4 | ✅ est-use 副本重绘 | ✅ 就业/工资效应一致；在职者 Δa/Δb 图框 ⚠️（作者 do-file 中硬编码的旧注释 0.014/−0.013，作者自己的 `.ster` 给出 0.0126/−0.0122，与 StatsPAI 相同） |
+| Figure 5、6、A11 | ✅ 斜率 0.139/−0.133/0.006、弹性 −0.089 全部一致 | — |
+| 附录 | 约 45 个步骤；Table A3、A5、A7、F1、F2、G3、G4、G6、G7、G8 与作者提供/论文一致；失败项见 `Results/comparison.md`（2 个作者 bug 已打补丁，1 个缺数据，1 个缺存储估计） | —（以现代 DID 扩展代替） |
+
+自动生成的比较表共 167 个 ✅、0 个 ⚠️、0 个 ❌（仅统计主文表格单元）。
 
 ---
 
