@@ -1,0 +1,72 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Table_F3.log
+  log type:  text
+ opened on:  17 Sep 2026, 20:25:00
+
+. 
+. *This do file is created by DC on 05/09/2016.
+. 
+.                 
+. **** DEFINE REGRESSION COMMAND AND CONTROLS *****
+. 
+.  
+.         global rtype1 reghdfe
+
+. 
+. 
+. global a1  i.wagebinstate i.wagequarterdate  // distributional TWFE
+
+. 
+. 
+. global label1 TWFE
+
+. local truewmin = 4
+
+. local truewmax = 4
+
+. local placebo1wmax = 13
+
+. local prevwmax = `placebo1wmax'
+
+. local placebo2wmax = 16
+
+. 
+. 
+. use "${data}qcew_state_overall_counts_2016.dta", clear
+
+. rename statefips statenum
+
+. gen quarterdate = yq(year, quarter)
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St26842.000001 saved
+    as .dta format
+
+. 
+. treatmentcontrolwindows
+
+. 
+. placebowindows1, truewmax(`truewmax') wmax(`placebo1wmax')
+Placebo wmin and wmax should not be too far apart.
+13 - 5
+
+. 
+. placebowindows2, prevwmax(`prevwmax') wmax(`placebo2wmax')
+Placebo wmin and wmax should not be too far apart.
+16 - 14
+
+. 
+. 
+. *use "${stn_bsamples}annual_me_corrected_logwages.dta", clear
+. use "${stn_bsamples}me_corrected_logwages.dta", clear
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/bsamples/me_corrected_logwages.dta
+    not found
+r(601);
+
+end of do-file

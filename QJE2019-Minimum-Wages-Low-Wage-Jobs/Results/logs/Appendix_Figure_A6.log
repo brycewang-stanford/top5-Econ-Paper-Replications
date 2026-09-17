@@ -1,0 +1,3113 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_A6.log
+  log type:  text
+ opened on:  17 Sep 2026, 20:25:43
+
+. 
+. *This do file is created by DC on 03/30/2016
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. 
+.  
+. foreach s in 0a 0 1 1b 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17{
+  2.         global rtype`s' reghdfe
+  3. }
+
+. 
+. 
+. global a1  i.wagebinstate i.wagequarterdate  // distributional TWFE
+
+. 
+. global label1 TWFE
+
+. 
+. 
+.                 
+. *Consecutive events
+. 
+. use statenum quarterdate MW_realM25 wagebins wagebinstate overallcountgr fedi
+> ncrease using "${data}state_panels_with3quant1979.dta", clear
+
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. gen int MW_realM25_cents = MW_realM25 * 100
+
+. 
+. gen indic_event = (overallcountgr>0 & fedincrease!=1 & MW_realM25_cents == wa
+> gebins)
+
+. 
+. foreach num of numlist 1(1)19{
+  2. gen F`num'indic_event = F`num'.indic_event
+  3. replace F`num'indic_event =0 if F`num'indic_event ==.
+  4. }
+(5,967 missing values generated)
+(5,967 real changes made)
+(11,934 missing values generated)
+(11,934 real changes made)
+(17,901 missing values generated)
+(17,901 real changes made)
+(23,868 missing values generated)
+(23,868 real changes made)
+(29,835 missing values generated)
+(29,835 real changes made)
+(35,802 missing values generated)
+(35,802 real changes made)
+(41,769 missing values generated)
+(41,769 real changes made)
+(47,736 missing values generated)
+(47,736 real changes made)
+(53,703 missing values generated)
+(53,703 real changes made)
+(59,670 missing values generated)
+(59,670 real changes made)
+(65,637 missing values generated)
+(65,637 real changes made)
+(71,604 missing values generated)
+(71,604 real changes made)
+(77,571 missing values generated)
+(77,571 real changes made)
+(83,538 missing values generated)
+(83,538 real changes made)
+(89,505 missing values generated)
+(89,505 real changes made)
+(95,472 missing values generated)
+(95,472 real changes made)
+(101,439 missing values generated)
+(101,439 real changes made)
+(107,406 missing values generated)
+(107,406 real changes made)
+(113,373 missing values generated)
+(113,373 real changes made)
+
+. *asd =  1.6521739
+. matrix multiplier  = J(17,20,0) 
+
+. sort statenum quarterdate wagebins
+
+. *
+. foreach num2 of numlist 1(1)8{
+  2. foreach num of numlist 1(1)19{
+  3. local row = 9 + `num2'
+  4. local col = `num'+1
+  5. sum F`num'indic_event if indic_event[_n-`num2']==1, meanonly
+  6. *scalar asd = asd + r(mean)
+. mat multiplier[`row', `col'] = (r(mean))
+  7. }
+  8. }
+
+. *
+. foreach num of numlist 1(1)19{
+  2. sum F`num'indic_event if indic_event==1, meanonly
+  3. local col = `num'+1
+  4. mat multiplier[9,  `col'] = (r(mean))
+  5. }
+
+. foreach num of numlist 1(1)19{
+  2. sum indic_event if indic_event==1, meanonly
+  3. mat multiplier[9, 1] = (r(mean))
+  4. }
+
+. *
+. foreach num2 of numlist 1(1)8{
+  2. foreach num of numlist 1(1)19{
+  3. sum F`num'indic_event if indic_event[_n+`num2']==1, meanonly
+  4. local row = 9 - `num2'  
+  5. local col = `num'+1
+  6. mat multiplier[`row',  `col'] = (r(mean))
+  7. }
+  8. }
+
+. *
+. 
+. mat multiplier = multiplier'
+
+. clear 
+
+. svmat multiplier
+number of observations will be reset to 20
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 20.
+
+. cap drop sorter
+
+. gen sorter = floor((_n-1)/4)
+
+. ds multiplier*
+multiplier1   multiplier5   multiplier9   multiplier13  multiplier17
+multiplier2   multiplier6   multiplier10  multiplier14
+multiplier3   multiplier7   multiplier11  multiplier15
+multiplier4   multiplier8   multiplier12  multiplier16
+
+. collapse (sum) `r(varlist)', by(sorter)
+
+. xpose, clear
+
+. drop if _n==1
+(1 observation deleted)
+
+. foreach vv of numlist 1(1)5{
+  2. local vv2 = `vv' - 1
+  3. rename v`vv' event_year`vv2'
+  4. }
+
+. gen sorter = floor((_n-9)/4)
+
+. ds event*
+event_year0  event_year1  event_year2  event_year3  event_year4
+
+. collapse (sum) `r(varlist)', by(sorter)
+
+. 
+. save "${data}consecutiveevents_bin_by_year.dta", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Data/data/consecutiveevents_bin_by_year.dta
+    saved
+
+. 
+. 
+. 
+. *Globals for aggregation of events
+. 
+. use "${data}consecutiveevents_bin_by_year.dta", replace
+
+. 
+. 
+. *0th wage bin
+. global asd00  "_b[treat_p0]"
+
+. global asd04  "_b[L4treat_p0]"
+
+. global asd08  "_b[L8treat_p0]"
+
+. global asd012 "_b[L12treat_p0]"
+
+. global asd016 "_b[L16treat_p0]"
+
+. foreach num of numlist 0(1)4{
+  2. sum event_year`num' if sorter==0
+  3. local mult0`num' = r(mean)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+
+. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+
+. local mult8 = `mult00'+`mult01'+`mult02'
+
+. local mult12 = `mult00'+`mult01'
+
+. local mult16 = `mult00'
+
+. 
+. foreach num of numlist 0(4)16{
+  2. global asd0`num' = "`mult`num''*${asd0`num'}"
+  3. }
+
+. *
+. 
+. global masd00  "_b[treat_m1]"
+
+. global masd04  "_b[L4treat_m1]"
+
+. global masd08  "_b[L8treat_m1]"
+
+. global masd012 "_b[L12treat_m1]"
+
+. global masd016 "_b[L16treat_m1]"
+
+. 
+. foreach num of numlist 0(1)4{
+  2. sum event_year`num' if sorter==1
+  3. local mult0`num' = r(mean)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+
+. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+
+. local mult8 = `mult00'+`mult01'+`mult02'
+
+. local mult12 = `mult00'+`mult01'
+
+. local mult16 = `mult00'
+
+. 
+. foreach num of numlist 0(4)16{
+  2. global masd0`num' = "`mult`num''*${masd0`num'}"
+  3. }
+
+. *
+. 
+. global pasd00  "_b[treat_p1]"
+
+. global pasd04  "_b[L4treat_p1]"
+
+. global pasd08  "_b[L8treat_p1]"
+
+. global pasd012 "_b[L12treat_p1]"
+
+. global pasd016 "_b[L16treat_p1]"
+
+. 
+. foreach num of numlist 0(1)4{
+  2. sum event_year`num' if sorter==-1
+  3. local mult0`num' = r(mean)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+
+. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+
+. local mult8 = `mult00'+`mult01'+`mult02'
+
+. local mult12 = `mult00'+`mult01'
+
+. local mult16 = `mult00'
+
+. 
+. foreach num of numlist 0(4)16{
+  2. global pasd0`num' = "`mult`num''*${pasd0`num'}"
+  3. }
+
+. *
+. 
+. global wbp0 "${asd00} + ${masd00} + ${pasd00}"
+
+. 
+. foreach num of numlist 4(4)16{
+  2. global wbp0 "$wbp0 + ${asd0`num'} + ${masd0`num'} + ${pasd0`num'}"
+  3. 
+. }
+
+. *
+. 
+. 
+. 
+. *-1 wage bin
+. 
+. global asd00  "_b[treat_m1]"
+
+. global asd04  "_b[L4treat_m1]"
+
+. global asd08  "_b[L8treat_m1]"
+
+. global asd012 "_b[L12treat_m1]"
+
+. global asd016 "_b[L16treat_m1]"
+
+. foreach num of numlist 0(1)4{
+  2. sum event_year`num' if sorter==0
+  3. local mult0`num' = r(mean)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+
+. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+
+. local mult8 = `mult00'+`mult01'+`mult02'
+
+. local mult12 = `mult00'+`mult01'
+
+. local mult16 = `mult00'
+
+. 
+. foreach num of numlist 0(4)16{
+  2. global asd0`num' = "`mult`num''*${asd0`num'}"
+  3. }
+
+. *
+. 
+. global masd00  "_b[treat_m2]"
+
+. global masd04  "_b[L4treat_m2]"
+
+. global masd08  "_b[L8treat_m2]"
+
+. global masd012 "_b[L12treat_m2]"
+
+. global masd016 "_b[L16treat_m2]"
+
+. 
+. foreach num of numlist 0(1)4{
+  2. sum event_year`num' if sorter==1
+  3. local mult0`num' = r(mean)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+
+. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+
+. local mult8 = `mult00'+`mult01'+`mult02'
+
+. local mult12 = `mult00'+`mult01'
+
+. local mult16 = `mult00'
+
+. 
+. foreach num of numlist 0(4)16{
+  2. global masd0`num' = "`mult`num''*${masd0`num'}"
+  3. }
+
+. *
+. 
+. global pasd00  "_b[treat_p0]"
+
+. global pasd04  "_b[L4treat_p0]"
+
+. global pasd08  "_b[L8treat_p0]"
+
+. global pasd012 "_b[L12treat_p0]"
+
+. global pasd016 "_b[L16treat_p0]"
+
+. 
+. foreach num of numlist 0(1)4{
+  2. sum event_year`num' if sorter==-1
+  3. local mult0`num' = r(mean)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+
+. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+
+. local mult8 = `mult00'+`mult01'+`mult02'
+
+. local mult12 = `mult00'+`mult01'
+
+. local mult16 = `mult00'
+
+. 
+. foreach num of numlist 0(4)16{
+  2. global pasd0`num' = "`mult`num''*${pasd0`num'}"
+  3. }
+
+. *
+. 
+. global wbm1 "${asd00} + ${masd00} + ${pasd00}"
+
+. 
+. foreach num of numlist 4(4)16{
+  2. global wbm1 "${wbm1} + ${asd0`num'} + ${masd0`num'} + ${pasd0`num'}"
+  3. 
+. }
+
+. *
+. 
+. 
+. 
+. *-2 to -3 wage bins
+. *Note the minus becomes plus
+. foreach wagebinno of numlist 2(1)3{
+  2. local wagebinno_m = `wagebinno' + 1
+  3. local wagebinno_p = `wagebinno' - 1
+  4. global asd00  "_b[treat_m`wagebinno']"
+  5. global asd04  "_b[L4treat_m`wagebinno']"
+  6. global asd08  "_b[L8treat_m`wagebinno']"
+  7. global asd012 "_b[L12treat_m`wagebinno']"
+  8. global asd016 "_b[L16treat_m`wagebinno']"
+  9. foreach num of numlist 0(1)4{
+ 10. sum event_year`num' if sorter==0
+ 11. local mult0`num' = r(mean)
+ 12. }
+ 13. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+ 14. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+ 15. local mult8 = `mult00'+`mult01'+`mult02'
+ 16. local mult12 = `mult00'+`mult01'
+ 17. local mult16 = `mult00'
+ 18. 
+. foreach num of numlist 0(4)16{
+ 19. global asd0`num' = "`mult`num''*${asd0`num'}"
+ 20. }
+ 21. *
+. 
+. global masd00  "_b[treat_m`wagebinno_m']"
+ 22. global masd04  "_b[L4treat_m`wagebinno_m']"
+ 23. global masd08  "_b[L8treat_m`wagebinno_m']"
+ 24. global masd012 "_b[L12treat_m`wagebinno_m']"
+ 25. global masd016 "_b[L16treat_m`wagebinno_m']"
+ 26. 
+. foreach num of numlist 0(1)4{
+ 27. sum event_year`num' if sorter==1
+ 28. local mult0`num' = r(mean)
+ 29. }
+ 30. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+ 31. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+ 32. local mult8 = `mult00'+`mult01'+`mult02'
+ 33. local mult12 = `mult00'+`mult01'
+ 34. local mult16 = `mult00'
+ 35. 
+. foreach num of numlist 0(4)16{
+ 36. global masd0`num' = "`mult`num''*${masd0`num'}"
+ 37. }
+ 38. *
+. 
+. global pasd00  "_b[treat_m`wagebinno_p']"
+ 39. global pasd04  "_b[L4treat_m`wagebinno_p']"
+ 40. global pasd08  "_b[L8treat_m`wagebinno_p']"
+ 41. global pasd012 "_b[L12treat_m`wagebinno_p']"
+ 42. global pasd016 "_b[L16treat_m`wagebinno_p']"
+ 43. 
+. foreach num of numlist 0(1)4{
+ 44. sum event_year`num' if sorter==-1
+ 45. local mult0`num' = r(mean)
+ 46. }
+ 47. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+ 48. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+ 49. local mult8 = `mult00'+`mult01'+`mult02'
+ 50. local mult12 = `mult00'+`mult01'
+ 51. local mult16 = `mult00'
+ 52. 
+. foreach num of numlist 0(4)16{
+ 53. global pasd0`num' = "`mult`num''*${pasd0`num'}"
+ 54. }
+ 55. *
+. 
+. global wbm`wagebinno' "${asd00} + ${masd00} + ${pasd00}"
+ 56. 
+. foreach num of numlist 4(4)16{
+ 57. global wbm`wagebinno' "${wbm`wagebinno'} + ${asd0`num'} + ${masd0`num'} + 
+> ${pasd0`num'}"
+ 58. 
+. }
+ 59. 
+. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+. *
+. 
+. *-4 wage bin
+. foreach wagebinno of numlist 4{
+  2. local wagebinno_p = `wagebinno' - 1
+  3. global asd00  "_b[treat_m`wagebinno']"
+  4. global asd04  "_b[L4treat_m`wagebinno']"
+  5. global asd08  "_b[L8treat_m`wagebinno']"
+  6. global asd012 "_b[L12treat_m`wagebinno']"
+  7. global asd016 "_b[L16treat_m`wagebinno']"
+  8. foreach num of numlist 0(1)4{
+  9. sum event_year`num' if sorter==0
+ 10. local mult0`num' = r(mean)
+ 11. }
+ 12. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+ 13. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+ 14. local mult8 = `mult00'+`mult01'+`mult02'
+ 15. local mult12 = `mult00'+`mult01'
+ 16. local mult16 = `mult00'
+ 17. 
+. foreach num of numlist 0(4)16{
+ 18. global asd0`num' = "`mult`num''*${asd0`num'}"
+ 19. }
+ 20. *
+. 
+. 
+. global pasd00  "_b[treat_m`wagebinno_p']"
+ 21. global pasd04  "_b[L4treat_m`wagebinno_p']"
+ 22. global pasd08  "_b[L8treat_m`wagebinno_p']"
+ 23. global pasd012 "_b[L12treat_m`wagebinno_p']"
+ 24. global pasd016 "_b[L16treat_m`wagebinno_p']"
+ 25. 
+. foreach num of numlist 0(1)4{
+ 26. sum event_year`num' if sorter==-1
+ 27. local mult0`num' = r(mean)
+ 28. }
+ 29. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+ 30. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+ 31. local mult8 = `mult00'+`mult01'+`mult02'
+ 32. local mult12 = `mult00'+`mult01'
+ 33. local mult16 = `mult00'
+ 34. 
+. foreach num of numlist 0(4)16{
+ 35. global pasd0`num' = "`mult`num''*${pasd0`num'}"
+ 36. }
+ 37. *
+. 
+. global wbm`wagebinno' "${asd00} + ${pasd00}"
+ 38. 
+. foreach num of numlist 4(4)16{
+ 39. global wbm`wagebinno' "${wbm`wagebinno'} + ${asd0`num'} + ${pasd0`num'}"
+ 40. 
+. }
+ 41. 
+. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+. *
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. *+1 to +16 wage bins
+. 
+. foreach wagebinno of numlist 1(1)16{
+  2. local wagebinno_m = `wagebinno' - 1
+  3. local wagebinno_p = `wagebinno' + 1
+  4. global asd00  "_b[treat_p`wagebinno']"
+  5. global asd04  "_b[L4treat_p`wagebinno']"
+  6. global asd08  "_b[L8treat_p`wagebinno']"
+  7. global asd012 "_b[L12treat_p`wagebinno']"
+  8. global asd016 "_b[L16treat_p`wagebinno']"
+  9. foreach num of numlist 0(1)4{
+ 10. sum event_year`num' if sorter==0
+ 11. local mult0`num' = r(mean)
+ 12. }
+ 13. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+ 14. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+ 15. local mult8 = `mult00'+`mult01'+`mult02'
+ 16. local mult12 = `mult00'+`mult01'
+ 17. local mult16 = `mult00'
+ 18. 
+. foreach num of numlist 0(4)16{
+ 19. global asd0`num' = "`mult`num''*${asd0`num'}"
+ 20. }
+ 21. *
+. 
+. global masd00  "_b[treat_p`wagebinno_m']"
+ 22. global masd04  "_b[L4treat_p`wagebinno_m']"
+ 23. global masd08  "_b[L8treat_p`wagebinno_m']"
+ 24. global masd012 "_b[L12treat_p`wagebinno_m']"
+ 25. global masd016 "_b[L16treat_p`wagebinno_m']"
+ 26. 
+. foreach num of numlist 0(1)4{
+ 27. sum event_year`num' if sorter==1
+ 28. local mult0`num' = r(mean)
+ 29. }
+ 30. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+ 31. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+ 32. local mult8 = `mult00'+`mult01'+`mult02'
+ 33. local mult12 = `mult00'+`mult01'
+ 34. local mult16 = `mult00'
+ 35. 
+. foreach num of numlist 0(4)16{
+ 36. global masd0`num' = "`mult`num''*${masd0`num'}"
+ 37. }
+ 38. *
+. 
+. global pasd00  "_b[treat_p`wagebinno_p']"
+ 39. global pasd04  "_b[L4treat_p`wagebinno_p']"
+ 40. global pasd08  "_b[L8treat_p`wagebinno_p']"
+ 41. global pasd012 "_b[L12treat_p`wagebinno_p']"
+ 42. global pasd016 "_b[L16treat_p`wagebinno_p']"
+ 43. 
+. foreach num of numlist 0(1)4{
+ 44. sum event_year`num' if sorter==-1
+ 45. local mult0`num' = r(mean)
+ 46. }
+ 47. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+ 48. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+ 49. local mult8 = `mult00'+`mult01'+`mult02'
+ 50. local mult12 = `mult00'+`mult01'
+ 51. local mult16 = `mult00'
+ 52. 
+. foreach num of numlist 0(4)16{
+ 53. global pasd0`num' = "`mult`num''*${pasd0`num'}"
+ 54. }
+ 55. *
+. if `wagebinno'!=4 &  `wagebinno'!=5 &  `wagebinno'!=13 &  `wagebinno'!=14{  
+ 56. global wbp`wagebinno' "${asd00} + ${masd00} + ${pasd00}"
+ 57. 
+. 
+. 
+. foreach num of numlist 4(4)16{
+ 58. global wbp`wagebinno' "${wbp`wagebinno'} + ${asd0`num'} + ${masd0`num'} + 
+> ${pasd0`num'}"
+ 59. 
+. }
+ 60. }
+ 61. if `wagebinno'==4 |  `wagebinno'==13 {  
+ 62. global wbp`wagebinno' "${asd00} + ${masd00} "
+ 63. 
+. foreach num of numlist 4(4)16{
+ 64. global wbp`wagebinno' "${wbp`wagebinno'} + ${asd0`num'} + ${masd0`num'} "
+ 65. }
+ 66. }
+ 67. 
+. if `wagebinno'==5 |  `wagebinno'==14 {  
+ 68. global wbp`wagebinno' "${asd00} + ${pasd00}"
+ 69. 
+. foreach num of numlist 4(4)16{
+ 70. global wbp`wagebinno' "${wbp`wagebinno'} + ${asd0`num'} + ${pasd0`num'}"
+ 71. }
+ 72. }
+ 73. 
+. 
+. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0072464           .   .0072464   .0072464
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0072464           .   .0072464   .0072464
+
+. *
+. 
+. 
+. 
+. *+17 wage bins
+. 
+. local wagebinno 17
+
+. local wagebinno_m = `wagebinno' - 1
+
+. global asd00  "_b[treat_p`wagebinno']"
+
+. global asd04  "_b[L4treat_p`wagebinno']"
+
+. global asd08  "_b[L8treat_p`wagebinno']"
+
+. global asd012 "_b[L12treat_p`wagebinno']"
+
+. global asd016 "_b[L16treat_p`wagebinno']"
+
+. foreach num of numlist 0(1)4{
+  2. sum event_year`num' if sorter==0
+  3. local mult0`num' = r(mean)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1    1.021739           .   1.021739   1.021739
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .2391304           .   .2391304   .2391304
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0797101           .   .0797101   .0797101
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .1086957           .   .1086957   .1086957
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0434783           .   .0434783   .0434783
+
+. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+
+. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+
+. local mult8 = `mult00'+`mult01'+`mult02'
+
+. local mult12 = `mult00'+`mult01'
+
+. local mult16 = `mult00'
+
+. 
+. foreach num of numlist 0(4)16{
+  2. global asd0`num' = "`mult`num''*${asd0`num'}"
+  3. }
+
+. *
+. 
+. global masd00  "_b[treat_p`wagebinno_m']"
+
+. global masd04  "_b[L4treat_p`wagebinno_m']"
+
+. global masd08  "_b[L8treat_p`wagebinno_m']"
+
+. global masd012 "_b[L12treat_p`wagebinno_m']"
+
+. global masd016 "_b[L16treat_p`wagebinno_m']"
+
+. 
+. foreach num of numlist 0(1)4{
+  2. sum event_year`num' if sorter==1
+  3. local mult0`num' = r(mean)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year0 |          1           0           .          0          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year1 |          1    .0652174           .   .0652174   .0652174
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year2 |          1    .0507246           .   .0507246   .0507246
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year3 |          1    .0144928           .   .0144928   .0144928
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ event_year4 |          1    .0144928           .   .0144928   .0144928
+
+. *
+. local mult0 = `mult00'+`mult01'+`mult02'+`mult03'+`mult04'
+
+. local mult4 = `mult00'+`mult01'+`mult02'+`mult03'
+
+. local mult8 = `mult00'+`mult01'+`mult02'
+
+. local mult12 = `mult00'+`mult01'
+
+. local mult16 = `mult00'
+
+. 
+. foreach num of numlist 0(4)16{
+  2. global masd0`num' = "`mult`num''*${masd0`num'}"
+  3. }
+
+. *
+. 
+. 
+. global wbp`wagebinno' "${asd00} + ${masd00} "
+
+. 
+. foreach num of numlist 4(4)16{
+  2. global wbp`wagebinno' "${wbp`wagebinno'} + ${asd0`num'} + ${masd0`num'}"
+  3. 
+. }
+
+. *
+. 
+. 
+. 
+. 
+. use "${data}qcew_state_overall_counts_2016.dta", clear
+
+. rename statefips statenum
+
+. gen quarterdate = yq(year, quarter)
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27107.000001 saved
+    as .dta format
+
+. 
+. treatmentdefinition
+You are using the primary working data.
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. merge m:1 statenum quarterdate using `qcew',assert(3) nogenerate
+(variable quarterdate was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+. replace count = count*emp/countall if emp!=0
+(710,139 real changes made)
+
+. cap drop overallcountpc
+
+. gen overallcountpc=count/population 
+
+. replace overallcountpcall = emp/population  if emp!=0
+(905,112 real changes made)
+
+. 
+. 
+. placebosamplecorr2, wmax(16) prevwmax(15)
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+(552 real changes made)
+(17,901 missing values generated)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(17,901 missing values generated)
+(2,706 real changes made)
+(17,901 missing values generated)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(17,901 missing values generated)
+  variable quarterdate was float now int
+  variable windowpl2_p16 was float now byte
+  variable windowpl2_p17 was float now byte
+  variable sum_inf was float now byte
+  (9,976,824 bytes saved)
+
+. 
+. *****************************************************************************
+> ***
+. ********************      Dropping unnecessary variables        *************
+> ***
+. *****************************************************************************
+> ***
+. 
+. cap drop HSD*
+
+. cap drop HSL*
+
+. cap drop black*
+
+. cap drop female*
+
+. cap drop BH*
+
+. cap drop teen*  
+
+. 
+. 
+. *****************************************************************************
+> ***
+. ***********************           Weights           *************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. cap drop wt 
+
+. foreach Y in   overall { 
+  2.         foreach b of numlist 1979{
+  3.                                         global weight`Y'`b' "[aw=wt`Y'`b']
+> " 
+  4.                                         }
+  5. }  
+
+. *
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. **************     Sample and Control Specific Macros           *************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. local limittreat "_stateonly"
+
+. 
+. 
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. **************      To name the graph              **************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. if "${disagg}" == "Y"{
+. local temp1 "disaggcont"
+. }
+
+. else{
+. local temp1 "aggcont"
+. }
+
+. 
+. if "$controlmethod" == "Linear"{
+. local temp2 "L"
+. }
+
+. else{
+. if "$controlmethod" == "None"{
+. local temp1 "nocont"
+. }
+. else{
+. local temp2 "A"
+. }
+. }
+
+. cap drop one
+
+. cap drop counter
+
+. g one =1        
+
+. gen counter = ((_n-1)*4) - $Tmin if _n<=8
+(906,976 missing values generated)
+
+. 
+. foreach s in  0 1  4  5  6 10  11 12 {
+  2.         cap drop be_timeb
+  3.         cap drop be_timese
+  4.         cap drop be_timeupper
+  5.         cap drop be_timelower
+  6.         
+.         g be_timeb=.
+  7.         g be_timese=.
+  8.         g be_timeupper=.
+  9.         g be_timelower=.
+ 10. 
+.         replace be_timeb=0 if counter==-4
+ 11.         replace be_timese=0 if counter==-4
+ 12.         replace be_timeupper=0 if counter==-4
+ 13.         replace be_timelower=0 if counter==-4
+ 14.         
+.         }
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(906,984 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+. *
+. 
+. 
+.         
+. *****************************************************************************
+> ***
+. ***************          Useful to Find Below Share Wages               *****
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. cap drop statequarterdate
+
+. egen statequarterdate = group(state quarterdate)
+
+. sort statequarterdate wagebins
+
+. 
+. cap drop overallWB*
+
+. g overallWBFH = wagebins*count/(100)
+
+. g overallWBpcFH = wagebins*count/(100*population)
+
+. 
+. cap drop overallWBpcrsumFH
+
+. g overallWBpcrsumFH=0
+
+. replace overallWBpcrsumFH = overallWBpcFH if wagebins==100
+(2,827 real changes made)
+
+. replace overallWBpcrsumFH = overallWBpcrsumFH[_n-1] + overallWBpcFH if wagebi
+> ns>100
+(876,538 real changes made)
+
+.         
+. cap drop overallcountpcrsum
+
+. g overallcountpcrsum=0
+
+. replace overallcountpcrsum = overallcountpc if wagebins==100
+(2,827 real changes made)
+
+. replace overallcountpcrsum = overallcountpcrsum[_n-1] + overallcountpc if wag
+> ebins>100
+(876,538 real changes made)
+
+.         
+.         
+. 
+. *****************************************************************************
+> *** 
+. **********************       REGRESSIONS AND FIGURES        *****************
+> ***
+. *****************************************************************************
+> ***
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. compress
+  variable one was float now byte
+  variable counter was float now byte
+  variable be_timeb was float now byte
+  variable be_timese was float now byte
+  variable be_timeupper was float now byte
+  variable be_timelower was float now byte
+  variable statequarterdate was float now int
+  (18,139,680 bytes saved)
+
+. 
+. 
+. 
+. foreach Y in   overall  { 
+  2. foreach b in    1979 {
+  3.                                         ***  define MW change ***
+.                                 sum DMW_real if fedincrease!=1 & overallcount
+> gr>0 & year>=`b' & cleansample ==1   ${weight`Y'`b'}
+  4.                                 local mwc = r(mean)
+  5.                                 sum MW_real if  F.fedincrease!=1 & F.overa
+> llcountgr>0 & year>=`b' & cleansample ==1   ${weight`Y'`b'}
+  6.                                 local mw = r(mean)
+  7.                                 local mwpc = `mwc'/`mw'
+  8.                                 local mwpc2 : di  %04.3f `mwpc'
+  9. 
+.                                 sum `Y'countpcall if ((F.fedincrease != 1 & F
+> .fedincrease != . & F.overallcountgr>0 & F.overallcountgr!=. ) | ///
+>                                 (F2.fedincrease != 1 & F2.overallcountgr>0 & 
+> F2.fedincrease != . & F2.overallcountgr!=. ) ///
+>                                 | (F3.fedincrease != 1 & F3.overallcountgr>0 
+> & F3.fedincrease != . & F3.overallcountgr!=. ) ///
+>                                 | (F4.fedincrease != 1 & F4.overallcountgr>0 
+> & F4.fedincrease != . & F4.overallcountgr!=. ) ) & year>=`b' & cleansample ==
+> 1 ///
+>                                  ${weight`Y'`b'}                 // CHECK THI
+> S  2/2/16
+ 10.                                 
+.                                 local epop = r(mean)
+ 11.                                 global E = `epop'
+ 12.                                         
+.                                 global C = 1/(`epop'*`mwpc')
+ 13.                         
+.                         
+.                                 *Below share
+. 
+.                                 
+.                                 sum overallcountpcrsum if ( F.fedincrease!=1 
+> & F.overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.  & (wagebins+25
+> )/100==F1MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> F2.fedincrease!=. & F2.overallcountgr!=. & (wagebins+25)/100==F2MW_realM25 ) 
+> | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0 & F
+> 3.fedincrease!=. & F3.overallcountgr!=.  & (wagebins+25)/100==F3MW_realM25) |
+>  ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> F4.fedincrease!=. & F4.overallcountgr!=. & (wagebins+25)/100==F4MW_realM25 ) 
+> ///
+>                                 & year>=`b' & cleansample ==1      ${weight`Y
+> '`b'}                                      
+ 14.                                 
+.                                 global B = r(mean)/${E}
+ 15.                                 local belsh2 : di  %04.3f $B
+ 16. 
+.                                 *Affected share
+.                                 
+.                                 sum `Y'countpcrsum if (  F.fedincrease!=1 & F
+> .overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.  & (wagebins)/100=
+> =MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> F2.fedincrease!=. & F2.overallcountgr!=. & (wagebins)/100==MW_realM25 ) | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0 & F
+> 3.fedincrease!=. & F3.overallcountgr!=.  & (wagebins)/100==MW_realM25) | ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> F4.fedincrease!=. & F4.overallcountgr!=. & (wagebins)/100==MW_realM25 ) ///
+>                                 & year>=1979 & cleansample ==1    ${weight`Y'
+> `b'}                       
+ 17.                                 
+.                                 global AS`Y' = $B - (r(mean)/${E})
+ 18.                                 local affsh`Y' : di  %04.3f ${AS`Y'}
+ 19.                                 
+.                                 
+.                                 *********************************************
+> *******************
+.                                 *************    Wagebill related globals    
+>    ****************
+.                                 *********************************************
+> *******************
+.                                 sum overallWBpcrsumFH if (  F.fedincrease!=1 
+> & F.overallcountgr>0 & F.fedincrease!=. & F.overallcountgr!=.   & (wagebins+2
+> 5)/100==F1MW_realM25) | ///
+>                                  (F2.fedincrease!=1 & F2.overallcountgr>0 & F
+> 2.fedincrease!=. & F2.overallcountgr!=. & (wagebins+25)/100==F2MW_realM25 ) |
+>  ///
+>                                 (F3.fedincrease!=1 & F3.overallcountgr>0 & F3
+> .fedincrease!=. & F3.overallcountgr!=.  & (wagebins+25)/100==F3MW_realM25) | 
+> ///
+>                                  (  F4.fedincrease!=1 & F4.overallcountgr>0 &
+>  F4.fedincrease!=. & F4.overallcountgr!=.  & (wagebins+25)/100==F4MW_realM25 
+> ) ///
+>                                 & year>=`b' & cleansample ==1     ${weight`Y'
+> `b'}                       
+ 20.         
+.                                 global EWB = r(mean)
+ 21.                                 local EWB2 : di  %04.3f $EWB
+ 22.                                 cap drop tempweight     
+ 23.                                 global CWB = 1/(${EWB}*`mwpc')
+ 24. 
+. 
+.                                 sum wagebins if treat_p0 == 1  & year>=`b' & 
+> cleansample ==1   ${weight`Y'`b'}, meanonly
+ 25.                                 global wagemult = r(mean)/100
+ 26.                                 
+.                                 *We have to do this here because multipliers 
+> are calculated in the loop.
+.                                 
+.                                 abovebelowWBbunch,wagemult(${wagemult})
+ 27.                                 abovebelowWBfull
+ 28.                                 
+.                         
+.                                 foreach s in 1    {             
+ 29.                                 est use  "${estimates}Table1aafterqcew`lim
+> itsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 30.                                 local dof = e(df_r)
+ 31.                                 local numberobs = e(N)
+ 32.                                 count if fedincrease!=1 & overallcountgr>0
+>  & wagebins==300              // The wage bin does not matter.
+ 33.                                 local numberevent = r(N)
+ 34.                                 
+.                                 
+.                                 local denominator = (1/(1+(${Tmax}/4)))
+ 35. 
+.                         
+.                         
+.                                 *********************************************
+> *******************
+.                                 **************     Figure 4      ************
+> *******************
+.                                 *********************************************
+> *******************
+.                                 *Defining globals to get time averaged estima
+> tes. Need to define here.
+. 
+.                                 
+.                                 local tmax = 16
+ 36.                                 preserve                                  
+>                                                                              
+>          // For some reason, sometimes svmat clears the data in memory. To pr
+> event that, we preserve here.
+ 37. 
+.                                 est use "${estimates}forplacebofig_true`limit
+> sample'`limittreat'_`s'_`Y'_`b'_w1_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 38. 
+.                                 
+.                                 local wmax = 4
+ 39.                                 local wmin = 4
+ 40. 
+.                                 global PA_p0 "`denominator'*(${wbp0})*(4)*(1/
+> ${E})"
+ 41. 
+.                                 forval j = 1/`wmax' {
+ 42.                                         global PA_p`j' "`denominator'*(${w
+> bp`j'})*(4)*(1/${E})" 
+ 43.                                 }
+ 44.                                 
+.                                 forval j = 1/`wmin' {                        
+>    
+ 45.                                         global PA_m`j' "`denominator'*(${w
+> bm`j'})*(4)*(1/${E})"
+ 46.                                 }
+ 47. 
+.                                 
+.                                 global cumul "0"
+ 48.                                 forval k = -`wmin'/`wmax' {     
+ 49.                                          di `k'
+ 50.                                         if `k' < 0 {
+ 51.                                                 local j = -`k'
+ 52.                                                 local lincomline "${PA_m`j
+> '}"
+ 53.                                         }
+ 54.                                         else if `k'==0 {
+ 55.                                                 local lincomline "${PA_p0}
+> "
+ 56.                                         }
+ 57.                                         else if `k'>0 {
+ 58.                                                 local lincomline "${PA_p`k
+> '}"
+ 59.                                         }
+ 60.                                         
+.                                         qui lincom   "`lincomline'"
+ 61.                                         local basic_b = r(estimate)
+ 62.                                         local basic_se = r(se)
+ 63.                                         if `k' == -`wmin' {
+ 64.                                                 mat countmat = [ `k', `bas
+> ic_b',  `basic_b'-1.96*`basic_se', `basic_b'+1.96*`basic_se' ]
+ 65.                                         }
+ 66.                                         else {
+ 67.                                                 mat countmat = [countmat \
+>  [ `k', `basic_b',  `basic_b'-1.96*`basic_se', `basic_b'+1.96*`basic_se'  ]]
+ 68.                                         }
+ 69.                                 }
+ 70.                                 
+. 
+.                                 
+.                                 *********************************************
+> *******************
+.                                 *************         First placebo group    
+>      **************
+.                                 *********************************************
+> *******************
+.                                 
+.                                 
+.                                 est use "${estimates}forplacebofig_pl1`limits
+> ample'`limittreat'_`s'_`Y'_`b'_w1_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 71.                                 
+. 
+.                                 local wmin = 4 + 1
+ 72.                                 local wmax = 13
+ 73. 
+.                                 forval j = `wmin'/`wmax' {
+ 74.                                         global PA_p`j' "`denominator'*(${w
+> bp`j'})*(4)*(1/${E})" 
+ 75.                                 }
+ 76.                                 
+. 
+.                                 
+.                                 forval k = `wmin'/`wmax' {      
+ 77.                                          di `k'
+ 78.                                                 local lincomline "${PA_p`k
+> '}"
+ 79.                                         
+.                                         qui lincom   "`lincomline'"
+ 80.                                         local basic_b = r(estimate)
+ 81.                                         local basic_se = r(se)
+ 82.                                                 mat countmat = [countmat \
+>  [ `k', `basic_b',  `basic_b'-1.96*`basic_se', `basic_b'+1.96*`basic_se']]
+ 83.                                 }
+ 84.                                 
+. 
+.                                 *********************************************
+> *******************
+.                                 ************        Last placebo group       
+>   *****************
+.                                 *********************************************
+> *******************
+.                                 
+.                                 est use "${estimates}forplacebofig_pl2`limits
+> ample'`limittreat'_`s'_`Y'_`b'_w1_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 85. 
+.                                 local wmin = 13 + 1
+ 86.                                 local wmax = 16 + 1
+ 87.                                 
+. 
+.                                 forval j = `wmin'/`wmax' {
+ 88.                                 if `j' != `wmax'{
+ 89.                                         global PA_p`j' "`denominator'*(${w
+> bp`j'})*(4)*(1/${E})" 
+ 90.                                 }
+ 91.                                 if `j' == `wmax'{
+ 92.                                         sum sum_inf if overallcountgr>0 & 
+> overallcountgr!=. & fedincrease!=1   ${weight`Y'`b'}
+ 93.                                         scalar numbins = r(mean)
+ 94.                                         
+.                                         
+.                                         global PA_p`j' "`denominator'*(${wbp`
+> j'})*(`=numbins')*(1/${E})" 
+ 95.                                         }
+ 96.                                 }
+ 97.                                 
+. 
+.                                 
+.                                 global cumul "0"
+ 98.                                 forval k = `wmin'/`wmax' {      
+ 99.                                                 local lincomline "${PA_p`k
+> '}"
+100.                                         
+.                                         qui lincom   "`lincomline'"
+101.                                         local basic_b = r(estimate)
+102.                                         local basic_se = r(se)
+103.                                                 mat countmat = [countmat \
+>  [ `k', `basic_b',  `basic_b'-1.96*`basic_se', `basic_b'+1.96*`basic_se']]
+104.                                 }
+105.                                 
+.                                 
+.                                                                 
+.                         cap drop bin* 
+106.                         cap drop est* 
+107.                         cap drop low *
+108.                         cap drop high* 
+109.                         cap drop _est*
+110.                         cap drop totest*
+111.                         cap drop totlow
+112.                         cap drop tothigh
+113.                         cap drop countmat*
+114.                         
+.                         svmat countmat
+115.                         rename countmat1 bin
+116.                         rename countmat2 est                    
+117.                         rename countmat3 low
+118.                         rename countmat4 high
+119.                         
+.                         keep bin est low high
+120.                                 gen wage = $wagemult
+121.                                 keep if bin!=.
+122.                                 gen totest = sum(est)
+123. 
+.                                 est use "${estimates}forplacebofig_true`limit
+> sample'`limittreat'_`s'_`Y'_`b'_w1_`temp1'_`temp2'_${Tmax}${Tmin}"
+124. 
+.                                 
+.                                 
+. *Globals to calculate estimates                         
+. global below_full " ${wbm4} +  ${wbm3} +  ${wbm2} +  ${wbm1}"
+125. global above_full " ${wbp0} +  ${wbp1} +  ${wbp2} +  ${wbp3} +  ${wbp4}"
+126. 
+. global belowWB_full " (${wbm4})*(${wagemult}-4) +  (${wbm3})*(${wagemult}-3) 
+> +  (${wbm2})*(${wagemult}-2) +  (${wbm1})*(${wagemult}-1)"
+127. global aboveWB_full " (${wbp0})*(${wagemult}) +  (${wbp1})*(${wagemult}+1)
+>  +  (${wbp2})*(${wagemult}+2) +  (${wbp3})*(${wagemult}+3) +  (${wbp4})*(${wa
+> gemult}+4)"
+128. 
+. 
+. 
+.                                 
+.                         lincomestadd (${below_full})*(4*`denominator')*(1/${E
+> })                                                 , statname(below_E)       
+>                       // Multiplying by 4 because bins are in 25 cent precisi
+> on. To average by time, dividing by 5.
+129.                         gen below_b = r(estimate)
+130.                         gen below_se = r(se)
+131.                         lincomestadd (${above_full})*(4*`denominator')*(1/
+> ${E})                                                 , statname(above_E)    
+>                                  // Multiplying by 4 because bins are in 25 c
+> ent precision. To average by time, dividing by 5.
+132.                         gen above_b = r(estimate)
+133.                         gen above_se = r(se)
+134.                         lincomestadd ((${below_full} + ${above_full})*(4*`
+> denominator')*(1/${E}))/${B}  , statname(bunching_E)                         
+>  // Multiplying by 4 because bins are in 25 cent precision. To average by tim
+> e, dividing by 5.                   
+135.                         gen ch_aff_emp_b = r(estimate)
+136.                         gen ch_aff_emp_se = r(se)
+137. 
+.                         nlcom (a1:((((${belowWB_full}+${aboveWB_full})*(4*`de
+> nominator')/$EWB ) - ///
+>                         (((${below_full} + ${above_full})*(4*`denominator')*(
+> 1/${E}))/${B})))) ///
+>                         (a2: (1+(((${below_full} + ${above_full})*(4*`denomin
+> ator')*(1/${E}))/${B}))) , post
+138.                         
+.                         nlcomestadd  (_b[a1]/_b[a2]) , statname(WB_E) dof(`do
+> f')                        
+139.                         mat temp1 = r(b)
+140.                         local temp1 = temp1[1,1]
+141.                         mat temp2 = r(V)
+142.                         local temp2 = sqrt(temp2[1,1])
+143.                         
+.                         gen ch_aff_wage_b = `temp1'
+144.                         gen ch_aff_wage_se = `temp2'
+145.         
+.                                 save "${data}longer_fig4_agg.dta", replace
+146.                                 
+.                         restore
+147.                         }
+148.                         
+.                         
+.                 }
+149.                         
+.         }
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |  16,029  8.5825e+10    .7960962    .399756   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |  22,113  1.1584e+11    7.859571   .9471371   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~l |  63,999  3.4011e+11    .5711273   .0651657   .4235719   1.447222
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |     552  2.9312e+09    .0493922   .0161435   .0096957   .1725448
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |     547  2.9069e+09    .0358202   .0145438    .004078   .1513094
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallW~mFH |     552  2.9312e+09     .350835    .146225   .0658011   1.376678
+Make sure that belowL16 and aboveL16 exists. Otherwise the program does not wor
+> k. Assertion will be false.
+  138
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     sum_inf |  16,029  8.5825e+10    19.32145   2.967539          8         26
+(906,962 observations deleted)
+
+ ( 1)  2.293963*treat_m4 + 2.314264*treat_m3 + 2.314264*treat_m2 +
+       2.111258*treat_m1 + .0203006*treat_p0 + 2.212761*L4treat_m4 +
+       2.222911*L4treat_m3 + 2.222911*L4treat_m2 + 2.040206*L4treat_m1 +
+       .0101503*L4treat_p0 + 2.040206*L8treat_m4 + 2.040206*L8treat_m3 +
+       2.040206*L8treat_m2 + 1.877802*L8treat_m1 + 1.857501*L12treat_m4 +
+       1.857501*L12treat_m3 + 1.857501*L12treat_m2 + 1.766149*L12treat_m1 +
+       1.431189*L16treat_m4 + 1.431189*L16treat_m3 + 1.431189*L16treat_m2 +
+       1.431189*L16treat_m1 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0249853   .0050571    -4.94   0.000    -.0351428   -.0148278
+------------------------------------------------------------------------------
+
+added macro:
+           e(below_Eb) : "-0.025***"
+
+added macro:
+          e(below_Ese) : "(0.005)"
+
+ ( 1)  .2030056*treat_m1 + 2.293963*treat_p0 + 2.314264*treat_p1 +
+       2.314264*treat_p2 + 2.314264*treat_p3 + 2.111258*treat_p4 +
+       .182705*L4treat_m1 + 2.212761*L4treat_p0 + 2.222911*L4treat_p1 +
+       2.222911*L4treat_p2 + 2.222911*L4treat_p3 + 2.040206*L4treat_p4 +
+       .1624045*L8treat_m1 + 2.040206*L8treat_p0 + 2.040206*L8treat_p1 +
+       2.040206*L8treat_p2 + 2.040206*L8treat_p3 + 1.877802*L8treat_p4 +
+       .0913525*L12treat_m1 + 1.857501*L12treat_p0 + 1.857501*L12treat_p1 +
+       1.857501*L12treat_p2 + 1.857501*L12treat_p3 + 1.766149*L12treat_p4 +
+       1.431189*L16treat_p0 + 1.431189*L16treat_p1 + 1.431189*L16treat_p2 +
+       1.431189*L16treat_p3 + 1.431189*L16treat_p4 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0275729   .0035811     7.70   0.000       .02038    .0347658
+------------------------------------------------------------------------------
+
+added macro:
+           e(above_Eb) : "0.028***"
+
+added macro:
+          e(above_Ese) : "(0.004)"
+
+ ( 1)  26.52534*treat_m4 + 26.76008*treat_m3 + 26.76008*treat_m2 +
+       26.76008*treat_m1 + 26.76008*treat_p0 + 26.76008*treat_p1 +
+       26.76008*treat_p2 + 26.76008*treat_p3 + 24.4127*treat_p4 +
+       25.58639*L4treat_m4 + 25.70376*L4treat_m3 + 25.70376*L4treat_m2 +
+       25.70376*L4treat_m1 + 25.70376*L4treat_p0 + 25.70376*L4treat_p1 +
+       25.70376*L4treat_p2 + 25.70376*L4treat_p3 + 23.59112*L4treat_p4 +
+       23.59112*L8treat_m4 + 23.59112*L8treat_m3 + 23.59112*L8treat_m2 +
+       23.59112*L8treat_m1 + 23.59112*L8treat_p0 + 23.59112*L8treat_p1 +
+       23.59112*L8treat_p2 + 23.59112*L8treat_p3 + 21.71322*L8treat_p4 +
+       21.47848*L12treat_m4 + 21.47848*L12treat_m3 + 21.47848*L12treat_m2 +
+       21.47848*L12treat_m1 + 21.47848*L12treat_p0 + 21.47848*L12treat_p1 +
+       21.47848*L12treat_p2 + 21.47848*L12treat_p3 + 20.42216*L12treat_p4 +
+       16.549*L16treat_m4 + 16.549*L16treat_m3 + 16.549*L16treat_m2 +
+       16.549*L16treat_m1 + 16.549*L16treat_p0 + 16.549*L16treat_p1 +
+       16.549*L16treat_p2 + 16.549*L16treat_p3 + 16.549*L16treat_p4 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0299201   .0405449     0.74   0.464    -.0515168    .1113569
+------------------------------------------------------------------------------
+
+added macro:
+        e(bunching_Eb) : "0.030"
+
+added macro:
+       e(bunching_Ese) : "(0.041)"
+
+          a1: (((( (1.492753626778721*_b[treat_m4] + .014492753893137*_b[treat_
+> m3] + 1.44927536509931*_b[L4treat_m4] + .0072463769465685*_b[L4treat_m3] + 1.
+> 340579712763428*_b[L8treat_m4] + 0*_b[L8treat_m3] + 1.260869566351175*_b[L12t
+> reat_m4] + 0*_b[L12treat_m3] + 1.021739130839705*_b[L16treat_m4] + 0*_b[L16tr
+> eat_m3])*(8.774882267779565-4) +  (1.492753626778721*_b[treat_m3] + .14492753
+> 52060796*_b[treat_m4] + .014492753893137*_b[treat_m2] + 1.44927536509931*_b[L
+> 4treat_m3] + .1304347813129426*_b[L4treat_m4] + .0072463769465685*_b[L4treat_
+> m2] + 1.340579712763428*_b[L8treat_m3] + .1159420274198056*_b[L8treat_m4] + 0
+> *_b[L8treat_m2] + 1.260869566351175*_b[L12treat_m3] + .0652173906564713*_b[L1
+> 2treat_m4] + 0*_b[L12treat_m2] + 1.021739130839705*_b[L16treat_m3] + 0*_b[L16
+> treat_m4] + 0*_b[L16treat_m2])*(8.774882267779565-3) +  (1.492753626778721*_b
+> [treat_m2] + .1449275352060796*_b[treat_m3] + .014492753893137*_b[treat_m1] +
+>  1.44927536509931*_b[L4treat_m2] + .1304347813129426*_b[L4treat_m3] + .007246
+> 3769465685*_b[L4treat_m1] + 1.340579712763428*_b[L8treat_m2] + .1159420274198
+> 056*_b[L8treat_m3] + 0*_b[L8treat_m1] + 1.260869566351175*_b[L12treat_m2] + .
+> 0652173906564713*_b[L12treat_m3] + 0*_b[L12treat_m1] + 1.021739130839705*_b[L
+> 16treat_m2] + 0*_b[L16treat_m3] + 0*_b[L16treat_m1])*(8.774882267779565-2) + 
+>  (1.492753626778721*_b[treat_m1] + .1449275352060796*_b[treat_m2] + .01449275
+> 3893137*_b[treat_p0] + 1.44927536509931*_b[L4treat_m1] + .1304347813129426*_b
+> [L4treat_m2] + .0072463769465685*_b[L4treat_p0] + 1.340579712763428*_b[L8trea
+> t_m1] + .1159420274198056*_b[L8treat_m2] + 0*_b[L8treat_p0] + 1.2608695663511
+> 75*_b[L12treat_m1] + .0652173906564713*_b[L12treat_m2] + 0*_b[L12treat_p0] + 
+> 1.021739130839705*_b[L16treat_m1] + 0*_b[L16treat_m2] + 0*_b[L16treat_p0])*(8
+> .774882267779565-1)+ (1.492753626778721*_b[treat_p0] + .1449275352060796*_b[t
+> reat_m1] + .014492753893137*_b[treat_p1] + 1.44927536509931*_b[L4treat_p0] + 
+> .1304347813129426*_b[L4treat_m1] + .0072463769465685*_b[L4treat_p1] + 1.34057
+> 9712763428*_b[L8treat_p0] + .1159420274198056*_b[L8treat_m1] + 0*_b[L8treat_p
+> 1] + 1.260869566351175*_b[L12treat_p0] + .0652173906564713*_b[L12treat_m1] + 
+> 0*_b[L12treat_p1] + 1.021739130839705*_b[L16treat_p0] + 0*_b[L16treat_m1] + 0
+> *_b[L16treat_p1])*(8.774882267779565) +  (1.492753626778721*_b[treat_p1] + .1
+> 449275352060796*_b[treat_p0] + .014492753893137*_b[treat_p2] + 1.449275365099
+> 31*_b[L4treat_p1] + .1304347813129426*_b[L4treat_p0] + .0072463769465685*_b[L
+> 4treat_p2] + 1.340579712763428*_b[L8treat_p1] + .1159420274198056*_b[L8treat_
+> p0] + 0*_b[L8treat_p2] + 1.260869566351175*_b[L12treat_p1] + .065217390656471
+> 3*_b[L12treat_p0] + 0*_b[L12treat_p2] + 1.021739130839705*_b[L16treat_p1] + 0
+> *_b[L16treat_p0] + 0*_b[L16treat_p2])*(8.774882267779565+1) +  (1.49275362677
+> 8721*_b[treat_p2] + .1449275352060796*_b[treat_p1] + .014492753893137*_b[trea
+> t_p3] + 1.44927536509931*_b[L4treat_p2] + .1304347813129426*_b[L4treat_p1] + 
+> .0072463769465685*_b[L4treat_p3] + 1.340579712763428*_b[L8treat_p2] + .115942
+> 0274198056*_b[L8treat_p1] + 0*_b[L8treat_p3] + 1.260869566351175*_b[L12treat_
+> p2] + .0652173906564713*_b[L12treat_p1] + 0*_b[L12treat_p3] + 1.0217391308397
+> 05*_b[L16treat_p2] + 0*_b[L16treat_p1] + 0*_b[L16treat_p3])*(8.77488226777956
+> 5+2) +  (1.492753626778721*_b[treat_p3] + .1449275352060796*_b[treat_p2] + .0
+> 14492753893137*_b[treat_p4] + 1.44927536509931*_b[L4treat_p3] + .130434781312
+> 9426*_b[L4treat_p2] + .0072463769465685*_b[L4treat_p4] + 1.340579712763428*_b
+> [L8treat_p3] + .1159420274198056*_b[L8treat_p2] + 0*_b[L8treat_p4] + 1.260869
+> 566351175*_b[L12treat_p3] + .0652173906564713*_b[L12treat_p2] + 0*_b[L12treat
+> _p4] + 1.021739130839705*_b[L16treat_p3] + 0*_b[L16treat_p2] + 0*_b[L16treat_
+> p4])*(8.774882267779565+3) +  (1.492753626778721*_b[treat_p4] + .144927535206
+> 0796*_b[treat_p3]  + 1.44927536509931*_b[L4treat_p4] + .1304347813129426*_b[L
+> 4treat_p3]  + 1.340579712763428*_b[L8treat_p4] + .1159420274198056*_b[L8treat
+> _p3]  + 1.260869566351175*_b[L12treat_p4] + .0652173906564713*_b[L12treat_p3]
+>   + 1.021739130839705*_b[L16treat_p4] + 0*_b[L16treat_p3] )*(8.77488226777956
+> 5+4))*(4*.2)/.350835006841847 ) - ((( 1.492753626778721*_b[treat_m4] + .01449
+> 2753893137*_b[treat_m3] + 1.44927536509931*_b[L4treat_m4] + .0072463769465685
+> *_b[L4treat_m3] + 1.340579712763428*_b[L8treat_m4] + 0*_b[L8treat_m3] + 1.260
+> 869566351175*_b[L12treat_m4] + 0*_b[L12treat_m3] + 1.021739130839705*_b[L16tr
+> eat_m4] + 0*_b[L16treat_m3] +  1.492753626778721*_b[treat_m3] + .144927535206
+> 0796*_b[treat_m4] + .014492753893137*_b[treat_m2] + 1.44927536509931*_b[L4tre
+> at_m3] + .1304347813129426*_b[L4treat_m4] + .0072463769465685*_b[L4treat_m2] 
+> + 1.340579712763428*_b[L8treat_m3] + .1159420274198056*_b[L8treat_m4] + 0*_b[
+> L8treat_m2] + 1.260869566351175*_b[L12treat_m3] + .0652173906564713*_b[L12tre
+> at_m4] + 0*_b[L12treat_m2] + 1.021739130839705*_b[L16treat_m3] + 0*_b[L16trea
+> t_m4] + 0*_b[L16treat_m2] +  1.492753626778721*_b[treat_m2] + .14492753520607
+> 96*_b[treat_m3] + .014492753893137*_b[treat_m1] + 1.44927536509931*_b[L4treat
+> _m2] + .1304347813129426*_b[L4treat_m3] + .0072463769465685*_b[L4treat_m1] + 
+> 1.340579712763428*_b[L8treat_m2] + .1159420274198056*_b[L8treat_m3] + 0*_b[L8
+> treat_m1] + 1.260869566351175*_b[L12treat_m2] + .0652173906564713*_b[L12treat
+> _m3] + 0*_b[L12treat_m1] + 1.021739130839705*_b[L16treat_m2] + 0*_b[L16treat_
+> m3] + 0*_b[L16treat_m1] +  1.492753626778721*_b[treat_m1] + .1449275352060796
+> *_b[treat_m2] + .014492753893137*_b[treat_p0] + 1.44927536509931*_b[L4treat_m
+> 1] + .1304347813129426*_b[L4treat_m2] + .0072463769465685*_b[L4treat_p0] + 1.
+> 340579712763428*_b[L8treat_m1] + .1159420274198056*_b[L8treat_m2] + 0*_b[L8tr
+> eat_p0] + 1.260869566351175*_b[L12treat_m1] + .0652173906564713*_b[L12treat_m
+> 2] + 0*_b[L12treat_p0] + 1.021739130839705*_b[L16treat_m1] + 0*_b[L16treat_m2
+> ] + 0*_b[L16treat_p0] +  1.492753626778721*_b[treat_p0] + .1449275352060796*_
+> b[treat_m1] + .014492753893137*_b[treat_p1] + 1.44927536509931*_b[L4treat_p0]
+>  + .1304347813129426*_b[L4treat_m1] + .0072463769465685*_b[L4treat_p1] + 1.34
+> 0579712763428*_b[L8treat_p0] + .1159420274198056*_b[L8treat_m1] + 0*_b[L8trea
+> t_p1] + 1.260869566351175*_b[L12treat_p0] + .0652173906564713*_b[L12treat_m1]
+>  + 0*_b[L12treat_p1] + 1.021739130839705*_b[L16treat_p0] + 0*_b[L16treat_m1] 
+> + 0*_b[L16treat_p1] +  1.492753626778721*_b[treat_p1] + .1449275352060796*_b[
+> treat_p0] + .014492753893137*_b[treat_p2] + 1.44927536509931*_b[L4treat_p1] +
+>  .1304347813129426*_b[L4treat_p0] + .0072463769465685*_b[L4treat_p2] + 1.3405
+> 79712763428*_b[L8treat_p1] + .1159420274198056*_b[L8treat_p0] + 0*_b[L8treat_
+> p2] + 1.260869566351175*_b[L12treat_p1] + .0652173906564713*_b[L12treat_p0] +
+>  0*_b[L12treat_p2] + 1.021739130839705*_b[L16treat_p1] + 0*_b[L16treat_p0] + 
+> 0*_b[L16treat_p2] +  1.492753626778721*_b[treat_p2] + .1449275352060796*_b[tr
+> eat_p1] + .014492753893137*_b[treat_p3] + 1.44927536509931*_b[L4treat_p2] + .
+> 1304347813129426*_b[L4treat_p1] + .0072463769465685*_b[L4treat_p3] + 1.340579
+> 712763428*_b[L8treat_p2] + .1159420274198056*_b[L8treat_p1] + 0*_b[L8treat_p3
+> ] + 1.260869566351175*_b[L12treat_p2] + .0652173906564713*_b[L12treat_p1] + 0
+> *_b[L12treat_p3] + 1.021739130839705*_b[L16treat_p2] + 0*_b[L16treat_p1] + 0*
+> _b[L16treat_p3] +  1.492753626778721*_b[treat_p3] + .1449275352060796*_b[trea
+> t_p2] + .014492753893137*_b[treat_p4] + 1.44927536509931*_b[L4treat_p3] + .13
+> 04347813129426*_b[L4treat_p2] + .0072463769465685*_b[L4treat_p4] + 1.34057971
+> 2763428*_b[L8treat_p3] + .1159420274198056*_b[L8treat_p2] + 0*_b[L8treat_p4] 
+> + 1.260869566351175*_b[L12treat_p3] + .0652173906564713*_b[L12treat_p2] + 0*_
+> b[L12treat_p4] + 1.021739130839705*_b[L16treat_p3] + 0*_b[L16treat_p2] + 0*_b
+> [L16treat_p4] +  1.492753626778721*_b[treat_p4] + .1449275352060796*_b[treat_
+> p3]  + 1.44927536509931*_b[L4treat_p4] + .1304347813129426*_b[L4treat_p3]  + 
+> 1.340579712763428*_b[L8treat_p4] + .1159420274198056*_b[L8treat_p3]  + 1.2608
+> 69566351175*_b[L12treat_p4] + .0652173906564713*_b[L12treat_p3]  + 1.02173913
+> 0839705*_b[L16treat_p4] + 0*_b[L16treat_p3] )*(4*.2)*(1/.5711273156241218))/.
+> 0864819457562104)))
+          a2: (1+((( 1.492753626778721*_b[treat_m4] + .014492753893137*_b[treat
+> _m3] + 1.44927536509931*_b[L4treat_m4] + .0072463769465685*_b[L4treat_m3] + 1
+> .340579712763428*_b[L8treat_m4] + 0*_b[L8treat_m3] + 1.260869566351175*_b[L12
+> treat_m4] + 0*_b[L12treat_m3] + 1.021739130839705*_b[L16treat_m4] + 0*_b[L16t
+> reat_m3] +  1.492753626778721*_b[treat_m3] + .1449275352060796*_b[treat_m4] +
+>  .014492753893137*_b[treat_m2] + 1.44927536509931*_b[L4treat_m3] + .130434781
+> 3129426*_b[L4treat_m4] + .0072463769465685*_b[L4treat_m2] + 1.340579712763428
+> *_b[L8treat_m3] + .1159420274198056*_b[L8treat_m4] + 0*_b[L8treat_m2] + 1.260
+> 869566351175*_b[L12treat_m3] + .0652173906564713*_b[L12treat_m4] + 0*_b[L12tr
+> eat_m2] + 1.021739130839705*_b[L16treat_m3] + 0*_b[L16treat_m4] + 0*_b[L16tre
+> at_m2] +  1.492753626778721*_b[treat_m2] + .1449275352060796*_b[treat_m3] + .
+> 014492753893137*_b[treat_m1] + 1.44927536509931*_b[L4treat_m2] + .13043478131
+> 29426*_b[L4treat_m3] + .0072463769465685*_b[L4treat_m1] + 1.340579712763428*_
+> b[L8treat_m2] + .1159420274198056*_b[L8treat_m3] + 0*_b[L8treat_m1] + 1.26086
+> 9566351175*_b[L12treat_m2] + .0652173906564713*_b[L12treat_m3] + 0*_b[L12trea
+> t_m1] + 1.021739130839705*_b[L16treat_m2] + 0*_b[L16treat_m3] + 0*_b[L16treat
+> _m1] +  1.492753626778721*_b[treat_m1] + .1449275352060796*_b[treat_m2] + .01
+> 4492753893137*_b[treat_p0] + 1.44927536509931*_b[L4treat_m1] + .1304347813129
+> 426*_b[L4treat_m2] + .0072463769465685*_b[L4treat_p0] + 1.340579712763428*_b[
+> L8treat_m1] + .1159420274198056*_b[L8treat_m2] + 0*_b[L8treat_p0] + 1.2608695
+> 66351175*_b[L12treat_m1] + .0652173906564713*_b[L12treat_m2] + 0*_b[L12treat_
+> p0] + 1.021739130839705*_b[L16treat_m1] + 0*_b[L16treat_m2] + 0*_b[L16treat_p
+> 0] +  1.492753626778721*_b[treat_p0] + .1449275352060796*_b[treat_m1] + .0144
+> 92753893137*_b[treat_p1] + 1.44927536509931*_b[L4treat_p0] + .130434781312942
+> 6*_b[L4treat_m1] + .0072463769465685*_b[L4treat_p1] + 1.340579712763428*_b[L8
+> treat_p0] + .1159420274198056*_b[L8treat_m1] + 0*_b[L8treat_p1] + 1.260869566
+> 351175*_b[L12treat_p0] + .0652173906564713*_b[L12treat_m1] + 0*_b[L12treat_p1
+> ] + 1.021739130839705*_b[L16treat_p0] + 0*_b[L16treat_m1] + 0*_b[L16treat_p1]
+>  +  1.492753626778721*_b[treat_p1] + .1449275352060796*_b[treat_p0] + .014492
+> 753893137*_b[treat_p2] + 1.44927536509931*_b[L4treat_p1] + .1304347813129426*
+> _b[L4treat_p0] + .0072463769465685*_b[L4treat_p2] + 1.340579712763428*_b[L8tr
+> eat_p1] + .1159420274198056*_b[L8treat_p0] + 0*_b[L8treat_p2] + 1.26086956635
+> 1175*_b[L12treat_p1] + .0652173906564713*_b[L12treat_p0] + 0*_b[L12treat_p2] 
+> + 1.021739130839705*_b[L16treat_p1] + 0*_b[L16treat_p0] + 0*_b[L16treat_p2] +
+>   1.492753626778721*_b[treat_p2] + .1449275352060796*_b[treat_p1] + .01449275
+> 3893137*_b[treat_p3] + 1.44927536509931*_b[L4treat_p2] + .1304347813129426*_b
+> [L4treat_p1] + .0072463769465685*_b[L4treat_p3] + 1.340579712763428*_b[L8trea
+> t_p2] + .1159420274198056*_b[L8treat_p1] + 0*_b[L8treat_p3] + 1.2608695663511
+> 75*_b[L12treat_p2] + .0652173906564713*_b[L12treat_p1] + 0*_b[L12treat_p3] + 
+> 1.021739130839705*_b[L16treat_p2] + 0*_b[L16treat_p1] + 0*_b[L16treat_p3] +  
+> 1.492753626778721*_b[treat_p3] + .1449275352060796*_b[treat_p2] + .0144927538
+> 93137*_b[treat_p4] + 1.44927536509931*_b[L4treat_p3] + .1304347813129426*_b[L
+> 4treat_p2] + .0072463769465685*_b[L4treat_p4] + 1.340579712763428*_b[L8treat_
+> p3] + .1159420274198056*_b[L8treat_p2] + 0*_b[L8treat_p4] + 1.260869566351175
+> *_b[L12treat_p3] + .0652173906564713*_b[L12treat_p2] + 0*_b[L12treat_p4] + 1.
+> 021739130839705*_b[L16treat_p3] + 0*_b[L16treat_p2] + 0*_b[L16treat_p4] +  1.
+> 492753626778721*_b[treat_p4] + .1449275352060796*_b[treat_p3]  + 1.4492753650
+> 9931*_b[L4treat_p4] + .1304347813129426*_b[L4treat_p3]  + 1.340579712763428*_
+> b[L8treat_p4] + .1159420274198056*_b[L8treat_p3]  + 1.260869566351175*_b[L12t
+> reat_p4] + .0652173906564713*_b[L12treat_p3]  + 1.021739130839705*_b[L16treat
+> _p4] + 0*_b[L16treat_p3] )*(4*.2)*(1/.5711273156241218))/.0864819457562104))
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          a1 |   .0937933   .0143531     6.53   0.000     .0656617    .1219248
+          a2 |    1.02992   .0405449    25.40   0.000     .9504535    1.109387
+------------------------------------------------------------------------------
+
+       _nl_1: _b[a1]/_b[a2]
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _nl_1 |   .0910685   .0131095     6.95   0.000     .0653743    .1167627
+------------------------------------------------------------------------------
+
+added macro:
+              e(WB_Eb) : "0.091***"
+
+added macro:
+             e(WB_Ese) : "(0.013)"
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Data/data/longer_fig4_agg.dta saved
+
+. *
+. 
+. use "${data}longer_fig4_agg.dta", clear
+
+. foreach vv in below_b below_se above_b above_se ch_aff_emp_b ch_aff_emp_se ch
+> _aff_wage_b ch_aff_wage_se {
+  2. sum `vv', meanonly
+  3. assert r(min)==r(max)
+  4. local `vv': di %04.3fc r(mean) 
+  5. }
+
+. *
+. 
+.                                 twoway ( bar est bin  , fcolor(ltblue) lcolor
+> (none) ) ///
+>                                 (rcap low  high bin  , lcolor(ltblue*1.25) lw
+> idth(thick) )  ///
+>                                 (line totest bin, lcolor(red*.33) lpat(line) 
+> lwidth(thick) ) /* ///
+>                                 (line totlow  bin , color(red) lpat(dot)) ///
+>                                 (line tothigh  bin , color(red) lpat(dot))   
+>    */                      , ///
+>                                 /* xlabel(-4 "[-`=char(36)'4.25, -`=char(36)'
+> 3.25)" -2 "[-`=char(36)'2.25, -`=char(36)'1.25)" 0 "[-`=char(36)'0.25, `=char
+> (36)'0.75)" ///
+>                                  2 "[`=char(36)'1.75, `=char(36)'2.75)" 4 "[`
+> =char(36)'3.75, `=char(36)'4.75)" , labsize(medsmall) ) */ ///
+>                                   ///
+>                                   xlabel(-4 "-4"  -2 "-2"  0 "0"  2 "2"  4 "4
+> " 6 "6" 8 "8" 10 "10" 12 "12" 14 "14" 16 "16" 17 "17+" ) ///
+>                                   ///
+>                                 ylabel(-0.03(0.01)-0.01 0 "0" 0.01(0.01)0.03 
+> , format(%03.2f) labsize(medsmall)) ysc(range(-0.03 0.03)) scheme(s1color) /*
+> xtitle("Wage Bin")*/ xtitle("Wage bins in `=char(36)' relative to new MW", si
+> ze(medsmall)) xsc(titlegap(*10)) ///
+>                                 ytitle("Difference between actual and counter
+> factual employment count" "relative to the pre-treatment total employment", h
+> eight(10) size(small))   ///
+>                                 text(0.0255 11.73  "{&Delta}a =  `above_b' (`
+> above_se')" "{&Delta}b = `below_b' (`below_se')" "%{&Delta} affected employme
+> nt =  `ch_aff_emp_b' (`ch_aff_emp_se')" ///   
+>                                 "%{&Delta} affected wage =  `ch_aff_wage_b' (
+> `ch_aff_wage_se')", box  fcolor(white) margin(0.2 0.2 1 1) justification(righ
+> t) ) ///
+>                                 /*title("${label`s'}", size(medium) )*/ legen
+> d(off) /*  ///
+>                                 note("${bunchest}" , size(small) color(blue))
+>  */
+(note:  named style line not found in class linepattern, default attributes
+    used)
+(note:  named style line not found in class linepattern, default attributes
+    used)
+
+. 
+. gr export "${figures}FigureA6.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA6.pdf saved as PDF
+    format
+
+. 
+. 
+. 
+. 
+. 
+. 
+end of do-file

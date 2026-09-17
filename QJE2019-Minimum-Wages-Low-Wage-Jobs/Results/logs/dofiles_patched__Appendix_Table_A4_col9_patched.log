@@ -1,0 +1,1355 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/dofiles_patched__Appendix_Table
+> _A4_col9_patched.log
+  log type:  text
+ opened on:  17 Sep 2026, 20:26:46
+
+. * PATCHED COPY of Program/dofiles/Appendix_Table_A4_col9.do.
+. * Author bug: master_QJE.do calls this file without the 3 arguments it reads 
+> (w_upper w_lower w_increment) -> r(198).
+. * Fix: when no arguments are passed, use the defaults of finerabovebelowbunch
+>  in create_programs.do (500 400 25 cents),
+. * i.e. the 25-cent-increment treatment of Table A.4 column 9 (paper column la
+> bel). Nothing else changed.
+. if `"`1'"' == "" {
+.         local 1 500
+.         local 2 400
+.         local 3 25
+. }
+
+. 
+. *This do file is created by DC on 03/30/2016
+. 
+. 
+.                 
+. **** DEFINE REGRESSION COMMAND AND CONTROLS *****
+. 
+.  
+. foreach s in 0a 1 {
+  2.         global rtype`s' reghdfe
+  3. }
+
+. 
+. 
+. global a1  i.wagebinstate i.wagequarterdate  // distributional TWFE
+
+.  
+. 
+. global label1 TWFE
+
+. 
+. local w_upper = `1'
+
+. local w_lower = `2'
+
+. local w_increment = `3'
+
+. 
+. 
+. use "${data}qcew_state_overall_counts_2016.dta", clear
+
+. rename statefips statenum
+
+. gen quarterdate = yq(year, quarter)
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27563.000001 saved
+    as .dta format
+
+. 
+. 
+. treatmentcontrolwindows
+
+. 
+. finertreatmentwindow
+
+. treatmentdefinition                                                          
+>                                                                    // This on
+> ly calls the data.
+You are using the primary working data.
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. merge m:1 statenum quarterdate using `qcew',assert(3) nogenerate
+(variable quarterdate was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+. replace count = count*emp/countall if emp!=0
+(710,139 real changes made)
+
+. cap drop overallcountpc
+
+. gen overallcountpc=count/population 
+
+. replace overallcountpcall = emp/population  if emp!=0
+(905,112 real changes made)
+
+. 
+. 
+. finertreatmentdefinitionexact
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(138 real changes made)
+(17,901 missing values generated)
+(23,868 missing values generated)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(23,868 missing values generated)
+(41,769 missing values generated)
+(23,868 real changes made)
+(41,769 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(47,736 missing values generated)
+(65,637 missing values generated)
+(47,736 real changes made)
+(65,637 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(71,604 missing values generated)
+(89,505 missing values generated)
+(71,604 real changes made)
+(89,505 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(95,472 missing values generated)
+(113,373 missing values generated)
+(95,472 real changes made)
+(113,373 real changes made)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+(17,901 missing values generated)
+  variable quarterdate was float now int
+  variable window_p0 was float now byte
+  variable window_p25 was float now byte
+  variable window_p50 was float now byte
+  variable window_p75 was float now byte
+  variable window_p100 was float now byte
+  variable window_p125 was float now byte
+  variable window_p150 was float now byte
+  variable window_p175 was float now byte
+  variable window_p200 was float now byte
+  variable window_p225 was float now byte
+  variable window_p250 was float now byte
+  variable window_p275 was float now byte
+  variable window_p300 was float now byte
+  variable window_p325 was float now byte
+  variable window_p350 was float now byte
+  variable window_p375 was float now byte
+  variable window_p400 was float now byte
+  variable window_p425 was float now byte
+  variable window_p450 was float now byte
+  variable window_p475 was float now byte
+  variable window_m25 was float now byte
+  variable window_m50 was float now byte
+  variable window_m75 was float now byte
+  variable window_m100 was float now byte
+  variable window_m125 was float now byte
+  variable window_m150 was float now byte
+  variable window_m175 was float now byte
+  variable window_m200 was float now byte
+  variable window_m225 was float now byte
+  variable window_m250 was float now byte
+  variable window_m275 was float now byte
+  variable window_m300 was float now byte
+  variable window_m325 was float now byte
+  variable window_m350 was float now byte
+  variable window_m375 was float now byte
+  variable window_m400 was float now byte
+  (99,768,240 bytes saved)
+
+. finerabovebelowbunch, wmincent(`w_lower') wmaxcent(`w_upper') wincrement(`w_i
+> ncrement')
+
+. abovebelowfull
+Make sure that belowL16 and aboveL16 exists. Otherwise the program does not wor
+> k. Assertion will be false.
+
+. 
+. *****************************************************************************
+> ***
+. ***********************           Weights           *************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. cap drop wt 
+
+. foreach Y in   overall  { 
+  2.         foreach b of numlist 1995 1979{
+  3.                                         global weight`Y'`b' "[aw=wt`Y'`b']
+> " 
+  4.                                         }
+  5. }  
+
+. *
+. 
+. 
+. *****************************************************************************
+> ***
+. **************     Sample and Control Specific Macros           *************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. local limittreat "_stateonly"
+
+. 
+. 
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. **************      To name the graph              **************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. if "${disagg}" == "Y"{
+. local temp1 "disaggcont"
+. }
+
+. else{
+. local temp1 "aggcont"
+. }
+
+. 
+. if "$controlmethod" == "Linear"{
+. local temp2 "L"
+. }
+
+. else{
+. if "$controlmethod" == "None"{
+. local temp1 "nocont"
+. }
+. else{
+. local temp2 "A"
+. }
+. }
+
+. cap drop one
+
+. cap drop counter
+
+. g one =1        
+
+.         
+. *****************************************************************************
+> ***
+. ***************          Useful to Find Below Share Wages               *****
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. cap drop statequarterdate
+
+. egen statequarterdate = group(state quarterdate)
+
+. sort statequarterdate wagebins
+
+. 
+. cap drop overallWB*
+
+. g overallWBFH = wagebins*count/(100)
+
+. g overallWBpcFH = wagebins*count/(100*population)
+
+. 
+. cap drop overallWBpcrsumFH
+
+. g overallWBpcrsumFH=0
+
+. replace overallWBpcrsumFH = overallWBpcFH if wagebins==100
+(2,827 real changes made)
+
+. replace overallWBpcrsumFH = overallWBpcrsumFH[_n-1] + overallWBpcFH if wagebi
+> ns>100
+(876,538 real changes made)
+
+.         
+. cap drop overallcountpcrsum
+
+. g overallcountpcrsum=0
+
+. replace overallcountpcrsum = overallcountpc if wagebins==100
+(2,827 real changes made)
+
+. replace overallcountpcrsum = overallcountpcrsum[_n-1] + overallcountpc if wag
+> ebins>100
+(876,538 real changes made)
+
+.         
+.         
+. 
+. *****************************************************************************
+> *** 
+. **********************       REGRESSIONS AND FIGURES        *****************
+> ***
+. *****************************************************************************
+> ***
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. compress
+  variable one was float now byte
+  variable statequarterdate was float now int
+  (4,534,920 bytes saved)
+
+. 
+. 
+. 
+. 
+. local limittreat "_stateonly"
+
+. 
+. if "${disagg}" == "Y"{
+. local temp1 "disaggcont"
+. }
+
+. else{
+. local temp1 "aggcont"
+. }
+
+. 
+. if "$controlmethod" == "Linear"{
+. local temp2 "L"
+. }
+
+. else{
+. if "$controlmethod" == "None"{
+. local temp1 "nocont"
+. }
+. else{
+. local temp2 "A"
+. }
+. }
+
+. *
+. cap drop temp
+
+.         gen temp = 1* (wagebins==3000) + 2*1* (wagebins==2975)+ 3*1* (wagebin
+> s==2950)
+
+.         cap drop clustervar
+
+.         egen clustervar = group(statenum temp)
+
+. 
+. foreach Y in   overall  { 
+  2. foreach b in   1979 {
+  3.                                         ***  define MW change ***
+.                                 sum DMW_real if fedincrease!=1 & overallcount
+> gr>0 & year>=`b' & cleansample ==1   ${weight`Y'`b'}
+  4.                                 local mwc = r(mean)
+  5.                                 sum MW_real if  F.fedincrease!=1 & F.overa
+> llcountgr>0 & year>=`b' & cleansample ==1   ${weight`Y'`b'}
+  6.                                 local mw = r(mean)
+  7.                                 local mwpc = `mwc'/`mw'
+  8.                                 local mwpc2 : di  %04.3f `mwpc'
+  9. 
+.                                 sum `Y'countpcall if ((F.fedincrease != 1 & F
+> .fedincrease != . & F.overallcountgr>0 & F.overallcountgr!=. ) | ///
+>                                 (F2.fedincrease != 1 & F2.overallcountgr>0 & 
+> F2.fedincrease != . & F2.overallcountgr!=. ) ///
+>                                 | (F3.fedincrease != 1 & F3.overallcountgr>0 
+> & F3.fedincrease != . & F3.overallcountgr!=. ) ///
+>                                 | (F4.fedincrease != 1 & F4.overallcountgr>0 
+> & F4.fedincrease != . & F4.overallcountgr!=. ) ) & year>=`b' & cleansample ==
+> 1 ///
+>                                  ${weight`Y'`b'}                 // CHECK THI
+> S  2/2/16
+ 10. 
+.                                 local epop = r(mean)
+ 11.                                 global E = `epop'
+ 12.                                         
+.                                 global C = 1/(`epop'*`mwpc')
+ 13.                         
+.                         
+.                                 *Below share
+. 
+.                                 
+.                                 sum overallcountpcrsum if ( F.fedincrease!=1 
+> & F.overallcountgr>0  & (wagebins+25)/100==F1MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> (wagebins+25)/100==F2MW_realM25 ) | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0  & 
+> (wagebins+25)/100==F3MW_realM25) | ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> (wagebins+25)/100==F4MW_realM25 ) ///
+>                                 & year>=`b' & cleansample ==1     ${weight`Y'
+> `b'}                       
+ 14.                                 
+.                                 global B = r(mean)/${E}
+ 15.                                 local belsh2 : di  %04.3f $B
+ 16. 
+.                                 *Affected share
+.                                 
+.                                 sum `Y'countpcrsum if ( F.fedincrease!=1 & F.
+> overallcountgr>0  & (wagebins)/100==MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> (wagebins)/100==MW_realM25 ) | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0  & 
+> (wagebins)/100==MW_realM25) | ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> (wagebins)/100==MW_realM25 ) ///
+>                                 & year>=1979 & cleansample ==1    ${weight`Y'
+> `b'}                       
+ 17.                                 
+.                                 global AS`Y' = $B - (r(mean)/${E})
+ 18.                                 local affsh`Y' : di  %04.3f ${AS`Y'}
+ 19.                                 
+.                                 
+.                                 
+.                                 *********************************************
+> *******************
+.                                 *************    Wagebill related globals    
+>    ****************
+.                                 *********************************************
+> *******************
+. 
+.                                 sum overallWBpcrsumFH if ( F.fedincrease!=1 &
+>  F.overallcountgr>0  & (wagebins+25)/100==F1MW_realM25) | ///
+>                                  ( F2.fedincrease!=1 & F2.overallcountgr>0 & 
+> (wagebins+25)/100==F2MW_realM25 ) | ///
+>                                 ( F3.fedincrease!=1 & F3.overallcountgr>0  & 
+> (wagebins+25)/100==F3MW_realM25) | ///
+>                                  ( F4.fedincrease!=1 & F4.overallcountgr>0 & 
+> (wagebins+25)/100==F4MW_realM25 ) ///
+>                                 & year>=`b' & cleansample ==1     ${weight`Y'
+> `b'}                       
+ 20.         
+.                                 global EWB = r(mean)
+ 21.                                 local EWB2 : di  %04.3f $EWB
+ 22.                                 cap drop tempweight     
+ 23.                                 global CWB = 1/(${EWB}*`mwpc')
+ 24. 
+.                                 sum wagebins if treat_p0 == 1  & year>=`b' & 
+> cleansample ==1   ${weight`Y'`b'}, meanonly
+ 25.                                 global wagemult = r(mean)/100
+ 26.                                 
+.                                 
+.                                 *We have to do this here because multipliers 
+> are calculated in the loop.
+.                                 
+.                                 finerabovebelowWBbunch,wagemult(${wagemult}) 
+> wmaxcent(`w_upper') wmincent(`w_lower')  wincrement(`w_increment')
+ 27.                                 abovebelowWBfull
+ 28. 
+.                                 di "Here!"
+ 29.                         
+.                                 foreach s in 1 {                
+ 30.                                 *** REGRESSION *** 
+. 
+.                                 di "${rtype`s'} `Y'countpc  ${treatafterm400}
+>   ${treatafterm200}   ${treatafterp0}   ${treatafterp250}     if  year>=`b'  
+> & cleansample==1 ${if`s'}  ${weight`Y'`b'} , a(${a`s'}  ${control} ${controlf
+> } ${window} ${controlbefore} )  cluster(clustervar)"
+ 31.                                 ${rtype`s'} `Y'countpc  ${treatafterm400} 
+>  ${treatafterm200}   ${treatafterp0}   ${treatafterp250}     if  year>=`b'  &
+>  cleansample==1 ${if`s'}  ${weight`Y'`b'} , a(${a`s'}  ${control} ${controlf}
+>  ${window} ${controlbefore} )   cluster(clustervar)
+ 32.                                 est save "${estimates}finertreatmentall`w_
+> increment'`limitsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin
+> }", replace 
+ 33.                         
+.                                 
+.                                 est use "${estimates}finertreatmentall`w_incr
+> ement'`limitsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}" 
+ 34. 
+.                                 local dof = e(df_r)
+ 35.                                 local numberobs = e(N)
+ 36.                                 count if fedincrease!=1 & overallcountgr>0
+>  & wagebins==300
+ 37.                                 local numberevent = r(N)
+ 38.                                 local denominator = 0.2
+ 39.                                 
+. 
+. 
+.                                 
+.                         *****************************************************
+> ***************
+.                         ****************          Table           ***********
+> ***************
+.                         *****************************************************
+> ***************
+. 
+.                                 local wincrement = `w_increment'
+ 40.                                 local multiplier = `wincrement'/25
+ 41. 
+.                         
+.                         
+.                         est use "${estimates}finertreatmentall`w_increment'`l
+> imitsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 42.                         
+.                         
+.                         
+.                         lincomestadd (${below_full})*(`denominator')*(1/${E})
+> *(`multiplier')                                                    , statname
+> (below_E)                             // Multiplying by some number because b
+> ins are in 25 cent precision. To average by time, dividing by 5.
+ 43.                         local est1b "`e(below_Eb)'"
+ 44.                         local est1se "`e(below_Ese)'"
+ 45.                         lincomestadd (${above_full})*(`denominator')*(1/${
+> E})*(`multiplier')                                                    , statn
+> ame(above_E)                                     // Multiplying by some numbe
+> r because bins are in 25 cent precision. To average by time, dividing by 5.
+ 46.                         local est2b "`e(above_Eb)'"
+ 47.                         local est2se "`e(above_Ese)'"
+ 48.                         est use "${estimates}finertreatmentall`w_increment
+> '`limitsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 49.                         
+. *                       lincomestadd (${below_full} + ${above_full})*(4*`deno
+> minator')*(1/${E})                 , statname(chemp_E)                       
+>               // Multiplying by some number because bins are in 25 cent preci
+> sion. To average by time, dividing by 5. 
+.                         lincomestadd ((${below_full} + ${above_full})*(`denom
+> inator')*(`multiplier')*(1/${E}))/${B}     , statname(bunching_E)            
+>               // Multiplying by some number because bins are in 25 cent preci
+> sion. To average by time, dividing by 5.                         
+ 50.                         local est3b "`e(bunching_Eb)'"
+ 51.                         local est3se "`e(bunching_Ese)'"
+ 52.                         
+.                         lincomestadd (${below_full} + ${above_full})*(`multip
+> lier')*(`denominator')*${C}                                , statname(bunchel
+> as_E)                         // Multiplying by 4 because bins are in 25 cent
+>  precision. To average by time, dividing by 5.
+ 53.                         local est4b "`e(bunchelas_Eb)'"
+ 54.                         local est4se "`e(bunchelas_Ese)'"
+ 55. 
+.                         est use "${estimates}finertreatmentall`w_increment'`l
+> imitsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 56.                         
+.                         *Eexpression is too long.
+.                         nlcom (a1:((${belowWB_full}+${aboveWB_full})*(`denomi
+> nator')/$EWB )) ///
+>                         (a2:(((${below_full} + ${above_full})*(`denominator')
+> *(1/${E}))/${B})), post
+ 57.                         nlcomestadd  (_b[a1] - _b[a2])/(1+_b[a2])         
+>                                                                              
+>                  , statname(WB_E) dof(`dof')     
+ 58.                         local est5b "`e(WB_Eb)'"
+ 59.                         local est5se "`e(WB_Ese)'"
+ 60.                         
+.                         est use "${estimates}finertreatmentall`w_increment'`l
+> imitsample'`limittreat'_`s'_`Y'_`b'_`temp1'_`temp2'_${Tmax}${Tmin}"
+ 61.                         
+. 
+.                         nlcom (a1:((${belowWB_full}+${aboveWB_full})*(`denomi
+> nator')/$EWB )) ///
+>                         (a2:(((${below_full} + ${above_full})*(`denominator')
+> *(1/${E}))/${B})), post
+ 62.                         
+.                         nlcomestadd  (_b[a2])/((_b[a1] - _b[a2])/(1+_b[a2])) 
+>                                                                              
+>                       , statname(labordem_E) dof(`dof')       
+ 63.                         local est6b "`e(labordem_Eb)'"
+ 64.                         local est6se "`e(labordem_Ese)'"
+ 65.                         
+.                         
+.                         reg one
+ 66.                         
+.                         estadd local numobs = "`numberobs'"
+ 67.                         estadd local numevent = "`numberevent'"
+ 68.                         estadd local minwpc     = "`mwpc2'"
+ 69.                         estadd local belsh      = "`belsh2'"
+ 70.                         estadd local wagebinstate               = "Y"     
+>               
+ 71. 
+.                         estadd local below_Eb = "`est1b'"
+ 72.                         estadd local below_Ese = "`est1se'"
+ 73.                         estadd local above_Eb = "`est2b'"
+ 74.                         estadd local above_Ese = "`est2se'"
+ 75.                         estadd local bunching_Eb = "`est3b'"
+ 76.                         estadd local bunching_Ese = "`est3se'"
+ 77.                         estadd local bunchelas_Eb = "`est4b'"
+ 78.                         estadd local bunchelas_Ese = "`est4se'"
+ 79.                         estadd local WB_Eb = "`est5b'"
+ 80.                         estadd local WB_Ese = "`est5se'"
+ 81.                         estadd local labordem_Eb = "`est6b'"
+ 82.                         estadd local labordem_Ese = "`est6se'"
+ 83.                         
+. 
+.                         
+.                         estadd local wagebinperiod              = "Y"
+ 84. 
+.                         
+.                         
+.                         eststo ta_`Y'_`b'_${label`s'}
+ 85. 
+.                         
+.                 }
+ 86.                         
+.         }
+ 87.  }
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |  16,029  8.5825e+10    .7960962    .399756   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |  22,113  1.1584e+11    7.859571   .9471371   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~l |  63,999  3.4011e+11    .5711273   .0651657   .4235719   1.447222
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |     552  2.9312e+09    .0493922   .0161435   .0096957   .1725448
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |     742  3.8571e+09    .0357585   .0159401   .0039513   .1513094
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallW~mFH |     552  2.9312e+09     .350835    .146225   .0658011   1.376678
+Make sure that belowL16 and aboveL16 exists. Otherwise the program does not wor
+> k. Assertion will be false.
+Here!
+reghdfe overallcountpc   treat_m400 treat_m375 treat_m350 treat_m325 treat_m300
+>  treat_m275 treat_m250 treat_m225 L4treat_m400 L4treat_m375 L4treat_m350 L4tr
+> eat_m325 L4treat_m300 L4treat_m275 L4treat_m250 L4treat_m225 L8treat_m400 L8t
+> reat_m375 L8treat_m350 L8treat_m325 L8treat_m300 L8treat_m275 L8treat_m250 L8
+> treat_m225 L12treat_m400 L12treat_m375 L12treat_m350 L12treat_m325 L12treat_m
+> 300 L12treat_m275 L12treat_m250 L12treat_m225 L16treat_m400 L16treat_m375 L16
+> treat_m350 L16treat_m325 L16treat_m300 L16treat_m275 L16treat_m250 L16treat_m
+> 225   treat_m200 treat_m175 treat_m150 treat_m125 treat_m100 treat_m75 treat_
+> m50 treat_m25 L4treat_m200 L4treat_m175 L4treat_m150 L4treat_m125 L4treat_m10
+> 0 L4treat_m75 L4treat_m50 L4treat_m25 L8treat_m200 L8treat_m175 L8treat_m150 
+> L8treat_m125 L8treat_m100 L8treat_m75 L8treat_m50 L8treat_m25 L12treat_m200 L
+> 12treat_m175 L12treat_m150 L12treat_m125 L12treat_m100 L12treat_m75 L12treat_
+> m50 L12treat_m25 L16treat_m200 L16treat_m175 L16treat_m150 L16treat_m125 L16t
+> reat_m100 L16treat_m75 L16treat_m50 L16treat_m25    treat_p0 treat_p25 treat_
+> p50 treat_p75 treat_p100 treat_p125 treat_p150 treat_p175 treat_p200 treat_p2
+> 25 L4treat_p0 L4treat_p25 L4treat_p50 L4treat_p75 L4treat_p100 L4treat_p125 L
+> 4treat_p150 L4treat_p175 L4treat_p200 L4treat_p225 L8treat_p0 L8treat_p25 L8t
+> reat_p50 L8treat_p75 L8treat_p100 L8treat_p125 L8treat_p150 L8treat_p175 L8tr
+> eat_p200 L8treat_p225 L12treat_p0 L12treat_p25 L12treat_p50 L12treat_p75 L12t
+> reat_p100 L12treat_p125 L12treat_p150 L12treat_p175 L12treat_p200 L12treat_p2
+> 25 L16treat_p0 L16treat_p25 L16treat_p50 L16treat_p75 L16treat_p100 L16treat_
+> p125 L16treat_p150 L16treat_p175 L16treat_p200 L16treat_p225    treat_p250 tr
+> eat_p275 treat_p300 treat_p325 treat_p350 treat_p375 treat_p400 treat_p425 tr
+> eat_p450 treat_p475 L4treat_p250 L4treat_p275 L4treat_p300 L4treat_p325 L4tre
+> at_p350 L4treat_p375 L4treat_p400 L4treat_p425 L4treat_p450 L4treat_p475 L8tr
+> eat_p250 L8treat_p275 L8treat_p300 L8treat_p325 L8treat_p350 L8treat_p375 L8t
+> reat_p400 L8treat_p425 L8treat_p450 L8treat_p475 L12treat_p250 L12treat_p275 
+> L12treat_p300 L12treat_p325 L12treat_p350 L12treat_p375 L12treat_p400 L12trea
+> t_p425 L12treat_p450 L12treat_p475 L16treat_p250 L16treat_p275 L16treat_p300 
+> L16treat_p325 L16treat_p350 L16treat_p375 L16treat_p400 L16treat_p425 L16trea
+> t_p450 L16treat_p475     if  year>=1979  & cleansample==1   [aw=wtoverall1979
+> ] , a(i.wagebinstate i.wagequarterdate    postcont_m  precont_m  earlycont_m 
+>  postcont_p  precont_p  earlycont_p    postcontf_m  precontf_m  earlycontf_m 
+>  postcontf_p  precontf_p  earlycontf_p    i.one##c.window_m400  i.one##c.wind
+> ow_m375  i.one##c.window_m350  i.one##c.window_m325  i.one##c.window_m300  i.
+> one##c.window_m275  i.one##c.window_m250  i.one##c.window_m225  i.one##c.wind
+> ow_m200  i.one##c.window_m175  i.one##c.window_m150  i.one##c.window_m125  i.
+> one##c.window_m100  i.one##c.window_m75  i.one##c.window_m50  i.one##c.window
+> _m25  i.one##c.window_p0  i.one##c.window_p25  i.one##c.window_p50  i.one##c.
+> window_p75  i.one##c.window_p100  i.one##c.window_p125  i.one##c.window_p150 
+>  i.one##c.window_p175  i.one##c.window_p200  i.one##c.window_p225  i.one##c.w
+> indow_p250  i.one##c.window_p275  i.one##c.window_p300  i.one##c.window_p325 
+>  i.one##c.window_p350  i.one##c.window_p375  i.one##c.window_p400  i.one##c.w
+> indow_p425  i.one##c.window_p450  i.one##c.window_p475    i.one#c.F12treat_m4
+> 00 i.one#c.F12treat_m375 i.one#c.F12treat_m350 i.one#c.F12treat_m325 i.one#c.
+> F12treat_m300 i.one#c.F12treat_m275 i.one#c.F12treat_m250 i.one#c.F12treat_m2
+> 25 i.one#c.F12treat_m200 i.one#c.F12treat_m175 i.one#c.F12treat_m150 i.one#c.
+> F12treat_m125 i.one#c.F12treat_m100 i.one#c.F12treat_m75 i.one#c.F12treat_m50
+>  i.one#c.F12treat_m25 i.one#c.F12treat_p0 i.one#c.F12treat_p25 i.one#c.F12tre
+> at_p50 i.one#c.F12treat_p75 i.one#c.F12treat_p100 i.one#c.F12treat_p125 i.one
+> #c.F12treat_p150 i.one#c.F12treat_p175 i.one#c.F12treat_p200 i.one#c.F12treat
+> _p225 i.one#c.F12treat_p250 i.one#c.F12treat_p275 i.one#c.F12treat_p300 i.one
+> #c.F12treat_p325 i.one#c.F12treat_p350 i.one#c.F12treat_p375 i.one#c.F12treat
+> _p400 i.one#c.F12treat_p425 i.one#c.F12treat_p450 i.one#c.F12treat_p475 i.one
+> #c.F8treat_m400 i.one#c.F8treat_m375 i.one#c.F8treat_m350 i.one#c.F8treat_m32
+> 5 i.one#c.F8treat_m300 i.one#c.F8treat_m275 i.one#c.F8treat_m250 i.one#c.F8tr
+> eat_m225 i.one#c.F8treat_m200 i.one#c.F8treat_m175 i.one#c.F8treat_m150 i.one
+> #c.F8treat_m125 i.one#c.F8treat_m100 i.one#c.F8treat_m75 i.one#c.F8treat_m50 
+> i.one#c.F8treat_m25 i.one#c.F8treat_p0 i.one#c.F8treat_p25 i.one#c.F8treat_p5
+> 0 i.one#c.F8treat_p75 i.one#c.F8treat_p100 i.one#c.F8treat_p125 i.one#c.F8tre
+> at_p150 i.one#c.F8treat_p175 i.one#c.F8treat_p200 i.one#c.F8treat_p225 i.one#
+> c.F8treat_p250 i.one#c.F8treat_p275 i.one#c.F8treat_p300 i.one#c.F8treat_p325
+>  i.one#c.F8treat_p350 i.one#c.F8treat_p375 i.one#c.F8treat_p400 i.one#c.F8tre
+> at_p425 i.one#c.F8treat_p450 i.one#c.F8treat_p475 )  cluster(clustervar)

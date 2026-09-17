@@ -1,0 +1,184 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Table_A1_A2.log
+  log type:  text
+ opened on:  17 Sep 2026, 20:26:31
+
+. sysuse auto,clear
+(1978 automobile data)
+
+. reg mpg weight
+
+      Source |       SS           df       MS      Number of obs   =        74
+-------------+----------------------------------   F(1, 72)        =    134.62
+       Model |   1591.9902         1   1591.9902   Prob > F        =    0.0000
+    Residual |  851.469256        72  11.8259619   R-squared       =    0.6515
+-------------+----------------------------------   Adj R-squared   =    0.6467
+       Total |  2443.45946        73  33.4720474   Root MSE        =    3.4389
+
+------------------------------------------------------------------------------
+         mpg | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      weight |  -.0060087   .0005179   -11.60   0.000    -.0070411   -.0049763
+       _cons |   39.44028   1.614003    24.44   0.000     36.22283    42.65774
+------------------------------------------------------------------------------
+
+. tempfile dummyestimates
+
+. estimates save `dummyestimates'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St27457.000001 saved
+
+. 
+. * list of groups to use
+. local grouplist overall HSD HSL teen female BH CK1 CK2 CK3
+
+. local numgroups = 0
+
+. foreach group in `grouplist' {
+  2.         local numgroups = `numgroups' + 1
+  3. }
+
+. 
+. * identify estimates files
+. foreach group in `grouplist' {
+  2.         * bunching estimates
+.         if "`group'" == "overall" {
+  3.                 local ster_bunchemp`group' "${estimates}Table1aafterqcew_s
+> tateonly_1_overall_1979_aggcont_A_1612_estadd.ster"
+  4.                 local ster_bunchwage`group' "${estimates}Table1aafterqcew_
+> stateonly_1_overall_1979_aggcont_A_1612_estadd.ster"
+  5.         }
+  6.         else if "`group'" == "CK1" {
+  7.                 local ster_bunchemp`group' "${estimates}CKforplacebofig_tr
+> ue_stateonly_1_first__1979_w_aggcont_A_1612_estadd.ster"
+  8.                 local ster_bunchwage`group' "${estimates}CKforplacebofig_t
+> rue_stateonly_1_first__1979_w_aggcont_A_1612_estadd.ster"
+  9.         }
+ 10.         else if "`group'" == "CK2" {
+ 11.                 local ster_bunchemp`group' "${estimates}CKforplacebofig_tr
+> ue_stateonly_1_fourth__1979_w_aggcont_A_1612_estadd.ster"
+ 12.                 local ster_bunchwage`group' "${estimates}CKforplacebofig_t
+> rue_stateonly_1_fourth__1979_w_aggcont_A_1612_estadd.ster"
+ 13.         }
+ 14.         else if "`group'" == "CK3" {
+ 15.                 local ster_bunchemp`group' "${estimates}CKforplacebofig_tr
+> ue_stateonly_1_fifth__1979_w_aggcont_A_1612_estadd.ster"
+ 16.                 local ster_bunchwage`group' "${estimates}CKforplacebofig_t
+> rue_stateonly_1_fifth__1979_w_aggcont_A_1612_estadd.ster"
+ 17.         }
+ 18.         else {
+ 19.                 local ster_bunchemp`group' "${estimates}Table4aqcewafter_s
+> tateonly_1_`group'_1979_aggcont_A_1612_estadd.ster"
+ 20.                 local ster_bunchwage`group' "${estimates}Table4aqcewafter_
+> stateonly_1_`group'_1979_aggcont_A_1612_estadd.ster"
+ 21.         }
+ 22. 
+.         * aggregate estimates
+.         if "`group'" == "CK1" {
+ 23.                 local ster_aggemp`group' "${estimates}eventbased_aggregate
+> _CKgroup1_empelas_TWFE.ster"
+ 24.                 local ster_aggwage`group' `dummyestimates'
+ 25.         }
+ 26.         else if "`group'" == "CK2" {
+ 27.                 local ster_aggemp`group' "${estimates}eventbased_aggregate
+> _CKgroup2_empelas_TWFE.ster"
+ 28.                 local ster_aggwage`group' `dummyestimates'
+ 29.         }
+ 30.         else if "`group'" == "CK3" {
+ 31.                 local ster_aggemp`group' "${estimates}eventbased_aggregate
+> _CKgroup3_empelas_TWFE.ster"
+ 32.                 local ster_aggwage`group' `dummyestimates'
+ 33.         }
+ 34.         else {
+ 35.                 local ster_aggemp`group' "${estimates}eventbased_aggregate
+> _1979_1_1_`group'epop_estadd.ster"
+ 36.                 local ster_aggwage`group' `dummyestimates'
+ 37.         }
+ 38. }
+
+. 
+. * names of groups, in case we want this in the table
+. local name_overall "All workers"
+
+. local name_HSD "Less than high school"
+
+. local name_HSL "High school or less"
+
+. local name_teen "Teens"
+
+. local name_female "Women"
+
+. local name_BH "Black or Hispanic"
+
+. local name_CK1 "Predicted low wage"
+
+. local name_CK2 "Predicted middle wage"
+
+. local name_CK3 "Predicted high wage"
+
+. 
+. foreach group in `grouplist' {
+  2.         * elasticities of emp wrt mw
+.         * bunching
+.         estimates use "`ster_bunchemp`group''"
+  3.         local bunchempmwb = e(bunchelas_Eb)
+  4.         local bunchempmwse = e(bunchelas_Ese)
+  5.         local bunchempmwsenum = e(bunchelas_Ese_num)
+  6.         local bunchaffwb = e(WB_Eb)
+  7.         local bunchaffwse = e(WB_Ese)
+  8.         local bunchaffwt = e(WB_Et)
+  9. 
+.         * aggregate
+.         estimates use "`ster_aggemp`group''"
+ 10.         if substr("`group'",1,2) == "CK" {
+ 11.                 local aggempmwb = e(allempgroupb)
+ 12.                 local aggempmwse = e(allempgroupse)
+ 13.                 local aggempmwsenum = e(allempgroupse_num)
+ 14.                 local aggwagemwb = e(allwageb)
+ 15.                 local aggwagemwse = e(allwagese)
+ 16.                 local aggwagemwt = e(allwaget)
+ 17.         }
+ 18.         else {
+ 19.                 local aggempmwb = e(allempb)
+ 20.                 local aggempmwse = e(allempse)
+ 21.                 local aggempmwsenum = e(allempse_num)
+ 22.                 local aggwagemwb = e(allwageb)
+ 23.                 local aggwagemwse = e(allwagese)
+ 24.                 local aggwagemwt = e(allwaget)
+ 25.         }
+ 26. 
+.         * ratio of se's
+.         local empmwseratio: di %04.3f `bunchempmwsenum' / `aggempmwsenum'
+ 27. 
+.         * creating bunching estimates
+.         estimates use `dummyestimates'
+ 28.         estadd local empmwb `bunchempmwb'
+ 29.         estadd local empmwse `bunchempmwse'
+ 30.         estadd local wageb `bunchaffwb'
+ 31.         estadd local wagese `bunchaffwse'
+ 32.         estadd local waget `bunchaffwt'
+ 33.         eststo bunch`group', title("Bunching")
+ 34. 
+.         * create aggregate estimates
+.         estimates use `dummyestimates'
+ 35.         estadd local empmwb `aggempmwb'
+ 36.         estadd local empmwse `aggempmwse'
+ 37.         estadd local wageb `aggwagemwb'
+ 38.         estadd local wagese `aggwagemwse'
+ 39.         estadd local waget `aggwagemwt'
+ 40.         eststo agg`group', title("Aggregated")
+ 41. 
+.         * create seratio estimates
+.         estimates use `dummyestimates'
+ 42.         estadd local empmwb `empmwseratio'
+ 43.         eststo seratio`group', title("\bigcell{c}{Ratio of bunching to DOU
+> BLEBACKSLASH aggregated standard errors}")
+ 44. 
+. }
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/Table1aafterqcew_stateonly_1_overa
+> ll_1979_aggcont_A_1612_estadd.ster not found
+r(601);
+
+end of do-file

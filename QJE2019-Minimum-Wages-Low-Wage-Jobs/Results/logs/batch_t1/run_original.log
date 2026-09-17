@@ -3552,3 +3552,522 @@ reghdfe overallcountpc   treat_m4 treat_m3 treat_m2 treat_m1 treat_p0 treat_p1
 > lycontf_p    i.one#c.window_m4  i.one#c.window_m3  i.one#c.window_m2  i.one#c
 > .window_m1  i.one#c.window_p0  i.one#c.window_p1  i.one#c.window_p2  i.one#c.
 > window_p3  i.one#c.window_p4  )  cluster(statenum)
+(MWFE estimator converged in 52 iterations)
+note: one is probably collinear with the fixed effects (all partialled-out valu
+> es are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    847,314
+Absorbing 42 HDFE groups                          F(  45,     50) =     883.16
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9524
+                                                  Adj R-squared   =     0.9500
+                                                  Within R-sq.    =     0.0039
+Number of clusters (statenum) =         51        Root MSE        =     0.0024
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+overallcou~c | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    treat_m4 |  -2.25e-06   .0000425    -0.05   0.958    -.0000876    .0000831
+    treat_m3 |  -.0001006   .0000294    -3.42   0.001    -.0001598   -.0000415
+    treat_m2 |  -.0007281   .0001861    -3.91   0.000    -.0011019   -.0003544
+    treat_m1 |  -.0023537   .0003488    -6.75   0.000    -.0030543   -.0016531
+    treat_p0 |   .0025071   .0004442     5.64   0.000      .001615    .0033993
+    treat_p1 |   .0003154   .0001639     1.92   0.060    -.0000138    .0006445
+    treat_p2 |   .0001175   .0000981     1.20   0.237    -.0000796    .0003145
+    treat_p3 |   .0003641    .000091     4.00   0.000     .0001813    .0005469
+    treat_p4 |   8.52e-06   .0000874     0.10   0.923    -.0001671    .0001841
+  L4treat_m4 |  -.0000489   .0000451    -1.08   0.283    -.0001395    .0000417
+  L4treat_m3 |  -.0001581   .0000668    -2.37   0.022    -.0002922    -.000024
+  L4treat_m2 |  -.0004638   .0001303    -3.56   0.001    -.0007255    -.000202
+  L4treat_m1 |  -.0020274   .0004109    -4.93   0.000    -.0028527   -.0012021
+  L4treat_p0 |    .001964   .0003471     5.66   0.000     .0012669    .0026611
+  L4treat_p1 |   .0002789   .0002062     1.35   0.182    -.0001352    .0006929
+  L4treat_p2 |   .0001351   .0001479     0.91   0.365    -.0001619    .0004322
+  L4treat_p3 |   .0002256   .0001146     1.97   0.055    -4.62e-06    .0004559
+  L4treat_p4 |   .0001424   .0000845     1.68   0.098    -.0000274    .0003122
+  L8treat_m4 |  -.0000931   .0000564    -1.65   0.105    -.0002063    .0000201
+  L8treat_m3 |   -.000229   .0000653    -3.51   0.001    -.0003601   -.0000979
+  L8treat_m2 |  -.0004499   .0002075    -2.17   0.035    -.0008668   -.0000331
+  L8treat_m1 |  -.0017809   .0003714    -4.80   0.000    -.0025268    -.001035
+  L8treat_p0 |   .0019347   .0003923     4.93   0.000     .0011466    .0027227
+  L8treat_p1 |   .0002279   .0001611     1.41   0.163    -.0000958    .0005515
+  L8treat_p2 |   .0002529   .0001728     1.46   0.150    -.0000942    .0005999
+  L8treat_p3 |   .0002325   .0001406     1.65   0.104    -.0000499    .0005148
+  L8treat_p4 |   .0000229   .0000945     0.24   0.810     -.000167    .0002127
+ L12treat_m4 |   -.000186    .000056    -3.32   0.002    -.0002984   -.0000735
+ L12treat_m3 |  -.0002145    .000112    -1.91   0.061    -.0004394    .0000105
+ L12treat_m2 |  -.0003058   .0001812    -1.69   0.098    -.0006698    .0000582
+ L12treat_m1 |  -.0018256   .0004374    -4.17   0.000    -.0027042    -.000947
+ L12treat_p0 |   .0019389   .0004143     4.68   0.000     .0011068     .002771
+ L12treat_p1 |   .0000165    .000136     0.12   0.904    -.0002567    .0002897
+ L12treat_p2 |   .0003775   .0000889     4.25   0.000     .0001989     .000556
+ L12treat_p3 |   .0004692   .0001023     4.59   0.000     .0002638    .0006746
+ L12treat_p4 |   .0002932   .0001145     2.56   0.014     .0000632    .0005233
+ L16treat_m4 |  -.0001922   .0000483    -3.98   0.000    -.0002891   -.0000952
+ L16treat_m3 |  -.0002915   .0001138    -2.56   0.014    -.0005201   -.0000628
+ L16treat_m2 |  -.0002441   .0001641    -1.49   0.143    -.0005738    .0000855
+ L16treat_m1 |  -.0009419   .0002995    -3.15   0.003    -.0015434   -.0003404
+ L16treat_p0 |   .0016253   .0003363     4.83   0.000     .0009498    .0023008
+ L16treat_p1 |  -.0000907   .0001732    -0.52   0.603    -.0004387    .0002572
+ L16treat_p2 |   .0002223   .0001189     1.87   0.067    -.0000165    .0004611
+ L16treat_p3 |   .0004667   .0000836     5.58   0.000     .0002988    .0006346
+ L16treat_p4 |   -.000036   .0000967    -0.37   0.711    -.0002301    .0001581
+         one |          0  (omitted)
+       _cons |   .0048143   3.60e-06  1338.34   0.000     .0048071    .0048215
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------------+
+                  Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------------+---------------------------------------|
+                 wagebinstate |      5967        5967           0    *|
+   wagebinstate#c.quarterdate |      5967           0        5967    ?|
+                 wagebinstate |      5967        5967           0    *|
+ wagebinstate#c.quarterdatesq |      5967           0        5967    ?|
+              wagequarterdate |     16614           1       16613     |
+                   postcont_m |         8           1           7     |
+                    precont_m |         4           1           3    ?|
+                  earlycont_m |         5           1           4    ?|
+                   postcont_p |         8           1           7    ?|
+                    precont_p |         4           1           3    ?|
+                  earlycont_p |         5           1           4    ?|
+            one#c.F12treat_m4 |         1           0           1    ?|
+            one#c.F12treat_m3 |         1           0           1    ?|
+            one#c.F12treat_m2 |         1           0           1    ?|
+            one#c.F12treat_m1 |         1           0           1    ?|
+            one#c.F12treat_p0 |         1           0           1    ?|
+            one#c.F12treat_p1 |         1           0           1    ?|
+            one#c.F12treat_p2 |         1           0           1    ?|
+            one#c.F12treat_p3 |         1           0           1    ?|
+            one#c.F12treat_p4 |         1           0           1    ?|
+             one#c.F8treat_m4 |         1           0           1    ?|
+             one#c.F8treat_m3 |         1           0           1    ?|
+             one#c.F8treat_m2 |         1           0           1    ?|
+             one#c.F8treat_m1 |         1           0           1    ?|
+             one#c.F8treat_p0 |         1           0           1    ?|
+             one#c.F8treat_p1 |         1           0           1    ?|
+             one#c.F8treat_p2 |         1           0           1    ?|
+             one#c.F8treat_p3 |         1           0           1    ?|
+             one#c.F8treat_p4 |         1           0           1    ?|
+                  postcontf_m |         4           1           3    ?|
+                   precontf_m |         3           1           2    ?|
+                 earlycontf_m |         3           1           2    ?|
+                  postcontf_p |         4           1           3    ?|
+                   precontf_p |         3           1           2    ?|
+                 earlycontf_p |         3           1           2    ?|
+              one#c.window_m4 |         1           0           1    ?|
+              one#c.window_m3 |         1           0           1    ?|
+              one#c.window_m2 |         1           0           1    ?|
+              one#c.window_m1 |         1           0           1    ?|
+              one#c.window_p0 |         1           0           1    ?|
+              one#c.window_p1 |         1           0           1    ?|
+              one#c.window_p2 |         1           0           1    ?|
+              one#c.window_p3 |         1           0           1    ?|
+              one#c.window_p4 |         1           0           1    ?|
+----------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/Table1aafterqcew_stateonly_10_over
+> all_1979_aggcont_A_1612.ster saved
+  138
+
+ ( 1)  1.400738*treat_m4 + 1.400738*treat_m3 + 1.400738*treat_m2 +
+       1.400738*treat_m1 + 1.400738*L4treat_m4 + 1.400738*L4treat_m3 +
+       1.400738*L4treat_m2 + 1.400738*L4treat_m1 + 1.400738*L8treat_m4 +
+       1.400738*L8treat_m3 + 1.400738*L8treat_m2 + 1.400738*L8treat_m1 +
+       1.400738*L12treat_m4 + 1.400738*L12treat_m3 + 1.400738*L12treat_m2 +
+       1.400738*L12treat_m1 + 1.400738*L16treat_m4 + 1.400738*L16treat_m3 +
+       1.400738*L16treat_m2 + 1.400738*L16treat_m1 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0177016   .0038287    -4.62   0.000    -.0253917   -.0100115
+------------------------------------------------------------------------------
+
+added macro:
+           e(below_Eb) : "-0.018***"
+
+added macro:
+          e(below_Ese) : "(0.004)"
+
+ ( 1)  1.400738*treat_p0 + 1.400738*treat_p1 + 1.400738*treat_p2 +
+       1.400738*treat_p3 + 1.400738*treat_p4 + 1.400738*L4treat_p0 +
+       1.400738*L4treat_p1 + 1.400738*L4treat_p2 + 1.400738*L4treat_p3 +
+       1.400738*L4treat_p4 + 1.400738*L8treat_p0 + 1.400738*L8treat_p1 +
+       1.400738*L8treat_p2 + 1.400738*L8treat_p3 + 1.400738*L8treat_p4 +
+       1.400738*L12treat_p0 + 1.400738*L12treat_p1 + 1.400738*L12treat_p2 +
+       1.400738*L12treat_p3 + 1.400738*L12treat_p4 + 1.400738*L16treat_p0 +
+       1.400738*L16treat_p1 + 1.400738*L16treat_p2 + 1.400738*L16treat_p3 +
+       1.400738*L16treat_p4 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0196275    .003336     5.88   0.000      .012927    .0263281
+------------------------------------------------------------------------------
+
+added macro:
+           e(above_Eb) : "0.020***"
+
+added macro:
+          e(above_Ese) : "(0.003)"
+
+ ( 1)  16.19689*treat_m4 + 16.19689*treat_m3 + 16.19689*treat_m2 +
+       16.19689*treat_m1 + 16.19689*treat_p0 + 16.19689*treat_p1 +
+       16.19689*treat_p2 + 16.19689*treat_p3 + 16.19689*treat_p4 +
+       16.19689*L4treat_m4 + 16.19689*L4treat_m3 + 16.19689*L4treat_m2 +
+       16.19689*L4treat_m1 + 16.19689*L4treat_p0 + 16.19689*L4treat_p1 +
+       16.19689*L4treat_p2 + 16.19689*L4treat_p3 + 16.19689*L4treat_p4 +
+       16.19689*L8treat_m4 + 16.19689*L8treat_m3 + 16.19689*L8treat_m2 +
+       16.19689*L8treat_m1 + 16.19689*L8treat_p0 + 16.19689*L8treat_p1 +
+       16.19689*L8treat_p2 + 16.19689*L8treat_p3 + 16.19689*L8treat_p4 +
+       16.19689*L12treat_m4 + 16.19689*L12treat_m3 + 16.19689*L12treat_m2 +
+       16.19689*L12treat_m1 + 16.19689*L12treat_p0 + 16.19689*L12treat_p1 +
+       16.19689*L12treat_p2 + 16.19689*L12treat_p3 + 16.19689*L12treat_p4 +
+       16.19689*L16treat_m4 + 16.19689*L16treat_m3 + 16.19689*L16treat_m2 +
+       16.19689*L16treat_m1 + 16.19689*L16treat_p0 + 16.19689*L16treat_p1 +
+       16.19689*L16treat_p2 + 16.19689*L16treat_p3 + 16.19689*L16treat_p4 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |     .02227   .0214164     1.04   0.303    -.0207461    .0652861
+------------------------------------------------------------------------------
+
+added macro:
+        e(bunching_Eb) : "0.022"
+
+added macro:
+       e(bunching_Ese) : "(0.021)"
+
+ ( 1)  13.82899*treat_m4 + 13.82899*treat_m3 + 13.82899*treat_m2 +
+       13.82899*treat_m1 + 13.82899*treat_p0 + 13.82899*treat_p1 +
+       13.82899*treat_p2 + 13.82899*treat_p3 + 13.82899*treat_p4 +
+       13.82899*L4treat_m4 + 13.82899*L4treat_m3 + 13.82899*L4treat_m2 +
+       13.82899*L4treat_m1 + 13.82899*L4treat_p0 + 13.82899*L4treat_p1 +
+       13.82899*L4treat_p2 + 13.82899*L4treat_p3 + 13.82899*L4treat_p4 +
+       13.82899*L8treat_m4 + 13.82899*L8treat_m3 + 13.82899*L8treat_m2 +
+       13.82899*L8treat_m1 + 13.82899*L8treat_p0 + 13.82899*L8treat_p1 +
+       13.82899*L8treat_p2 + 13.82899*L8treat_p3 + 13.82899*L8treat_p4 +
+       13.82899*L12treat_m4 + 13.82899*L12treat_m3 + 13.82899*L12treat_m2 +
+       13.82899*L12treat_m1 + 13.82899*L12treat_p0 + 13.82899*L12treat_p1 +
+       13.82899*L12treat_p2 + 13.82899*L12treat_p3 + 13.82899*L12treat_p4 +
+       13.82899*L16treat_m4 + 13.82899*L16treat_m3 + 13.82899*L16treat_m2 +
+       13.82899*L16treat_m1 + 13.82899*L16treat_p0 + 13.82899*L16treat_p1 +
+       13.82899*L16treat_p2 + 13.82899*L16treat_p3 + 13.82899*L16treat_p4 = 0
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0190143   .0182854     1.04   0.303    -.0177131    .0557416
+------------------------------------------------------------------------------
+
+added macro:
+       e(bunchelas_Eb) : "0.019"
+
+added macro:
+      e(bunchelas_Ese) : "(0.018)"
+
+       _nl_1: ((((((_b[treat_m1])*(8.774882267779565-1) ) + ((_b[treat_m2])*(8.
+> 774882267779565-2) ) + ((_b[treat_m3])*(8.774882267779565-3) ) + ((_b[treat_m
+> 4])*(8.774882267779565-4) ) + ((_b[L4treat_m1])*(8.774882267779565-1) ) + ((_
+> b[L4treat_m2])*(8.774882267779565-2)) + ((_b[L4treat_m3])*(8.774882267779565-
+> 3)) + ((_b[L4treat_m4])*(8.774882267779565-4)) + ((_b[L8treat_m1])*(8.7748822
+> 67779565-1) ) + ((_b[L8treat_m2])*(8.774882267779565-2)) + ((_b[L8treat_m3])*
+> (8.774882267779565-3)) + ((_b[L8treat_m4])*(8.774882267779565-4)) + ((_b[L12t
+> reat_m1])*(8.774882267779565-1) ) + ((_b[L12treat_m2])*(8.774882267779565-2))
+>  + ((_b[L12treat_m3])*(8.774882267779565-3)) + ((_b[L12treat_m4])*(8.77488226
+> 7779565-4)) + ((_b[L16treat_m1])*(8.774882267779565-1) ) + ((_b[L16treat_m2])
+> *(8.774882267779565-2)) + ((_b[L16treat_m3])*(8.774882267779565-3)) + ((_b[L1
+> 6treat_m4])*(8.774882267779565-4))+((_b[treat_p0])*(8.774882267779565+0)) + (
+> (_b[treat_p1])*(8.774882267779565+1) ) + ((_b[treat_p2])*(8.774882267779565+2
+> ) ) + ((_b[treat_p3])*(8.774882267779565+3) ) + ((_b[treat_p4])*(8.7748822677
+> 79565+4) ) + ((_b[L4treat_p0])*(8.774882267779565+0)) + ((_b[L4treat_p1])*(8.
+> 774882267779565+1)) + ((_b[L4treat_p2])*(8.774882267779565+2)) + ((_b[L4treat
+> _p3])*(8.774882267779565+3)) + ((_b[L4treat_p4])*(8.774882267779565+4)) + ((_
+> b[L8treat_p0])*(8.774882267779565+0)) + ((_b[L8treat_p1])*(8.774882267779565+
+> 1)) + ((_b[L8treat_p2])*(8.774882267779565+2)) + ((_b[L8treat_p3])*(8.7748822
+> 67779565+3)) + ((_b[L8treat_p4])*(8.774882267779565+4)) + ((_b[L12treat_p0])*
+> (8.774882267779565+0)) + ((_b[L12treat_p1])*(8.774882267779565+1)) + ((_b[L12
+> treat_p2])*(8.774882267779565+2)) + ((_b[L12treat_p3])*(8.774882267779565+3))
+>  + ((_b[L12treat_p4])*(8.774882267779565+4)) + ((_b[L16treat_p0])*(8.77488226
+> 7779565+0)) + ((_b[L16treat_p1])*(8.774882267779565+1)) + ((_b[L16treat_p2])*
+> (8.774882267779565+2)) + ((_b[L16treat_p3])*(8.774882267779565+3)) + ((_b[L16
+> treat_p4])*(8.774882267779565+4)))*(4*.2)/.350835006841847 ) - ((((_b[treat_m
+> 1] ) + (_b[treat_m2] ) + (_b[treat_m3] ) + (_b[treat_m4] ) + (_b[L4treat_m1])
+>  + (_b[L4treat_m2]) + (_b[L4treat_m3]) + (_b[L4treat_m4]) + (_b[L8treat_m1]) 
+> + (_b[L8treat_m2]) + (_b[L8treat_m3]) + (_b[L8treat_m4]) + (_b[L12treat_m1]) 
+> + (_b[L12treat_m2]) + (_b[L12treat_m3]) + (_b[L12treat_m4]) + (_b[L16treat_m1
+> ]) + (_b[L16treat_m2]) + (_b[L16treat_m3]) + (_b[L16treat_m4]) + (_b[treat_p0
+> ]) + (_b[treat_p1] ) + (_b[treat_p2] ) + (_b[treat_p3] ) + (_b[treat_p4] ) + 
+> (_b[L4treat_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p2]) + (_b[L4treat_p3]) + (
+> _b[L4treat_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1]) + (_b[L8treat_p2]) + (_
+> b[L8treat_p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0]) + (_b[L12treat_p1]) + (
+> _b[L12treat_p2]) + (_b[L12treat_p3]) + (_b[L12treat_p4]) + (_b[L16treat_p0]) 
+> + (_b[L16treat_p1]) + (_b[L16treat_p2]) + (_b[L16treat_p3]) + (_b[L16treat_p4
+> ]))*(4*.2)*(1/.5711273156241218))/.0864819457562104))) / (1+((((_b[treat_m1] 
+> ) + (_b[treat_m2] ) + (_b[treat_m3] ) + (_b[treat_m4] ) + (_b[L4treat_m1]) + 
+> (_b[L4treat_m2]) + (_b[L4treat_m3]) + (_b[L4treat_m4]) + (_b[L8treat_m1]) + (
+> _b[L8treat_m2]) + (_b[L8treat_m3]) + (_b[L8treat_m4]) + (_b[L12treat_m1]) + (
+> _b[L12treat_m2]) + (_b[L12treat_m3]) + (_b[L12treat_m4]) + (_b[L16treat_m1]) 
+> + (_b[L16treat_m2]) + (_b[L16treat_m3]) + (_b[L16treat_m4]) + (_b[treat_p0]) 
+> + (_b[treat_p1] ) + (_b[treat_p2] ) + (_b[treat_p3] ) + (_b[treat_p4] ) + (_b
+> [L4treat_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p2]) + (_b[L4treat_p3]) + (_b[
+> L4treat_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1]) + (_b[L8treat_p2]) + (_b[L
+> 8treat_p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0]) + (_b[L12treat_p1]) + (_b[
+> L12treat_p2]) + (_b[L12treat_p3]) + (_b[L12treat_p4]) + (_b[L16treat_p0]) + (
+> _b[L16treat_p1]) + (_b[L16treat_p2]) + (_b[L16treat_p3]) + (_b[L16treat_p4]))
+> *(4*.2)*(1/.5711273156241218))/.0864819457562104))
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _nl_1 |   .0683434    .011992     5.70   0.000     .0448395    .0918472
+------------------------------------------------------------------------------
+
+added macro:
+              e(WB_Eb) : "0.068***"
+
+added macro:
+             e(WB_Ese) : "(0.012)"
+
+       _nl_1: ((((_b[treat_m1] ) + (_b[treat_m2] ) + (_b[treat_m3] ) + (_b[trea
+> t_m4] ) + (_b[L4treat_m1]) + (_b[L4treat_m2]) + (_b[L4treat_m3]) + (_b[L4trea
+> t_m4]) + (_b[L8treat_m1]) + (_b[L8treat_m2]) + (_b[L8treat_m3]) + (_b[L8treat
+> _m4]) + (_b[L12treat_m1]) + (_b[L12treat_m2]) + (_b[L12treat_m3]) + (_b[L12tr
+> eat_m4]) + (_b[L16treat_m1]) + (_b[L16treat_m2]) + (_b[L16treat_m3]) + (_b[L1
+> 6treat_m4]) + (_b[treat_p0]) + (_b[treat_p1] ) + (_b[treat_p2] ) + (_b[treat_
+> p3] ) + (_b[treat_p4] ) + (_b[L4treat_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p
+> 2]) + (_b[L4treat_p3]) + (_b[L4treat_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1
+> ]) + (_b[L8treat_p2]) + (_b[L8treat_p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0
+> ]) + (_b[L12treat_p1]) + (_b[L12treat_p2]) + (_b[L12treat_p3]) + (_b[L12treat
+> _p4]) + (_b[L16treat_p0]) + (_b[L16treat_p1]) + (_b[L16treat_p2]) + (_b[L16tr
+> eat_p3]) + (_b[L16treat_p4]))*(4*.2)*(1/.5711273156241218))/.0864819457562104
+> ) / (((((((_b[treat_m1])*(8.774882267779565-1) ) + ((_b[treat_m2])*(8.7748822
+> 67779565-2) ) + ((_b[treat_m3])*(8.774882267779565-3) ) + ((_b[treat_m4])*(8.
+> 774882267779565-4) ) + ((_b[L4treat_m1])*(8.774882267779565-1) ) + ((_b[L4tre
+> at_m2])*(8.774882267779565-2)) + ((_b[L4treat_m3])*(8.774882267779565-3)) + (
+> (_b[L4treat_m4])*(8.774882267779565-4)) + ((_b[L8treat_m1])*(8.77488226777956
+> 5-1) ) + ((_b[L8treat_m2])*(8.774882267779565-2)) + ((_b[L8treat_m3])*(8.7748
+> 82267779565-3)) + ((_b[L8treat_m4])*(8.774882267779565-4)) + ((_b[L12treat_m1
+> ])*(8.774882267779565-1) ) + ((_b[L12treat_m2])*(8.774882267779565-2)) + ((_b
+> [L12treat_m3])*(8.774882267779565-3)) + ((_b[L12treat_m4])*(8.774882267779565
+> -4)) + ((_b[L16treat_m1])*(8.774882267779565-1) ) + ((_b[L16treat_m2])*(8.774
+> 882267779565-2)) + ((_b[L16treat_m3])*(8.774882267779565-3)) + ((_b[L16treat_
+> m4])*(8.774882267779565-4))+((_b[treat_p0])*(8.774882267779565+0)) + ((_b[tre
+> at_p1])*(8.774882267779565+1) ) + ((_b[treat_p2])*(8.774882267779565+2) ) + (
+> (_b[treat_p3])*(8.774882267779565+3) ) + ((_b[treat_p4])*(8.774882267779565+4
+> ) ) + ((_b[L4treat_p0])*(8.774882267779565+0)) + ((_b[L4treat_p1])*(8.7748822
+> 67779565+1)) + ((_b[L4treat_p2])*(8.774882267779565+2)) + ((_b[L4treat_p3])*(
+> 8.774882267779565+3)) + ((_b[L4treat_p4])*(8.774882267779565+4)) + ((_b[L8tre
+> at_p0])*(8.774882267779565+0)) + ((_b[L8treat_p1])*(8.774882267779565+1)) + (
+> (_b[L8treat_p2])*(8.774882267779565+2)) + ((_b[L8treat_p3])*(8.77488226777956
+> 5+3)) + ((_b[L8treat_p4])*(8.774882267779565+4)) + ((_b[L12treat_p0])*(8.7748
+> 82267779565+0)) + ((_b[L12treat_p1])*(8.774882267779565+1)) + ((_b[L12treat_p
+> 2])*(8.774882267779565+2)) + ((_b[L12treat_p3])*(8.774882267779565+3)) + ((_b
+> [L12treat_p4])*(8.774882267779565+4)) + ((_b[L16treat_p0])*(8.774882267779565
+> +0)) + ((_b[L16treat_p1])*(8.774882267779565+1)) + ((_b[L16treat_p2])*(8.7748
+> 82267779565+2)) + ((_b[L16treat_p3])*(8.774882267779565+3)) + ((_b[L16treat_p
+> 4])*(8.774882267779565+4)))*(4*.2)/.350835006841847 ) - ((((_b[treat_m1] ) + 
+> (_b[treat_m2] ) + (_b[treat_m3] ) + (_b[treat_m4] ) + (_b[L4treat_m1]) + (_b[
+> L4treat_m2]) + (_b[L4treat_m3]) + (_b[L4treat_m4]) + (_b[L8treat_m1]) + (_b[L
+> 8treat_m2]) + (_b[L8treat_m3]) + (_b[L8treat_m4]) + (_b[L12treat_m1]) + (_b[L
+> 12treat_m2]) + (_b[L12treat_m3]) + (_b[L12treat_m4]) + (_b[L16treat_m1]) + (_
+> b[L16treat_m2]) + (_b[L16treat_m3]) + (_b[L16treat_m4]) + (_b[treat_p0]) + (_
+> b[treat_p1] ) + (_b[treat_p2] ) + (_b[treat_p3] ) + (_b[treat_p4] ) + (_b[L4t
+> reat_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p2]) + (_b[L4treat_p3]) + (_b[L4tr
+> eat_p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1]) + (_b[L8treat_p2]) + (_b[L8tre
+> at_p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0]) + (_b[L12treat_p1]) + (_b[L12t
+> reat_p2]) + (_b[L12treat_p3]) + (_b[L12treat_p4]) + (_b[L16treat_p0]) + (_b[L
+> 16treat_p1]) + (_b[L16treat_p2]) + (_b[L16treat_p3]) + (_b[L16treat_p4]))*(4*
+> .2)*(1/.5711273156241218))/.0864819457562104))) / (1+((((_b[treat_m1] ) + (_b
+> [treat_m2] ) + (_b[treat_m3] ) + (_b[treat_m4] ) + (_b[L4treat_m1]) + (_b[L4t
+> reat_m2]) + (_b[L4treat_m3]) + (_b[L4treat_m4]) + (_b[L8treat_m1]) + (_b[L8tr
+> eat_m2]) + (_b[L8treat_m3]) + (_b[L8treat_m4]) + (_b[L12treat_m1]) + (_b[L12t
+> reat_m2]) + (_b[L12treat_m3]) + (_b[L12treat_m4]) + (_b[L16treat_m1]) + (_b[L
+> 16treat_m2]) + (_b[L16treat_m3]) + (_b[L16treat_m4]) + (_b[treat_p0]) + (_b[t
+> reat_p1] ) + (_b[treat_p2] ) + (_b[treat_p3] ) + (_b[treat_p4] ) + (_b[L4trea
+> t_p0]) + (_b[L4treat_p1]) + (_b[L4treat_p2]) + (_b[L4treat_p3]) + (_b[L4treat
+> _p4]) + (_b[L8treat_p0]) + (_b[L8treat_p1]) + (_b[L8treat_p2]) + (_b[L8treat_
+> p3]) + (_b[L8treat_p4]) + (_b[L12treat_p0]) + (_b[L12treat_p1]) + (_b[L12trea
+> t_p2]) + (_b[L12treat_p3]) + (_b[L12treat_p4]) + (_b[L16treat_p0]) + (_b[L16t
+> reat_p1]) + (_b[L16treat_p2]) + (_b[L16treat_p3]) + (_b[L16treat_p4]))*(4*.2)
+> *(1/.5711273156241218))/.0864819457562104)))
+
+------------------------------------------------------------------------------
+overallcou~c | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _nl_1 |    .325855   .3132844     1.04   0.298    -.2881711    .9398811
+------------------------------------------------------------------------------
+
+added macro:
+        e(labordem_Eb) : "0.326"
+
+added macro:
+       e(labordem_Ese) : "(0.313)"
+
+added macro:
+             e(numobs) : "847314"
+
+added macro:
+           e(numevent) : "138"
+
+added macro:
+             e(minwpc) : "0.101"
+
+added macro:
+              e(belsh) : "0.086"
+
+added macro:
+       e(wagebinstate) : "Y"
+
+added macro:
+              e(trend) : "Y"
+
+added macro:
+             e(qtrend) : "Y"
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/Table1_STQ_estimates_full.ster sav
+> ed
+(MWFE estimator converged in 67 iterations)
+note: one is probably collinear with the fixed effects (all partialled-out valu
+> es are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    847,314
+Absorbing 69 HDFE groups                          F(  18,     50) =       7.65
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9658
+                                                  Adj R-squared   =     0.9570
+                                                  Within R-sq.    =     0.0002
+Number of clusters (statenum) =         51        Root MSE        =     0.0023
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+overallcou~c | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ F12treat_m4 |  -.0000602   .0000448    -1.34   0.186    -.0001503    .0000299
+ F12treat_m3 |  -6.47e-06   .0000665    -0.10   0.923      -.00014    .0001271
+ F12treat_m2 |  -.0001378   .0000796    -1.73   0.090    -.0002976    .0000221
+ F12treat_m1 |  -.0003241   .0002372    -1.37   0.178    -.0008005    .0001523
+ F12treat_p0 |   .0006552   .0002868     2.28   0.027     .0000792    .0012311
+ F12treat_p1 |   7.45e-06    .000135     0.06   0.956    -.0002636    .0002785
+ F12treat_p2 |   .0000309   .0000869     0.36   0.724    -.0001436    .0002054
+ F12treat_p3 |   .0001326   .0001373     0.97   0.339    -.0001432    .0004083
+ F12treat_p4 |  -.0001906   .0000923    -2.07   0.044    -.0003759   -5.26e-06
+  F8treat_m4 |   5.81e-06   .0000322     0.18   0.857    -.0000588    .0000704
+  F8treat_m3 |  -.0000121   .0000467    -0.26   0.798    -.0001059    .0000818
+  F8treat_m2 |   .0000983   .0000997     0.99   0.329     -.000102    .0002986
+  F8treat_m1 |  -.0001397   .0002236    -0.62   0.535    -.0005887    .0003094
+  F8treat_p0 |   .0002911   .0001596     1.82   0.074    -.0000294    .0006116
+  F8treat_p1 |  -.0000989   .0001132    -0.87   0.386    -.0003261    .0001284
+  F8treat_p2 |    .000017    .000116     0.15   0.884     -.000216      .00025
+  F8treat_p3 |   .0001352   .0001175     1.15   0.255    -.0001008    .0003712
+  F8treat_p4 |  -.0003048   .0000849    -3.59   0.001    -.0004752   -.0001343
+         one |          0  (omitted)
+       _cons |   .0048176   1.74e-06  2768.05   0.000     .0048141    .0048211
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+----------------------------------------------------------------------+
+                  Absorbed FE | Categories  - Redundant  = Num. Coefs |
+------------------------------+---------------------------------------|
+                 wagebinstate |      5967        5967           0    *|
+   wagebinstate#c.quarterdate |      5967           0        5967    ?|
+                 wagebinstate |      5967        5967           0    *|
+ wagebinstate#c.quarterdatesq |      5967           0        5967    ?|
+     wagequarterdate#division |    149526           1      149525     |
+                   postcont_m |         8           1           7     |
+                    precont_m |         4           1           3    ?|
+                  earlycont_m |         5           1           4    ?|
+                   postcont_p |         8           1           7    ?|
+                    precont_p |         4           1           3    ?|
+                  earlycont_p |         5           1           4    ?|
+               one#c.treat_m4 |         1           0           1    ?|
+               one#c.treat_m3 |         1           0           1    ?|
+               one#c.treat_m2 |         1           0           1    ?|
+               one#c.treat_m1 |         1           0           1    ?|
+               one#c.treat_p0 |         1           0           1    ?|
+               one#c.treat_p1 |         1           0           1    ?|
+               one#c.treat_p2 |         1           0           1    ?|
+               one#c.treat_p3 |         1           0           1    ?|
+               one#c.treat_p4 |         1           0           1    ?|
+             one#c.L4treat_m4 |         1           0           1    ?|
+             one#c.L4treat_m3 |         1           0           1    ?|
+             one#c.L4treat_m2 |         1           0           1    ?|
+             one#c.L4treat_m1 |         1           0           1    ?|
+             one#c.L4treat_p0 |         1           0           1    ?|
+             one#c.L4treat_p1 |         1           0           1    ?|
+             one#c.L4treat_p2 |         1           0           1    ?|
+             one#c.L4treat_p3 |         1           0           1    ?|
+             one#c.L4treat_p4 |         1           0           1    ?|
+             one#c.L8treat_m4 |         1           0           1    ?|
+             one#c.L8treat_m3 |         1           0           1    ?|
+             one#c.L8treat_m2 |         1           0           1    ?|
+             one#c.L8treat_m1 |         1           0           1    ?|
+             one#c.L8treat_p0 |         1           0           1    ?|
+             one#c.L8treat_p1 |         1           0           1    ?|
+             one#c.L8treat_p2 |         1           0           1    ?|
+             one#c.L8treat_p3 |         1           0           1    ?|
+             one#c.L8treat_p4 |         1           0           1    ?|
+            one#c.L12treat_m4 |         1           0           1    ?|
+            one#c.L12treat_m3 |         1           0           1    ?|
+            one#c.L12treat_m2 |         1           0           1    ?|
+            one#c.L12treat_m1 |         1           0           1    ?|
+            one#c.L12treat_p0 |         1           0           1    ?|
+            one#c.L12treat_p1 |         1           0           1    ?|
+            one#c.L12treat_p2 |         1           0           1    ?|
+            one#c.L12treat_p3 |         1           0           1    ?|
+            one#c.L12treat_p4 |         1           0           1    ?|
+            one#c.L16treat_m4 |         1           0           1    ?|
+            one#c.L16treat_m3 |         1           0           1    ?|
+            one#c.L16treat_m2 |         1           0           1    ?|
+            one#c.L16treat_m1 |         1           0           1    ?|
+            one#c.L16treat_p0 |         1           0           1    ?|
+            one#c.L16treat_p1 |         1           0           1    ?|
+            one#c.L16treat_p2 |         1           0           1    ?|
+            one#c.L16treat_p3 |         1           0           1    ?|
+            one#c.L16treat_p4 |         1           0           1    ?|
+                  postcontf_m |         4           1           3    ?|
+                   precontf_m |         3           1           2    ?|
+                 earlycontf_m |         3           1           2    ?|
+                  postcontf_p |         4           1           3    ?|
+                   precontf_p |         3           1           2    ?|
+                 earlycontf_p |         3           1           2    ?|
+              one#c.window_m4 |         1           0           1    ?|
+              one#c.window_m3 |         1           0           1    ?|
+              one#c.window_m2 |         1           0           1    ?|
+              one#c.window_m1 |         1           0           1    ?|
+              one#c.window_p0 |         1           0           1    ?|
+              one#c.window_p1 |         1           0           1    ?|
+              one#c.window_p2 |         1           0           1    ?|
+              one#c.window_p3 |         1           0           1    ?|
+              one#c.window_p4 |         1           0           1    ?|
+----------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/Table1abeforeqcew_stateonly_11_ove
+> rall_1979_aggcont_A_1612.ster saved
+reghdfe overallcountpc   treat_m4 treat_m3 treat_m2 treat_m1 treat_p0 treat_p1 
+> treat_p2 treat_p3 treat_p4 L4treat_m4 L4treat_m3 L4treat_m2 L4treat_m1 L4trea
+> t_p0 L4treat_p1 L4treat_p2 L4treat_p3 L4treat_p4 L8treat_m4 L8treat_m3 L8trea
+> t_m2 L8treat_m1 L8treat_p0 L8treat_p1 L8treat_p2 L8treat_p3 L8treat_p4 L12tre
+> at_m4 L12treat_m3 L12treat_m2 L12treat_m1 L12treat_p0 L12treat_p1 L12treat_p2
+>  L12treat_p3 L12treat_p4 L16treat_m4 L16treat_m3 L16treat_m2 L16treat_m1 L16t
+> reat_p0 L16treat_p1 L16treat_p2 L16treat_p3 L16treat_p4 one if  year>=1979  &
+>  cleansample==1 [aw=wtoverall1979] , a(i.wagebinstate##c.quarterdate i.wagebi
+> nstate##c.quarterdatesq i.wagequarterdate##i.division    postcont_m  precont_
+> m  earlycont_m  postcont_p  precont_p  earlycont_p    i.one#c.F12treat_m4 i.o
+> ne#c.F12treat_m3 i.one#c.F12treat_m2 i.one#c.F12treat_m1 i.one#c.F12treat_p0 
+> i.one#c.F12treat_p1 i.one#c.F12treat_p2 i.one#c.F12treat_p3 i.one#c.F12treat_
+> p4 i.one#c.F8treat_m4 i.one#c.F8treat_m3 i.one#c.F8treat_m2 i.one#c.F8treat_m
+> 1 i.one#c.F8treat_p0 i.one#c.F8treat_p1 i.one#c.F8treat_p2 i.one#c.F8treat_p3
+>  i.one#c.F8treat_p4   postcontf_m  precontf_m  earlycontf_m  postcontf_p  pre
+> contf_p  earlycontf_p    i.one#c.window_m4  i.one#c.window_m3  i.one#c.window
+> _m2  i.one#c.window_m1  i.one#c.window_p0  i.one#c.window_p1  i.one#c.window_
+> p2  i.one#c.window_p3  i.one#c.window_p4  )  cluster(statenum)
