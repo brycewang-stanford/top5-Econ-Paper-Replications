@@ -1,0 +1,7 @@
+bar,author_b,author_se,statspai_b,statspai_se,how,n_instruments
+OLS,0.1994836778240032,0.0434289390968973,0.1994836760056496,0.0434263348320671,sp.feols HDFE (Table II A col 1),
+Parsimonious IV,0.3130985288776099,0.1597780928948398,0.3130985274264953,0.15977809489219125,sp.feols IV (pyfixest default ssc),
+LIML,0.2894320027790865,0.1327370363038433,0.26672436626565094,0.022172905129085492,FWL + sp.liml(cluster=place) on standardized instruments; Stata re-run with standardized instruments gives 0.2678 (raw-scale products: 0.2936) -> author's bar is numerically unstable,340.0
+LASSO IV,0.3774158111646047,0.0837285669308988,,,not available in StatsPAI (cross-fit PO-LASSO-IV / UJIVE1 with 700 dummies),
+"LASSO IV, 7-day window",0.3789773821304946,0.0837148837631664,,,not available in StatsPAI (cross-fit PO-LASSO-IV / UJIVE1 with 700 dummies),
+JIVE,0.3006620872057404,0.0779433381289561,,,not available in StatsPAI (cross-fit PO-LASSO-IV / UJIVE1 with 700 dummies),

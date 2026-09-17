@@ -1,0 +1,208 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_A7.log
+  log type:  text
+ opened on:  17 Sep 2026, 05:00:08
+
+. use "${data}LitReviewLDE.dta", clear
+
+. rename est coeff
+
+. replace coeff= 0.33 if n==6
+(1 real change made)
+
+. replace se = 0.57 if n==6
+(1 real change made)
+
+. 
+. expand 2, gen(aux)
+(23 observations created)
+
+. gen ci=coeff-1.96*se if aux==0
+(24 missing values generated)
+
+. replace ci=coeff+1.96*se if aux==1
+(22 real changes made)
+
+. 
+. bysort aux: gen id=_n
+
+. gen ygraphval=.
+(46 missing values generated)
+
+.  
+.  
+. replace ygraphval=1 if id==1   // "Addison et al. 2010"
+(2 real changes made)
+
+. replace ygraphval=2 if id==2   // "Allegretto et al. 2011"
+(2 real changes made)
+
+. replace ygraphval=3 if id==3   // "Bell 1997 Columbia"
+(2 real changes made)
+
+. replace ygraphval=4 if id==4   // "Burkhauser et al. 2000"
+(2 real changes made)
+
+. replace ygraphval=5 if id==5   // "Campolieti et al 2006"
+(2 real changes made)
+
+. replace ygraphval=6 if id==6   // "Card 1992a"
+(2 real changes made)
+
+. replace ygraphval=7 if id==7   // "Card 1992b"
+(2 real changes made)
+
+. replace ygraphval=8 if id==8   // "Card et al 1994"
+(2 real changes made)
+
+. replace ygraphval=9 if id==9   // "Currie and Fallick 1996"
+(2 real changes made)
+
+. replace ygraphval=10 if id==10   // "Dube et al. 2010"
+(2 real changes made)
+
+. replace ygraphval=11 if id==11   // "Dube et al. 2007"
+(2 real changes made)
+
+. replace ygraphval=12 if id==12   // "Eriksson and Pytlikova 2004, Slovakia"
+(2 real changes made)
+
+. replace ygraphval=13 if id==13   // "Erickssov and Pytlikova 2004, Czech"
+(2 real changes made)
+
+. replace ygraphval=14 if id==14   // "Fang and Lin 2015"
+(2 real changes made)
+
+. replace ygraphval=15 if id==15   // "Giuliano 2013"
+(2 real changes made)
+
+. replace ygraphval=16 if id==16   // "Hirsch et al 2015"
+(2 real changes made)
+
+. replace ygraphval=17 if id==17   // "Kim and Taylor 1995"
+(2 real changes made)
+
+. replace ygraphval=18 if id==18   // Neumark and Nizalove (2007)
+(2 real changes made)
+
+. replace ygraphval=19 if id==19   // Pereira (2003)
+(2 real changes made)
+
+. replace ygraphval=20 if id==20   // "Sabia 2008"
+(2 real changes made)
+
+. replace ygraphval=21 if id==21   //  
+(2 real changes made)
+
+. replace ygraphval=22 if id==22   // "This paper - baseline"
+(2 real changes made)
+
+. replace ygraphval=23 if id==23   // "This paper - CK high prob group"
+(2 real changes made)
+
+. 
+. 
+. 
+. 
+. label define ygraphvallabels    ///     
+> 1 "Addison et al. 2010" ///
+> 2 "Allegretto et al. 2011" ///
+> 3 "Bell 1997, Colombia" ///
+> 4 "Burkhauser et al. 2000" ///
+> 5 "Campolieti et al. 2006" ///
+> 6 "Card 1992a" ///
+> 7 "Card 1992b" ///
+> 8 "Card et al. 1994" ///
+> 9 "Currie and Fallick 1996" ///
+> 10 "Dube et al. 2010" ///
+> 11 "Dube et al. 2007" ///
+> 12 "Ericksson and Pytlikova 2004, Slovakia" ///
+> 13 "Erickssov and Pytlikova 2004, Czech Rep." ///
+> 14 "Fang and Lin 2015" ///
+> 15 "Giuliano 2013" ///
+> 16 "Hirsch et al 2015" ///
+> 17 "Kim and Taylor 1995" ///
+> 18 "Neumark and Nizalova 2007" ///
+> 19 "Perira 2003" ///
+> 20 "Sabia 2008" ///
+> 21 " " ///
+> 22 "This paper - baseline" ///
+> 23 "This paper - CK high prob group"
+
+. 
+. 
+. 
+. label values ygraphval ygraphvallabels
+
+. 
+. 
+. 
+. twoway scatter ygraphval coeff if id<22, mc(navy) m(s)  mcolor(navy) ///
+>         || scatter ygraphval coeff if id>=22, mc(navy) m(s)  mcolor(purple) /
+> //
+>         || scatter ygraphval ci if ygraphval==1, c(l) lc(navy) m(i) lp(solid)
+>   ///
+>         || scatter ygraphval ci if ygraphval==2, c(l) lc(navy) m(i)lp(solid) 
+>  ///
+>         || scatter ygraphval ci if ygraphval==3, c(l) lc(navy) m(i) lp(solid)
+>  ///
+>         || scatter ygraphval ci if ygraphval==4, c(l) lc(navy) m(i) lp(solid)
+>  ///
+>         || scatter ygraphval ci if ygraphval==5, c(l) lc(navy) m(i) lp(solid)
+>  ///
+>         || scatter ygraphval ci if ygraphval==6, c(l) lc(navy) m(i) lp(solid)
+>  ///
+>         || scatter ygraphval ci if ygraphval==7, c(l) lc(navy) m(i) lp(solid)
+>  ///
+>         || scatter ygraphval ci if ygraphval==8, c(l) lc(navy) m(i) lp(solid)
+>  ///
+>         || scatter ygraphval ci if ygraphval==9, c(l) lc(navy) m(i) lp(solid)
+>  ///
+>         || scatter ygraphval ci if ygraphval==10, c(l) lc(navy) m(i) lp(solid
+> )  ///
+>         || scatter ygraphval ci if ygraphval==11, c(l) lc(navy) m(i) lp(solid
+> )  ///
+>         || scatter ygraphval ci if ygraphval==12, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==13, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==14, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==15, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==16, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==17, c(l) lc(navy) m(i) lp(solid
+> ) ///                              
+>         || scatter ygraphval ci if ygraphval==18, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==19, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==20, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==21, c(l) lc(navy) m(i) lp(solid
+> ) ///
+>         || scatter ygraphval ci if ygraphval==22, c(l) lc(purple) m(i) lp(sol
+> id) ///
+>         || scatter ygraphval ci if ygraphval==23, c(l) lc(purple) m(i) lp(sol
+> id) ///
+>         yline(21,lc(gs12) lwidth(thin) lp(dot)) ///
+>         xline(-.43, lp(dash)lc(purple%50)) ///
+>         graphregion(color(white)) ///
+>         ylab(1/23, labsize(small) valuelabel angle(0) nogrid tlength(0)) ytit
+> le("") ///
+>         xlab(-2(.5)2, labsize(small)) xtitle("Estimated Employment Elasticity
+>  With Respect To Own Wage", size(small)) legend(off) ///
+>         scheme(plotplain)
+
+.         
+. graph export "${figures}FigureA7.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA7.pdf saved as PDF
+    format
+
+. 
+end of do-file

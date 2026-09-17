@@ -1,1 +1,14 @@
 Table IX
+  IX col3: LPM N=2756
+  IX col4: oprobit N=2755 k=300  8870.9s
+  IX col2: oprobit N=2756 k=300  11523.4s
+  IX col1: oprobit N=3237 k=343  18385.7s
+  IX col5: oprobit N=2756 k=300  13549.7s
+  IX col7: oprobit N=2569 k=300  10149.9s
+  IX col6: oprobit N=3048 k=343  17678.1s
+  IX col8: LPM N=2569
+  IX col9: oprobit N=2568 k=300  8503.6s
+  IX col10: oprobit N=2568 k=300  5551.2s
+Table XII
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/multiprocessing/resource_tracker.py:277: UserWarning: resource_tracker: There appear to be 6 leaked semaphore objects to clean up at shutdown: {'/mp-0efrhkvq', '/mp-30xhnffi', '/mp-5vhz4syy', '/mp-5spde04s', '/mp-_o3pu1ls', '/mp-cls3u1zb'}
+  warnings.warn(

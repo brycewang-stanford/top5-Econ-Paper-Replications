@@ -30,7 +30,9 @@ cd Program/statspai
 | `parmest` + `twoway rcap` | coefficient table + matplotlib | CIs use t(G−1) like parmest |
 | `reg2hdfespatial` (Conley) | `sp.conley(sp.regress(...demeaned...), time=, lag_cutoff=, unit=, kernel="bartlett")` | extension E1 (see comparison.md) |
 
-Why not `sp.hdfe_ols` everywhere: with three FEs where one nests another (`year` ⊂ `prefidXyear`), `sp.hdfe_ols`
-1.28.0 (i) over-counts absorbed dof by the nested FE (SEs ≈0.8% too large), and (ii) on the Huai sample
-stops after 2 iterations at a wrong solution (coefficient 0.0196 vs 0.0214 in Stata/pyfixest).
+Why not `sp.hdfe_ols` everywhere: `sp.hdfe_ols` 1.28.0 (i) does not detect regressors made collinear by the absorbed FEs —
+in the Huai columns of Table 4, `lncntypop_Post`/`lncntyarea_Post` are (up to float32 noise) spanned by prefecture×year FEs;
+Stata and pyfixest drop them, `hdfe_ols` keeps them (coefficients ±4.8e5) and the coefficients of interest move
+(0.0196 vs 0.0214); with exact collinearity it raises `LinAlgError` — and (ii) over-counts absorbed dof when `year` is
+nested in `prefidXyear` (SEs ≈0.8% too large).
 See `Results/statspai/statspai_hdfe_ols_issue.csv` and the Chinese analysis note, §StatsPAI bugs.

@@ -1,0 +1,1 @@
+/usr/local/bin/python3.13 Program/statspai/replicate_statspai.py >  2>&1  709.91s user 18.26s system 66% cpu 18:18.23 total

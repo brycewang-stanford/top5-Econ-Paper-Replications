@@ -23,8 +23,8 @@ STEPS = {
     "descriptive": [["rep_descriptive.py"]],
     "price": [["rep_price.py"]],
     "firm": [["rep_firm.py", "VI", "XI"]],
-    "promotion": [["rep_promotion.py", "VIII", "IX", "XII"]],
-    "modern": [["modern_did.py"]],
+    "promotion": [["oprobit_fast.py"], ["rep_promotion.py", "VIII", "IX", "XII"]],
+    "modern": [["modern_did.py"], ["modern_did.py", "wcb"]],
     "compare": [["make_comparison.py"]],
 }
 

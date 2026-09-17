@@ -1,0 +1,36 @@
+{
+  "pretrends_test": {
+    "statistic": 0.853610095518337,
+    "pvalue": 0.8366058096447619,
+    "df": 3,
+    "type": "wald",
+    "stat_label": "Wald chi2(3)",
+    "reject": false,
+    "alpha": 0.05,
+    "interpretation": "Cannot reject parallel trends at alpha=0.05. Note: non-rejection may reflect low power (see pretrends_power)."
+  },
+  "pretrends_power": {
+    "power": 0.18168456270077293,
+    "power_under_null": 0.10965265553502468,
+    "bayes_factor": 0.9190968472994846,
+    "likelihood_ratio": 0.3071788611698346,
+    "test": "individual",
+    "df": 3,
+    "alpha": 0.05,
+    "warning": "LOW POWER (0.18): the pre-trend test has less than 50% power against the hypothesised violation. A non-significant pre-trend test is therefore uninformative. Consider the sensitivity analysis in sensitivity_rr().",
+    "noncentrality": 1.2088685137942459,
+    "critical_value": 7.8147279032511765,
+    "threshold_tstat": 1.959963984540054,
+    "power_joint": 0.13093041395415825
+  },
+  "joint_wald_full_vcov": {
+    "stat": 0.853610095518337,
+    "df": 3,
+    "p": 0.8366058096447619,
+    "F": 0.28453669850611235,
+    "p_F_73": 0.8364080923488759
+  },
+  "breakdown_m_e0": 0.11538925827446114,
+  "breakdown_m_e4": 0.028978905118325505,
+  "R_full_vcov": "ok"
+}

@@ -1,0 +1,174 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Table_F2.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:01:55
+
+. 
+. *This do file is created by DC on 11/27/2017.
+. *****************************************************************************
+> ***
+. ****************     Measurement Error Estimation Table                ******
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. foreach vv in p rho2 eta{
+  2. sysuse auto,clear
+  3. reg price
+  4.                 foreach data in CPS Admin{
+  5.                         use "${data}ML_results_pooled_`data'_MNWAOR__fully
+> pool.dta", clear
+  6.                         replace p = 1-p
+  7.                         replace rho2 = (1-rho2)/rho2
+  8.                         sum `vv' ,meanonly
+  9.                         local `vv': di %04.3f r(mean)
+ 10.                         estadd local `data' "``vv''"
+ 11.                 }
+ 12.         
+.                 foreach data in CPS Admin{
+ 13.                         use "${data}ML_results_pooled_`data'_MNWAOR__fully
+> pool_noshift.dta", clear
+ 14.                         replace p = 1-p
+ 15.                         replace rho2 = (1-rho2)/rho2
+ 16.                         sum `vv' ,meanonly
+ 17.                         local `vv': di %04.3f r(mean)
+ 18.                         estadd local `data'_nos "``vv''"
+ 19.                 }
+ 20.         
+.         eststo est_`vv'
+ 21.         
+.         
+.         }
+(1978 automobile data)
+
+      Source |       SS           df       MS      Number of obs   =        74
+-------------+----------------------------------   F(0, 73)        =      0.00
+       Model |           0         0           .   Prob > F        =         .
+    Residual |   635065396        73  8699525.97   R-squared       =    0.0000
+-------------+----------------------------------   Adj R-squared   =    0.0000
+       Total |   635065396        73  8699525.97   Root MSE        =    2949.5
+
+------------------------------------------------------------------------------
+       price | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   6165.257   342.8719    17.98   0.000     5481.914      6848.6
+------------------------------------------------------------------------------
+(1 real change made)
+(1 real change made)
+
+added macro:
+                e(CPS) : "0.232"
+(1 real change made)
+(1 real change made)
+
+added macro:
+              e(Admin) : "0.277"
+(1 real change made)
+(1 real change made)
+
+added macro:
+            e(CPS_nos) : "0.218"
+(1 real change made)
+(1 real change made)
+
+added macro:
+          e(Admin_nos) : "0.343"
+(1978 automobile data)
+
+      Source |       SS           df       MS      Number of obs   =        74
+-------------+----------------------------------   F(0, 73)        =      0.00
+       Model |           0         0           .   Prob > F        =         .
+    Residual |   635065396        73  8699525.97   R-squared       =    0.0000
+-------------+----------------------------------   Adj R-squared   =    0.0000
+       Total |   635065396        73  8699525.97   Root MSE        =    2949.5
+
+------------------------------------------------------------------------------
+       price | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   6165.257   342.8719    17.98   0.000     5481.914      6848.6
+------------------------------------------------------------------------------
+(1 real change made)
+(1 real change made)
+
+added macro:
+                e(CPS) : "1.462"
+(1 real change made)
+(1 real change made)
+
+added macro:
+              e(Admin) : "1.251"
+(1 real change made)
+(1 real change made)
+
+added macro:
+            e(CPS_nos) : "1.485"
+(1 real change made)
+(1 real change made)
+
+added macro:
+          e(Admin_nos) : "1.076"
+(1978 automobile data)
+
+      Source |       SS           df       MS      Number of obs   =        74
+-------------+----------------------------------   F(0, 73)        =      0.00
+       Model |           0         0           .   Prob > F        =         .
+    Residual |   635065396        73  8699525.97   R-squared       =    0.0000
+-------------+----------------------------------   Adj R-squared   =    0.0000
+       Total |   635065396        73  8699525.97   Root MSE        =    2949.5
+
+------------------------------------------------------------------------------
+       price | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   6165.257   342.8719    17.98   0.000     5481.914      6848.6
+------------------------------------------------------------------------------
+(1 real change made)
+(1 real change made)
+
+added macro:
+                e(CPS) : "0.916"
+(1 real change made)
+(1 real change made)
+
+added macro:
+              e(Admin) : "0.908"
+(1 real change made)
+(1 real change made)
+
+added macro:
+            e(CPS_nos) : "0.920"
+(1 real change made)
+(1 real change made)
+
+added macro:
+          e(Admin_nos) : "0.895"
+
+.         
+. *
+. 
+. local mgroups mgroups("\specialcell{Misreporting rate \\ \\ 1-$\gamma$}" "\sp
+> ecialcell{Conditional error variance \\  \\ $\frac{1 \ \text{-} \rho^2}{\rho^
+> 2}$}" "\specialcell{Ratio of std. deviations of true \\ to observed latent di
+> stribution \\ $\frac{\sigma_{w}}{\sigma}$}" , pattern(1 1 1) lhs(\hfil \bigce
+> ll{c}{\\ \\ Dataset})  ) 
+
+. local stats stats(CPS Admin blankspace CPS_nos Admin_nos, label("CPS" "Admini
+> strative data" " " "CPS" "Administrative data")) 
+
+. 
+. 
+. esttab est_p est_rho2 est_eta ///
+> using "${tables}TableF2.tex" ///
+> , replace `stats' ///
+> nodep nogaps cells(none) nomtitles fragment booktabs nonumbers `mgroups'
+(file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Tables/TableF2.tex not found)
+(output written to /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replicatio
+> ns/QJE2019-Minimum-Wages-Low-Wage-Jobs/Results/Tables/TableF2.tex)
+
+. 
+. 
+end of do-file

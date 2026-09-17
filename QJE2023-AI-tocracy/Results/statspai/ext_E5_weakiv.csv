@@ -1,0 +1,7 @@
+ext,quantity,estimate,N,clusters,se,note,first_stage_F_cluster,ci_low,ci_high
+E5,"parsimonious weather IV (rain,gust,thunder x unrest elsewhere): 2SLS",0.3130985274264957,8392.0,323.0,0.159778094896208,,0.4602317285203687,,
+E5,cluster-robust Anderson-Rubin 95% set (grid -1..2 step .02),,,,,unbounded/at grid edge,,-1.0,2.0
+E5,"sp.anderson_rubin_ci (iid, FE partialled; no cluster option)",,,,,"WeakIVConfidenceSet(method='Anderson-Rubin (AR)', level=0.95, beta_grid=array([-3.45987107e-01, -3.42699530e-01, -3.39411953e-01, -3.36124375e-01,
+       -3.32836798e-01, -3.29549221e-01, -3.26261644e-01, -3.22974066e-01,
+       -3.19686489e-01, -3.16398912e-01, -3.13111334e-01, -3.09823757e-01,
+   ",,,

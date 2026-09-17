@@ -1,0 +1,189 @@
+
+===== Tables II-III =====
+                              coef                ...     se              
+column                           1      2      3  ...      3      4      5
+table panel                                       ...                     
+II    A (OLS)                0.199  0.196  0.199  ...  0.044  0.046  0.044
+III   A (OLS, cameras)       0.436  0.420  0.436  ...  0.085  0.080  0.080
+      C (OLS, AI x cameras)  0.681  0.669  0.680  ...  0.155  0.148  0.148
+
+[3 rows x 10 columns]
+II B (LASSO IV) 1 0.248 0.026 selected: 340 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+II B (LASSO IV) 2 0.245 0.03 selected: 340 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+II B (LASSO IV) 3 0.248 0.027 selected: 340 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+II B (LASSO IV) 4 0.264 0.026 selected: 340 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+II B (LASSO IV) 5 0.261 0.028 selected: 340 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 1 0.737 0.214 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 2 0.695 0.172 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 3 0.721 0.194 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 4 0.737 0.209 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 5 0.724 0.205 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 1 0.898 0.076 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 2 0.872 0.049 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 3 0.888 0.065 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 4 0.904 0.081 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 5 0.896 0.099 selected: 34 diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+----- Tables II-III: 340.9s
+
+===== Tables IV-V =====
+max |blank_hat python - stata| = 1.7547803778938942e-06
+column                                            1       2       3       4
+table panel term                                                           
+IV    A     Conducive weather                0.9176  0.9523  0.9183  0.9511
+            Conducive weather x stock_{t-1} -0.2265 -0.2729 -0.2260 -0.2662
+            Stock_{t-1}                     -0.0080 -0.0032 -0.0079 -0.0020
+      B     Conducive weather                0.9113  0.9446  0.9118  0.9449
+            Conducive weather x stock_{t-1} -0.5688 -0.6598 -0.5735 -0.6403
+            Stock_{t-1}                      0.2462  0.2734  0.2455  0.2638
+V     A     Conducive weather                0.9378  0.9768  0.9385  0.9747
+            Conducive weather x stock_{t-1} -0.0441 -0.0513 -0.0444 -0.0473
+            Stock_{t-1}                     -0.0021 -0.0022 -0.0021 -0.0019
+      B     Conducive weather                0.9770  0.9813  0.9777  0.9798
+            Conducive weather x stock_{t-1} -0.0110 -0.0114 -0.0120 -0.0114
+            Stock_{t-1}                      0.0002 -0.0006  0.0038  0.0013
+----- Tables IV-V: 2.0s
+
+===== Tables VI-VII (+Figure V/VI profiles) =====
+column                                                         1       2       3      4      5       6
+table panel term                                                                                      
+VI    A     8 quarters after contract                     10.783  11.275  13.123  9.238  9.673  11.105
+      B     8 quarters after contract                      3.481   3.592   4.196  3.105  3.174   3.753
+      C     8 quarters after contract                      5.071   5.314   5.964  3.760  3.897   4.397
+VII   A     8 quarters after contract                      1.014   4.521   6.311  1.810  3.964   5.474
+            8 quarters after contract x public security    9.751   4.052   7.963  7.445  4.054   6.314
+            8 quarters before contract                     4.779   3.383   0.326  1.529  0.576  -1.058
+            8 quarters before contract x public security  -1.485  -1.557  -1.604  0.228  0.434  -0.057
+      B     8 quarters after contract                      1.258   3.146   3.210  0.718  1.489   2.055
+            8 quarters after contract x public security    2.230  -0.057   1.373  2.381  1.412   1.937
+            8 quarters before contract                     1.628   0.860   0.043  0.359 -0.048  -0.595
+            8 quarters before contract x public security  -0.118   0.231  -0.199  0.380  0.796   0.212
+      C     8 quarters after contract                     -0.463   0.813   1.867  0.515  1.176   1.814
+            8 quarters after contract x public security    5.552   1.949   4.566  3.221  1.564   2.823
+            8 quarters before contract                     2.212   1.682   0.269  0.591  0.137  -0.345
+            8 quarters before contract x public security  -0.657  -0.933  -0.768 -0.014  0.051  -0.134
+table  column
+VI     1         q_47;q_48;semi_to_f_x_with_c;semi_to_f_x_ca;po...
+       2         q_47;q_48;semi_to_f_x_with_c;semi_to_f_x_ca;po...
+       3         q_47;q_48;semi_to_f_x_with_c;semi_to_f_x_ca;po...
+       4             semi_to_f_x_with_c;semi_to_f_x_ca;police_data
+       5             semi_to_f_x_with_c;semi_to_f_x_ca;police_data
+       6             semi_to_f_x_with_c;semi_to_f_x_ca;police_data
+VII    1         q_47;q_48;semi_to_f_x_with_c;semi_to_f_x_ca;po...
+       2         q_47;q_48;semi_to_f_x_with_c;semi_to_f_x_ca;po...
+       3         q_47;q_48;semi_to_f_x_with_c;semi_to_f_x_ca;po...
+       4             semi_to_f_x_with_c;semi_to_f_x_ca;police_data
+       5         semi_to_f_x_with_c;semi_to_f_x_ca;police_data;...
+       6             semi_to_f_x_with_c;semi_to_f_x_ca;police_data
+----- Tables VI-VII (+Figure V/VI profiles): 38.7s
+
+===== Table VIII =====
+   column    coef      se    N
+0       1  0.0321  0.0181  415
+1       2  0.0358  0.0173  383
+2       3  0.0390  0.0186  383
+3       4  0.0365  0.0180  379
+----- Table VIII: 0.1s
+
+===== Table IX =====
+  panel  column    coef      se        N  clusters
+0     A       1  23.968  10.122     2318        67
+1     A       2   1.372   1.102     1918        67
+2     A       3   9.812   4.709     2126        67
+3     B       1   0.056   0.076  1076280        31
+4     B       2   0.015   0.034  1027917        31
+5     B       3   0.030   0.042  1050868        31
+6     C       1   0.810   0.391     7094        28
+7     C       2  -0.228   0.172     6853        28
+8     C       3   0.070   0.197     6960        28
+----- Table IX: 652.5s
+
+===== Figures II and V =====
+         figure     term rel_quarter_label    coef      se     N  clusters  stata_coef  stata_se
+0     Figure II  blank_0         3 Q after  0.0365  0.0054  6777       323      0.0365    0.0054
+1     Figure II  blank_1         2 Q after  0.0248  0.0015  6777       323      0.0248    0.0015
+2     Figure II  blank_2         1 Q after  0.1044  0.0075  6777       323      0.1044    0.0075
+3     Figure II  blank_3       Q of unrest  0.0150  0.0017  6777       323      0.0150    0.0017
+4     Figure II  blank_4        1 Q before  0.0110  0.0063  6777       323      0.0110    0.0063
+5     Figure II  blank_5        2 Q before -0.0065  0.0078  6777       323     -0.0065    0.0078
+6   Figure A.12  blank_0         3 Q after  0.0047  0.0018  6777       323      0.0047    0.0018
+7   Figure A.12  blank_1         2 Q after  0.0029  0.0006  6777       323      0.0029    0.0006
+8   Figure A.12  blank_2         1 Q after  0.0111  0.0045  6777       323      0.0111    0.0045
+9   Figure A.12  blank_3       Q of unrest  0.0002  0.0025  6777       323      0.0002    0.0025
+10  Figure A.12  blank_4        1 Q before  0.0032  0.0010  6777       323      0.0032    0.0010
+11  Figure A.12  blank_5        2 Q before -0.0010  0.0021  6777       323     -0.0010    0.0021
+12  Figure A.13  blank_0         3 Q after  0.0064  0.0064  6777       323      0.0064    0.0064
+13  Figure A.13  blank_1         2 Q after  0.0110  0.0027  6777       323      0.0110    0.0027
+14  Figure A.13  blank_2         1 Q after  0.0503  0.0126  6777       323      0.0503    0.0126
+15  Figure A.13  blank_3       Q of unrest  0.0115  0.0031  6777       323      0.0115    0.0031
+16  Figure A.13  blank_4        1 Q before  0.0030  0.0015  6777       323      0.0030    0.0015
+17  Figure A.13  blank_5        2 Q before -0.0110  0.0103  6777       323     -0.0110    0.0103
+                      bar  author_b  author_se  statspai_b  statspai_se  n_instruments
+0                     OLS    0.1995     0.0434      0.1995       0.0434            NaN
+1         Parsimonious IV    0.3131     0.1598      0.3131       0.1598            NaN
+2                    LIML    0.2894     0.1327      0.2667       0.0222          340.0
+3                LASSO IV    0.3774     0.0837         NaN          NaN            NaN
+4  LASSO IV, 7-day window    0.3790     0.0837         NaN          NaN            NaN
+5                    JIVE    0.3007     0.0779         NaN          NaN            NaN
+----- Figures II and V: 7.3s
+
+===== Modern extensions =====
+  ext         outcome                                                               quantity   estimate  se_full_vcov  se_author_no_cov     N  clusters
+0  E1  n_software_cum                                     event time 8 (author's inter+base)  10.783475      2.164548          3.888416  7881        38
+1  E1      n_software                                     event time 8 (author's inter+base)  -0.271917      0.743480          0.639226  7881        38
+2  E1      n_software                                   sum of flow effects, event time 0..8  -4.150888      3.943027               NaN  7881        38
+3  E1      n_software  sum of flow effects, event time -1..8 (window of the author's cumsum)  -4.150888      3.943027               NaN  7881        38
+   ext                                 estimator                                                   quantity   estimate  n_post  pre_mean        se                                                                                                                                                                                                      note
+0   E2                            did_imputation                       firms dropped (no untreated history)  21.000000     NaN       NaN       NaN                                                                                                                                                                                                       NaN
+1   E2        Borusyak-Jaravel-Spiess imputation                           sum of flow effects 0..8 (point)   2.937951     9.0  0.052806       NaN                                                                                                                                                                                                       NaN
+2   E2        Borusyak-Jaravel-Spiess imputation  sum over 0..8 of (effect - mean pre-period effect -8..-2)   2.462700     NaN       NaN       NaN                                                                                                                                                                                                       NaN
+3   E2  Callaway-Sant'Anna (not-yet-treated, DR)                           sum of flow effects 0..8 (point)  -4.763924     9.0 -0.961987       NaN                                                                                                                                                                                                       NaN
+4   E2  Callaway-Sant'Anna (not-yet-treated, DR)  sum over 0..8 of (effect - mean pre-period effect -8..-2)   3.893961     NaN       NaN       NaN                                                                                                                                                                                                       NaN
+5   E2   Sun-Abraham IW (last cohort as control)                           sum of flow effects 0..8 (point)   1.082015     9.0 -0.430625       NaN                                                                                                                                                                                                       NaN
+6   E2   Sun-Abraham IW (last cohort as control)  sum over 0..8 of (effect - mean pre-period effect -8..-2)   4.957643     NaN       NaN       NaN                                                                                                                                                                                                       NaN
+7   E2               TWFE event study (sp.feols)                           sum of flow effects 0..8 (point)  -6.575386     9.0 -0.833389       NaN                                                              
+  ext                                                     quantity  estimate  clusters        se                                                                           note  p_boot                                                           ci_boot  n_boot
+0  E4  Table VI col1 interaction e_32 (8q after x public security)  9.993014      38.0  3.506268  interaction only; the author's total effect adds the base-quarter coefficient  0.0021  (np.float64(2.9418680836719195), np.float64(16.930689326982716))  9999.0
+  ext                                                              quantity  estimate       N  clusters        se                                                                                                                                                                                                                                                                                                             note  first_stage_F_cluster  ci_low  ci_high
+0  E5  parsimonious weather IV (rain,gust,thunder x unrest elsewhere): 2SLS  0.313099  8392.0     323.0  0.159778                                                                                                                                                                                                                                                                                                              NaN               0.460232     NaN      NaN
+1  E5           cluster-robust Anderson-Rubin 95% set (grid -1..2 step .02)       NaN     NaN       NaN       NaN                                                                                                                                                                                                                                                                                           unbounded/at grid edge                    NaN    -1.0      2.0
+2  E5          sp.anderson_rubin_ci (iid, FE partialled; no cluster option)       NaN     NaN       NaN       NaN  WeakIVConfidenceSet(method='Anderson-Rubin (AR)', level=0.95, beta_grid=array([-3.45987107e-01, -3.42699530e-01, -3.39411953e-01, -3.36124375e-01,\n       -3.32836798e-01, -3.29549221e-01, -3.26261644e-01, -3.22974066e-01,\n       -3.19686489e-01, -3.16398912e-01, -3.13111334e-01, -3.09823757e-01,\n                       NaN     NaN      NaN
+----- Modern extensions: 51.2s
+
+===== comparison.md =====
+| TableA5_PanelB.2_nonpublicdemand.tex | 26 | 25 | 0.0001 | ⚠️ last-digit |
+| TableA5_PanelB.3_nonpublicprotest.tex | 26 | 26 | 0 | ✅ identical |
+| TableA6_cam.tex | 26 | 26 | 0 | ✅ identical |
+| TableA7_incentive.tex | 24 | 24 | 0 | ✅ identical |
+| TableA8_total.tex | 208 | 16 | 0.995 | ❌ differs |
+| TableA9_gov.tex | 208 | 19 | 0.154 | ❌ differs |
+
+## Notes on every mismatch
+
+**N1 — Tables IV, V, A.5 (⚠️ last digit of a SE).** Coefficients are identical to the paper; 1–2 SEs per panel differ by 0.0001 (e.g. Table IV A col 4: 0.1542 vs 0.1543). The regressions include ~70 collinear `X × quarter` terms that `ivreghdfe` partials out; the difference is a floating-point / version effect (ivreghdfe 1.1.4 and reghdfe 6.13.1 here vs the 2021–22 versions used by the authors). StatsPAI reproduces our Stata re-run to all digits.
+
+**N2 — Tables VI, VII, A.8–A.15, IX B/C, Figures V/VI/A.11/A.14–A.16 (⚠️/❌ random tie-breaking).** The firm panels are built with `collapse … (lastnm) place` after `bys city:` / `bys sub_fe:` sorts. In `firm_data.dta` 425 collapse cells contain several contract locations, so `lastnm place` depends on the random order Stata uses to break ties (`set sortseed` fixes the seed but not the sort algorithm or the random numbers consumed earlier in the section). `place` is both the cluster variable and a sample filter (`keep if place != 0`); Table IX B/C additionally use `bys firm_contract qofd: drop if _n > 1`. Evidence: the same code gives 10.783 (3.888) with Stata's default sort method, 10.663 (3.667) with `set sortmethod qsort`, 10.671 (3.664) in the paper and 10.746 (3.917) in the October 2022 working paper (Table VI A col 1). All Table VI–VII differences are well within one standard error and leave every conclusion unchanged, except Table IX C (mother-firm spillovers: paper −0.498 / −0.102 / 1.365***, re-run 0.810** / −0.228 / 0.070). The authors' own file time stamps show Table IX C was produced separately, 26 hours after Panels A–B, so we cannot tell whether the gap is randomness or a later code change. StatsPAI starts from the exported panels of our run and matches our Stata numbers exactly.
+
+**N3 — Table IX A (✅ only with xtevent 1.0.0).** With the current SSC `xtevent` (3.1.0) and with GitHub tags 2.1.1/2.2.0 the same command returns −8.678 (23.771) / 3.961 (19.363) / −5.343 (9.448). With tag 1.0.0 (Aug 2021) it reproduces the paper exactly. The versions differ in how the endpoint bins are built for a non-binary policy variable (v1.0.0 uses `1 − F8.z` and `L9.z`). `Program/ado/` pins 1.0.0.
+
+**N4 — Tables II B, III B/D (LASSO IV).** Stata: our re-run of `xpoivregress … rseed(1)` reproduces all 15 cells exactly (Table II B took 3.1 h for 5 calls, Table III 1.5 h for 10 calls on a shared 8-core machine; Table A.2's 15 LASSO calls 3.3 h; Table A.3 lasso-coefficient log identical up to label wrapping). StatsPAI has no cross-fit partialing-out LASSO IV; the StatsPAI column is an approximation (FE and controls partialled out with `sp.demean`, then `sp.lasso_iv(penalty="cv", cluster="place")`), systematically below the paper for Table II (≈0.25 vs 0.35–0.38) and above it for Table III B. `sp.rlasso_iv` (plug-in rigorous LASSO) selects no instrument at all on these data.
+
+**N5 — Figure A.10 (100 seeds).** Not run: 100 cross-fit LASSO IV estimations at ≈30 min each (> 50 hours).
+
+**N6 — `TableA14_PanelA.1_baseline.tex`, `TableA15_PanelA.1_baseline.tex`.** Shipped by the authors but no `estout` command in `Analysis.do` writes these files (they duplicate Tables VI/VII column 1), so they cannot be regenerated from the package.
+
+**N7 — Section 3 (Figure III, Table A.3).** The first run stopped with r(199) because `jive` (Poi 2006, Stata Journal st0108) is used but not listed in the package README; after installing it into `Program/ado/` the section was re-run (rc 0, 1.5 h). Figure III bar values (`Data/Intermediate/Fig3.dta`, first 6 rows) vs the authors' shipped file:
+
+| Bar | Authors b (se) | Stata re-run b (se) | StatsPAI b (se) |
+|---|---|---|---|
+| LASSO IV | 0.3774 (0.0837) | 0.3774 (0.0837) ✅ | — (not available) |
+| Parsimonious IV | 0.3131 (0.1598) | 0.3131 (0.1598) ✅ | 0.3131 (0.1598) ✅ |
+| LIML | 0.2894 (0.1327) | 0.2936 (0.1309) ❌ | 0.2667 (0.0222) ❌ |
+| JIVE (UJIVE1) | 0.3007 (0.0779) | 0.3005 (0.0778) ⚠️ | — (not available) |
+| LASSO IV, 7-day window | 0.3790 (0.0837) | 0.3790 (0.0837) ✅ | — |
+| OLS | 0.1995 (0.0434) | 0.1995 (0.0434) ✅ | 0.1995 (0.0434) ✅ |
+
+**N8 — Figure III LIML/JIVE are numerically unstable.** Both use ~340 products of quarterly weather sums (magnitudes up to 1e13) as instruments. Re-running the authors' exact `ivreghdfe … liml` on the same data with each instrument standardized first (a linear reparametrisation that cannot change the estimator) moves 2SLS from 0.2956 to 0.2488 and LIML from 0.2936 to 0.2678; a numpy k-class implementation and `sp.liml` on standardized instruments give 0.2479 / 0.2667. The authors' 0.2894, our 0.2936 and the stable 0.267 therefore differ because of floating-point error in Stata's cross-product inversion, not because of the data.
+
+----- comparison.md: 0.1s
+
+Total 1092.7s

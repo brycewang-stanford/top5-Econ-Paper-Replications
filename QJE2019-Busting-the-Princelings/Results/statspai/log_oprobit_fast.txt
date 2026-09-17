@@ -1,0 +1,32 @@
+  VIII col1: N=399 k=43 ll=-196.6562 iters=6 0.01s
+  VIII col2: N=380 k=50 ll=-166.2162 iters=7 0.02s
+  VIII col3: LPM N=380
+  VIII col4: N=382 k=50 ll=-159.8620 iters=7 0.03s
+  VIII col5: N=382 k=50 ll=-163.1666 iters=7 0.01s
+  VIII col6: N=399 k=43 ll=-239.5267 iters=5 0.01s
+  VIII col7: N=388 k=50 ll=-223.0133 iters=6 0.01s
+  VIII col8: LPM N=388
+  VIII col9: N=390 k=50 ll=-222.7765 iters=6 0.01s
+  VIII col10: N=390 k=50 ll=-222.7608 iters=6 0.01s
+  IX col1: N=3237 k=343 ll=-1309.7372 iters=6 0.63s
+  IX col2: N=2756 k=300 ll=-1097.9864 iters=7 0.48s
+  IX col3: LPM N=2756
+  IX col4: N=2755 k=300 ll=-938.0665 iters=7 0.51s
+  IX col5: N=2756 k=300 ll=-889.6649 iters=8 0.56s
+  IX col6: N=3048 k=343 ll=-874.6977 iters=7 0.75s
+  IX col7: N=2569 k=300 ll=-665.6666 iters=8 0.50s
+  IX col8: LPM N=2569
+  IX col9: N=2568 k=300 ll=-664.9807 iters=8 0.45s
+  IX col10: N=2568 k=300 ll=-665.8285 iters=8 0.50s
+  XII col1: N=380 k=51 ll=-163.9984 iters=7 0.03s
+  XII col2: N=380 k=52 ll=-159.4698 iters=7 0.02s
+  XII col3: N=2756 k=301 ll=-1093.0175 iters=7 0.52s
+  XII col4: N=2756 k=302 ll=-1096.4519 iters=7 0.57s
+  XII col5: N=382 k=51 ll=-151.3933 iters=8 0.01s
+  XII col6: N=382 k=52 ll=-147.8506 iters=8 0.02s
+  XII col7: N=2755 k=301 ll=-933.0518 iters=7 0.53s
+  XII col8: N=2755 k=302 ll=-936.8188 iters=7 0.49s
+  XII col9: N=382 k=51 ll=-158.5609 iters=7 0.01s
+  XII col10: N=382 k=51 ll=-158.7085 iters=7 0.04s
+  XII col11: N=2756 k=300 ll=-874.7165 iters=8 0.60s
+  XII col12: N=2756 k=301 ll=-889.5565 iters=8 0.56s

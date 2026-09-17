@@ -75,6 +75,7 @@ def run_demog(reuse: bool) -> list[dict]:
 
 def run_ck(reuse: bool) -> list[dict]:
     ck, _ = pyreadstat.read_dta(str(DATA / "CK_groups.dta"))
+    ck = ck[["statenum", "quarterdate", "wagebins"] + [c for c in ck.columns if c.startswith(tuple(CK))]]
     df = read_main()
     df = ck.merge(df, on=["statenum", "quarterdate", "wagebins"], how="right", validate="1:1")
     for v in CK:

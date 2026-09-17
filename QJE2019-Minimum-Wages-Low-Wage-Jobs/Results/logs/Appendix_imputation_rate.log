@@ -1,0 +1,1293 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_imputation_rate.log
+  log type:  text
+ opened on:  17 Sep 2026, 01:15:14
+
+. *This do file is created by DC on 12/18/2015
+. *****************************************************************************
+> ***
+. *********************       Imputed vs MW     *******************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. 
+. *Grab MORG data
+. 
+. use month state age marital race sex esr ethnic uhours earnhr uearnwk earnwt 
+> ///
+> uhourse paidhre earnhre earnwke I25a I25b I25c I25d year lfsr89 lfsr94 staten
+> um ///
+> orgwt monthdate quarterdate quarter division region censusnum stfips gradeat 
+> gradecp ihigrdc ///
+> grade92 unioncov unionmme hourslw class class94 smsa80 smsa93 smsa04 smsastat
+>  ///
+> using "${data}totransfer.dta", clear
+
+. 
+.  
+. preserve
+
+. keep monthdate quarterdate statenum earnwt
+
+. bysort statenum monthdate: egen totalpopulation=total(earnwt)
+
+. collapse (mean) totalpopulation, by(statenum quarterdate)
+
+. save "${data}totalpopulation_1979_2016.dta",replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Data/data/totalpopulation_1979_2016.dta saved
+
+. restore 
+
+. 
+. *Drop self-employed
+. drop if (class==5 | class==6) & year<=1993
+(428,578 observations deleted)
+
+. drop if (class94==6 | class94==7) & year>=1994
+(535,428 observations deleted)
+
+. 
+. drop class class94
+
+.  
+. 
+. *** Getting rid of imputed ones and those whose incomes are not positive.
+. 
+. gen wage = earnhre / 100 if paidhre == 1
+(7,372,855 missing values generated)
+
+. replace wage = earnwke/uhourse if paidhre == 2
+(2,539,412 real changes made)
+
+. 
+. * use allocation variables to determine hours, earnings, and hourly wage impu
+> tations
+. gen hoursimputed = I25a > 0 & I25a ~= .
+
+. gen earningsimputed = I25d > 0 & I25d ~= .
+
+. gen wageimputed = I25c > 0 & I25c ~= .
+
+. 
+. foreach var of varlist hoursimputed earningsimputed wageimputed {
+  2.         * use different method to identify imputations in 1989-1993 data
+.         replace `var' = 0 if year >= 1989 & year <= 1993
+  3.         * no reliable imputation data from Jan 1994 through Aug 1995; see 
+> Hirsch & Schumacher
+.         replace `var' = 0 if year == 1994 | (year == 1995 & month <= 8)
+  4. }
+(12,015 real changes made)
+(2,488 real changes made)
+(34,736 real changes made)
+(0 real changes made)
+(1,736 real changes made)
+(0 real changes made)
+
+. 
+. * use method analogous to that employed by Hirsch & Schumacher to identify im
+> putations
+. * in 1989-1993 data
+. replace wageimputed = 1 if year >= 1989 & year <= 1993 & (earnhr == . | earnh
+> r == 0) & (earnhre > 0 & earnhre ~= .)
+(70,320 real changes made)
+
+. replace hoursimputed = 1 if year >= 1989 & year <= 1993 & (uhours == . | uhou
+> rs == 0) & (uhourse > 0 & uhourse ~= .)
+(12,607 real changes made)
+
+. replace earningsimputed = 1 if year >= 1989 & year <= 1993 & (uearnwk == . | 
+> uearnwk == 0) & (earnwke > 0 & earnwke ~= .)
+(136,272 real changes made)
+
+. 
+. gen imputed = 0
+
+. replace imputed = 1 if paidhre == 2 & (hoursimputed == 1 | earningsimputed ==
+>  1)
+(644,104 real changes made)
+
+. replace imputed = 1 if paidhre == 1 & (wageimputed == 1)
+(924,051 real changes made)
+
+. 
+. 
+. 
+. g cleansample = 1
+
+. replace cleansample = 0 if quarterdate >=136 & quarterdate <=142
+(510,110 real changes made)
+
+. gen _imputed = earnwt*imputed/3
+(8,629 missing values generated)
+
+. gen countall = (wage>0 & wage!=.)*earnwt/3
+(8,629 missing values generated)
+
+. 
+. collapse (sum) total_imputed=_imputed countall, by(statenum quarterdate divis
+> ion)
+
+. 
+. save "${data}total_imputed.dta", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Data/data/total_imputed.dta saved
+
+. 
+. 
+. use "${data}cpiursai1977-2016.dta", clear
+
+. *Dropping an empty column and column that calculates yearly average (simple)
+. drop v14 avg
+
+. reshape long month, i(year) j(m)
+(j = 1 2 3 4 5 6 7 8 9 10 11 12)
+
+Data                               Wide   ->   Long
+-----------------------------------------------------------------------------
+Number of observations               40   ->   480         
+Number of variables                  13   ->   3           
+j variable (12 values)                    ->   m
+xij variables:
+              month1 month2 ... month12   ->   month
+-----------------------------------------------------------------------------
+
+. rename month cpi
+
+. rename m month
+
+. keep if year >= 1979
+(24 observations deleted)
+
+. *If base year needs to be changed, use here.
+. local baseyear=2016
+
+. sum cpi if year == `baseyear', meanonly
+
+. local cpibase = r(mean)
+
+. replace cpi = 100 * cpi / `cpibase'
+(456 real changes made)
+
+. gen monthdate = ym(year,month)
+
+. gen quarterdate = qofd(dofm(monthdate))
+
+. collapse cpi, by(quarterdate)
+
+. tempfile cpiquarter
+
+. save `cpiquarter'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St32034.000002 saved
+    as .dta format
+
+. 
+. 
+. use "${data}VZmw_quarterly_lagsleads_1979_2016.dta",clear
+
+. merge m:1 quarterdate using `cpiquarter', nogenerate assert(3)
+(variable quarterdate was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. 
+. cap drop _merge
+
+. 
+. 
+. xtset statenum quarterdate      
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 1979q1 to 2016q4
+         Delta: 1 quarter
+
+. 
+. 
+. g MW = exp(logmw) 
+
+. g DMW = D.MW
+(51 missing values generated)
+
+. g MW_real = exp(logmw)/(cpi/100) 
+
+. g DMW_real = D.MW_real 
+(51 missing values generated)
+
+. 
+. g MW_realM25 = MW_real - mod(MW_real,0.25)
+
+. g DMW_realM25 = D.MW_realM25
+(51 missing values generated)
+
+. 
+. tempfile mw_data
+
+. save `mw_data'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St32034.000003 saved
+    as .dta format
+
+. 
+. 
+. 
+. use "${data}total_imputed.dta", clear
+
+. 
+. 
+. merge 1:1 statenum quarterdate using "${data}totalpopulation_1979_2016.dta" ,
+> assert(2 3) nogenerate keep(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. merge 1:1 statenum quarterdate using "${data}eventclassification.dta", assert
+> (1 3) nogenerate
+(variable quarterdate was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         7,236
+        from master                     7,236  
+        from using                          0  
+
+    Matched                               516  
+    -----------------------------------------
+
+. merge 1:1 statenum quarterdate using `mw_data', assert(2 3) nogenerate keep(3
+> )
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. replace overallcountgroup = 0 if overallcountgroup==.
+(7,383 real changes made)
+
+. assert overallcountgroup!=0 if alltreat==1 & toosmall==0
+
+. sum overallcountgroup,meanonly
+
+. local upperquant = r(max)
+
+. gen year = year(dofq(quarterdate))
+
+. 
+. 
+. gen imputed_per_cap = total_imputed/totalpopulation
+
+. gen imputed_rate = total_imputed/countall
+
+. assert imputed_per_cap!=.
+
+. 
+. 
+. 
+.         cap drop treat 
+
+.         cap drop _treat
+
+.         g _treat_p=0
+
+.                 replace _treat = 1 if overallcountgroup>0 & fedincrease!=1
+(138 real changes made)
+
+.          g treat = ( _treat +  L._treat + L2._treat + L3._treat)
+(153 missing values generated)
+
+.         cap drop _treat
+
+. 
+. 
+. 
+. cap drop  Dtreat
+
+. g Dtreat = D.treat
+(204 missing values generated)
+
+. 
+. cap drop _cont
+
+. g _cont = 0
+
+. replace _cont = 1 if ($missedevents | toosmall==1) 
+(255 real changes made)
+
+. g tempcont = _cont + L._cont + L2._cont + L3._cont
+(153 missing values generated)
+
+. 
+. local Tmax3 = 16 + 3
+
+. forval i = 0(1)`Tmax3'{
+  2.         if `i' == 0{
+  3.         g postcont = _cont
+  4.         }
+  5.         else {
+  6.         replace postcont = postcont + L`i'._cont
+  7.         sum postcont, meanonly
+  8.         assert r(mean)!=0
+  9.         }
+ 10. }
+(306 real changes made, 51 to missing)
+(305 real changes made, 51 to missing)
+(305 real changes made, 51 to missing)
+(303 real changes made, 51 to missing)
+(303 real changes made, 51 to missing)
+(302 real changes made, 51 to missing)
+(302 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+
+. cap drop _cont
+
+. 
+. 
+. cap drop _contf
+
+. cap drop postcontf
+
+. 
+. g _contf = 0
+
+. replace _contf = 1 if (fedincrease==1 &  overallcountgroup>0 )
+(231 real changes made)
+
+. g tempcontf = _contf + L._contf + L2._contf + L3._contf
+(153 missing values generated)
+
+. 
+. local Tmax3 = 16 + 3
+
+. forval i = 0(1)`Tmax3'{
+  2.         if `i' == 0{
+  3.         g postcontf = _contf
+  4. 
+.         }
+  5.         else {
+  6.         replace postcontf = postcontf + L`i'._contf
+  7.         sum postcontf, meanonly
+  8.         assert r(mean)!=0
+  9.         }
+ 10. }
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+
+. cap drop _contf
+
+. 
+. g precontf = F4.tempcontf
+(204 missing values generated)
+
+. g precont = F4.tempcont
+(204 missing values generated)
+
+. 
+. replace precontf = 0 if precontf == .
+(204 real changes made)
+
+. replace precont = 0 if precont  == .
+(204 real changes made)
+
+. 
+. 
+. g earlycontf = F12.tempcontf + F8.tempcontf
+(612 missing values generated)
+
+. g earlycont = F12.tempcont + F8.tempcont
+(612 missing values generated)
+
+. 
+. replace earlycontf = 0 if earlycontf == .
+(612 real changes made)
+
+. replace earlycont = 0 if earlycont  == .
+(612 real changes made)
+
+. 
+. 
+. 
+. foreach j of numlist 4(4)16{
+  2.                 cap drop F`j'treat
+  3.                 cap drop L`j'treat
+  4.                 
+.                 g F`j'treat = F`j'.treat
+  5.                 g L`j'treat = L`j'.treat
+  6.                 
+.                 replace F`j'treat = 0 if F`j'treat ==.
+  7.                 replace L`j'treat = 0 if L`j'treat ==.
+  8.                 
+. 
+.         }
+(204 missing values generated)
+(357 missing values generated)
+(204 real changes made)
+(357 real changes made)
+(408 missing values generated)
+(561 missing values generated)
+(408 real changes made)
+(561 real changes made)
+(612 missing values generated)
+(765 missing values generated)
+(612 real changes made)
+(765 real changes made)
+(816 missing values generated)
+(969 missing values generated)
+(816 real changes made)
+(969 real changes made)
+
+. *
+. 
+. replace postcont = 0 if postcont == .
+(969 real changes made)
+
+. replace postcontf = 1 if postcontf == .
+(969 real changes made)
+
+. 
+. 
+. g cleansample = 1
+
+. replace cleansample = 0 if quarterdate >=136 & quarterdate <=142
+(357 real changes made)
+
+. 
+. egen avetotalpopulation = mean(totalpopulation) , by(statenum)
+
+. 
+. 
+. 
+. *Note that we do not use most of these either, yet I keep this global in case
+>  it is needed.
+. 
+. global a1  i.statenum i.quarterdate  // TWFE
+
+. global a2  i.statenum i.statenum##c.quarterdate i.quarterdate  // ST
+
+. global a3  i.statenum i.quarterdate##i.division  // DP
+
+. global a4  i.statenum i.statenum##c.quarterdate i.quarterdate##i.division  //
+>  ST-DP
+
+. 
+. 
+. *****************************************************************************
+> ***
+. **************       Define Treatments         ******************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. global treat            F12treat F8treat F4treat treat  L4treat L8treat L12tr
+> eat L16treat 
+
+. 
+. global minus (F4treat)
+
+. global lincomagg        (treat-$minus)
+
+. forval i = 4(4)16{
+  2. global lincomagg "$lincomagg + (L`i'treat - $minus ) "
+  3. }
+
+. *
+. 
+. global label1 TWFE
+
+. global grlabel1 TWFE
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ***************       The Regressions ***************************************
+> ***
+. *****************************************************************************
+> ***                
+.                 
+. 
+. 
+. gen all=1
+
+. 
+. tempfile temptemp
+
+. save `temptemp', replace        
+(file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St32034.000004 not
+    found)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St32034.000004 saved
+    as .dta format
+
+. 
+. local regsample ""
+
+. local graphname "o"
+
+. global weight2 [aw=totalpopulation]
+
+. global weight0 [aw=all] 
+
+. local ylabel "ylabel( , labsize(medium))" 
+
+. 
+. 
+. *To get semi elasticity, get rid of denominator.
+.                         local counter = 0
+
+. foreach b in   1979   {
+  2.         foreach w in 2 0   {
+  3.                 foreach s in  1 2 3 4 {
+  4.                 use `temptemp', clear
+  5.                         
+.                                 sum imputed_rate if  year>=`b' & cleansample=
+> =1  ${weight`w'},meanonly
+  6.                                 local epop = r(mean)
+  7.                                 sum DMW_real if fedincrease!=1 & overallco
+> untgr>0 & year>=`b' & cleansample ==1   ${weight`w'}
+  8.                                 local mwc = r(mean)
+  9.                                 sum MW_real if  F.fedincrease!=1 & F.overa
+> llcountgr>0 & year>=`b' & cleansample ==1   ${weight`w'}
+ 10.                                 local mw = r(mean)
+ 11.                                 local mwpc = `mwc'/`mw'
+ 12.                                 local mwpc2 : di  %04.3f `mwpc'
+ 13. 
+.                                 global E = `epop'
+ 14.                                 global E = 1    
+ 15.                                 global C = 1/(`epop'*`mwpc')
+ 16.                                 
+.                                 
+.                         qui reghdfe imputed_rate $treat if  year>=`b' & clean
+> sample==1 ${weight`w'} , absorb( ${a`s'} postcont postcontf  precont precontf
+>  earlycont earlycontf ) cluster(statenum)
+ 17.                         sum imputed_rate if e(sample)==1 ${weight`w'}
+ 18.                         local mean_depvar: di %04.3f r(mean)
+ 19.                         sum quarterdate if e(sample)==1
+ 20.                         estadd local begquarter = r(min)
+ 21.                         estadd local endquarter = r(max)
+ 22. 
+.                         
+.                         local dof = e(df_r)
+ 23. 
+.                         lincom (($lincomagg) * (1/5))
+ 24.                         scalar b_`w'=r(estimate)
+ 25.                         scalar sest_`w'=r(se)
+ 26.                         scalar pst_`w' = ttail(r(df), r(estimate)/r(se))
+ 27. *Table                  
+.                         lincomestadd (($lincomagg) * (1/5))/${E}, statname(es
+> ts)
+ 28.                         
+.                         
+.                         if `s' == 2 | `s'==4{
+ 29.                         estadd local statetrends = "Y"
+ 30.                         }
+ 31.                         if `s' == 3 | `s' == 4{
+ 32.                         estadd local divisionperiod = "Y"
+ 33.                         }
+ 34.                         if `w'==0{
+ 35.                         estadd local weight " "
+ 36.                         }
+ 37.                         if `w'==2{
+ 38.                         estadd local weight " Y "
+ 39.                         }
+ 40.                         
+.                         local numobs: di %9.0gc e(N)
+ 41.                         estadd local numobs "`numobs'"
+ 42.                         
+.                         estadd local mean_depvar "`mean_depvar'"
+ 43.                         
+.                         eststo est_`w'_`s'
+ 44. 
+.                         
+. *Figure                 
+.                 if `w' == 2 & `s' == 1{
+ 45.         
+.                         local figcounter= 0
+ 46.                         foreach vv in F12treat F8treat F4treat treat  L4tr
+> eat L8treat L12treat L16treat {
+ 47.                         local figcounter = `figcounter' +1
+ 48.                         local counter = `counter' + 1
+ 49.                         lincom `vv' - F4treat
+ 50.                         if `counter' ==1{
+ 51.                         mat estimates = ( r(estimate), r(estimate) + 2*r(s
+> e), r(estimate) - 2*r(se), `w', `s', 4*`figcounter' - 16 )
+ 52.                         }
+ 53.                         else{
+ 54.                         mat estimates = ( estimates \ r(estimate), r(estim
+> ate) + 2*r(se), r(estimate) - 2*r(se), `w', `s', 4*`figcounter' - 16 )
+ 55.                         }
+ 56.                         }
+ 57. }
+ 58.                         
+.                         
+.                         
+.                         
+.                         
+.                         }
+ 59.                 }
+ 60.         }       
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   733548541    .7960962   .4012105   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   990047289    7.859571   .9496312   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+imputed_rate |   7,242  2.9664e+10    .2795306   .1181243   .0341973   .5904856
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0042114   .0027947    -1.51   0.138    -.0098247    .0014018
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0042114   .0027947    -1.51   0.138    -.0098247    .0014018
+------------------------------------------------------------------------------
+
+added macro:
+              e(estsb) : "-0.004"
+
+added macro:
+             e(estsse) : "(0.003)"
+
+added macro:
+             e(weight) : " Y "
+
+added macro:
+             e(numobs) : "    7,242"
+
+added macro:
+        e(mean_depvar) : "0.280"
+
+ ( 1)  F12treat - F4treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0021179   .0026801    -0.79   0.433    -.0075009    .0032652
+------------------------------------------------------------------------------
+
+ ( 1)  F8treat - F4treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0047549   .0025542    -1.86   0.069    -.0098852    .0003755
+------------------------------------------------------------------------------
+
+ ( 1) = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |          0  (omitted)
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0039794   .0024615    -1.62   0.112    -.0089233    .0009646
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + L4treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0006281   .0040014    -0.16   0.876    -.0086652     .007409
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + L8treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0054978   .0033453    -1.64   0.107     -.012217    .0012214
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + L12treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0051725   .0029996    -1.72   0.091    -.0111974    .0008523
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0057795   .0040016    -1.44   0.155     -.013817     .002258
+------------------------------------------------------------------------------
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   733548541    .7960962   .4012105   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   990047289    7.859571   .9496312   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+imputed_rate |   7,242  2.9664e+10    .2795306   .1181243   .0341973   .5904856
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0024761   .0025592    -0.97   0.338    -.0076164    .0026642
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0024761   .0025592    -0.97   0.338    -.0076164    .0026642
+------------------------------------------------------------------------------
+
+added macro:
+              e(estsb) : "-0.002"
+
+added macro:
+             e(estsse) : "(0.003)"
+
+added macro:
+        e(statetrends) : "Y"
+
+added macro:
+             e(weight) : " Y "
+
+added macro:
+             e(numobs) : "    7,242"
+
+added macro:
+        e(mean_depvar) : "0.280"
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   733548541    .7960962   .4012105   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   990047289    7.859571   .9496312   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+imputed_rate |   7,242  2.9664e+10    .2795306   .1181243   .0341973   .5904856
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0024893   .0029642    -0.84   0.405    -.0084431    .0034646
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0024893   .0029642    -0.84   0.405    -.0084431    .0034646
+------------------------------------------------------------------------------
+
+added macro:
+              e(estsb) : "-0.002"
+
+added macro:
+             e(estsse) : "(0.003)"
+
+added macro:
+     e(divisionperiod) : "Y"
+
+added macro:
+             e(weight) : " Y "
+
+added macro:
+             e(numobs) : "    7,242"
+
+added macro:
+        e(mean_depvar) : "0.280"
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   733548541    .7960962   .4012105   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   990047289    7.859571   .9496312   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+imputed_rate |   7,242  2.9664e+10    .2795306   .1181243   .0341973   .5904856
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0009784   .0028475    -0.34   0.733    -.0066978     .004741
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0009784   .0028475    -0.34   0.733    -.0066978     .004741
+------------------------------------------------------------------------------
+
+added macro:
+              e(estsb) : "-0.001"
+
+added macro:
+             e(estsse) : "(0.003)"
+
+added macro:
+        e(statetrends) : "Y"
+
+added macro:
+     e(divisionperiod) : "Y"
+
+added macro:
+             e(weight) : " Y "
+
+added macro:
+             e(numobs) : "    7,242"
+
+added macro:
+        e(mean_depvar) : "0.280"
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137         137    .7784631   .4054442   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189         189    7.810283   .9574125   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+imputed_rate |   7,242        7242    .2486625   .1169226   .0341973   .5904856
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0001483   .0036235    -0.04   0.968    -.0074263    .0071297
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0001483   .0036235    -0.04   0.968    -.0074263    .0071297
+------------------------------------------------------------------------------
+
+added macro:
+              e(estsb) : "-0.000"
+
+added macro:
+             e(estsse) : "(0.004)"
+
+added macro:
+             e(weight) : " "
+
+added macro:
+             e(numobs) : "    7,242"
+
+added macro:
+        e(mean_depvar) : "0.249"
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137         137    .7784631   .4054442   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189         189    7.810283   .9574125   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+imputed_rate |   7,242        7242    .2486625   .1169226   .0341973   .5904856
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0009465    .003569     0.27   0.792    -.0062221    .0081152
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0009465    .003569     0.27   0.792    -.0062221    .0081152
+------------------------------------------------------------------------------
+
+added macro:
+              e(estsb) : "0.001"
+
+added macro:
+             e(estsse) : "(0.004)"
+
+added macro:
+        e(statetrends) : "Y"
+
+added macro:
+             e(weight) : " "
+
+added macro:
+             e(numobs) : "    7,242"
+
+added macro:
+        e(mean_depvar) : "0.249"
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137         137    .7784631   .4054442   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189         189    7.810283   .9574125   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+imputed_rate |   7,242        7242    .2486625   .1169226   .0341973   .5904856
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0006098   .0036358     0.17   0.867    -.0066929    .0079125
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0006098   .0036358     0.17   0.867    -.0066929    .0079125
+------------------------------------------------------------------------------
+
+added macro:
+              e(estsb) : "0.001"
+
+added macro:
+             e(estsse) : "(0.004)"
+
+added macro:
+     e(divisionperiod) : "Y"
+
+added macro:
+             e(weight) : " "
+
+added macro:
+             e(numobs) : "    7,242"
+
+added macro:
+        e(mean_depvar) : "0.249"
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137         137    .7784631   .4054442   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189         189    7.810283   .9574125   6.075942   11.42869
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+imputed_rate |   7,242        7242    .2486625   .1169226   .0341973   .5904856
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0016864   .0027596     0.61   0.544    -.0038565    .0072292
+------------------------------------------------------------------------------
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+imputed_rate | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0016864   .0027596     0.61   0.544    -.0038565    .0072292
+------------------------------------------------------------------------------
+
+added macro:
+              e(estsb) : "0.002"
+
+added macro:
+             e(estsse) : "(0.003)"
+
+added macro:
+        e(statetrends) : "Y"
+
+added macro:
+     e(divisionperiod) : "Y"
+
+added macro:
+             e(weight) : " "
+
+added macro:
+             e(numobs) : "    7,242"
+
+added macro:
+        e(mean_depvar) : "0.249"
+
+. *       
+. 
+. esttab est_0_1 est_0_2 est_0_3 est_0_4 est_2_1 est_2_2 est_2_3 est_2_4 ///
+> using "${tables}TableA3.tex", replace   ///
+> stats(estsb estsse blankspace  numobs  mean_depvar blankspace blankspace stat
+> etrends divisionperiod blankspace weight , label("$\Delta$ imputation rate" "
+>  " " " "\# observations"  "Mean of the dep. var" " "   "\underline{\textit{Co
+> ntrols}}" "State trends" "Division-by-year FE" " " "Weighted" )) ///
+> nodep addnotes("`footnotes'") nogaps cells(none) nomtitles fragment booktabs
+(file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Tables/TableA3.tex not found)
+(output written to /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replicatio
+> ns/QJE2019-Minimum-Wages-Low-Wage-Jobs/Results/Tables/TableA3.tex)
+
+. 
+. svmat estimates
+
+. save "${data}imputation_forfigure.dta", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Data/data/imputation_forfigure.dta saved
+
+. 
+.         
+. global figlab1 TWFE     
+
+. global figlab2 ST
+
+. global figlab3 DP
+
+. global figlab4 ST_DP
+
+. 
+. 
+. use "${data}imputation_forfigure.dta", clear
+
+. rename estimates1 estA
+
+. rename estimates2 highA
+
+. rename estimates3 lowA
+
+. rename estimates4 weight
+
+. rename estimates5 spec
+
+. rename estimates6 time
+
+. 
+. 
+. 
+. keep if weight == 2
+(7,744 observations deleted)
+
+. keep if spec == 1
+(0 observations deleted)
+
+. 
+.         
+. 
+.                                 twoway ( line estA time  , fcolor(blue) lcolo
+> r(blue)  lwidth(thick) yline(0, lcolor(gs10) lwidth(vvthin)) xline(-4, lpatte
+> rn(dash) lcolor(black) ) ) ///
+>                                 (rcap lowA  highA time  , lwidth(thick) lcolo
+> r(blue*1.25) )  ///
+>                                 , scheme(s1color) xtitle("Years relative to t
+> he minimum wage change", size(medsmall)) ///
+>                                 ytitle("Change in Imputation Rate", height(5)
+>  axis(1) size(medsmall))  ///
+>                                  ylabel(-0.04(0.01)0.04, axis(1) labsize(meds
+> mall)) yscale(titlegap(0) axis(1))  ///
+>                                 /*xlabel(-12 "[-12,-9]" -8 "[-8,-5]" -4 "[-4,
+> -1]" 0 "[0,3]" 4 "[4,7]" 8 "[8,11]" 12 "[12,15]" 16 "[16,19]", labsize(medsma
+> ll)) */ ///
+>                                 xlabel(-12 "-3" -8 "-2" -4 "-1" 0 "0" 4 "1" 8
+>  "2" 12 "3" 16 "4", labsize(medsmall)) legend(off) /* ///
+>                                 title("${label`s'}", size(medium) )  note("$b
+> unchch" "$bunchelas" "$belowmasssh" "$abovemasssh"  /*"$elastest"*/, size(sma
+> ll) color(blue)) ///
+>                                 */
+
+. 
+.                         gr export "${figures}FigureA2.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA2.pdf saved as PDF
+    format
+
+. 
+.         
+.         
+.         
+.         
+. 
+end of do-file

@@ -1,0 +1,103 @@
+rel,est,se,estimator
+-11.0,-0.007389412201862112,0.39998964726202946,TWFE event study (sp.feols)
+-10.0,-0.3589087787270939,0.2828815892750608,TWFE event study (sp.feols)
+-9.0,-0.7809390748083285,0.3041955793599745,TWFE event study (sp.feols)
+-8.0,-0.5450958074730637,0.3526181354164892,TWFE event study (sp.feols)
+-7.0,-0.9014158024856557,0.30997732531431793,TWFE event study (sp.feols)
+-6.0,-1.1027627913705076,0.3959194413105307,TWFE event study (sp.feols)
+-5.0,-0.725620066387165,0.3843329393724268,TWFE event study (sp.feols)
+-4.0,-0.5319530608232858,0.3655922560362867,TWFE event study (sp.feols)
+-3.0,-0.7840257985520427,0.2596481198001951,TWFE event study (sp.feols)
+-2.0,-1.2428506020989016,0.5295279145042673,TWFE event study (sp.feols)
+0.0,-0.6750999264828762,0.6973266896464728,TWFE event study (sp.feols)
+1.0,-0.4685775149549996,0.7849350290775796,TWFE event study (sp.feols)
+2.0,-1.024157280466185,0.7256267991685139,TWFE event study (sp.feols)
+3.0,-1.0583574056363572,0.8676526344516402,TWFE event study (sp.feols)
+4.0,-0.3984033691140501,1.4381062432027094,TWFE event study (sp.feols)
+5.0,-1.187501406386298,0.9462060792497272,TWFE event study (sp.feols)
+6.0,-1.7104667044277395,0.7880129811849381,TWFE event study (sp.feols)
+7.0,0.24413954907104657,1.5415577735148267,TWFE event study (sp.feols)
+8.0,-0.2969621754536389,1.5120482392190497,TWFE event study (sp.feols)
+9.0,-0.8153882596812945,1.223922333556701,TWFE event study (sp.feols)
+10.0,-2.086506459909744,1.2034083008172325,TWFE event study (sp.feols)
+11.0,-1.3181616259492863,1.2047891321567838,TWFE event study (sp.feols)
+12.0,-0.6463124096124415,1.7280227442571867,TWFE event study (sp.feols)
+-24.0,1.528817266043002,0.709246039633191,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-23.0,0.10988468853224026,1.1363197410568728,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-22.0,0.5841850443385342,1.0326208280057096,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-21.0,-0.5912143022898171,0.7469473905919612,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-20.0,-0.3917544308321201,0.6807102848395409,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-19.0,-0.17465309042859103,0.7189984110935117,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-18.0,0.005230724377450591,0.5342745877540866,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-17.0,-0.21638125838347858,0.6161781135621496,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-16.0,-0.22463491647415032,0.6442766122804576,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-15.0,-0.8347129830722948,0.6026320176242533,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-14.0,-1.0001581091355127,0.6056905010908477,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-13.0,-0.8755501479922118,0.5520280887341883,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-12.0,-0.4113914546377294,0.6042050025032474,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-11.0,-0.6706809895342373,0.6631082975694504,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-10.0,-0.7968688156645444,0.5388217934287004,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-9.0,-1.0866153015347917,0.5309109161737504,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-8.0,-0.9071026194735387,0.5403775166752507,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-7.0,-1.114559549167364,0.5597535319470354,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-6.0,-1.0014159388419412,0.46156108854018335,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-5.0,-0.794404748520622,0.5104794950175093,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-4.0,-0.7152859056271704,0.5729065020559497,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-3.0,-0.8658214747709938,0.40513857434851536,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-2.0,-1.3353206131724007,0.5405750848219849,"Callaway-Sant'Anna (not-yet-treated, DR)"
+0.0,-1.0120069764928012,0.5164328971151105,"Callaway-Sant'Anna (not-yet-treated, DR)"
+1.0,-0.24934942882938627,0.5338898313168111,"Callaway-Sant'Anna (not-yet-treated, DR)"
+2.0,0.26114841587394594,0.6101536085755347,"Callaway-Sant'Anna (not-yet-treated, DR)"
+3.0,-0.7449016713867102,0.5189621332192697,"Callaway-Sant'Anna (not-yet-treated, DR)"
+4.0,-0.3126786121335181,0.7052746314206699,"Callaway-Sant'Anna (not-yet-treated, DR)"
+5.0,-1.2478259877345903,0.5700093956045335,"Callaway-Sant'Anna (not-yet-treated, DR)"
+6.0,-1.267784564306395,0.5404287564201312,"Callaway-Sant'Anna (not-yet-treated, DR)"
+7.0,0.32056101095419814,0.8802960063088352,"Callaway-Sant'Anna (not-yet-treated, DR)"
+8.0,-0.5110862955574318,0.8820421137820564,"Callaway-Sant'Anna (not-yet-treated, DR)"
+9.0,-0.7832729435144676,0.8105778944666058,"Callaway-Sant'Anna (not-yet-treated, DR)"
+10.0,-0.30483453838560876,1.1082743462885192,"Callaway-Sant'Anna (not-yet-treated, DR)"
+11.0,-0.8649491561141928,0.680423157249779,"Callaway-Sant'Anna (not-yet-treated, DR)"
+12.0,0.018467854860329758,0.7889898307660355,"Callaway-Sant'Anna (not-yet-treated, DR)"
+13.0,1.6753101131771022,0.8267225103758665,"Callaway-Sant'Anna (not-yet-treated, DR)"
+14.0,0.7723191732030547,0.603588948707944,"Callaway-Sant'Anna (not-yet-treated, DR)"
+15.0,-0.12217781144205474,0.38832218056525125,"Callaway-Sant'Anna (not-yet-treated, DR)"
+16.0,-1.0185689014419743,0.38762508315282135,"Callaway-Sant'Anna (not-yet-treated, DR)"
+17.0,0.465672098799034,0.7700874485579013,"Callaway-Sant'Anna (not-yet-treated, DR)"
+18.0,1.3790615248948581,1.6358872416971442,"Callaway-Sant'Anna (not-yet-treated, DR)"
+19.0,-0.7241115094056271,0.9370791633722481,"Callaway-Sant'Anna (not-yet-treated, DR)"
+20.0,2.754985754985755,2.002209970377622,"Callaway-Sant'Anna (not-yet-treated, DR)"
+21.0,0.951709401709402,0.9980876824935654,"Callaway-Sant'Anna (not-yet-treated, DR)"
+22.0,0.6321428571428573,1.8539989987632048,"Callaway-Sant'Anna (not-yet-treated, DR)"
+-8.0,0.1309907392345408,0.2161955978278935,Borusyak-Jaravel-Spiess imputation
+-7.0,-0.16983131175371657,0.3108341733952768,Borusyak-Jaravel-Spiess imputation
+-6.0,-0.06463248417675871,0.2511289889744816,Borusyak-Jaravel-Spiess imputation
+-5.0,0.22593090885497336,0.27585390738425997,Borusyak-Jaravel-Spiess imputation
+-4.0,0.36120190605235347,0.3937507011478313,Borusyak-Jaravel-Spiess imputation
+-3.0,0.09277379203169867,0.5367922930483244,Borusyak-Jaravel-Spiess imputation
+-2.0,-0.20679339513417982,0.2673551808093938,Borusyak-Jaravel-Spiess imputation
+-1.0,1.0670010705848696,0.7232324312229729,Borusyak-Jaravel-Spiess imputation
+0.0,0.02292495386678491,0.40194989818022636,Borusyak-Jaravel-Spiess imputation
+1.0,0.45004052202535477,0.39818184446378124,Borusyak-Jaravel-Spiess imputation
+2.0,0.15151257374969132,0.2884164296512435,Borusyak-Jaravel-Spiess imputation
+3.0,-0.2760622695278543,0.29409515549401993,Borusyak-Jaravel-Spiess imputation
+4.0,0.6598886417610852,1.0024570510835915,Borusyak-Jaravel-Spiess imputation
+5.0,-0.2656956343670164,0.25592147732838244,Borusyak-Jaravel-Spiess imputation
+6.0,-0.4575536691092887,0.1822522038125267,Borusyak-Jaravel-Spiess imputation
+7.0,1.6765891021419215,1.1633025824699645,Borusyak-Jaravel-Spiess imputation
+8.0,0.9763071030613171,1.0965895218947,Borusyak-Jaravel-Spiess imputation
+-8.0,-0.34255155444841434,0.3483243812200806,Sun-Abraham IW (last cohort as control)
+-7.0,-0.6061806535603879,0.3794563292801666,Sun-Abraham IW (last cohort as control)
+-6.0,-0.573257319747265,0.4640369070367796,Sun-Abraham IW (last cohort as control)
+-5.0,-0.28386824247762366,0.35586850640253553,Sun-Abraham IW (last cohort as control)
+-4.0,-0.33689750610286495,0.38110760708902097,Sun-Abraham IW (last cohort as control)
+-3.0,-0.3534499458213817,0.45696105544789933,Sun-Abraham IW (last cohort as control)
+-2.0,-0.5181716729642477,0.33015508648450304,Sun-Abraham IW (last cohort as control)
+0.0,-0.18302491562520828,0.4758194631574423,Sun-Abraham IW (last cohort as control)
+1.0,0.062026832978159585,0.3098249074511244,Sun-Abraham IW (last cohort as control)
+2.0,0.03459504327124084,0.25440640707025763,Sun-Abraham IW (last cohort as control)
+3.0,1.0075404049078358,0.5604887959217971,Sun-Abraham IW (last cohort as control)
+4.0,-0.16503698432345368,0.8431802244610744,Sun-Abraham IW (last cohort as control)
+5.0,-0.2052741596525523,0.6733378080557131,Sun-Abraham IW (last cohort as control)
+6.0,-0.6246384060466134,0.35041157595829525,Sun-Abraham IW (last cohort as control)
+7.0,0.9104810251089449,1.0606790165607936,Sun-Abraham IW (last cohort as control)
+8.0,0.24534661597648638,0.8743699089961603,Sun-Abraham IW (last cohort as control)

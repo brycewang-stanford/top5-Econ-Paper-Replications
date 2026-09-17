@@ -148,7 +148,7 @@ $$
 ## 6. 本复现的结论（2026-09）
 
 - 原始 Stata 代码逐表运行，结果与期刊发表值**逐位一致**（Tables V, VI, VIII, IX, X, XI, XII；Tables III, VII 描述统计；Figures IV–VII）。详见 `Results/comparison.md`。
-- StatsPAI (`sp.feols` / `sp.hdfe_ols` / `sp.oprobit`) 复现全部回归表。价格与数量表逐位一致；有序 probit 需要标准化回归元，否则 StatsPAI 的 BFGS 会提前停止，第三位小数出现偏差。
+- StatsPAI (`sp.feols` / `sp.hdfe_ols` / `sp.oprobit`) 复现全部回归表：Tables V、VI、X、XI、XII 逐位一致；Tables VIII、IX 分别 32/34、31/34，其余单元格差 ≤ 0.0016。有序 probit 需要标准化回归元，否则 StatsPAI 的 BFGS 会提前停止；地级市模型每个需要数小时（Stata < 1 秒）。
 
 ---
 

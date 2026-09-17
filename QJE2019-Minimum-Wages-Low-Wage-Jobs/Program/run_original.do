@@ -12,6 +12,8 @@
 *   Optional: set global RUNSTEPS before calling to run a subset, e.g.
 *     global RUNSTEPS "Table1_for_QJE Figure2_for_QJE"
 *   Batch: stata-mp -b do Program/run_original.do Table1_for_QJE Figure2_for_QJE
+*   Est-use copies (regressions commented out, rebuilt from shipped .ster):
+*     stata-mp -b do Program/run_original.do ../dofiles_estuse/Figure2_for_QJE_estuse
 *   Optional: global BUILDDATA 1  -> also re-run the data-construction steps
 *     (default 0: start from the shipped intermediate datasets in Data/data/).
 ********************************************************************************
@@ -95,15 +97,15 @@ else {
 	else local steps `mainsteps' `appsteps'
 }
 
-* ---- step log ----------------------------------------------------------------
-cap file close steplog
+* ---- step log (re-opened for every write: the author's do-files call `clear all`,
+*      which closes all open file handles) ------------------------------------
 local steplogfile "${ROOT}/Results/run_original_steps.csv"
 cap confirm file "`steplogfile'"
 if _rc {
 	file open steplog using "`steplogfile'", write text replace
 	file write steplog "timestamp,step,rc,seconds" _n
+	file close steplog
 }
-else file open steplog using "`steplogfile'", write text append
 
 foreach s of local steps {
 	* programs + globals must exist in every step (steps call clear all / macro drop)
@@ -111,7 +113,8 @@ foreach s of local steps {
 	timer clear 1
 	timer on 1
 	cap log close steplogsmcl
-	log using "${ROOT}/Results/logs/`s'.log", text replace name(steplogsmcl)
+	local lname = subinstr(subinstr("`s'", "../", "", .), "/", "__", .)
+	log using "${ROOT}/Results/logs/`lname'.log", text replace name(steplogsmcl)
 	capture noisily do "${dofiles}`s'.do"
 	local rc = _rc
 	cap log close steplogsmcl
@@ -119,8 +122,10 @@ foreach s of local steps {
 	quietly timer list 1
 	local secs = r(t1)
 	di as result "STEP `s' rc=`rc' seconds=`secs'"
+	cap file close steplog
+	file open steplog using "`steplogfile'", write text append
 	file write steplog "`c(current_date)' `c(current_time)',`s',`rc',`secs'" _n
-	file flush steplog
+	file close steplog
 	* restore globals possibly wiped by the step
 	global data      "${ROOT}/Data/data/"
 	global dofiles   "${ROOT}/Program/dofiles/"
@@ -128,4 +133,3 @@ foreach s of local steps {
 	global figures   "${ROOT}/Results/Figures/"
 	global estimates "${ROOT}/Results/estimates/"
 }
-file close steplog

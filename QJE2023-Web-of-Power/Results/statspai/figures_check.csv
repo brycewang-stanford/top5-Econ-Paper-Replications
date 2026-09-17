@@ -1,15 +1,15 @@
 figure,quantity,n,max_abs_diff
 Figure 3,mean soldier deaths by year x connected (30 cells),30,0.0004615384615380691
-Figure 4,A. Weighted connections: 14 coefs,14,2.7107472572174274e-08
-Figure 4,A. Weighted connections: 14 SEs,14,2.2165716151434367e-08
-Figure 4,B. Unweighted connections: 14 coefs,14,1.6713842754256802e-08
-Figure 4,B. Unweighted connections: 14 SEs,14,9.062068470622187e-09
-Figure 4,C. Weighted connections per capita: 14 coefs,14,1.4874066048276013e-08
-Figure 4,C. Weighted connections per capita: 14 SEs,14,7.511922438252494e-09
-Figure 4,D. Unweighted connections per capita: 14 coefs,14,9.94249897690036e-09
-Figure 4,D. Unweighted connections per capita: 14 SEs,14,3.89424196708954e-09
+Figure 4,A. Weighted connections: 14 coefs,14,2.7107471878284883e-08
+Figure 4,A. Weighted connections: 14 SEs,14,2.2165716179189943e-08
+Figure 4,B. Unweighted connections: 14 coefs,14,1.67138437812131e-08
+Figure 4,B. Unweighted connections: 14 SEs,14,9.062068567766701e-09
+Figure 4,C. Weighted connections per capita: 14 coefs,14,1.4874065534797865e-08
+Figure 4,C. Weighted connections per capita: 14 SEs,14,7.511922542335903e-09
+Figure 4,D. Unweighted connections per capita: 14 coefs,14,9.942498768733543e-09
+Figure 4,D. Unweighted connections per capita: 14 SEs,14,3.894242071172949e-09
 Figure 5,mean national offices by year x 4 groups (364 cells),364,0.0004950055493895683
-Figure 6,spec 01: 180 yearly coefs,180,0.004840149583191011
-Figure 6,spec 01: 180 yearly SEs,180,0.0012621952540549618
-Figure 6,spec 02: 180 yearly coefs,180,0.0036072567484498903
-Figure 6,spec 02: 180 yearly SEs,180,0.0008321209744312427
+Figure 6,spec 01: 180 yearly coefs,180,7.341470958932561e-09
+Figure 6,spec 01: 180 yearly SEs,180,1.4316820159954169e-09
+Figure 6,spec 02: 180 yearly coefs,180,6.870059937602591e-09
+Figure 6,spec 02: 180 yearly SEs,180,1.4293535348375297e-09

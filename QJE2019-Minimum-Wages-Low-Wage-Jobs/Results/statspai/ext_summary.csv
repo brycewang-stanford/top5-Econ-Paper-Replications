@@ -3,4 +3,6 @@ affected,"stacked hdfe_ols (event-by-state, event-by-time FE)",-7.67953624435723
 below_epop,"stacked hdfe_ols (event-by-state, event-by-time FE)",-0.01710763972776578,0.003098675113103008
 above_epop,"stacked hdfe_ols (event-by-state, event-by-time FE)",0.017030844365311337,0.002179256196355351
 affected,sp.stacked_did,0.005004483426093198,0.003368177407201179
+affected,"sp.callaway_santanna (dynamic, e=0..19 mean)",-0.0034512887768573964,0.005072838504674802
 affected,"sp.sun_abraham (IW, e=0..19 mean)",5.581766901629755e-05,0.004009268301154941
+affected,"sp.did_imputation (BJS overall ATT, unweighted)",0.0020672996452647105,0.0023977609502959774

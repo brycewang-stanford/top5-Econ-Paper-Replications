@@ -1,0 +1,89 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_TableG2_col1.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:03:23
+
+. 
+. *This do file is created by DC on 04/19/2018.
+. *****************************************************************************
+> ***
+. ***************         CK predicted probabilities                ***********
+> ***
+. *****************************************************************************
+> ***
+. clear
+
+. 
+. use statenum quarterdate wagebins first_pop fourth_pop fifth_pop first_count 
+> fourth_count fifth_count using "${data}CK_groups.dta", clear
+
+. egen tagger = tag(statenum quarterdate)
+
+. rename first_pop        totalpopulation1
+
+. rename fourth_pop       totalpopulation2
+
+. rename fifth_pop        totalpopulation3
+
+. 
+. foreach vv in first_ fourth_ fifth_{
+  2. bys statenum quarterdate: egen _limited_`vv'countall = total(`vv'count) if
+>  wagebins<1500
+  3. bys statenum quarterdate: egen _upper_`vv'countall = total(`vv'count) if w
+> agebins>=1500
+  4. bys statenum quarterdate: egen limited_`vv'countall  = max(_limited_`vv'co
+> untall)
+  5. bys statenum quarterdate: egen upper_`vv'countall  = max(_upper_`vv'counta
+> ll)
+  6. }
+(405,249 missing values generated)
+(306,149 missing values generated)
+(405,249 missing values generated)
+(306,149 missing values generated)
+(405,249 missing values generated)
+(306,149 missing values generated)
+
+. *
+. keep if tagger
+(703,646 observations deleted)
+
+. drop tagger
+
+. cap drop _*
+
+. tempfile grouppop
+
+. save `grouppop'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48681.000001 saved
+    as .dta format
+
+. 
+. 
+. use statenum quarterdate population using "${data}state_panels_cents_balanced
+> _add_QJE.dta", clear
+
+. egen tagger = tag(statenum quarterdate)
+
+. keep if tagger
+(899,232 observations deleted)
+
+. drop tagger
+
+. tempfile pop
+
+. save `pop'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48681.000002 saved
+    as .dta format
+
+. 
+. 
+. use "${data}CK_predicted_groups_collapsed.dta", clear
+
+.                 merge m:1 statenum quarterdate using `qcew', nogenerate asser
+> t(3)
+invalid file specification
+r(198);
+
+end of do-file

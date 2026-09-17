@@ -1,0 +1,23 @@
+                              coef                ...     se              
+column                           1      2      3  ...      3      4      5
+table panel                                       ...                     
+II    A (OLS)                0.199  0.196  0.199  ...  0.044  0.046  0.044
+III   A (OLS, cameras)       0.436  0.420  0.436  ...  0.085  0.080  0.080
+      C (OLS, AI x cameras)  0.681  0.669  0.680  ...  0.155  0.148  0.148
+
+[3 rows x 10 columns]
+II B (LASSO IV) 1 0.248 0.026 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+II B (LASSO IV) 2 0.245 0.03 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+II B (LASSO IV) 3 0.248 0.027 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+II B (LASSO IV) 4 0.264 0.026 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+II B (LASSO IV) 5 0.261 0.028 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 1 0.737 0.214 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 2 0.695 0.172 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 3 0.721 0.194 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 4 0.737 0.209 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III B (LASSO IV, cameras) 5 0.724 0.205 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 1 0.898 0.076 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 2 0.872 0.049 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 3 0.888 0.065 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 4 0.904 0.081 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']
+III D (LASSO IV, AI x cameras) 5 0.896 0.099 selected: None diag keys: ['R-squared', 'N instruments', 'N endogenous', 'First-stage F (blank)', 'First-stage F p-value (blank)', 'Partial R² (blank)', 'Hansen J statistic', 'Hansen J p-value', 'Hansen J df', 'Hausman F-stat', 'Hausman p-value']

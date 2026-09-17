@@ -1,0 +1,101 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Table_A4.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:05:19
+
+. 
+. *This do file is created by DC on 07/11/2016.
+. *****************************************************************************
+> ***
+. **************        Alternative Event Definitions           ***************
+> ***
+. *****************************************************************************
+> ***
+. 
+. *The first argument adds federal events. The second one adds small events.
+. 
+. do "${dofiles}alternativeeventdef_QJE.do" Y
+
+. 
+. *This do file is created by DC on 03/30/2016
+. *****************************************************************************
+> ***
+. ***************************   Table 1      **********************************
+> ***
+. *****************************************************************************
+> ***
+. *Results on non-linear effects: The treatment events into quintiles by the be
+> low mass share.
+. *Estimate the effect of all five quintiles separately. 
+. *1979 onwards
+. *Note that regression is commented out. Figure creation is also commented out
+> .
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+.                 
+. **** DEFINE REGRESSION COMMAND AND CONTROLS *****
+. 
+.  
+. foreach s in 1 {
+  2.         global rtype`s' reghdfe
+  3. }
+
+.  
+. 
+. global label1 TWFE
+
+. 
+. use "${data}qcew_multiplier.dta", clear
+
+. keep statenum quarterdate multiplier
+
+. assert multiplier != 0
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St49516.000001 saved
+    as .dta format
+
+. 
+. 
+. 
+. if "`1'"=="Y" & "`2'"!="Y"{
+. local events f
+. }
+
+. if "`1'"=="Y" & "`2'"=="Y"{
+. local events fs
+. }
+
+. if "`1'"!="Y" & "`2'"=="Y"{
+. local events s
+. }
+
+. 
+. treatmentcontrolwindows
+
+. 
+. treatmentdefinition, federal("`1'") small("`2'")
+You are using the working data with federal MW changes counted as events.
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Data/data/state_panels_with3quant1979_statefe
+    > d.dta not found
+r(601);
+
+end of do-file
+r(601);
+
+end of do-file

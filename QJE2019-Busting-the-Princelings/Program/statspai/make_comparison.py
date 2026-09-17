@@ -175,6 +175,19 @@ def main():
                                 "figure_V_event_study.csv", "reghdfe lnprice pt3-pt13"))
     parts.append(event_study_md("Figure VI — quantity event study (do-file Figure 6)", "log_firm_steps.log",
                                 "figure_VI_event_study.csv", "reghdfe lnarea pt3-pt13"))
+    # fallback (non-StatsPAI analytic ordered probit) tallies
+    fb = ["", "## Cross-check: analytic-Newton ordered probit (`oprobit_fast.py`, NOT StatsPAI)", "",
+          "| Table | cells matching paper to 3 d.p. | max seconds per model |", "|---|---|---|"]
+    from paper_values import paper_long
+    pl = paper_long()
+    for tab in ["VIII", "IX", "XII"]:
+        f = OUT / f"table_{tab}_fallback.csv"
+        if f.exists():
+            q = pd.read_csv(f); q["col"] = q["col"].astype(int)
+            m = pl.merge(q, on=["table", "col", "var"])
+            ok = ((m.coef - m.paper_coef).abs() <= 0.0005 + 1e-9) & ((m.se - m.paper_se).abs() <= 0.0005 + 1e-9) & (m.N == m.paper_N)
+            fb.append(f"| {tab} | {int(ok.sum())}/{len(m)} | {q.seconds.max() if 'seconds' in q else ''} |")
+    parts.append("\n".join(fb) + "\n")
     extra = ROOT / "Results" / "comparison_notes.md"
     head = ["## Summary (cells matching paper to 3 d.p.)", "", "| Table | Stata | StatsPAI |", "|---|---|---|"] + summary + [""]
     text = "\n".join(parts[:4] + head + parts[4:])

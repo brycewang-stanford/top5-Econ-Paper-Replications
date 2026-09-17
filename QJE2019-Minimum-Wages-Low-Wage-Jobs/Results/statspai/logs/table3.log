@@ -1,0 +1,27 @@
+03:46:37 reading state_panels_with3quant_ind_1992_2016.dta (147 columns)
+03:47:09 read (596700, 147)
+03:47:11 ind_all_overall constants {"E": 0.569833084785773, "B": 0.08670944060264495, "EWB": 0.3553076812749848, "mwpc": 0.09803682232881732, "C": 17.900415548569836, "wagemult": 8.864712118984865, "n_events": 118}
+03:47:12 [table3_ind_all_overall] hdfe_ols N=554,931 k=72 spec=1
+03:52:38 [table3_ind_all_overall] done in 326s, N=554931, df_resid=537974
+03:52:39 ind_mstrad_overall constants {"E": 0.006714416669844473, "B": 0.04978526339330978, "EWB": 0.0024734178260236235, "mwpc": 0.09803682232881732, "C": 1519.1563932574702, "wagemult": 8.864712118984865, "n_events": 118}
+03:52:40 [table3_ind_mstrad_overall] hdfe_ols N=554,931 k=72 spec=1
+03:58:06 [table3_ind_mstrad_overall] done in 326s, N=554931, df_resid=537974
+03:58:07 ind_msnontrad_overall constants {"E": 0.014273648255543855, "B": 0.27007464796451175, "EWB": 0.02774849939692759, "mwpc": 0.09803682232881732, "C": 714.6210154805383, "wagemult": 8.864712118984865, "n_events": 118}
+03:58:08 [table3_ind_msnontrad_overall] hdfe_ols N=554,931 k=72 spec=1
+04:03:35 [table3_ind_msnontrad_overall] done in 326s, N=554931, df_resid=537974
+04:03:35 ind_mscon_overall constants {"E": 0.005373721079287452, "B": 0.035569131612381434, "EWB": 0.0013232592195923931, "mwpc": 0.09803682232881732, "C": 1898.17239497315, "wagemult": 8.864712118984865, "n_events": 118}
+04:03:37 [table3_ind_mscon_overall] hdfe_ols N=554,931 k=72 spec=1
+04:08:54 [table3_ind_mscon_overall] done in 317s, N=554931, df_resid=537974
+04:08:54 ind_msother_overall constants {"E": 0.18591401008073322, "B": 0.056972085019404144, "EWB": 0.07585220747370279, "mwpc": 0.09803682232881732, "C": 54.86541335190017, "wagemult": 8.864712118984865, "n_events": 118}
+04:08:56 [table3_ind_msother_overall] hdfe_ols N=554,931 k=72 spec=1
+04:14:08 [table3_ind_msother_overall] done in 312s, N=554931, df_resid=537974
+04:14:09 ind_rest_overall constants {"E": 0.002504962966011166, "B": 0.4338329571487006, "EWB": 0.007569857191056114, "mwpc": 0.09803682232881732, "C": 4072.015893804354, "wagemult": 8.864712118984865, "n_events": 118}
+04:14:11 [table3_ind_rest_overall] hdfe_ols N=554,931 k=72 spec=1
+04:19:14 [table3_ind_rest_overall] done in 303s, N=554931, df_resid=537974
+04:19:14 ind_retail_overall constants {"E": 0.007301981002518969, "B": 0.1362121199018422, "EWB": 0.007687039329814775, "mwpc": 0.09803682232881732, "C": 1396.9153038702752, "wagemult": 8.864712118984865, "n_events": 118}
+04:19:16 [table3_ind_retail_overall] hdfe_ols N=554,931 k=72 spec=1
+04:24:10 [table3_ind_retail_overall] done in 294s, N=554931, df_resid=537974
+04:24:10 ind_manuf_overall constants {"E": 0.007209067815454742, "B": 0.050241291588531356, "EWB": 0.002681587974085414, "mwpc": 0.09803682232881732, "C": 1414.9192755714616, "wagemult": 8.864712118984865, "n_events": 118}
+04:24:11 [table3_ind_manuf_overall] hdfe_ols N=554,931 k=72 spec=1
+04:29:06 [table3_ind_manuf_overall] done in 295s, N=554931, df_resid=537974
+04:29:06 done

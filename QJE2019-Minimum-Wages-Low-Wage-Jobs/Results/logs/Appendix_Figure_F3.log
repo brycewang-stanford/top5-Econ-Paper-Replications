@@ -1,0 +1,422 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_F3.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:01:51
+
+. 
+. clear 
+
+. set more off
+
+. use "${data}Admin_CPS_workingdata_allind_5cents_new.dta", clear
+
+. keep if statenum == 27 | statenum == 53 | statenum==41
+(966,512 observations deleted)
+
+. 
+. 
+. 
+. tempfile origdata
+
+. save `origdata'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48082.000001 saved
+    as .dta format
+
+. 
+. foreach vv in statenum quarterdate wagebins{
+  2. preserve
+  3. keep `vv'
+  4. duplicates drop
+  5. tempfile `vv'
+  6. save ``vv''
+  7. restore
+  8. }
+
+Duplicates in terms of all variables
+
+(174,718 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48082.000003 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(174,613 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48082.000005 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(174,020 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48082.000007 saved
+    as .dta format
+
+. *
+. use `statenum', clear
+
+. cross using `quarterdate'
+
+. cross using `wagebins'
+
+. tempfile balance
+
+. save `balance'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48082.000008 saved
+    as .dta format
+
+. use `origdata',clear
+
+. cap drop _merge
+
+. merge 1:1 statenum quarterdate wagebins using `balance', assert(2 3) nogenera
+> te
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        52,403
+        from master                         0  
+        from using                     52,403  
+
+    Matched                           174,721  
+    -----------------------------------------
+
+. replace year = year(dofq(quarterdate)) if year==.
+(52,403 real changes made)
+
+. replace count = 0 if count==.
+(168,212 real changes made)
+
+. replace acount = 0 if acount==.
+(170,668 real changes made)
+
+. replace MNcount = 0 if MNcount==.
+(181,743 real changes made)
+
+. replace ORcount = 0 if ORcount==.
+(173,848 real changes made)
+
+. 
+. egen wagebinstate = group(wagebins statenum)
+
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 120 to 227
+         Delta: 1 unit
+
+. assert "`r(balanced)'" == "strongly balanced"
+
+. 
+. local vv ORMNWA
+
+. 
+. 
+. if "`vv'"=="WA" {
+.         drop if statenum == 27 | statenum==41
+. }
+
+. 
+. 
+. if "`vv'"=="MN" {
+.         drop if statenum == 53 | statenum==41
+. }
+
+. if "`vv'"=="OR" {
+.         drop if statenum == 53 | statenum==27
+. }
+
+. *
+. 
+. local increment = 100
+
+. 
+. gen _MW_real = floor(MW_real*100/5)*5
+(52,403 missing values generated)
+
+. replace MW_real = _MW_real
+(174,721 real changes made)
+
+. 
+. cap drop _MW_real
+
+. bys statenum quarterdate: egen _MW_real = max(MW_real)
+
+. replace MW_real = _MW_real if MW_real==.
+(52,403 real changes made)
+
+. 
+. gen int wagebins_relMW = wagebins - MW_real
+
+. 
+. bys statenum quarterdate: egen _population = max(population)
+
+. replace population = _population if population==.
+(52,403 real changes made)
+
+. 
+. g wagebins_relMW100 = wagebins_relMW - mod(wagebins_relMW, 100)
+
+. replace wagebins_relMW100 = int(wagebins_relMW100/100)
+(220,644 real changes made)
+
+. 
+. 
+. drop if MNcountall==. & statenum==27
+(27,710 observations deleted)
+
+. drop if acountall==. & statenum==53
+(14,498 observations deleted)
+
+. drop if ORcountall==. & statenum==41
+(22,432 observations deleted)
+
+. 
+. 
+. bys statenum quarterdate: egen _DMW = max(DMW)
+
+. replace DMW = _DMW if DMW==.
+(0 real changes made)
+
+. 
+. assert DMW!=.
+
+. gen quarterofevent = DMW>0
+
+. drop if quarterofevent == 1
+(26,048 observations deleted)
+
+. collapse (firstnm) population acountall MNcountall ORcountall (sum) ORcount a
+> count MNcount count, by(statenum wagebins_relMW100 quarterdate year)
+
+. bys statenum quarterdate: egen countall = total(count)
+
+. bys statenum quarterdate: egen ORcountall2 = total(ORcount)
+
+. sum ORcountall* if statenum==41 & year==2003 
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  ORcountall |        108     1572744     7767.25    1564429    1583050
+ ORcountall2 |        108     1572744     7767.25    1564429    1583050
+
+. 
+. *drop if (year<2001 | year>2015) & statenum == 27
+. sum year if statenum == 27, meanonly
+
+. scalar MNbeg = r(min) 
+
+. scalar MNend = r(max) 
+
+. sum year if statenum == 53, meanonly
+
+. scalar WAbeg = r(min) 
+
+. scalar WAend = r(max) 
+
+. sum year if statenum == 41, meanonly
+
+. scalar ORbeg = r(min) 
+
+. scalar ORend = r(max) 
+
+. 
+. 
+. *Since everything is QCEW re-weighted.
+. assert countall <= MNcountall + 1 & countall>=MNcountall - 1 if statenum == 2
+> 7
+
+. assert countall <= acountall + 1 & countall>=acountall - 1 if statenum == 53
+
+. assert countall <= ORcountall + 1 & countall>=ORcountall - 1 if statenum == 4
+> 1
+
+. 
+. 
+. assert population>= MNcountall
+
+. assert population>= acountall
+
+. assert population>= countall
+
+. assert population>= ORcountall
+
+. 
+. replace count = 0 if count==.
+(0 real changes made)
+
+. replace acount = 0 if acount==.
+(0 real changes made)
+
+. replace MNcount = 0 if MNcount==.
+(0 real changes made)
+
+. replace ORcount = 0 if ORcount==.
+(0 real changes made)
+
+. 
+. tempfile uncollapsed
+
+. save `uncollapsed'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48082.000009 saved
+    as .dta format
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ****************          Above/below                 ***********************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. 
+. use `uncollapsed', clear
+
+. sort statenum quarterdate wagebins_relMW100
+
+. 
+. keep if wagebins_relMW100>=-4 & wagebins_relMW100<=4
+(5,832 observations deleted)
+
+. 
+. gen acountpc = acount/population
+
+. gen MNcountpc = MNcount/population
+
+. gen countpc = count/population
+
+. gen ORcountpc = ORcount/population
+
+. 
+. 
+. 
+. foreach vv in acountpc MNcountpc countpc ORcountpc{
+  2. assert `vv' != .
+  3. }
+
+. 
+. gen below_above = (wagebins_relMW100>=0)
+
+. 
+. collapse (sum) acountpc MNcountpc countpc ORcountpc, by(statenum year below_a
+> bove)
+
+. 
+. drop if year==2016
+(4 observations deleted)
+
+. foreach vv in acountpc MNcountpc countpc ORcountpc{
+  2. replace `vv' = `vv'/4
+  3. }
+(52 real changes made)
+(36 real changes made)
+(124 real changes made)
+(36 real changes made)
+
+. *
+. 
+. 
+. twoway ///
+> (line acountpc year if statenum == 53 & below_above==0, lwidth(thick) lcolor(
+> red) lpattern(dash) ) ///
+> (line countpc year if statenum == 53 & below_above==0, lwidth(thick) lcolor(r
+> ed) ) ///
+> (line acountpc year if statenum == 53 & below_above==1, lwidth(thick) lcolor(
+> ltblue) lpattern(dash) ) ///
+> (line countpc year if statenum == 53 & below_above==1, lwidth(thick) lcolor(l
+> tblue) ) ///
+> , graphregion(color(white)) xtitle("Year") ytitle("Employment counts per capi
+> ta") legend(order(3 "Admin - at & above" 4 "CPS - at & above" 1 "Admin - belo
+> w" 2 "CPS - below")) ///
+> ylabel(0 "0" 0.04(0.04)0.2, format(%03.2f)) title("WA") 
+
+. 
+. gr export "${figures}FigureF3_WA.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF3_WA.pdf saved as PDF
+    format
+
+. 
+. twoway ///
+> (line MNcountpc year if statenum == 27 & below_above==0, lwidth(thick) lcolor
+> (red) lpattern(dash) ) ///
+> (line countpc year if statenum == 27 & below_above==0, lwidth(thick) lcolor(r
+> ed) ) ///
+> (line MNcountpc year if statenum == 27 & below_above==1, lwidth(thick) lcolor
+> (ltblue) lpattern(dash) ) ///
+> (line countpc year if statenum == 27 & below_above==1, lwidth(thick) lcolor(l
+> tblue) ) ///
+> , graphregion(color(white)) xtitle("Year") ytitle("Employment counts per capi
+> ta") legend(order(3 "Admin - at & above" 4 "CPS - at & above" 1 "Admin - belo
+> w" 2 "CPS - below")) ///
+> ylabel(0 "0" 0.04(0.04)0.2, format(%03.2f)) title("MN") xlabel(1998(3)2013 20
+> 15)
+
+. 
+. gr export "${figures}FigureF3_MN.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF3_MN.pdf saved as PDF
+    format
+
+. 
+. 
+. twoway ///
+> (line ORcountpc year if statenum == 41 & below_above==0, lwidth(thick) lcolor
+> (red) lpattern(dash) ) ///
+> (line countpc year if statenum == 41 & below_above==0, lwidth(thick) lcolor(r
+> ed) ) ///
+> (line ORcountpc year if statenum == 41 & below_above==1, lwidth(thick) lcolor
+> (ltblue) lpattern(dash) ) ///
+> (line countpc year if statenum == 41 & below_above==1, lwidth(thick) lcolor(l
+> tblue) ) ///
+> , graphregion(color(white)) xtitle("Year") ytitle("Employment counts per capi
+> ta") legend(order(3 "Admin - at & above" 4 "CPS - at & above" 1 "Admin - belo
+> w" 2 "CPS - below")) ///
+> ylabel(0 "0" 0.04(0.04)0.2, format(%03.2f)) title("OR") 
+
+. 
+. gr export "${figures}FigureF3_OR.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF3_OR.pdf saved as PDF
+    format
+
+. 
+. 
+. 
+. 
+. keep if year>=1998
+(16 observations deleted)
+
+. gen admincountpc = acountpc + MNcountpc + ORcountpc
+
+. collapse (mean) countpc admincountpc, by(year below_above)
+
+. 
+. twoway ///
+> (line admincountpc year if  below_above==0, lwidth(thick) lcolor(red) lpatter
+> n(dash) ) ///
+> (line countpc year if below_above==0, lwidth(thick) lcolor(red) ) ///
+> (line admincountpc year if below_above==1, lwidth(thick) lcolor(ltblue) lpatt
+> ern(dash) ) ///
+> (line countpc year if below_above==1, lwidth(thick) lcolor(ltblue) ) ///
+> , graphregion(color(white)) xtitle("Year") ytitle("Employment counts per capi
+> ta") legend(order(3 "Admin - at & above" 4 "CPS - at & above" 1 "Admin - belo
+> w" 2 "CPS - below")) ///
+> ylabel(0 "0" 0.04(0.04)0.2, format(%03.2f)) title("OR & WA & MN")  xlabel(199
+> 8(3)2013 2015)
+
+. 
+. gr export "${figures}FigureF3_ORMNWA.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF3_ORMNWA.pdf saved as
+    PDF format
+
+. 
+end of do-file

@@ -1,0 +1,553 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_F2.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:01:43
+
+. 
+. use "${data}VZ_mw_state_quarterly_new.dta", clear
+
+. rename quarterly_date quarterdate
+
+. rename statefips statenum
+
+. keep mean_mw max_mw min_mw statenum quarterdate
+
+. tempfile mwdata
+
+. save `mwdata'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.000001 saved
+    as .dta format
+
+. 
+. local realornominal "real"
+
+. 
+. 
+. use "${data}Admin_CPS_workingdata_allind_5cents_new.dta", clear
+
+. drop MW
+
+. rename MW_real MW
+
+. local graphtitle "In 2016 $"
+
+. keep if statenum == 27 | statenum == 53 | statenum==41
+(966,512 observations deleted)
+
+. 
+. 
+. 
+. tempfile origdata
+
+. save `origdata'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.000002 saved
+    as .dta format
+
+. 
+. foreach vv in statenum quarterdate wagebins{
+  2. preserve
+  3. keep `vv'
+  4. duplicates drop
+  5. tempfile `vv'
+  6. save ``vv''
+  7. restore
+  8. }
+
+Duplicates in terms of all variables
+
+(174,718 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.000004 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(174,613 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.000006 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(174,020 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.000008 saved
+    as .dta format
+
+. *
+. use `statenum', clear
+
+. cross using `quarterdate'
+
+. cross using `wagebins'
+
+. tempfile balance
+
+. save `balance'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.000009 saved
+    as .dta format
+
+. use `origdata',clear
+
+. cap drop _merge
+
+. merge 1:1 statenum quarterdate wagebins using `balance', assert(2 3) nogenera
+> te
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        52,403
+        from master                         0  
+        from using                     52,403  
+
+    Matched                           174,721  
+    -----------------------------------------
+
+. replace year = year(dofq(quarterdate)) if year==.
+(52,403 real changes made)
+
+. replace count = 0 if count==.
+(168,212 real changes made)
+
+. replace acount = 0 if acount==.
+(170,668 real changes made)
+
+. replace MNcount = 0 if MNcount==.
+(181,743 real changes made)
+
+. replace ORcount = 0 if ORcount==.
+(173,848 real changes made)
+
+. 
+. egen wagebinstate = group(wagebins statenum)
+
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 120 to 227
+         Delta: 1 unit
+
+. assert "`r(balanced)'" == "strongly balanced"
+
+. 
+. local vv MNWAOR
+
+. 
+. 
+. if "`vv'"=="WA" {
+.         drop if statenum == 27 | statenum==41
+. }
+
+. 
+. 
+. if "`vv'"=="MN" {
+.         drop if statenum == 53 | statenum==41
+. }
+
+. if "`vv'"=="OR"{
+.         drop if statenum == 27  | statenum==53
+. } 
+
+. *
+. 
+. local increment = 100
+
+. gen MW2 = floor(MW*100)
+(52,403 missing values generated)
+
+. replace MW2 = int(MW2)
+(0 real changes made)
+
+. drop MW
+
+. rename MW2 MW
+
+. *We need to adjust wage bins, because, for instance if MW is $7.34, $7.30 bin
+>  is actually the MW bin.
+. replace MW = floor(MW/5)*5
+(141,614 real changes made)
+
+. gen wagebins_relMW = wagebins - MW 
+(52,403 missing values generated)
+
+. 
+. tempfile origdata
+
+. save `origdata'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.00000a saved
+    as .dta format
+
+. 
+. 
+. *****************************************************************************
+> ***
+. ****************         Relative to MW                       ***************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. 
+. foreach year of numlist 2000 2005 2010{
+  2. use `origdata', clear
+  3. local year2 = `year' + 4
+  4. 
+. g wagebins_relMW100 = wagebins_relMW - mod(wagebins_relMW, 100)
+  5. replace wagebins_relMW100 = int(wagebins_relMW100/100)
+  6. 
+. 
+. drop if MNcountall==. & statenum==27
+  7. drop if acountall==. & statenum==53
+  8. drop if ORcountall==. & statenum==41
+  9. assert DMW!=.
+ 10. gen quarterofevent = DMW>0
+ 11. *The following line affects the balanced structure of the data.
+. drop if quarterofevent == 1
+ 12. 
+. collapse (firstnm) population acountall MNcountall ORcountall (sum) ORcount a
+> count MNcount count, by(statenum wagebins_relMW100 quarterdate year)
+ 13. bys statenum quarterdate: egen countall = total(count)
+ 14. 
+. 
+. keep if (year>=`year' & year<=`year2') 
+ 15. sum year if statenum == 27, meanonly
+ 16. scalar MNbeg = r(min) 
+ 17. scalar MNend = r(max) 
+ 18. sum year if statenum == 53, meanonly
+ 19. scalar WAbeg = r(min) 
+ 20. scalar WAend = r(max) 
+ 21. *Since everything is QCEW re-weighted.
+. assert countall <= MNcountall + 1 & countall>=MNcountall - 1 if statenum == 2
+> 7
+ 22. assert countall <= acountall + 1 & countall>=acountall - 1 if statenum == 
+> 53
+ 23. assert countall<= ORcountall + 1 & countall>=ORcountall - 1 if statenum ==
+>  41
+ 24. assert population>= countall
+ 25. 
+. egen statequarter = group(statenum quarterdate)
+ 26. xtset statequarter wagebins_relMW100
+ 27. tsfill, full
+ 28. foreach vv of varlist statenum quarterdate year population{
+ 29. bys statequarter: egen _`vv' = max(`vv')
+ 30. replace `vv' = _`vv' if `vv' == .
+ 31. }
+ 32. 
+. 
+. 
+. replace count = 0 if count==.
+ 33. replace acount = 0 if acount==.
+ 34. replace MNcount = 0 if MNcount==.
+ 35. replace ORcount = 0 if ORcount==.
+ 36. foreach vv of varlist countall acountall MNcountall ORcountall {
+ 37. bys statenum quarterdate: egen _`vv' = max(`vv')
+ 38. replace `vv' = _`vv' if `vv' == .
+ 39. }
+ 40. 
+. 
+. collapse (mean) population ORcountall countall acountall MNcountall acount MN
+> count count ORcount, by(statenum wagebins_relMW100)
+ 41. bys statenum: egen ORcountall2 = total(ORcount)
+ 42. gen acountsh = acount/pop if statenum == 53
+ 43. gen MNcountsh = MNcount/pop if statenum == 27
+ 44. gen ORcountsh = ORcount/pop if statenum == 41
+ 45. gen countsh  = count / pop 
+ 46. 
+. 
+. 
+. tempfile temp
+ 47. save `temp'
+ 48. 
+. *All three combined
+. 
+. 
+. use `temp', clear
+ 49. 
+. cap drop wagebins3_relMW100
+ 50. gen wagebins3_relMW100 = floor(wagebins_relMW100/3)*3
+ 51. replace wagebins3_relMW = 21 if wagebins3_relMW>21
+ 52. replace wagebins3_relMW = -9 if wagebins3_relMW<=-9
+ 53. bys statenum wagebins3_relMW100 (wagebins_relMW100): egen acountsh_3 = tot
+> al(acountsh) if statenum == 53
+ 54. bys statenum wagebins3_relMW100 (wagebins_relMW100): egen MNcountsh_3 = to
+> tal(MNcountsh) if statenum == 27
+ 55. bys statenum wagebins3_relMW100 (wagebins_relMW100): egen ORcountsh_3 = to
+> tal(ORcountsh) if statenum == 41
+ 56. bys statenum wagebins3_relMW100 (wagebins_relMW100): egen countsh_3 = tota
+> l(countsh) 
+ 57. cap drop tagger
+ 58. egen tagger = tag(statenum  wagebins3_relMW100)
+ 59. keep if tagger
+ 60. 
+. twoway ///
+> (scatter countsh_3 wagebins3_relMW100 if tagger==1 & statenum==53 & wagebins3
+> _relMW100<=21,  msize(large) msymbol(O) mcolor(blue) ) ///                   
+>       
+> (scatter acountsh_3 wagebins3_relMW100  if tagger==1  & statenum==53 & wagebi
+> ns3_relMW100<=21,  msize(large) msymbol(Sh) mcolor(red) ) ///
+> , graphregion(color(white))  xtitle("Wage bins relative to the MW", height(7)
+> ) ylabel( ,format(%03.2f)) ///
+> xlabel(-9 "<-6" -6 "[-6, -3)" -3 "[-3, 0)" 0 "[0, 3)" 3 "[3, 6)" 6 "[6, 9)" 9
+>  "[9, 12)" 12 "[12, 15)" 15 "[15, 18)" 18 "[18, 21)" 21 "21+") ///
+>  legend(order(1 "CPS" 2 "Admin")) ytitle("Employment counts per capita") ///
+> ylabel(0 "0" 0.04(0.04)0.20, format(%03.2f))  title("WA, `year'-`year2'")
+ 61. 
+. gr export "${figures}FigureF2_WA_`year'_`year2'.pdf", replace
+ 62. 
+. 
+. twoway ///
+> (scatter countsh_3 wagebins3_relMW100 if tagger==1 & statenum==27 & wagebins3
+> _relMW100<=21,  msize(large) msymbol(O) mcolor(blue) ) ///                   
+>       
+> (scatter MNcountsh_3 wagebins3_relMW100  if tagger==1  & statenum==27 & wageb
+> ins3_relMW100<=21,  msize(large) msymbol(Sh) mcolor(red) ) ///
+> , graphregion(color(white))  xtitle("Wage bins relative to the MW", height(7)
+> ) ylabel( ,format(%03.2f)) ///
+> xlabel(-9 "<-6" -6 "[-6, -3)" -3 "[-3, 0)" 0 "[0, 3)" 3 "[3, 6)" 6 "[6, 9)" 9
+>  "[9, 12)" 12 "[12, 15)" 15 "[15, 18)" 18 "[18, 21)" 21 "21+") ///
+>  legend(order(1 "CPS" 2 "Admin"))  ytitle("Employment counts per capita") ///
+> ylabel(0 "0"  0.04(0.04)0.20, format(%03.2f))  title("MN, `year'-`year2'")
+ 63. 
+. gr export "${figures}FigureF2_MN_`year'_`year2'.pdf", replace
+ 64. 
+. twoway ///
+> (scatter countsh_3 wagebins3_relMW100 if tagger==1 & statenum==41 & wagebins3
+> _relMW100<=21,  msize(large) msymbol(O) mcolor(blue) ) ///                   
+>       
+> (scatter ORcountsh_3 wagebins3_relMW100  if tagger==1  & statenum==41 & wageb
+> ins3_relMW100<=21,  msize(large) msymbol(Sh) mcolor(red) ) ///
+> , graphregion(color(white))  xtitle("Wage bins relative to the MW", height(7)
+> ) ylabel( ,format(%03.2f)) ///
+> xlabel(-9 "<-6" -6 "[-6, -3)" -3 "[-3, 0)" 0 "[0, 3)" 3 "[3, 6)" 6 "[6, 9)" 9
+>  "[9, 12)" 12 "[12, 15)" 15 "[15, 18)" 18 "[18, 21)" 21 "21+") ///
+>  legend(order(1 "CPS" 2 "Admin"))  ytitle("Employment counts per capita") ///
+> ylabel(0 "0"  0.04(0.04)0.20, format(%03.2f))  title("OR, `year'-`year2'")
+ 65. 
+. gr export "${figures}FigureF2_OR_`year'_`year2'.pdf", replace
+ 66. 
+. 
+. *OR, MN, WA
+. 
+. gen admindata_sh_3 = ORcountsh_3 if statenum==41
+ 67. replace admindata_sh_3 = acountsh_3 if statenum==53
+ 68. replace admindata_sh_3 = MNcountsh_3 if statenum==27
+ 69. 
+. gen admindataall = ORcountall + MNcountall + acountall
+ 70. 
+. preserve
+ 71. collapse admindata_sh_3 [aw=admindataall], by(wagebins3_relMW100)
+ 72. tempfile a1
+ 73. save `a1'
+ 74. restore
+ 75. 
+. collapse countsh_3 [aw=countall], by(wagebins3_relMW100)
+ 76. merge 1:1 wagebins3_relMW100 using `a1', assert(3) nogenerate
+ 77. 
+. twoway ///
+> (scatter countsh_3 wagebins3_relMW100 if wagebins3_relMW100<=21,  msize(large
+> ) msymbol(O) mcolor(blue) ) ///                            
+> (scatter admindata_sh_3 wagebins3_relMW100  if wagebins3_relMW100<=21,  msize
+> (large) msymbol(Sh) mcolor(red) ) ///
+> , graphregion(color(white))  xtitle("Wage bins relative to the MW", height(7)
+> ) ylabel( ,format(%03.2f)) ///
+> xlabel(-9 "<-6" -6 "[-6, -3)" -3 "[-3, 0)" 0 "[0, 3)" 3 "[3, 6)" 6 "[6, 9)" 9
+>  "[9, 12)" 12 "[12, 15)" 15 "[15, 18)" 18 "[18, 21)" 21 "21+") ///
+>  legend(order(1 "CPS" 2 "Admin"))  ytitle("Employment counts per capita") ///
+> ylabel(0 "0"  0.04(0.04)0.20, format(%03.2f))  title("OR, MN, WA; `year'-`yea
+> r2'")
+ 78. 
+. 
+. gr export "${figures}FigureF2_ORMNWA_`year'_`year2'.pdf", replace
+ 79. 
+. 
+. }
+(52,403 missing values generated)
+(169,446 real changes made)
+(27,710 observations deleted)
+(14,498 observations deleted)
+(22,432 observations deleted)
+(26,048 observations deleted)
+(5,868 observations deleted)
+
+Panel variable: statequarter (weakly balanced)
+ Time variable: wagebins_relMW100, -10 to 28
+         Delta: 1 unit
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(159 real changes made)
+(78 missing values generated)
+(78 missing values generated)
+(78 missing values generated)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.00000b saved
+    as .dta format
+(15 real changes made)
+(3 real changes made)
+(78 missing values generated)
+(78 missing values generated)
+(78 missing values generated)
+(84 observations deleted)
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_WA_2000_2004.pdf
+    saved as PDF format
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_MN_2000_2004.pdf
+    saved as PDF format
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_OR_2000_2004.pdf
+    saved as PDF format
+(22 missing values generated)
+(11 real changes made)
+(11 real changes made)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.00000d saved
+    as .dta format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                11  
+    -----------------------------------------
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_ORMNWA_2000_2004.pdf
+    saved as PDF format
+(52,403 missing values generated)
+(169,446 real changes made)
+(27,710 observations deleted)
+(14,498 observations deleted)
+(22,432 observations deleted)
+(26,048 observations deleted)
+(6,084 observations deleted)
+
+Panel variable: statequarter (weakly balanced)
+ Time variable: wagebins_relMW100, -10 to 28
+         Delta: 1 unit
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(141 real changes made)
+(78 missing values generated)
+(78 missing values generated)
+(78 missing values generated)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.00000e saved
+    as .dta format
+(15 real changes made)
+(3 real changes made)
+(78 missing values generated)
+(78 missing values generated)
+(78 missing values generated)
+(84 observations deleted)
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_WA_2005_2009.pdf
+    saved as PDF format
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_MN_2005_2009.pdf
+    saved as PDF format
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_OR_2005_2009.pdf
+    saved as PDF format
+(22 missing values generated)
+(11 real changes made)
+(11 real changes made)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.00000g saved
+    as .dta format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                11  
+    -----------------------------------------
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_ORMNWA_2005_2009.pdf
+    saved as PDF format
+(52,403 missing values generated)
+(169,446 real changes made)
+(27,710 observations deleted)
+(14,498 observations deleted)
+(22,432 observations deleted)
+(26,048 observations deleted)
+(5,940 observations deleted)
+
+Panel variable: statequarter (weakly balanced)
+ Time variable: wagebins_relMW100, -10 to 27
+         Delta: 1 unit
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(102 real changes made)
+(76 missing values generated)
+(76 missing values generated)
+(76 missing values generated)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.00000h saved
+    as .dta format
+(12 real changes made)
+(3 real changes made)
+(76 missing values generated)
+(76 missing values generated)
+(76 missing values generated)
+(81 observations deleted)
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_WA_2010_2014.pdf
+    saved as PDF format
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_MN_2010_2014.pdf
+    saved as PDF format
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_OR_2010_2014.pdf
+    saved as PDF format
+(22 missing values generated)
+(11 real changes made)
+(11 real changes made)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48008.00000j saved
+    as .dta format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                11  
+    -----------------------------------------
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF2_ORMNWA_2010_2014.pdf
+    saved as PDF format
+
+. *
+. 
+. 
+. 
+. 
+. 
+end of do-file

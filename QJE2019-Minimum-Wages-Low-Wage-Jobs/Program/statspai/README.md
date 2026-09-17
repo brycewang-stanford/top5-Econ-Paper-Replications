@@ -11,7 +11,7 @@ All scripts start from the authors' shipped intermediate datasets in `Data/data/
 | `replicate_table1_col7.py` | Table 1 col 7 (state-quarter "simpler method") | `Table1_last_column_for_QJE.do` | `table1_col7.csv` |
 | `replicate_figure2.py` | Figure 2 (bins −4…17+) | `Figure2_for_QJE.do` | `figure2_bins.csv/png` |
 | `replicate_table2_3.py` | Table 2 (5 demographic + 3 Card–Krueger groups), Table 3 (8 sectors, 1992–2016), Table 4 group rows | `Table2_for_QJE.do`, `CK_groups_regressions_longfigure_QJE.do`, `Table3_for_QJE.do`, `wage_estimate_*_groups.do` | `table2_demog.csv`, `table2_ck.csv`, `table3.csv` |
-| `make_figures.py` | Figure 3 plot + comparison tables | — | `figure3_eventtime.png`, `../comparison_numbers.csv` |
+| `make_figures.py` | Figure 3 plot with author-.ster overlay | — | `figure3_eventtime.png` |
 | `modern_extensions.py` | **extensions**: stacked TWFE vs `stacked_did` / CS / SA / BJS on event×state×quarter bunching outcomes, HonestDiD | (data from `create_stacked_events.do`) | `ext_*.csv`, `ext_eventstudy_compare.png` |
 
 Run order (each regression on the 847k-row panel takes 5–30 min; coefficients are cached in

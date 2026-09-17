@@ -1,0 +1,1477 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2023-AI-tocracy/Program/_root/Output/TableA3_xpoivregress.log
+  log type:  text
+ opened on:  17 Sep 2026, 02:35:18
+
+Cross-fit fold 1 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+note: c.wI7#c.wI17 omitted because of collinearity with another variable.
+Iteration 1:     lambda = .2489433   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489433   no. of nonzero coef. = 350
+Iteration 3:     lambda = .2489433   no. of nonzero coef. = 350
+
+
+Cross-fit fold 2 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 350
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 350
+
+
+Cross-fit fold 3 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 351
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 351
+
+
+Cross-fit fold 4 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 350
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 352
+Iteration 4:     lambda = .2489887   no. of nonzero coef. = 352
+
+
+Cross-fit fold 5 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 350
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 352
+Iteration 4:     lambda = .2489887   no. of nonzero coef. = 352
+
+
+Cross-fit fold 6 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 349
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 350
+Iteration 4:     lambda = .2489887   no. of nonzero coef. = 350
+
+
+Cross-fit fold 7 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 352
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 352
+Iteration 4:     lambda = .2489887   no. of nonzero coef. = 353
+Iteration 5:     lambda = .2489887   no. of nonzero coef. = 352
+Iteration 6:     lambda = .2489887   no. of nonzero coef. = 353
+Iteration 7:     lambda = .2489887   no. of nonzero coef. = 352
+Iteration 8:     lambda = .2489887   no. of nonzero coef. = 353
+Iteration 9:     lambda = .2489887   no. of nonzero coef. = 352
+Iteration 10:    lambda = .2489887   no. of nonzero coef. = 353
+Iteration 11:    lambda = .2489887   no. of nonzero coef. = 352
+Iteration 12:    lambda = .2489887   no. of nonzero coef. = 353
+Iteration 13:    lambda = .2489887   no. of nonzero coef. = 352
+Iteration 14:    lambda = .2489887   no. of nonzero coef. = 353
+Iteration 15:    lambda = .2489887   no. of nonzero coef. = 352
+
+
+Cross-fit fold 8 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 350
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 350
+Iteration 4:     lambda = .2489887   no. of nonzero coef. = 350
+
+
+Cross-fit fold 9 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 351
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 351
+
+
+Cross-fit fold 10 of 10 ...
+Estimating lasso for lead_police_pc using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Estimating lasso for blank using plugin
+note: w16 omitted because it is constant.
+note: c.w1#c.w16 omitted because it is constant.
+note: c.w2#c.w16 omitted because it is constant.
+note: c.w3#c.w16 omitted because it is constant.
+note: c.w4#c.w16 omitted because it is constant.
+note: c.w5#c.w16 omitted because it is constant.
+note: c.w6#c.w16 omitted because it is constant.
+note: c.w7#c.w16 omitted because it is constant.
+note: c.w8#c.w16 omitted because it is constant.
+note: c.w9#c.w16 omitted because it is constant.
+note: c.w10#c.w16 omitted because it is constant.
+note: c.w11#c.w16 omitted because it is constant.
+note: c.w12#c.w16 omitted because it is constant.
+note: c.w13#c.w16 omitted because it is constant.
+note: c.w14#c.w16 omitted because it is constant.
+note: c.w15#c.w16 omitted because it is constant.
+note: c.w16#c.w16 omitted because it is constant.
+note: c.w16#c.w17 omitted because it is constant.
+note: c.w16#c.w18 omitted because it is constant.
+note: wI16 omitted because it is constant.
+note: c.wI1#c.wI16 omitted because it is constant.
+note: c.wI2#c.wI16 omitted because it is constant.
+note: c.wI3#c.wI16 omitted because it is constant.
+note: c.wI4#c.wI16 omitted because it is constant.
+note: c.wI5#c.wI16 omitted because it is constant.
+note: c.wI6#c.wI16 omitted because it is constant.
+note: c.wI7#c.wI16 omitted because it is constant.
+note: c.wI8#c.wI16 omitted because it is constant.
+note: c.wI9#c.wI16 omitted because it is constant.
+note: c.wI10#c.wI16 omitted because it is constant.
+note: c.wI11#c.wI16 omitted because it is constant.
+note: c.wI12#c.wI16 omitted because it is constant.
+note: c.wI13#c.wI16 omitted because it is constant.
+note: c.wI14#c.wI16 omitted because it is constant.
+note: c.wI15#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI16 omitted because it is constant.
+note: c.wI16#c.wI17 omitted because it is constant.
+note: c.wI16#c.wI18 omitted because it is constant.
+Iteration 1:     lambda = .2489887   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2489887   no. of nonzero coef. = 350
+Iteration 3:     lambda = .2489887   no. of nonzero coef. = 351
+Iteration 4:     lambda = .2489887   no. of nonzero coef. = 351
+
+
+Cross-fit fold 1 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 2 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 3 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 4 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 5 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 6 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 7 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 8 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 9 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+
+Cross-fit fold 10 of 10 ...
+Estimating lasso for pred(blank) using plugin
+
+Iteration 1:     lambda = .2086195   no. of nonzero coef. = 348
+Iteration 2:     lambda = .2086195   no. of nonzero coef. = 348
+
+Cross-fit partialing-out           Number of obs                  =      8,418
+IV linear model                    Number of controls             =        377
+                                   Number of instruments          =        378
+                                   Number of selected controls    =        350
+                                   Number of selected instruments =          9
+                                   Number of folds in cross-fit   =         10
+                                   Number of resamples            =          1
+                                   Wald chi2(1)                   =      20.32
+                                   Prob > chi2                    =     0.0000
+
+                                (Std. err. adjusted for 324 clusters in place)
+------------------------------------------------------------------------------
+             |               Robust
+lead_polic~c | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       blank |   .3774158   .0837286     4.51   0.000     .2133108    .5415208
+------------------------------------------------------------------------------
+Endogenous: blank
+Note: Chi-squared test is a Wald test of the coefficients of the variables
+      of interest jointly equal to zero. Lassos select controls for model
+      estimation. Type lassoinfo to see number of selected variables in each
+      lasso.
+Note: Lassos are performed accounting for clusters in place.
+
+-------------------------------------------------------------------------------
+             |     xpoiv      xpoiv      xpoiv      xpoiv      xpoiv      xpoiv
+             | blank_1_1  blank_2_1  blank_3_1  blank_4_1  blank_5_1  blank_6_1
+-------------+-----------------------------------------------------------------
+       place |
+         18  |  .8262897    .825011   .8186988   .8585244   .8506723   .8018274
+        211  |  .0731668   .0755206   .0761224    .075757   .0751221   .0754982
+        258  |  .0522773   .0484007   .0127906   .0594207   .0547572   .0544577
+         65  |  .0503081   .0477306   .0490679   .0476785   .0420533   .0474616
+             |
+        qofd |
+        238  |  .0415828   .0439987    .033506   .0342476   .0387827   .0435404
+             |
+       place |
+        168  |  .0405292   .0422339   .0355604   .0419896   .0400295   .0410233
+             |
+        qofd |
+        240  |  .0400671   .0394532   .0301682   .0373813   .0386912   .0413734
+             |
+        wI13 | -.0393789  -.0437353  -.0223203             -.0076683  -.0363905
+             |
+        qofd |
+        237  |  .0375816    .040375    .038398   .0322883   .0354146   .0303008
+        230  |  .0368817   .0393307   .0377184   .0271848   .0353188   .0398068
+        228  |  .0358987   .0384469   .0380972   .0334094   .0344754   .0383093
+        229  |  .0343625   .0357133   .0353099   .0284202   .0312248   .0314034
+        234  |   .033688   .0385545    .037205   .0308563   .0323975   .0366802
+        222  |   .033221   .0364725   .0322995   .0281761   .0290362   .0339414
+        226  |  .0325841   .0353001   .0335388   .0274716   .0299292   .0342186
+        235  |  .0325745    .034549   .0355331   .0313559   .0317559   .0288006
+        225  |  .0320528   .0335085   .0327893    .028441   .0302503   .0332224
+             |
+       place |
+        286  |  .0299419   .0273096   .0297283   .0288396   .0294899   .0294628
+             |
+        qofd |
+        223  |  .0295682   .0325259   .0330406   .0281749   .0299375   .0331352
+        239  |  .0293289    .031336   .0307367   .0262325   .0243867   .0316135
+        233  |  .0291319    .034014   .0318775   .0257509   .0287229   .0338993
+             |
+       place |
+        163  |  .0288397   .0248079   .0286909   .0275375   .0263062   .0288084
+             |
+        qofd |
+        236  |  .0281102   .0280562   .0286469   .0252858   .0271936   .0299468
+        224  |  .0279576   .0291717   .0287781   .0246372   .0267952   .0299286
+        232  |  .0276173   .0269577   .0296562   .0250865   .0260369   .0289508
+        227  |  .0273486   .0292067   .0291771   .0245318   .0265983   .0294929
+        221  |  .0271271   .0296726   .0267829   .0224964   .0239829   .0285749
+        231  |  .0226647   .0245581   .0252395   .0197669   .0212589   .0233554
+             |
+       place |
+         72  |  .0181951   .0175745   .0172366   .0176878   .0174509   .0172216
+        117  |   .015598    .003851   .0153824   .0141284   .0149561   .0146215
+         80  |  .0152682   .0151824   .0143764   .0131323   .0119439   .0139026
+         53  |  .0137573   .0166288   .0163755   .0151393   .0154459   .0162468
+        259  |  .0130785   .0116537   .0142313    .012129   .0141227   .0134174
+        125  |  .0121889   .0117972   .0122227   .0111071   .0101016   .0127185
+        155  |  .0121424   .0123209   .0122833   .0101132   .0128944   .0120494
+        171  |    .01094   .0100218   .0105172   .0121986   .0123608   .0127439
+             |
+        qofd |
+        220  |  .0107785   .0124668    .011175   .0081501   .0151796    .012131
+             |
+       place |
+        209  |  .0104038   .0118319   .0111383   .0104441   .0108108   .0098013
+        242  |  .0102776   .0105273   .0100224   .0110578   .0095408   .0101652
+             |
+        qofd |
+        241  |  .0097539    .009389    .010054    .008127   .0092882   .0181919
+             |
+       place |
+        175  |  .0092442   .0085207   .0080959   .0079964   .0068753   .0082953
+         35  |  .0087236   .0078925   .0078339   .0060777   .0080662   .0083134
+        270  |    .00866   .0074279   .0083229   .0077501   .0079662   .0093289
+         84  |  .0086478   .0087254   .0078823   .0089468   .0090536   .0075768
+         45  |  .0084867   .0087677    .008548   .0083283   .0091724   .0086269
+         39  |  .0083884   .0088184   .0089918   .0070557   .0088483   .0090535
+        134  |  .0079698   .0080212   .0093359   .0065718   .0078803   .0076422
+        170  |  .0079321   .0089377    .008419   .0079999   .0096453    .008778
+        166  |  .0074493   .0055247   .0065665   .0067813   .0069253   .0060308
+         99  |  .0056646   .0052846   .0054868   .0061537   .0062199   .0069127
+        264  |  .0053367   .0047133   .0043714   .0046011   .0057744   .0062495
+        293  |  .0051615    .005264   .0051006   .0043931   .0050807    .005413
+        287  |  .0050502    .002864   .0052019    .005408   .0063831   .0057621
+        219  |  .0047428   .0052462   .0044113   .0044076   .0049806   .0045426
+        222  |  .0045045   .0037749   .0042131   .0034212    .004646   .0040454
+        263  |  .0043731   .0048322   .0045019   .0033422    .004452   .0048782
+        308  |  .0042059   .0031764   .0036882   .0026102   .0042378    .003797
+        272  |  .0041405   .0041073   .0045591   .0040403   .0045644   .0035766
+          4  |  .0039452   .0037121   .0029373   .0042152   .0031188   .0038656
+        324  |  .0038581   .0038715   .0032554   .0024709   .0034139   .0034084
+        118  |  .0037732   .0049174   .0038348   .0041553   .0044736   .0035836
+        304  |  .0037017   .0034465   .0031848   .0025224   .0035992   .0034777
+        187  |  .0036674   .0040581   .0043062   .0030111    .003791   .0030121
+        285  |  .0036671   .0036857   .0034156   .0029423   .0041606   .0032698
+        152  |  .0034379   .0023567   .0033053   .0028777   .0031856   .0034017
+          5  |  .0032197   .0035944   .0029379   .0022907   .0036907   .0030453
+        193  |  .0032169   .0042876   .0024117   .0021646    .003751   .0044415
+         30  | -.0031608  -.0026494  -.0025499  -.0020404   -.001862  -.0021628
+        231  |   .003001   .0022069   .0027067   .0016173   .0023829   .0025034
+        201  | -.0027854  -.0030833  -.0025062   -.002228  -.0017242  -.0026276
+        101  |  .0027534   .0025674   .0024401   .0011686    .002257   .0022259
+        185  | -.0027396  -.0033893  -.0027256  -.0022179  -.0021242  -.0021854
+         51  |  .0027384   .0021407   .0021761   .0011729   .0024009   .0027792
+         22  |  -.002713  -.0027782  -.0026164  -.0015677  -.0016786  -.0019292
+        207  | -.0026494  -.0034358  -.0029912  -.0021628  -.0017347  -.0026815
+        217  |  .0026067   .0022544   .0025084   .0028708   .0014661    .003304
+        162  | -.0025834  -.0031573   -.002451   -.001894  -.0022184   -.002424
+        213  | -.0025649  -.0026754   -.002299  -.0019535  -.0018226  -.0022058
+         52  | -.0025646  -.0030269  -.0022642  -.0023909  -.0022456  -.0021393
+         59  | -.0025617  -.0029444  -.0026831  -.0024525  -.0026258  -.0025622
+         54  | -.0025368  -.0033974   -.002679  -.0019911   -.002045  -.0026378
+         70  |  .0025287   .0025455   .0019952   .0008582    .002682    .002588
+        315  |  -.002527  -.0027986  -.0027383  -.0020635  -.0020007  -.0022415
+        300  |  .0025097   .0021916   .0019137   .0014362   .0020342   .0036467
+        223  | -.0024747  -.0025023  -.0021269  -.0018647  -.0020687  -.0018165
+        277  | -.0024667  -.0033121  -.0022493  -.0015137   -.001543  -.0017105
+        216  | -.0024474  -.0026547  -.0021952  -.0014633   -.001523  -.0014859
+        102  | -.0024463  -.0032957  -.0028594  -.0017587  -.0019661  -.0020687
+         95  | -.0024166  -.0024395  -.0020827  -.0016675  -.0016572  -.0021304
+        292  |   .002397   .0024087   .0023181   .0010634   .0020022   .0026122
+        311  | -.0023861   -.002898  -.0020759    -.00214  -.0017425  -.0017616
+         88  |  .0023643   .0023926   .0015594   .0005674   .0020204   .0023391
+         42  | -.0023496  -.0025109  -.0021487  -.0015755  -.0015053  -.0024289
+        143  |  -.002349  -.0025394  -.0024051  -.0016262  -.0015069  -.0017475
+        253  |  -.002324  -.0025701  -.0019361  -.0017462   -.002322  -.0017786
+         38  | -.0023163  -.0018237  -.0019463  -.0016445  -.0014773  -.0014756
+        100  | -.0022976  -.0027122  -.0025223  -.0020924  -.0018257  -.0021719
+        314  | -.0022913  -.0026403  -.0024955  -.0023356  -.0016786  -.0023183
+        249  | -.0022873  -.0024086  -.0029548  -.0018146  -.0017891  -.0019933
+         55  | -.0022803  -.0027181  -.0025518  -.0020488  -.0023643   -.001992
+        122  | -.0022594  -.0019555  -.0015352   -.001637  -.0011878  -.0011126
+        159  | -.0022526      -.002  -.0022711  -.0016595  -.0020674  -.0017504
+        204  |  .0022417   .0029057   .0033963   .0023617   .0022866   .0024888
+        157  |   .002209   .0033053   .0041227   .0040303   .0046178   .0036989
+        119  |  .0021849   .0019115   .0021726   .0016519   .0018107   .0022322
+        302  |  .0021792   .0026395   .0018558   .0015579   .0022321   .0024338
+        137  | -.0021188  -.0032721  -.0022022  -.0017899  -.0018183  -.0016537
+        269  | -.0021156  -.0026672  -.0022531  -.0021392  -.0017448  -.0020913
+        198  |  .0021073   .0016588   .0021762   .0009372    .002289   .0020009
+        291  | -.0020985  -.0031093  -.0022595  -.0011613  -.0016857   -.001421
+        192  | -.0020733  -.0027029  -.0020829  -.0016576  -.0017082  -.0019507
+         66  |  .0020689   .0019311   .0011278   .0013396   .0019323   .0017331
+          9  |  .0020617   .0016621   .0015323   .0008141   .0017941   .0018224
+         92  | -.0020375  -.0024136  -.0014287  -.0010851  -.0005954  -.0010611
+         47  |  .0020225   .0017647   .0016746   .0011923   .0015739   .0020006
+        296  | -.0020121  -.0017898  -.0018112  -.0016942  -.0013029  -.0013784
+        290  |  -.001982  -.0027854  -.0018411  -.0015598  -.0011079  -.0023863
+        234  | -.0019773  -.0022011    -.00199  -.0014091  -.0010476  -.0017001
+        112  | -.0019536  -.0019512  -.0018759  -.0014311  -.0014875  -.0015936
+        252  | -.0019534   -.002971  -.0022438  -.0014199  -.0011912  -.0013931
+        316  | -.0019463   -.002645  -.0019087  -.0012369  -.0020286  -.0017503
+        180  |  .0019463    .001229   .0020739   .0033913   .0018511   .0026713
+        271  | -.0019361  -.0024199  -.0026909  -.0017233   -.001869  -.0018709
+         49  |  .0019331   .0019957   .0013312   .0004799    .001979   .0017819
+        106  | -.0019323  -.0021838  -.0014004  -.0019211  -.0018868  -.0013446
+        108  | -.0019226  -.0020958  -.0020795  -.0015822  -.0013814  -.0018724
+         17  | -.0019127  -.0025541  -.0021175   -.001801  -.0016897  -.0019991
+        247  |  .0019065   .0019545   .0017502   .0011147   .0020907    .001509
+        191  | -.0018984  -.0014288  -.0018295  -.0016253   -.001285  -.0013484
+         33  | -.0018826   -.001846  -.0018542  -.0011417  -.0011671  -.0014854
+         24  | -.0018653  -.0018746  -.0023347  -.0005982  -.0016616  -.0017433
+        200  |  .0018559   .0018148   .0018282    .001235   .0019273   .0021795
+         73  | -.0018486  -.0021162  -.0018559  -.0016854  -.0013418  -.0013743
+         63  | -.0018226   -.002452  -.0018443  -.0015055  -.0013973  -.0019586
+         29  |   .001822    .001598   .0014634   .0010014    .001493   .0017966
+         21  |  .0018204   .0021563   .0021842   .0019268   .0026288    .002556
+         26  |  .0018182   .0019243   .0015834   .0009351   .0017581   .0019965
+        261  | -.0018105  -.0014963  -.0015901  -.0009686  -.0011249  -.0014724
+        280  |  .0017772   .0015179   .0010171   .0005577   .0013923   .0016353
+         71  |  .0017744   .0016441   .0011666   .0006279   .0018063   .0015919
+        128  | -.0017707  -.0021249  -.0017048   -.001559   -.001787  -.0013799
+        321  |  .0017704    .001288   .0012176     .00097   .0015249   .0012966
+        294  |  .0017553   .0019331   .0016258   .0010083   .0015743   .0013971
+        103  | -.0017526  -.0020418   -.001765  -.0018887  -.0014975  -.0012124
+          3  | -.0017366  -.0024732   -.001946  -.0019837  -.0016194  -.0012968
+        232  |  .0017317   .0016247    .001336   .0003278   .0016127   .0019322
+        194  | -.0017069  -.0023261  -.0018616   -.002123  -.0023128  -.0016934
+        109  |  .0016981   .0013889   .0019012   .0011433    .001874   .0015771
+        301  |  .0016761   .0012675   .0015139   .0009474   .0010748   .0013772
+         11  | -.0016697  -.0023351  -.0016407  -.0015599  -.0010825  -.0013776
+        138  |  .0016646   .0016339   .0016582   .0007924   .0011234   .0021708
+        318  | -.0016268  -.0023007  -.0019036  -.0015049   -.001114  -.0017903
+        307  |  .0016154   .0017449   .0014337   .0006888   .0013763    .001776
+         58  | -.0016101  -.0020836  -.0017003  -.0015474  -.0015903  -.0013761
+        156  |  .0016083   .0013132   .0008641   .0000355    .001458   .0015063
+        183  |  .0015907   .0009174   .0004675   .0004966   .0013795   .0015401
+         20  |  .0015667   .0014485   .0016202   .0009018   .0012989   .0015132
+        214  |  .0015547   .0004585   .0017587    .002225   .0021799  -.0001224
+         90  | -.0015488  -.0014312   -.001358  -.0012569  -.0011457  -.0014464
+         98  |  .0015471   .0013487   .0013765   .0006728   .0010155   .0013046
+          2  |   .001543   .0013337   .0009864    .000127   .0010917   .0010627
+        123  | -.0015377  -.0018818  -.0018834  -.0014929  -.0014897  -.0013014
+         57  |  .0015198   .0013667   .0001509  -.0002857   .0012076   .0015227
+        220  |  .0015185   .0020759   .0015823   .0011086   .0019702   .0021388
+        322  |  .0015079   .0014078   .0012044   .0002398   .0013574   .0015903
+         93  |   .001507   .0013705   .0016249   .0010938   .0012099   .0013284
+         19  | -.0015007  -.0019101  -.0015525  -.0008554  -.0010138  -.0012117
+        176  |  .0015007   .0013072   .0012192   .0003364   .0013372   .0012737
+        210  |  .0014998   .0009611   .0009708   .0005183   .0013189   .0014277
+         48  |  .0014926   .0014335   .0018305   .0008959   .0013958   .0013288
+        228  |  .0014904   .0008356   .0014187   .0007964   .0013316   .0013378
+         75  |  .0014866   .0013768   .0009747  -.0000459   .0013952   .0013563
+        110  |  .0014843   .0008459  -.0002495   .0008526   .0017102   .0012261
+        233  | -.0014792  -.0009277  -.0011205  -.0011365  -.0009726  -.0009255
+        224  |  .0014752   .0012234   .0012882   .0014172   .0010949   .0019505
+        323  |  .0014731   .0015951   .0012846    .000435   .0015205   .0012172
+         61  |  .0014594   .0012555   .0015809    .000914   .0008565   .0013358
+        279  |  .0014564    .001062   .0012198   .0006331    .001289   .0011068
+         60  | -.0014539  -.0018319  -.0014694  -.0011026  -.0011104  -.0006626
+         16  |  .0014362   .0015406    .000947   .0001232   .0018987   .0015686
+        136  |  .0014317   .0013234   .0013402   .0007152   .0014208    .001554
+        148  |  .0014259   .0013542   .0008683   .0006994   .0011078   .0014203
+        239  | -.0014179  -.0016524   -.001303  -.0003256  -.0009224  -.0010415
+        132  |  .0014103   .0015136   .0011759   .0005353    .001296   .0013608
+        208  |  .0014052    .001978   .0013395   .0008758   .0016264   .0014229
+         91  |  .0014031   .0012179   .0009227   .0005573   .0013483   .0013062
+        167  |  .0014028   .0015466   .0011641   .0008554   .0018435   .0011057
+        203  |  .0013709   .0011798    .001492   .0006284   .0016187    .001066
+         68  |  .0013597   .0011307   .0017154   .0011123   .0010028   .0013083
+        243  | -.0013481  -.0018107  -.0014424  -.0015011  -.0018343  -.0011212
+        177  |  .0013475    .001334   .0011409   .0002368   .0009408   .0014974
+        160  |  .0013473   .0021558   .0027253   .0017622   .0023503   .0025298
+        221  |  .0013432   .0011463   .0009786   .0002961   .0013839   .0012779
+        309  |  .0013396   .0011973   .0015746   .0007365   .0013546   .0015739
+         62  | -.0013327  -.0017202  -.0012788  -.0009824  -.0018816  -.0009894
+        250  |  .0013273   .0014027   .0008241    .000016   .0010543   .0014522
+         34  |  .0013201   .0010067   .0014845   .0007862    .001465   .0014971
+         10  |  .0013197   .0008888   .0008604   .0004176   .0008183   .0010747
+        124  | -.0013125  -.0016583  -.0014047  -.0006236  -.0007046  -.0007078
+         36  |  .0013069   .0010464   .0008821  -.0000835   .0011347   .0012503
+        131  |  .0012955   .0013018   .0010505   .0005277   .0013819   .0013641
+        114  |  .0012797   .0013284   .0011551   .0004976   .0014421     .00137
+         50  |  .0012791   .0011581   .0015595  -.0003655    .001097   .0012809
+        306  |  .0012704   .0014609   .0007914  -.0000205   .0011786   .0012747
+        113  |  .0012701   .0005555   .0001942   .0013254   .0017644   .0016162
+        190  |  .0012623   .0013792   .0008203   .0001354     .00078    .001286
+        226  |  .0012502   .0015368   .0007916   .0001379   .0012862   .0013806
+          8  |  .0012441   .0012503   .0006284   .0000146   .0008004   .0012027
+        283  | -.0012396  -.0026286  -.0017232  -.0013117  -.0014418  -.0022841
+        317  |  -.001223   -.001882  -.0018024  -.0010367  -.0006239  -.0014119
+        195  |  .0012195   .0015288   .0010311   -.000015   .0011093   .0015516
+        133  | -.0012191  -.0011612  -.0011434  -.0014798  -.0013308  -.0010024
+        237  |   .001217    .001225   .0018912   .0011858   .0013032   .0011986
+        158  |  .0012168   .0013158   .0010516   .0005874   .0008973   .0013492
+        196  |  .0012138   .0011973   .0012805   .0003095   .0010009   .0015233
+         85  |  .0011919   .0012939   .0008448   .0001486    .001146   .0013367
+        255  |  .0011878   .0009826   .0009035  -.0000956   .0008633   .0012846
+        154  |  .0011839   .0009939     .00129   .0007466   .0015904   .0015682
+        206  | -.0011738   -.001516  -.0017838  -.0013558  -.0007824  -.0012604
+        130  |  .0011604   .0006432   .0009893   .0006845   .0007818   .0011998
+        275  |  .0011595   .0006823   .0005254   .0005364   .0008532   .0009256
+        238  |   .001157   .0009822    .000769   .0003379   .0010206   .0010682
+        299  | -.0011486  -.0015072  -.0020368  -.0013565  -.0011203  -.0016097
+        120  |  .0011445   .0007991   .0009724   .0002485   .0008113   .0010367
+        257  |   .001134   .0010064   .0011164   .0006709   .0010388   .0010615
+        303  | -.0011227  -.0015148  -.0010166  -.0007923  -.0010939  -.0008626
+        241  | -.0011039  -.0009819  -.0007977  -.0012544  -.0000844  -.0001445
+        312  |   .001101   .0009147   .0010577   .0000773   .0008386   .0011944
+         28  |  .0010971    .001129   .0014686   .0009285     .00223   .0014556
+        121  |  .0010926   .0012774   .0012925   .0004084   .0015344   .0013412
+        161  |  .0010887   .0013507   .0009338   .0001806   .0013892   .0013004
+         37  |  .0010836   .0009513   .0007963   .0004954   .0008141   .0008651
+         25  |   .001074   .0008598   .0005402   .0003969   .0008051    .000711
+        289  | -.0010654  -.0013566  -.0011111  -.0011881  -.0006448  -.0011905
+        254  |  .0010635   .0014529    .001938   .0011857   .0008436   .0014245
+        260  |  .0010546   .0011302   .0010101   .0008329   .0008649   .0010128
+        139  |  .0010457   .0007342    .001303   .0006116   .0005696   .0008328
+         79  |  .0010355   .0009813   .0004381  -.0002763   .0005455   .0007918
+         97  |  .0010328    .001044   .0009773   .0001755    .000859   .0010287
+         15  |  .0010319   .0012626   .0009759   .0006092   .0009586    .001101
+        105  |  .0010315   .0011713   .0017367   .0005588   .0009239   .0009949
+        305  |  .0010241   .0009796   .0010513   .0004023   .0009333   .0008538
+        173  |   .001022   .0010975   .0004642  -.0004176   .0010234   .0011788
+        244  |    .00102   .0007688   .0007901   .0001095   .0005521   .0005325
+        127  |  .0010161   .0011787   .0010292   .0005292   .0010724   .0013042
+        273  |   .001016   .0011581   .0010615   .0002768    .001258   .0011478
+        141  |  .0009921   .0008976   .0006463   .0001275   .0009535   .0010177
+        251  |  .0009778   .0009625   .0010541   .0005725   .0011506   .0008067
+         64  |  .0009538    .000367  -.0000874   .0010215   .0002698   .0010184
+        174  | -.0009403  -.0009776    -.00132  -.0006407  -.0000243  -.0013678
+        186  |  .0009146   .0006064   .0004006   .0001383   .0005962   .0006424
+        288  |  .0008937   .0008472   .0005765   .0003262     .00162   .0008797
+        150  |  .0008878   .0007402   .0009127    .000265   .0008385   .0012472
+        215  |  .0008853   .0004555   .0011604   .0001978   .0005142   .0008421
+        197  |  .0008696  -.0002354   .0004213   .0003811    .000934   .0006785
+        184  |  .0008666   .0008298   .0010171   .0007043   .0006785   .0007719
+        147  |  .0008498    .000546   .0005957  -.0002221   .0005377   .0005893
+         23  | -.0008475   -.001212  -.0003259  -.0001788  -.0000167  -.0009929
+        240  | -.0008416  -.0009125  -.0006047  -.0009892  -.0007429  -.0005934
+        179  |  .0008358   .0007237   .0005005   .0003432   .0005567   .0008086
+        225  | -.0008342  -.0014814  -.0013322  -.0014727  -.0010539   -.001192
+         14  |  .0008238    .000925   .0008464   .0006614   .0010228   .0009242
+        172  |  .0007968   .0005662    .000088  -.0007478   .0003185   .0007516
+         89  |  -.000789   -.000551  -.0002571  -.0003717   .0007632   -.000468
+        212  |  .0007834    .000678   .0016467   .0005396   .0005867   .0005337
+        205  |    .00078   .0007403   .0003673  -.0002624   .0005119   .0005223
+        236  | -.0007794  -.0014477  -.0008581   -.000265  -.0000714   -.000982
+        188  |  .0007647   .0003913   .0008667   .0001448   .0009645   .0009423
+         13  |   .000764   .0005298   .0003348   .0000691   .0002035   .0007693
+        169  | -.0007579  -.0013012  -.0008535  -.0011694  -.0004592   -.000379
+        284  |  .0007563   .0009393   .0002035  -.0006112   .0009255   .0010854
+             |
+        qofd |
+        217  | -.0007537   .0007453  -.0001903   .0093581   .0008851   .0015845
+             |
+       place |
+        298  |  .0007529   .0000963   .0005207   .0001507   .0002396   .0008545
+        320  |  .0007305   .0010224   .0009114   .0005701   .0005526   .0003393
+         41  |  .0007067    .000594   .0003685  -.0000787   .0005196   .0005709
+        115  |   .000697   .0008741   .0006021   .0005158   .0010229   .0001313
+             |
+        qofd |
+        219  |  -.000694  -.0000282   .0003815   .0001292   .0002192   .0003825
+             |
+       place |
+        116  |  .0006793   .0008366   .0008757    .000632   .0009305   .0006026
+         96  |  .0006717   .0005325   .0004134  -.0002584   .0005448   .0010225
+        107  | -.0006667   -.000653  -.0006566     -.0004  -.0001185  -.0001451
+        246  |  .0006377   .0005319   .0004265   .0000702   .0006561   .0007399
+        230  | -.0006352  -.0007369  -.0005886  -.0005297  -.0005373   .0000388
+        295  |  .0006178   .0000909   .0004373   .0004207   .0006629   .0007854
+        189  | -.0006138  -.0005362  -.0009829  -.0012797  -.0004758  -.0004808
+         74  |  .0006037   .0004454   .0004638  -.0005737   .0005238    .000805
+         83  |  .0006033   .0006209   .0004517   .0001642   .0003643   .0009854
+         12  |  .0005978   .0008506   .0007183  -.0001098   .0009055   .0009765
+         86  |  .0005888   .0007414    .000392  -.0001242   .0002449   .0006931
+        268  | -.0005748  -.0001427   .0002606  -.0000739   .0005042   .0005068
+        278  | -.0005733  -.0005522  -.0006774  -.0011114  -.0003586  -.0005131
+         94  |  .0005731  -.0002798   .0003154   .0007435   .0006898   .0009754
+        262  | -.0005691   -.000705  -.0008388  -.0009078  -.0000701  -.0001219
+        142  | -.0005573  -.0011841  -.0006978  -.0000613   .0005311   .0000718
+         44  |   .000548   .0003211   .0002496   -.000243   .0007773   .0007445
+        149  |  .0005459   .0006725   .0001418   -.000173   .0005434   .0009243
+        313  |  .0005413  -.0001268   .0002355   .0003972   .0008841   .0007907
+        165  |  .0005204   .0012266   .0008268   .0004807   -.000451   .0006971
+        146  |  .0005129   .0002576  -.0000374  -.0002356    .000096    .000499
+         40  |  .0005041  -.0004676  -.0001113  -.0006377   .0001111   .0002234
+             |
+        qofd |
+        218  | -.0005022   .0017426  -.0001549  -.0010579   .0003655   .0002157
+             |
+       place |
+        235  | -.0004987   -.001351  -.0012271  -.0005087  -.0013997  -.0008968
+         27  | -.0004964  -.0006154  -.0010662    -.00051  -.0002387  -.0001999
+         78  |  .0004631   .0008179   .0001039  -.0001602   .0003385   .0005335
+         56  | -.0004624   2.34e-06  -.0000427  -.0004145   .0001993   .0002581
+        182  |  .0004586   .0003354   .0002235  -.0001728   .0004854   .0004732
+          6  |  .0004333   .0004032   .0003403  -.0004359   .0001076   .0004756
+        135  |  .0004164  -.0001181   .0003761   .0000896   .0007644   .0004192
+        178  | -.0004135  -.0002854  -.0003087  -.0000415  -.0000534    .000299
+        126  |  .0003947   .0003749   .0005612   .0001534   .0003035   .0004566
+        265  |  .0003888  -.0004024   .0000741   .0001396  -6.65e-06   .0006517
+        144  |  .0003667   .0002389   .0002559   .0000719   .0005752   .0002031
+        267  |  .0003649   .0001744  -.0001315  -.0004396   .0003703   .0004649
+        164  |  .0003575   .0004084   .0011895  -.0001894  -.0000718   .0003751
+        282  |  .0003502   .0000193   .0002076   .0002552   .0007766   -.000185
+        218  | -.0003396  -.0001717   .0001452  -.0001146   .0003394   .0003067
+          7  | -.0003211  -.0005943  -.0006277  -.0003651  -.0002972  -.0001592
+         67  |  .0003085   .0006539   .0003002  -.0002427   .0007789   .0007792
+        256  |  .0003057  -.0011401   .0001209   .0004505   .0004353   .0005479
+        129  |   .000294  -.0008999   .0006478   .0002897   .0001281  -.0001406
+        319  | -.0002883  -.0011016  -.0011066  -.0009094  -.0006759  -.0010667
+        266  | -.0002754  -.0007335  -.0004996  -.0011753  -.0003462  -.0009235
+         31  | -.0002594   -.001025   -.000694   -.000404  -.0007504  -.0004902
+        227  | -.0002587  -.0004605  -.0004134   .0000545    .000259  -.0004189
+         32  | -.0002504  -.0004294  -.0002387  -.0003276  -.0000884   -.000281
+        310  |  .0002475   .0010009   .0009281   .0013776   .0012632   .0012498
+             |
+  c.w3#c.w17 | -.0002299  -.0010407  -.0048355
+             |
+       place |
+        281  |  .0002253   .0002901   .0006584   .0010056   .0011227  -.0006854
+        245  |  .0002197  -.0000448   .0004316   .0004183   .0006397   .0006406
+        151  | -.0002118   -.001301  -.0004095   .0007179   .0008098   .0005569
+        153  |  .0001899  -.0004025  -.0000119  -.0004892   .0000401   .0003274
+        229  |  .0001844  -.0003323  -.0002724  -.0000931  -.0002813  -.0000666
+         82  | -.0001774   .0000227   .0000984  -.0002524    .000324   .0000236
+         81  |  .0001592   .0000157  -6.56e-06  -.0003173  -.0001296   .0001421
+        297  |  -.000154  -.0005064  -.0004722  -.0006159  -.0002956  -.0002004
+        202  | -.0001376  -.0005121  -.0001047  -.0003982   .0000678    .000223
+         76  | -.0000929   .0001275  -.0000509  -.0000115   .0001579   .0004149
+        140  | -.0000861  -.0003637  -.0004308  -.0007383  -.0003696   .0002796
+        181  |  .0000836  -.0003455   .0004434   .0005247   .0004136   .0005595
+        248  | -.0000738   .0001744   .0000231  -.0002118   .0000171   .0003136
+        104  |  .0000681   .0000661  -.0002076  -.0003575  -.0001796   .0001678
+         77  | -.0000607  -.0003037    .000017  -.0002989  -.0000174   .0004872
+        199  | -.0000592  -.0000568  -.0003419  -.0011817   .0001146    .000562
+         46  | -.0000394  -.0001308  -.0001287  -.0002424   .0000241   .0001409
+         69  | -.0000366  -.0003164  -.0002215   -.000458  -.0002437  -.0000685
+        276  | -.0000306  -.0009348  -.0008154   -.001337  -.0003904  -.0002567
+        145  |   .000029   .0001239  -.0001286  -.0008241  -.0003184   .0001235
+        111  |  -.000018  -.0006993   .0002551  -.0003404  -.0002719  -.0000722
+        274  | -.0000151   .0003181   .0002075  -.0003405  -.0004737   .0000496
+         43  | -.0000126  -.0005307   .0001475  -.0000444    .000684   .0013259
+         87  | -4.96e-06  -.0001078   .0002004  -.0003421  -.0001894   .0002656
+             |
+      c.wI10#|
+      c.wI13 |                       -.0167299   -.022346
+             |
+c.wI3#c.wI13 |                                   -.003242
+             |
+      c.wI13#|
+      c.wI17 |                                  -.0026238  -.0019078
+             |
+      c.wI13#|
+      c.wI13 |                                  -.0010904  -.0235424
+             |
+      c.wI12#|
+      c.wI13 |                                             -.0015046  -.0004588
+             |
+  c.w2#c.w17 |
+             |
+ c.wI2#c.wI7 |
+             |
+        qofd |
+        216  |         e          e          e          e          e          e
+             |
+       place |
+          1  |         e          e          e          e          e          e
+             |
+       _cons |         0          0          0          0          0          0
+-------------------------------------------------------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+
+----------------------------------------------------------------------
+              |     xpoiv      xpoiv      xpoiv      xpoiv       xpoiv
+              | blank_1_1  blank_7_1  blank_8_1  blank_9_1  blank_10_1
+--------------+-------------------------------------------------------
+        place |
+          18  |  .8262897   .9129138   .8427706   .8404417    .8430863
+         211  |  .0731668   .0810345   .0768191   .0759373    .0773498
+         258  |  .0522773   .0619792   .0517132   .0547408    .0507076
+          65  |  .0503081   .0487402   .0481742   .0580248    .0431959
+              |
+         qofd |
+         238  |  .0415828   .0326638   .0431561   .0321015    .0373878
+              |
+        place |
+         168  |  .0405292   .0409657   .0390966   .0427499    .0453574
+              |
+         qofd |
+         240  |  .0400671   .0350512   .0409823   .0295981    .0366108
+              |
+         wI13 | -.0393789             -.0423931  -.0313737   -.0221949
+              |
+         qofd |
+         237  |  .0375816   .0286585   .0396951   .0282978    .0338044
+         230  |  .0368817   .0277112   .0393106   .0270877    .0325312
+         228  |  .0358987   .0295572   .0365573   .0184837    .0337262
+         229  |  .0343625   .0259334    .034356   .0236551    .0311934
+         234  |   .033688   .0269847   .0368356   .0251221    .0332491
+         222  |   .033221   .0229295   .0363105   .0232716    .0307593
+         226  |  .0325841   .0244745   .0338875   .0225353     .029423
+         235  |  .0325745   .0268567   .0350526   .0235726    .0307815
+         225  |  .0320528   .0241692   .0339974   .0210006    .0290817
+              |
+        place |
+         286  |  .0299419   .0316923   .0296703   .0293204    .0286216
+              |
+         qofd |
+         223  |  .0295682    .023962   .0315423   .0175711    .0285221
+         239  |  .0293289   .0230483   .0305098   .0197733    .0254565
+         233  |  .0291319   .0239505   .0333061   .0220741    .0281032
+              |
+        place |
+         163  |  .0288397   .0287468   .0279722   .0288826    .0276177
+              |
+         qofd |
+         236  |  .0281102   .0218187   .0295405   .0187722    .0250678
+         224  |  .0279576   .0230926    .028547   .0184901    .0262248
+         232  |  .0276173    .021685   .0289149    .017045    .0254952
+         227  |  .0273486   .0213476   .0268362   .0174464    .0248331
+         221  |  .0271271   .0193004   .0287741   .0176095    .0245535
+         231  |  .0226647   .0160081   .0229399   .0132775    .0206744
+              |
+        place |
+          72  |  .0181951   .0182897   .0139079    .017808    .0165974
+         117  |   .015598   .0164099    .013543   .0149832    .0157989
+          80  |  .0152682   .0153589   .0132817   .0137434    .0144306
+          53  |  .0137573   .0139431   .0157851   .0154893     .016942
+         259  |  .0130785   .0149913   .0134233   .0103362    .0129004
+         125  |  .0121889   .0129996   .0126123   .0111514    .0136296
+         155  |  .0121424   .0114332   .0121648   .0107414     .011856
+         171  |    .01094   .0086258   .0107725    .011855     .011503
+              |
+         qofd |
+         220  |  .0107785   .0059749   .0119476   .0005885    .0100367
+              |
+        place |
+         209  |  .0104038   .0106866   .0110005   .0108136    .0103655
+         242  |  .0102776   .0079942   .0098024   .0112376     .010697
+              |
+         qofd |
+         241  |  .0097539   .0061297   .0104106    .000577    .0089771
+              |
+        place |
+         175  |  .0092442   .0074256   .0079743   .0075474    .0085286
+          35  |  .0087236   .0065199   .0077614   .0076133    .0079703
+         270  |    .00866   .0078438   .0091511   .0079539    .0093731
+          84  |  .0086478   .0093406   .0091335   .0087696    .0100467
+          45  |  .0084867   .0080293   .0092161   .0073885    .0086478
+          39  |  .0083884   .0072542   .0082259   .0083828    .0081877
+         134  |  .0079698   .0075271   .0078557   .0060399    .0083693
+         170  |  .0079321   .0076883    .008232    .008676    .0091039
+         166  |  .0074493   .0064487   .0070265   .0070629    .0067752
+          99  |  .0056646   .0071927   .0031299   .0061411    .0067736
+         264  |  .0053367   .0052897   .0050582   .0053031    .0033331
+         293  |  .0051615   .0045973   .0052131   .0046379    .0049138
+         287  |  .0050502   .0066507   .0047642   .0054416    .0040635
+         219  |  .0047428   .0048254   .0041229    .005016    .0051763
+         222  |  .0045045   .0029112   .0035277   .0042018     .003962
+         263  |  .0043731   .0050906   .0051675   .0049777    .0047481
+         308  |  .0042059   .0032296   .0033582   .0026388    .0035414
+         272  |  .0041405   .0037412   .0044733   .0042818    .0041503
+           4  |  .0039452    .004913   .0031868    .003819    .0049017
+         324  |  .0038581   .0025937   .0035551   .0034492    .0035353
+         118  |  .0037732   .0037638   .0045396   .0041616    .0041274
+         304  |  .0037017   .0021743   .0033928   .0031683    .0031161
+         187  |  .0036674   .0027506   .0027533   .0035759    .0037162
+         285  |  .0036671   .0036682   .0031589    .003321    .0035647
+         152  |  .0034379   .0027285   .0025312   .0037571    .0035802
+           5  |  .0032197   .0024956   .0032222   .0032607    .0031399
+         193  |  .0032169   .0028739   .0037311   .0035668    .0038288
+          30  | -.0031608  -.0011665  -.0029494  -.0018731   -.0027511
+         231  |   .003001    .002008    .002673    .002342    .0026213
+         201  | -.0027854  -.0015295  -.0033668  -.0023929   -.0019676
+         101  |  .0027534     .00173   .0028317   .0022729    .0017708
+         185  | -.0027396  -.0018036  -.0031938  -.0025269   -.0020334
+          51  |  .0027384   .0017471    .002375   .0023765    .0024502
+          22  |  -.002713  -.0012709  -.0026873  -.0021372   -.0016963
+         207  | -.0026494    -.00123  -.0033621  -.0025596   -.0020568
+         217  |  .0026067   .0042393   .0024038   .0014625    .0033163
+         162  | -.0025834  -.0014586  -.0024972   -.002465   -.0018787
+         213  | -.0025649  -.0012552  -.0027003  -.0020831   -.0021472
+          52  | -.0025646  -.0009202  -.0023529  -.0019653   -.0019486
+          59  | -.0025617  -.0013275  -.0028939  -.0023233   -.0023803
+          54  | -.0025368  -.0013644  -.0030958  -.0025335   -.0022621
+          70  |  .0025287   .0017049   .0026515   .0026163    .0020289
+         315  |  -.002527  -.0016065  -.0033278  -.0033503   -.0019956
+         300  |  .0025097   .0021589   .0018809   .0015288    .0020862
+         223  | -.0024747  -.0010298  -.0024197   -.001984   -.0012974
+         277  | -.0024667  -.0009029   -.002758   -.001764   -.0013629
+         216  | -.0024474  -.0009045  -.0016856  -.0020861   -.0015983
+         102  | -.0024463  -.0013125  -.0024217  -.0025175   -.0020981
+          95  | -.0024166  -.0012775  -.0024432    -.00219   -.0016192
+         292  |   .002397   .0007775   .0022928   .0022417    .0023106
+         311  | -.0023861  -.0008939  -.0025458   -.001746   -.0012996
+          88  |  .0023643   .0006675   .0018935   .0019126    .0011762
+          42  | -.0023496   -.001024  -.0023973   -.002036   -.0015828
+         143  |  -.002349  -.0008559  -.0023752  -.0019365   -.0013309
+         253  |  -.002324   -.000696  -.0026874  -.0019141   -.0017352
+          38  | -.0023163  -.0006761  -.0020129  -.0015504   -.0014006
+         100  | -.0022976  -.0014677  -.0024498  -.0024969    -.001832
+         314  | -.0022913  -.0010301  -.0027839  -.0023133   -.0013381
+         249  | -.0022873   -.001231  -.0027765  -.0030136    -.001743
+          55  | -.0022803  -.0014095  -.0030453  -.0021709    -.001944
+         122  | -.0022594  -.0007036  -.0019444  -.0018415   -.0010444
+         159  | -.0022526  -.0011116  -.0024303  -.0018812   -.0012615
+         204  |  .0022417    .003055   .0024218   .0023232    .0028684
+         157  |   .002209    .004262   .0037879   .0037177    .0041553
+         119  |  .0021849   .0015427   .0018962   .0018772    .0014438
+         302  |  .0021792   .0017558   .0026138   .0016771    .0021775
+         137  | -.0021188  -.0010248  -.0030107   -.002029   -.0020409
+         269  | -.0021156  -.0011141  -.0022617   -.001787    -.001416
+         198  |  .0021073   .0017005   .0019609   .0020681    .0018613
+         291  | -.0020985  -.0006487  -.0023435  -.0017709   -.0017569
+         192  | -.0020733  -.0009977  -.0020746  -.0017406   -.0014343
+          66  |  .0020689   .0015853   .0017284   .0019846    .0019657
+           9  |  .0020617   .0009283    .001727   .0011997    .0013102
+          92  | -.0020375  -.0001175  -.0025291  -.0014526   -.0011832
+          47  |  .0020225    .001437   .0018137   .0016403    .0016267
+         296  | -.0020121  -.0009059  -.0013299  -.0018395   -.0013017
+         290  |  -.001982  -.0005356  -.0025911  -.0019428   -.0013697
+         234  | -.0019773  -.0004434  -.0023004  -.0020281   -.0011988
+         112  | -.0019536  -.0008942  -.0017603  -.0011664   -.0011398
+         252  | -.0019534  -.0008219  -.0022142  -.0017605   -.0010314
+         316  | -.0019463  -.0009962  -.0024923  -.0018156   -.0017822
+         180  |  .0019463   .0036176    .001757   .0023404    .0027989
+         271  | -.0019361  -.0010812  -.0021308  -.0022692   -.0018032
+          49  |  .0019331   .0008215   .0015937   .0015381     .001228
+         106  | -.0019323  -.0004528  -.0020675  -.0016151   -.0012357
+         108  | -.0019226  -.0008587  -.0023149   -.001643   -.0013084
+          17  | -.0019127  -.0012339  -.0022208   -.002048   -.0013646
+         247  |  .0019065   .0013603   .0021176   .0014853    .0013983
+         191  | -.0018984  -.0009932  -.0017556  -.0017372   -.0016692
+          33  | -.0018826  -.0006195  -.0021993  -.0014597   -.0010273
+          24  | -.0018653  -.0005801  -.0027078  -.0021154   -.0015916
+         200  |  .0018559   .0014666    .001351   .0016979    .0017474
+          73  | -.0018486  -.0012685  -.0021328  -.0017889   -.0011641
+          63  | -.0018226  -.0007637  -.0020324  -.0017723   -.0015695
+          29  |   .001822   .0011223    .001843   .0014865    .0014833
+          21  |  .0018204   .0014455   .0024889   .0023626    .0018376
+          26  |  .0018182   .0011554   .0017642   .0016473    .0017086
+         261  | -.0018105  -.0002359  -.0020845  -.0014856   -.0008042
+         280  |  .0017772   .0008028   .0014274   .0011762    .0011242
+          71  |  .0017744   .0007667   .0016082   .0013386    .0013761
+         128  | -.0017707  -.0003823  -.0021319  -.0013621   -.0010534
+         321  |  .0017704   .0007501   .0015293   .0010885    .0011571
+         294  |  .0017553   .0011319   .0016947   .0016109    .0014191
+         103  | -.0017526  -.0009147  -.0023787  -.0018635    -.001317
+           3  | -.0017366  -.0010742  -.0027667  -.0016176   -.0013913
+         232  |  .0017317   .0005764   .0016163   .0016296    .0015485
+         194  | -.0017069  -.0008275  -.0023719  -.0013908   -.0015858
+         109  |  .0016981   .0013355   .0010949   .0015114    .0011651
+         301  |  .0016761   .0011105   .0010471   .0011468    .0012834
+          11  | -.0016697  -.0004631   -.002112   -.001527   -.0009709
+         138  |  .0016646   .0009822   .0017818   .0011745    .0011991
+         318  | -.0016268  -.0003664   -.002594   -.001358   -.0013458
+         307  |  .0016154   .0009602   .0013972   .0014606    .0013778
+          58  | -.0016101  -.0005682  -.0020265  -.0015901   -.0022088
+         156  |  .0016083   .0005087   .0016614   .0013227    .0009665
+         183  |  .0015907   .0013499   .0012441   .0018026    .0010569
+          20  |  .0015667    .001292   .0011195   .0012953    .0013241
+         214  |  .0015547   .0022636   .0013523   .0018964    .0021039
+          90  | -.0015488  -.0004126  -.0018748  -.0010599   -.0008835
+          98  |  .0015471   .0007535   .0011007   .0014538    .0011009
+           2  |   .001543   .0002628   .0013032   .0010929    .0011041
+         123  | -.0015377   -.000836    -.00168  -.0014186    -.001118
+          57  |  .0015198   .0000329   .0012173   .0008933    .0009373
+         220  |  .0015185   .0009714   .0021865   .0018767    .0016794
+         322  |  .0015079   .0005909   .0014508   .0013464    .0010313
+          93  |   .001507   .0019265   .0014683   .0010306    .0015602
+          19  | -.0015007  -.0003157  -.0016206   -.002195   -.0001867
+         176  |  .0015007   .0004688   .0012753   .0010891    .0008493
+         210  |  .0014998   .0005935   .0015918   .0010484    .0010485
+          48  |  .0014926   .0013334   .0012906   .0015623     .001341
+         228  |  .0014904   .0008286   .0012198   .0011321     .001333
+          75  |  .0014866   .0004368   .0017771   .0014085    .0011357
+         110  |  .0014843    .001647    .000791   .0013355    .0015218
+         233  | -.0014792  -.0006181  -.0016932   -.000951   -.0008161
+         224  |  .0014752   .0014777   .0012916   .0016018    .0015088
+         323  |  .0014731   .0006951   .0014812   .0011461    .0012721
+          61  |  .0014594   .0013202   .0013194   .0014145    .0012951
+         279  |  .0014564   .0010091   .0010267    .001349    .0011715
+          60  | -.0014539  -.0001756  -.0021468  -.0016273   -.0009782
+          16  |  .0014362   .0003696   .0016111   .0010883    .0010983
+         136  |  .0014317   .0005699   .0011764   .0006412    .0008929
+         148  |  .0014259   .0006014   .0015303   .0009288    .0010828
+         239  | -.0014179   .0002877  -.0018619  -.0014218     -.00165
+         132  |  .0014103    .000574   .0013106   .0010203    .0011401
+         208  |  .0014052   .0009719   .0012572   .0013366    .0013251
+          91  |  .0014031   .0005839   .0011741   .0011392    .0012051
+         167  |  .0014028   .0007963   .0015505   .0013941    .0013924
+         203  |  .0013709   .0005824   .0013059   .0010522    .0009036
+          68  |  .0013597   .0013928   .0012468   .0012709    .0012857
+         243  | -.0013481   -.000891  -.0017711   -.001492   -.0015658
+         177  |  .0013475   .0006131   .0012449   .0011222    .0011288
+         160  |  .0013473   .0018131   .0023035   .0022367    .0022891
+         221  |  .0013432   .0005768    .001174   .0009131     .000876
+         309  |  .0013396   .0010487   .0013489   .0013337    .0006643
+          62  | -.0013327  -.0007139  -.0016602  -.0011197   -.0007493
+         250  |  .0013273   .0002061   .0015682   .0010544    .0005381
+          34  |  .0013201   .0007076    .001371   .0011096    .0011839
+          10  |  .0013197   .0006493   .0011811   .0006424     .001229
+         124  | -.0013125  -.0003342  -.0011893  -.0009518   -.0007117
+          36  |  .0013069   .0007888   .0009361   .0011669    .0008826
+         131  |  .0012955   .0005956   .0013238   .0008419    .0012786
+         114  |  .0012797   .0006594   .0014672    .000992     .001158
+          50  |  .0012791   .0003847   .0011414   .0011482    .0010524
+         306  |  .0012704    .000049   .0015128   .0008715    .0010357
+         113  |  .0012701   .0022532   .0003556   .0012543    .0008623
+         190  |  .0012623   .0002787   .0016929   .0008419    .0009416
+         226  |  .0012502   .0003772   .0012715    .000897    .0009295
+           8  |  .0012441   .0003072   .0004553   .0007693     .001187
+         283  | -.0012396  -.0001437  -.0016786  -.0016022   -.0010474
+         317  |  -.001223  -.0007596  -.0021885  -.0014345   -.0008962
+         195  |  .0012195   .0003807   .0017833   .0012045    .0008882
+         133  | -.0012191  -.0006989  -.0017697  -.0014187    -.001017
+         237  |   .001217    .001919   .0009581   .0010785    .0012248
+         158  |  .0012168   .0004639   .0008104   .0008794    .0011302
+         196  |  .0012138   .0004242   .0011547   .0012706    .0011869
+          85  |  .0011919   .0005071   .0012038   .0008875     .001008
+         255  |  .0011878    .000781   .0008323   .0009354    .0008825
+         154  |  .0011839   .0009322   .0015617   .0017208    .0013413
+         206  | -.0011738  -.0003851  -.0015322  -.0012336   -.0011441
+         130  |  .0011604   .0009366   .0010449   .0008275    .0010124
+         275  |  .0011595   .0008504   .0008664   .0005393    .0009972
+         238  |   .001157   .0002841   .0010322   .0007245    .0010261
+         299  | -.0011486  -.0007066  -.0014724  -.0015653   -.0013695
+         120  |  .0011445   .0006182   .0005238   .0007147    .0008416
+         257  |   .001134   .0005998   .0008464   .0010306    .0011347
+         303  | -.0011227  -.0001367  -.0014958  -.0015033    -.000928
+         241  | -.0011039   .0005057  -.0010092   -.000483   -.0004345
+         312  |   .001101   .0005344   .0009378   .0012547    .0011511
+          28  |  .0010971   .0013628   .0009237   .0018308    .0015939
+         121  |  .0010926   .0005832   .0013916   .0012931    .0012941
+         161  |  .0010887   .0005505   .0012953   .0013202    .0007957
+          37  |  .0010836   .0005567   .0012249   .0009574     .000954
+          25  |   .001074   .0007819   .0005583   .0009898    .0010499
+         289  | -.0010654  -.0010019  -.0016995  -.0013367   -.0008816
+         254  |  .0010635    .001656   .0011148   .0010986     .001485
+         260  |  .0010546   .0008991   .0008534   .0008135    .0009965
+         139  |  .0010457   .0013579   .0007864   .0008688    .0002701
+          79  |  .0010355  -.0001392   .0008195   .0002633    .0004529
+          97  |  .0010328   .0002576   .0009162   .0004637      .00067
+          15  |  .0010319   .0010186   .0007952   .0008172    .0011062
+         105  |  .0010315    .001696   .0008627   .0010991    .0008993
+         305  |  .0010241   .0004138   .0002991   .0008755    .0011911
+         173  |   .001022  -.0002282   .0010202      .0009    .0008669
+         244  |    .00102   .0004371   .0007796   .0006632     .000823
+         127  |  .0010161   .0007599   .0009731   .0010515    .0010632
+         273  |   .001016   .0005428   .0009964   .0010785    .0008855
+         141  |  .0009921   .0003207   .0007143   .0005175    .0008119
+         251  |  .0009778   .0007217   .0010229   .0010058     .000827
+          64  |  .0009538   .0013271   .0003296   .0011639    .0005163
+         174  | -.0009403    .000055  -.0016938  -.0007991   -.0004134
+         186  |  .0009146   .0001605   .0000627   .0007106    .0005116
+         288  |  .0008937   .0006817    .000773   .0008868    .0011724
+         150  |  .0008878   .0004138   .0008126   .0007299    .0013303
+         215  |  .0008853   .0007287   .0005314   .0005624    .0005708
+         197  |  .0008696   .0016205   .0006359   .0005591    .0002544
+         184  |  .0008666   .0005135   .0007358    .000776    .0008919
+         147  |  .0008498   .0003511   .0005671   .0006625    .0009846
+          23  | -.0008475   .0004763  -.0005577  -.0003936   -.0006547
+         240  | -.0008416   .0000836  -.0014315  -.0014893   -.0004905
+         179  |  .0008358   .0005247   .0006815   .0008413    .0006282
+         225  | -.0008342  -.0007827  -.0012039  -.0011874   -.0008174
+          14  |  .0008238   .0007362   .0007499   .0009535    .0009274
+         172  |  .0007968   .0004326   .0006859   .0001715    .0003434
+          89  |  -.000789  -.0000509  -.0007372  -.0003215   -.0000387
+         212  |  .0007834   .0013843   .0003528   .0008519    .0007036
+         205  |    .00078   .0000228   .0005846   .0004031    .0004238
+         236  | -.0007794   .0004938  -.0017216  -.0007067   -.0005792
+         188  |  .0007647   .0003465   .0009122   .0007691    .0006151
+          13  |   .000764    .000185   .0006302   .0007512    .0005283
+         169  | -.0007579   .0000898  -.0012604  -.0010432     .000822
+         284  |  .0007563  -.0004211   .0009799   .0008616    .0006133
+              |
+         qofd |
+         217  | -.0007537  -.0029542  -.0002625  -.0096741    .0001333
+              |
+        place |
+         298  |  .0007529   3.24e-06   .0005857   .0005465    .0011864
+         320  |  .0007305   .0013068   .0008219   .0007451    .0004649
+          41  |  .0007067   .0002406   .0003784   .0010501    .0004956
+         115  |   .000697   .0013532   .0000184   .0012177    .0011308
+              |
+         qofd |
+         219  |  -.000694   .0076537  -.0002506  -.0103598    .0002754
+              |
+        place |
+         116  |  .0006793   .0004211   .0007254   .0009538    .0007758
+          96  |  .0006717  -.0001226   .0006749   .0007875    .0002655
+         107  | -.0006667  -.0000476  -.0009844  -.0010001   -.0008263
+         246  |  .0006377  -.0000106   .0003713   .0003507    .0004449
+         230  | -.0006352  -.0003467  -.0008115  -.0004375    -.000062
+         295  |  .0006178   .0007695  -.0000952   .0004616     .000626
+         189  | -.0006138  -.0006699  -.0002483  -.0007405   -.0009747
+          74  |  .0006037  -.0001169    .000639   .0001044    .0003305
+          83  |  .0006033   .0004841   .0007842   .0003858    .0007904
+          12  |  .0005978   .0002158   .0010413   .0006798     .000806
+          86  |  .0005888  -.0002048   .0005358   .0003408     .000402
+         268  | -.0005748   .0009139   .0003667   .0000573    .0007959
+         278  | -.0005733   -.000033  -.0010976  -.0003685   -.0002975
+          94  |  .0005731   .0010916   .0003045   .0008303     .001151
+         262  | -.0005691  -.0003323  -.0010769  -.0005213   -.0006087
+         142  | -.0005573   .0010159  -.0011255  -.0003774   -.0001608
+          44  |   .000548    .000133   .0001575   .0006244    .0003836
+         149  |  .0005459   .0006562   .0003396   .0001063    .0003446
+         313  |  .0005413   .0008267   .0002348   .0005941    .0006496
+         165  |  .0005204   .0008555   .0005159   .0006386    .0009777
+         146  |  .0005129   .0005371  -.0000506   .0004779    .0002891
+          40  |  .0005041  -.0003122   .0005134  -.0000155     .000226
+              |
+         qofd |
+         218  | -.0005022   .0100272  -.0006541  -.0099013    .0008572
+              |
+        place |
+         235  | -.0004987   .0004749  -.0014663    -.00092   -.0004676
+          27  | -.0004964  -.0003955  -.0005682   -.000473   -.0005967
+          78  |  .0004631   -.000096   .0004272   .0004151    .0000954
+          56  | -.0004624  -.0000208  -.0002649   .0002097    .0001906
+         182  |  .0004586  -.0003679   .0003344    .000445    .0003841
+           6  |  .0004333  -.0000513  -.0001219   .0003403    .0005865
+         135  |  .0004164   .0003888   .0005061   .0005484    .0005948
+         178  | -.0004135   .0001918  -.0001684   2.87e-06    -.000028
+         126  |  .0003947   .0003504   .0007087   .0001806     .000712
+         265  |  .0003888   .0002197  -.0004338   .0002687     .000652
+         144  |  .0003667   .0003728   .0001983    .000182    .0003233
+         267  |  .0003649   .0006591   .0003202  -.0000584    .0004296
+         164  |  .0003575   .0009485  -.0002645    .000572    .0000526
+         282  |  .0003502    .000793  -.0004602    .000222    .0010334
+         218  | -.0003396   .0006469  -.0004384   .0004367    .0002317
+           7  | -.0003211   .0002777  -.0007099  -.0002167   -.0003639
+          67  |  .0003085   .0003169   .0004994  -.0003193    .0005381
+         256  |  .0003057    .000919   .0001989  -.0000292    .0009761
+         129  |   .000294   .0006135  -.0006929   .0000636    .0009067
+         319  | -.0002883  -.0004249  -.0012703  -.0010722    -.000555
+         266  | -.0002754  -.0001388  -.0005759  -.0003045   -.0003927
+          31  | -.0002594   .0001004  -.0004862  -.0007237     .000106
+         227  | -.0002587   .0002353  -.0009336   .0002731   -.0000774
+          32  | -.0002504   .0000633  -.0004266  -.0003836    .0002827
+         310  |  .0002475   .0017531   .0005533   .0018894    .0018091
+              |
+   c.w3#c.w17 | -.0002299                                    -.0006203
+              |
+        place |
+         281  |  .0002253   .0023071   .0004163   .0007136      .00118
+         245  |  .0002197   .0012875   .0001005   .0002994    .0016397
+         151  | -.0002118   .0010628   .0001535   .0002488    .0006634
+         153  |  .0001899   .0002691   -.000073   .0003228    .0002286
+         229  |  .0001844  -.0001527  -1.03e-07  -.0001749    .0003988
+          82  | -.0001774   .0002862   .0001957   .0002488    .0001287
+          81  |  .0001592   .0001876   .0002566   .0001965    .0001584
+         297  |  -.000154  -.0001294  -.0005697  -.0003777   -.0003488
+         202  | -.0001376  -.0004212  -.0002383  -.0005159    -.000028
+          76  | -.0000929   .0004833  -.0000363   .0003559     .000234
+         140  | -.0000861  -.0000296   .0003416  -8.28e-06    .0002222
+         181  |  .0000836   .0008613  -.0000883   .0005961    .0015296
+         248  | -.0000738   .0003563  -.0002332  -.0001554    7.36e-06
+         104  |  .0000681  -9.84e-06   .0000136   .0000802    .0001067
+          77  | -.0000607  -.0000724  -.0001415   .0003074    .0002354
+         199  | -.0000592  -.0003052  -.0002608  -.0003323   -.0004295
+          46  | -.0000394  -.0000301   -.000134    -.00001    .0002462
+          69  | -.0000366  -.0000841  -.0004029  -.0005442    .0001919
+         276  | -.0000306   .0000332  -.0008044  -.0006094   -.0001553
+         145  |   .000029  -7.10e-06   .0001608  -.0001484    .0000831
+         111  |  -.000018   .0004984  -.0006184  -.0005784   -.0001484
+         274  | -.0000151   .0000595   -.000317   -.000174   -.0001084
+          43  | -.0000126   .0013036  -.0004038  -.0004377    .0007639
+          87  | -4.96e-06   .0000332   .0002401  -.0001081    .0003218
+              |
+c.wI10#c.wI13 |            -.0158591                         -.0090542
+              |
+ c.wI3#c.wI13 |            -.0034016  -.0002134
+              |
+c.wI13#c.wI17 |            -.0034398             -.0053518
+              |
+c.wI13#c.wI13 |
+              |
+c.wI12#c.wI13 |
+              |
+   c.w2#c.w17 |            -.0023062
+              |
+  c.wI2#c.wI7 |                                   -.001869
+              |
+         qofd |
+         216  |         e          e          e          e           e
+              |
+        place |
+           1  |         e          e          e          e           e
+              |
+        _cons |         0          0          0          0           0
+----------------------------------------------------------------------
+Legend:
+  b - base level
+  e - empty cell
+  o - omitted
+      name:  <unnamed>
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2023-AI-tocracy/Program/_root/Output/TableA3_xpoivregress.log
+  log type:  text
+ closed on:  17 Sep 2026, 03:10:22
+-------------------------------------------------------------------------------

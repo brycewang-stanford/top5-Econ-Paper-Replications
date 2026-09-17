@@ -1,0 +1,1381 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Table_G8.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:04:15
+
+. **outline of file.
+. *1) County-Full sample
+. *2) Cross-state metro analysis
+. *3) census division effects
+. *4) county-Full sample w. census division & state linear trends
+. 
+. clear 
+
+. 
+. use "${data}QCEWindustry_minwage_all.dta", clear
+
+. compress
+  variable firstob was float now byte
+  variable period was float now byte
+  variable year was float now int
+  variable quarter was float now byte
+  variable estab722 was float now int
+  variable AWW722 was float now int
+  variable estab7221 was float now int
+  variable AWW7221 was float now int
+  variable estab7222 was float now int
+  variable AWW7222 was float now int
+  variable estab7223 was float now int
+  variable AWW7223 was float now int
+  variable estab7224 was float now int
+  variable AWW7224 was float now int
+  variable estabRETAIL was float now int
+  variable AWWRETAIL was float now int
+  variable AWWTOT was float now int
+  variable NDflag722 was float now byte
+  variable NDflag7221 was float now byte
+  variable NDflag7222 was float now byte
+  variable NDflag7223 was float now byte
+  variable NDflag7224 was float now byte
+  variable NDflagRETAI was float now byte
+  variable NDflagTOT was float now byte
+  variable NDflagRETAIL was float now byte
+  variable countyquarters was float now byte
+  variable sample_flag was float now byte
+  variable nonmissing_rest_all was float now byte
+  variable nonmissing_rest_full was float now byte
+  variable nonmissing_rest_limit was float now byte
+  variable nonmissing_cater was float now byte
+  variable nonmissing_bars was float now byte
+  variable nonmissing_RETAIL was float now byte
+  variable nonmissing_TOT was float now byte
+  variable nonmissing_rest_both was float now byte
+  variable censusdiv was float now byte
+  variable estabFIN was float now int
+  variable AWWFIN was float now int
+  variable estabHEAD was float now int
+  variable estabMFG was float now int
+  variable AWWMFG was float now int
+  variable estabRE was float now int
+  variable AWWRE was float now int
+  variable NDflagMFG was float now byte
+  variable NDflagFIN was float now byte
+  variable NDflagRE was float now byte
+  variable NDflagHEAD was float now byte
+  variable nonmissing_FIN was float now byte
+  variable nonmissing_RE was float now byte
+  variable nonmissing_MFG was float now byte
+  variable nonmissing_HEAD was float now byte
+  variable nonmissing_FIRE was float now byte
+  variable CA was float now byte
+  variable pop was double now long
+  (42,736,320 bytes saved)
+
+. gen all=1
+
+. 
+. egen stperiod = group(state_fips period)
+
+. 
+. gen sample_1 = (all==1)
+
+. gen sample_2 = (all==1)
+
+. gen sample_3 = (all==1)
+
+. gen sample_4 = (all==1)
+
+. 
+. gen absorb_1 = period
+
+. egen absorb_2 = group (period cbmsa) 
+(231,000 missing values generated)
+
+. egen absorb_3= group (period censusdiv)
+(94,289 missing values generated)
+
+. egen absorb_4= group (period censusdiv)
+(94,289 missing values generated)
+
+.  
+. 
+. egen countyg = group(county)
+(94,289 missing values generated)
+
+. 
+. xtset countyreal period
+
+Panel variable: countyreal (strongly balanced)
+ Time variable: period, 1 to 96
+         Delta: 1 unit
+
+. 
+. 
+. global lincomglobal "lnMW"
+
+. forval j = 1/16 {
+  2.         global lincomglobal "${lincomglobal} + L`j'.lnMW"
+  3. }
+
+. 
+. 
+. 
+. g dlnMW = D.lnMW
+(3,135 missing values generated)
+
+. 
+. global dlincomglobal "dlnMW"
+
+. forval j = 1/16 {
+  2.         global dlincomglobal "${dlincomglobal} + L`j'.dlnMW"
+  3. }
+
+. 
+. 
+. *Add event-based stuff
+. *From other calculations (if needed)
+. 
+. global E = .5628805218130546
+
+. global C = 17.30151444236615
+
+. 
+. gen statenum = state_fips
+
+. gen quarterdate = yq(year, quarter)
+
+. merge m:1 statenum quarterdate using "${data}quarterly_state_panel.dta", keep
+> using(     F12treat F8treat F4treat treat  L4treat L8treat L12treat L16treat 
+> ///
+>                                                                              
+>                                                                              
+>               postcont postcontf  precont precontf earlycont earlycontf  clea
+> nsample ///
+>                                                                              
+>                                                                              
+>               DMW_real MW_real fedincrease overallcountgr avetotalpopulation 
+> totalpopulation)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,856
+        from master                         0  (_merge==1)
+        from using                      2,856  (_merge==2)
+
+    Matched                           300,960  (_merge==3)
+    -----------------------------------------
+
+. global treat            F12treat F8treat F4treat treat  L4treat L8treat L12tr
+> eat L16treat 
+
+. *global minus 0
+. global minus (F4treat)
+
+. global lincomagg        (treat-$minus)
+
+. forval i = 4(4)16{
+  2. global lincomagg "$lincomagg + (L`i'treat - $minus ) "
+  3. }
+
+. *
+. egen avetotalpopulation2 = mean(totalpopulation), by(statenum)
+
+. 
+. **** REST *****
+. 
+. xtset countyreal period
+
+Panel variable: countyreal (unbalanced)
+ Time variable: period, 1 to 96
+         Delta: 1 unit
+
+. 
+. 
+. reghdfe lnemp_rest_both F(8/1).lnMW L(0/16).lnMW   lnpop  if nonmissing_rest_
+> both ==66   , a(countyreal period) cluster(state_fips)
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     88,320
+Absorbing 2 HDFE groups                           F(  26,     50) =      40.54
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9918
+                                                  Adj R-squared   =     0.9917
+                                                  Within R-sq.    =     0.2290
+Number of clusters (state_fips) =         51      Root MSE        =     0.1144
+
+                            (Std. err. adjusted for 51 clusters in state_fips)
+------------------------------------------------------------------------------
+             |               Robust
+lnemp_rest~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnMW |
+         F8. |  -.0908011   .0565243    -1.61   0.114    -.2043334    .0227312
+         F7. |   -.004483   .0241435    -0.19   0.853    -.0529767    .0440107
+         F6. |   .0267327   .0270683     0.99   0.328    -.0276356    .0811009
+         F5. |  -.0060559   .0365304    -0.17   0.869    -.0794294    .0673176
+         F4. |  -.0551372   .0362306    -1.52   0.134    -.1279085    .0176341
+         F3. |    .027748    .024979     1.11   0.272    -.0224237    .0779197
+         F2. |   .0377435   .0276107     1.37   0.178    -.0177142    .0932013
+         F1. |  -.1329509   .0633001    -2.10   0.041    -.2600929    -.005809
+         --. |  -.0288312   .0469826    -0.61   0.542    -.1231984     .065536
+         L1. |  -.0037051   .0170532    -0.22   0.829    -.0379574    .0305472
+         L2. |   .0071297   .0429896     0.17   0.869    -.0792175    .0934769
+         L3. |   .0080443     .04496     0.18   0.859    -.0822604    .0983491
+         L4. |  -.0585645   .0283302    -2.07   0.044    -.1154674   -.0016615
+         L5. |  -.0082937   .0267948    -0.31   0.758    -.0621125    .0455252
+         L6. |   .1222611   .0480635     2.54   0.014     .0257228    .2187995
+         L7. |  -.0526795   .0296382    -1.78   0.082    -.1122096    .0068505
+         L8. |  -.0108938   .0633602    -0.17   0.864    -.1381565     .116369
+         L9. |   .0257226   .0278387     0.92   0.360    -.0301931    .0816383
+        L10. |   .0180605   .0339121     0.53   0.597     -.050054    .0861751
+        L11. |   -.049138   .0187484    -2.62   0.012    -.0867952   -.0114808
+        L12. |  -.0375872   .0393641    -0.95   0.344    -.1166524     .041478
+        L13. |   .0295409    .028725     1.03   0.309     -.028155    .0872368
+        L14. |  -.0016493   .0293818    -0.06   0.955    -.0606644    .0573657
+        L15. |  -.0566962   .0238214    -2.38   0.021    -.1045428   -.0088496
+        L16. |  -.1180045   .0324266    -3.64   0.001    -.1831353   -.0528737
+             |
+       lnpop |   1.031623   .0619723    16.65   0.000     .9071478    1.156098
+       _cons |  -3.515443   .7945667    -4.42   0.000    -5.111377   -1.919508
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  countyreal |      1380        1380           0    *|
+      period |        64           1          63     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. lincom "${lincomglobal}"
+
+ ( 1)  lnMW + L.lnMW + L2.lnMW + L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW +
+       L7.lnMW + L8.lnMW + L9.lnMW + L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW
+       + L14.lnMW + L15.lnMW + L16.lnMW = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.2152838   .1357345    -1.59   0.119    -.4879145     .057347
+------------------------------------------------------------------------------
+
+. lincom .25*[F3.lnMW + 2*F2.lnMW + 3*F1.lnMW + 4*(${lincomglobal})]
+
+ ( 1)  .25*F3.lnMW + .5*F2.lnMW + .75*F.lnMW + lnMW + L.lnMW + L2.lnMW +
+       L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW + L7.lnMW + L8.lnMW + L9.lnMW +
+       L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW + L14.lnMW + L15.lnMW +
+       L16.lnMW = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.2891882   .1127505    -2.56   0.013    -.5156543   -.0627221
+------------------------------------------------------------------------------
+
+. lincomestadd .25*[F3.lnMW + 2*F2.lnMW + 3*F1.lnMW + 4*(${lincomglobal})], sta
+> tname(estimated_effect)
+
+ ( 1)  .25*F3.lnMW + .5*F2.lnMW + .75*F.lnMW + lnMW + L.lnMW + L2.lnMW +
+       L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW + L7.lnMW + L8.lnMW + L9.lnMW +
+       L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW + L14.lnMW + L15.lnMW +
+       L16.lnMW = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.2891882   .1127505    -2.56   0.013    -.5156543   -.0627221
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "-0.289**"
+
+added macro:
+ e(estimated_effectse) : "(0.113)"
+
+. eststo rest_TWFE
+
+. 
+.                                 sum DMW_real if fedincrease!=1 & overallcount
+> gr>0  & cleansample ==1 & year>=1990 & year<=2006   [aw=avetotalpopulation2] 
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |   1,759  1.2609e+10    .8559397   .4047671   .2514448   2.193727
+
+.                                 local mwc = r(mean)
+
+.                                 sum MW_real if  F.fedincrease!=1 & F.overallc
+> ountgr>0 & cleansample ==1  & year>=1990 & year<=2006 [aw=avetotalpopulation2
+> ] 
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |   2,181  1.6120e+10    7.250492   .8093948   6.075942   9.078788
+
+.                                 local mw = r(mean)
+
+.                                 local mwpc = `mwc'/`mw'
+
+. 
+. reghdfe lnemp_rest_both ${treat} lnpop if nonmissing_rest_both ==66 , a(state
+> num quarterdate postcont postcontf  precont precontf earlycont earlycontf ) c
+> luster(state_fips)
+(MWFE estimator converged in 17 iterations)
+
+HDFE Linear regression                            Number of obs   =     91,080
+Absorbing 8 HDFE groups                           F(   9,     50) =     654.43
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9311
+                                                  Adj R-squared   =     0.9310
+                                                  Within R-sq.    =     0.9139
+Number of clusters (state_fips) =         51      Root MSE        =     0.3303
+
+                            (Std. err. adjusted for 51 clusters in state_fips)
+------------------------------------------------------------------------------
+             |               Robust
+lnemp_rest~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0105738   .0066013    -1.60   0.116    -.0238329    .0026853
+     F8treat |  -.0026103   .0063583    -0.41   0.683    -.0153813    .0101606
+     F4treat |  -.0022823   .0082928    -0.28   0.784    -.0189389    .0143743
+       treat |   .0054629   .0085769     0.64   0.527    -.0117643    .0226901
+     L4treat |   .0034631   .0087715     0.39   0.695     -.014155    .0210812
+     L8treat |  -.0006481   .0093299    -0.07   0.945    -.0193878    .0180917
+    L12treat |  -.0033223   .0061283    -0.54   0.590    -.0156313    .0089868
+    L16treat |  -.0150182   .0085484    -1.76   0.085    -.0321881    .0021518
+       lnpop |   1.093903   .0159944    68.39   0.000     1.061777    1.126029
+       _cons |  -4.841218   .1807228   -26.79   0.000     -5.20421   -4.478225
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |        66           1          65     |
+    postcont |         8           1           7     |
+   postcontf |         3           1           2    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. lincom (($lincomagg) * (1/5))/`mwpc'
+
+ ( 1)  - 8.470797*F4treat + 1.694159*treat + 1.694159*L4treat +
+       1.694159*L8treat + 1.694159*L12treat + 1.694159*L16treat = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0022857   .0560155     0.04   0.968    -.1102248    .1147962
+------------------------------------------------------------------------------
+
+. lincomestadd (($lincomagg) * (1/5))/`mwpc', statname(estimated_effect)
+
+ ( 1)  - 8.470797*F4treat + 1.694159*treat + 1.694159*L4treat +
+       1.694159*L8treat + 1.694159*L12treat + 1.694159*L16treat = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0022857   .0560155     0.04   0.968    -.1102248    .1147962
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "0.002"
+
+added macro:
+ e(estimated_effectse) : "(0.056)"
+
+. eststo rest_EBD
+
+. 
+. 
+. 
+. 
+. 
+. reghdfe D.lnemp_rest_both F(8/1).dlnMW L(0/16).dlnMW D.lnpop  if nonmissing_r
+> est_both==66  , a(countyreal period) cluster(state_fips)
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     86,940
+Absorbing 2 HDFE groups                           F(  26,     50) =      14.01
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.2451
+                                                  Adj R-squared   =     0.2321
+                                                  Within R-sq.    =     0.0057
+Number of clusters (state_fips) =         51      Root MSE        =     0.0821
+
+                            (Std. err. adjusted for 51 clusters in state_fips)
+------------------------------------------------------------------------------
+D.           |               Robust
+lnemp_rest~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       dlnMW |
+         F8. |  -.0485355    .019565    -2.48   0.017    -.0878329   -.0092381
+         F7. |   .0069564   .0250692     0.28   0.783    -.0433965    .0573093
+         F6. |     .04145   .0211972     1.96   0.056    -.0011258    .0840259
+         F5. |  -.0062134   .0240141    -0.26   0.797    -.0544473    .0420204
+         F4. |  -.0655906   .0255758    -2.56   0.013    -.1169611   -.0142202
+         F3. |   .0449929   .0283907     1.58   0.119    -.0120315    .1020174
+         F2. |   .0528403   .0324981     1.63   0.110     -.012434    .1181146
+         F1. |  -.0327179   .0239952    -1.36   0.179    -.0809136    .0154778
+         --. |  -.0529137   .0245685    -2.15   0.036    -.1022608   -.0035665
+         L1. |    .008668   .0169019     0.51   0.610    -.0252805    .0426166
+         L2. |   .0437865   .0306712     1.43   0.160    -.0178184    .1053915
+         L3. |  -.0068783   .0282705    -0.24   0.809    -.0636612    .0499047
+         L4. |   -.063159   .0298589    -2.12   0.039    -.1231324   -.0031856
+         L5. |  -.0088721   .0270146    -0.33   0.744    -.0631326    .0453884
+         L6. |   .0759999   .0217985     3.49   0.001     .0322163    .1197835
+         L7. |  -.0421713   .0251964    -1.67   0.100    -.0927796    .0084371
+         L8. |   .0134485   .0565788     0.24   0.813    -.1001933    .1270904
+         L9. |   .0386714   .0209659     1.84   0.071    -.0034399    .0807826
+        L10. |   .0464158   .0320858     1.45   0.154    -.0180303     .110862
+        L11. |  -.0397819   .0166362    -2.39   0.021    -.0731967   -.0063672
+        L12. |  -.0543859   .0388536    -1.40   0.168    -.1324257    .0236539
+        L13. |   .0403876   .0284994     1.42   0.163    -.0168551    .0976303
+        L14. |   .0021265   .0304092     0.07   0.945    -.0589522    .0632053
+        L15. |  -.0405823     .02273    -1.79   0.080    -.0862369    .0050722
+        L16. |  -.0286525   .0270304    -1.06   0.294    -.0829446    .0256397
+             |
+       lnpop |
+         D1. |   .6859731    .268058     2.56   0.014     .1475627    1.224383
+             |
+       _cons |   .0064076   .0009868     6.49   0.000     .0044257    .0083896
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  countyreal |      1380        1380           0    *|
+      period |        63           1          62     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. lincom "${dlincomglobal}"
+
+ ( 1)  dlnMW + L.dlnMW + L2.dlnMW + L3.dlnMW + L4.dlnMW + L5.dlnMW + L6.dlnMW +
+       L7.dlnMW + L8.dlnMW + L9.dlnMW + L10.dlnMW + L11.dlnMW + L12.dlnMW +
+       L13.dlnMW + L14.dlnMW + L15.dlnMW + L16.dlnMW = 0
+
+------------------------------------------------------------------------------
+D.           |
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0678926   .1006006    -0.67   0.503    -.2699549    .1341696
+------------------------------------------------------------------------------
+
+. lincom .25*[F3.dlnMW + 2*F2.dlnMW + 3*F1.dlnMW + 4*(${dlincomglobal})]
+
+ ( 1)  .25*F3.dlnMW + .5*F2.dlnMW + .75*F.dlnMW + dlnMW + L.dlnMW + L2.dlnMW +
+       L3.dlnMW + L4.dlnMW + L5.dlnMW + L6.dlnMW + L7.dlnMW + L8.dlnMW +
+       L9.dlnMW + L10.dlnMW + L11.dlnMW + L12.dlnMW + L13.dlnMW + L14.dlnMW +
+       L15.dlnMW + L16.dlnMW = 0
+
+------------------------------------------------------------------------------
+D.           |
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0547627   .0939628    -0.58   0.563    -.2434926    .1339672
+------------------------------------------------------------------------------
+
+. lincomestadd .25*[F3.dlnMW + 2*F2.dlnMW + 3*F1.dlnMW + 4*(${dlincomglobal})],
+>  statname(estimated_effect)
+
+ ( 1)  .25*F3.dlnMW + .5*F2.dlnMW + .75*F.dlnMW + dlnMW + L.dlnMW + L2.dlnMW +
+       L3.dlnMW + L4.dlnMW + L5.dlnMW + L6.dlnMW + L7.dlnMW + L8.dlnMW +
+       L9.dlnMW + L10.dlnMW + L11.dlnMW + L12.dlnMW + L13.dlnMW + L14.dlnMW +
+       L15.dlnMW + L16.dlnMW = 0
+
+------------------------------------------------------------------------------
+D.           |
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0547627   .0939628    -0.58   0.563    -.2434926    .1339672
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "-0.055"
+
+added macro:
+ e(estimated_effectse) : "(0.094)"
+
+. eststo rest_FD
+
+. 
+. 
+. *** TOT ***
+. 
+. g lnepop = lnemp_TOT - lnpop
+(97,522 missing values generated)
+
+. 
+. reghdfe lnemp_TOT F(8/1).lnMW L(0/16).lnMW  lnpop    if nonmissing_TOT==66   
+>  , a(countyreal period) cluster(state_fips)
+(MWFE estimator converged in 3 iterations)
+
+HDFE Linear regression                            Number of obs   =    197,631
+Absorbing 2 HDFE groups                           F(  26,     50) =      52.76
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9957
+                                                  Adj R-squared   =     0.9956
+                                                  Within R-sq.    =     0.2177
+Number of clusters (state_fips) =         51      Root MSE        =     0.1085
+
+                            (Std. err. adjusted for 51 clusters in state_fips)
+------------------------------------------------------------------------------
+             |               Robust
+   lnemp_TOT | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnMW |
+         F8. |  -.0280152   .0306692    -0.91   0.365    -.0896161    .0335857
+         F7. |   .0237859   .0272554     0.87   0.387    -.0309583      .07853
+         F6. |   .0450776    .026655     1.69   0.097    -.0084606    .0986158
+         F5. |  -.0257077    .029619    -0.87   0.390    -.0851992    .0337839
+         F4. |  -.0625114   .0301412    -2.07   0.043    -.1230517   -.0019711
+         F3. |   .0849359   .0392112     2.17   0.035      .006178    .1636938
+         F2. |   .0768115   .0332526     2.31   0.025     .0100216    .1436013
+         F1. |  -.0383205   .0733908    -0.52   0.604    -.1857304    .1090893
+         --. |  -.0631911   .0387263    -1.63   0.109    -.1409751    .0145929
+         L1. |  -.0103922    .031804    -0.33   0.745    -.0742725    .0534881
+         L2. |   .0279592   .0318396     0.88   0.384    -.0359926    .0919109
+         L3. |  -.0879422   .0426241    -2.06   0.044    -.1735551   -.0023292
+         L4. |  -.0390013   .0473011    -0.82   0.414    -.1340084    .0560059
+         L5. |   .0535465   .0380394     1.41   0.165    -.0228579    .1299508
+         L6. |   .1108986    .043225     2.57   0.013     .0240785    .1977186
+         L7. |  -.0408378   .0324489    -1.26   0.214    -.1060134    .0243377
+         L8. |  -.0606687   .0321778    -1.89   0.065    -.1252998    .0039624
+         L9. |   .0358945   .0341606     1.05   0.298     -.032719     .104508
+        L10. |   .0600372   .0371984     1.61   0.113    -.0146779    .1347523
+        L11. |  -.0876762   .0479571    -1.83   0.073    -.1840008    .0086484
+        L12. |  -.0097821   .0466085    -0.21   0.835    -.1033979    .0838338
+        L13. |   .0080685   .0366351     0.22   0.827    -.0655153    .0816522
+        L14. |  -.0037597   .0476468    -0.08   0.937    -.0994611    .0919416
+        L15. |  -.0015271   .0604788    -0.03   0.980    -.1230022    .1199481
+        L16. |  -.0539497   .0455548    -1.18   0.242    -.1454491    .0375498
+             |
+       lnpop |   .9291902   .0582076    15.96   0.000     .8122767    1.046104
+       _cons |  -.5580333    .603449    -0.92   0.360    -1.770096    .6540298
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  countyreal |      3088        3088           0    *|
+      period |        64           1          63     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. lincom "${lincomglobal}"
+
+ ( 1)  lnMW + L.lnMW + L2.lnMW + L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW +
+       L7.lnMW + L8.lnMW + L9.lnMW + L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW
+       + L14.lnMW + L15.lnMW + L16.lnMW = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.1623236     .12476    -1.30   0.199    -.4129115    .0882642
+------------------------------------------------------------------------------
+
+. lincom .25*[F3.lnMW + 2*F2.lnMW + 3*F1.lnMW + 4*(${lincomglobal})]
+
+ ( 1)  .25*F3.lnMW + .5*F2.lnMW + .75*F.lnMW + lnMW + L.lnMW + L2.lnMW +
+       L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW + L7.lnMW + L8.lnMW + L9.lnMW +
+       L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW + L14.lnMW + L15.lnMW +
+       L16.lnMW = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.1314243   .0911919    -1.44   0.156    -.3145887      .05174
+------------------------------------------------------------------------------
+
+. lincomestadd .25*[F3.lnMW + 2*F2.lnMW + 3*F1.lnMW + 4*(${lincomglobal})], sta
+> tname(estimated_effect)
+
+ ( 1)  .25*F3.lnMW + .5*F2.lnMW + .75*F.lnMW + lnMW + L.lnMW + L2.lnMW +
+       L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW + L7.lnMW + L8.lnMW + L9.lnMW +
+       L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW + L14.lnMW + L15.lnMW +
+       L16.lnMW = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.1314243   .0911919    -1.44   0.156    -.3145887      .05174
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "-0.131"
+
+added macro:
+ e(estimated_effectse) : "(0.091)"
+
+. eststo tot_TWFE
+
+. 
+. reghdfe lnemp_TOT ${treat} lnpop if nonmissing_TOT ==66  , a(statenum quarter
+> date postcont postcontf  precont precontf earlycont earlycontf ) cluster(stat
+> e_fips)
+(MWFE estimator converged in 18 iterations)
+
+HDFE Linear regression                            Number of obs   =    203,807
+Absorbing 8 HDFE groups                           F(   9,     50) =     645.62
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9486
+                                                  Adj R-squared   =     0.9486
+                                                  Within R-sq.    =     0.9281
+Number of clusters (state_fips) =         51      Root MSE        =     0.3712
+
+                            (Std. err. adjusted for 51 clusters in state_fips)
+------------------------------------------------------------------------------
+             |               Robust
+   lnemp_TOT | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0031467   .0078669     0.40   0.691    -.0126544    .0189478
+     F8treat |  -.0010432   .0068558    -0.15   0.880    -.0148135     .012727
+     F4treat |  -.0086735   .0075312    -1.15   0.255    -.0238003    .0064533
+       treat |  -.0096836   .0081576    -1.19   0.241    -.0260687    .0067015
+     L4treat |  -.0085271   .0055216    -1.54   0.129    -.0196175    .0025633
+     L8treat |  -.0124968   .0057695    -2.17   0.035    -.0240851   -.0009084
+    L12treat |  -.0110827   .0034909    -3.17   0.003    -.0180945    -.004071
+    L16treat |  -.0155551   .0035531    -4.38   0.000    -.0226916   -.0084186
+       lnpop |   1.173352   .0169154    69.37   0.000     1.139376    1.207327
+       _cons |  -3.178188   .1733585   -18.33   0.000    -3.526389   -2.829988
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+ quarterdate |        66           1          65     |
+    postcont |         8           1           7     |
+   postcontf |         3           1           2    ?|
+     precont |         4           1           3    ?|
+    precontf |         3           1           2    ?|
+   earlycont |         5           1           4    ?|
+  earlycontf |         3           1           2    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. lincom (($lincomagg) * (1/5))/`mwpc'
+
+ ( 1)  - 8.470797*F4treat + 1.694159*treat + 1.694159*L4treat +
+       1.694159*L8treat + 1.694159*L12treat + 1.694159*L16treat = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0236806   .0524134    -0.45   0.653    -.1289559    .0815947
+------------------------------------------------------------------------------
+
+. lincomestadd (($lincomagg) * (1/5))/`mwpc', statname(estimated_effect)
+
+ ( 1)  - 8.470797*F4treat + 1.694159*treat + 1.694159*L4treat +
+       1.694159*L8treat + 1.694159*L12treat + 1.694159*L16treat = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0236806   .0524134    -0.45   0.653    -.1289559    .0815947
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "-0.024"
+
+added macro:
+ e(estimated_effectse) : "(0.052)"
+
+. eststo tot_EBD
+
+. 
+. reghdfe D.lnemp_TOT F(8/1).dlnMW L(0/16).dlnMW D.lnpop  if nonmissing_TOT==66
+>   , a(countyreal period) cluster(state_fips)
+(MWFE estimator converged in 3 iterations)
+
+HDFE Linear regression                            Number of obs   =    194,542
+Absorbing 2 HDFE groups                           F(  26,     50) =      13.58
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1778
+                                                  Adj R-squared   =     0.1642
+                                                  Within R-sq.    =     0.0051
+Number of clusters (state_fips) =         51      Root MSE        =     0.0693
+
+                            (Std. err. adjusted for 51 clusters in state_fips)
+------------------------------------------------------------------------------
+             |               Robust
+ D.lnemp_TOT | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       dlnMW |
+         F8. |  -.0320924   .0131375    -2.44   0.018    -.0584798   -.0057049
+         F7. |   .0275745   .0263669     1.05   0.301     -.025385     .080534
+         F6. |   .0424051   .0195292     2.17   0.035     .0031796    .0816306
+         F5. |  -.0364134   .0266141    -1.37   0.177    -.0898693    .0170425
+         F4. |  -.0533362   .0229855    -2.32   0.024    -.0995039   -.0071685
+         F3. |   .0415808   .0325152     1.28   0.207     -.023728    .1068896
+         F2. |   .0605501   .0431878     1.40   0.167    -.0261952    .1472953
+         F1. |  -.0641471   .0453934    -1.41   0.164    -.1553223    .0270282
+         --. |  -.0178801   .0299844    -0.60   0.554    -.0781055    .0423453
+         L1. |   .0171547   .0233342     0.74   0.466    -.0297133    .0640228
+         L2. |   .0883554   .0258173     3.42   0.001     .0364998    .1402109
+         L3. |  -.0545082   .0390424    -1.40   0.169    -.1329271    .0239107
+         L4. |  -.0477879   .0282345    -1.69   0.097    -.1044986    .0089229
+         L5. |   .0530621   .0369768     1.44   0.158     -.021208    .1273321
+         L6. |   .0743464   .0256637     2.90   0.006     .0227994    .1258934
+         L7. |  -.0420726   .0334681    -1.26   0.215    -.1092952    .0251501
+         L8. |  -.0391821   .0310383    -1.26   0.213    -.1015245    .0231602
+         L9. |   .0390752    .030308     1.29   0.203    -.0218002    .0999505
+        L10. |   .0715776   .0296319     2.42   0.019     .0120601    .1310951
+        L11. |  -.0812171   .0502315    -1.62   0.112      -.18211    .0196758
+        L12. |  -.0374108   .0310003    -1.21   0.233    -.0996767    .0248551
+        L13. |    .015977   .0381421     0.42   0.677    -.0606337    .0925876
+        L14. |   .0019047   .0489834     0.04   0.969    -.0964813    .1002906
+        L15. |   .0090971   .0604013     0.15   0.881    -.1122225    .1304166
+        L16. |  -.0204473   .0280271    -0.73   0.469    -.0767414    .0358469
+             |
+       lnpop |
+         D1. |   .3389071   .1005752     3.37   0.001      .136896    .5409182
+             |
+       _cons |   .0029453   .0007652     3.85   0.000     .0014085    .0044822
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  countyreal |      3088        3088           0    *|
+      period |        63           1          62     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. lincom "${dlincomglobal}"
+
+ ( 1)  dlnMW + L.dlnMW + L2.dlnMW + L3.dlnMW + L4.dlnMW + L5.dlnMW + L6.dlnMW +
+       L7.dlnMW + L8.dlnMW + L9.dlnMW + L10.dlnMW + L11.dlnMW + L12.dlnMW +
+       L13.dlnMW + L14.dlnMW + L15.dlnMW + L16.dlnMW = 0
+
+------------------------------------------------------------------------------
+ D.lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |    .030044   .0897359     0.33   0.739    -.1501958    .2102838
+------------------------------------------------------------------------------
+
+. lincom .25*[F3.dlnMW + 2*F2.dlnMW + 3*F1.dlnMW + 4*(${dlincomglobal})]
+
+ ( 1)  .25*F3.dlnMW + .5*F2.dlnMW + .75*F.dlnMW + dlnMW + L.dlnMW + L2.dlnMW +
+       L3.dlnMW + L4.dlnMW + L5.dlnMW + L6.dlnMW + L7.dlnMW + L8.dlnMW +
+       L9.dlnMW + L10.dlnMW + L11.dlnMW + L12.dlnMW + L13.dlnMW + L14.dlnMW +
+       L15.dlnMW + L16.dlnMW = 0
+
+------------------------------------------------------------------------------
+ D.lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |    .022604   .0937241     0.24   0.810    -.1656465    .2108544
+------------------------------------------------------------------------------
+
+. lincomestadd .25*[F3.dlnMW + 2*F2.dlnMW + 3*F1.dlnMW + 4*(${dlincomglobal})],
+>  statname(estimated_effect)
+
+ ( 1)  .25*F3.dlnMW + .5*F2.dlnMW + .75*F.dlnMW + dlnMW + L.dlnMW + L2.dlnMW +
+       L3.dlnMW + L4.dlnMW + L5.dlnMW + L6.dlnMW + L7.dlnMW + L8.dlnMW +
+       L9.dlnMW + L10.dlnMW + L11.dlnMW + L12.dlnMW + L13.dlnMW + L14.dlnMW +
+       L15.dlnMW + L16.dlnMW = 0
+
+------------------------------------------------------------------------------
+ D.lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |    .022604   .0937241     0.24   0.810    -.1656465    .2108544
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "0.023"
+
+added macro:
+ e(estimated_effectse) : "(0.094)"
+
+. eststo tot_FD
+
+. 
+. 
+. *********************** CONTIGUOUS COUNTIES *********************************
+> ********
+. drop _all 
+
+. 
+. use "${data}QCEWindustry_minwage_contig.dta", clear
+
+. 
+. **
+. 
+. egen pair_id_num = group(pair_id)
+(192 missing values generated)
+
+. gen sample_5 = 1
+
+. gen absorb_5 = period
+(192 missing values generated)
+
+. gen sample_6 = 1
+
+. egen absorb_6 = group(pair_id period)
+(192 missing values generated)
+
+. 
+. sort  pair_id period
+
+.  
+. gen state_a = real(substr(pair_id, 1,2))
+(192 missing values generated)
+
+. gen state_b = real(substr(pair_id, 7,2))
+(192 missing values generated)
+
+. 
+. gen st_min = min( state_a, state_b)
+(192 missing values generated)
+
+. gen st_max = max(state_a, state_b)
+(192 missing values generated)
+
+. egen bordersegment = group(st_min st_max)
+(192 missing values generated)
+
+.  
+. 
+. egen county_pair_id = group(countyreal pair_id)
+(192 missing values generated)
+
+. 
+. 
+. 
+. global lincomglobal "lnMW"
+
+. forval j = 1/16 {
+  2.         global lincomglobal "${lincomglobal} + L`j'.lnMW"
+  3. }
+
+. 
+.  
+. global dlincomglobal "dlnMW"
+
+. forval j = 1/15 {
+  2.         global dlincomglobal "${dlincomglobal} + L`j'.dlnMW"
+  3. }
+
+. 
+. xtset pair_id_county period
+
+Panel variable: pair_id_county (unbalanced)
+ Time variable: period, 1 to 96
+         Delta: 1 unit
+
+. 
+. g dlnMW = D.lnMW
+(2,363 missing values generated)
+
+. 
+. 
+. *Add event-based stuff
+. *From other calculations (if needed)
+. 
+. global E = .5628805218130546
+
+. global C = 17.30151444236615
+
+. 
+. gen statenum = state_fips
+
+. gen quarterdate = yq(year, quarter)
+
+. merge m:1 statenum quarterdate using "${data}quarterly_state_panel.dta", keep
+> using(     F12treat F8treat F4treat treat  L4treat L8treat L12treat L16treat 
+> ///
+>                                                                              
+>                                                                              
+>               postcont postcontf  precont precontf earlycont earlycontf  clea
+> nsample ///
+>                                                                              
+>                                                                              
+>               DMW_real MW_real fedincrease overallcountgr avetotalpopulation 
+> totalpopulation)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         3,144
+        from master                       288  (_merge==1)
+        from using                      2,856  (_merge==2)
+
+    Matched                           226,656  (_merge==3)
+    -----------------------------------------
+
+. global treat            F12treat F8treat F4treat treat  L4treat L8treat L12tr
+> eat L16treat 
+
+. *global minus 0
+. global minus (F4treat)
+
+. global lincomagg        (treat-$minus)
+
+. forval i = 4(4)16{
+  2. global lincomagg "$lincomagg + (L`i'treat - $minus ) "
+  3. }
+
+. *
+. egen avetotalpopulation2 = mean(totalpopulation), by(statenum)
+(288 missing values generated)
+
+. 
+. **** REST *****
+. 
+. xtset pair_id_county period
+
+Panel variable: pair_id_county (unbalanced)
+ Time variable: period, 1 to 96
+         Delta: 1 unit
+
+. 
+. 
+. **** REST *****
+. 
+.  
+. reghdfe lnemp_rest_both F(8/1).lnMW L(0/16).lnMW lnpop  if nonmissing_rest_bo
+> th==66   , a(countyreal absorb_6) cluster(state_fips bordersegment)
+(dropped 28032 singleton observations)
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     40,448
+Absorbing 2 HDFE groups                           F(  26,     49) =       7.32
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9971
+                                                  Adj R-squared   =     0.9941
+Number of clusters (state_fips) =         50      Within R-sq.    =     0.2259
+Number of clusters (bordersegment) =         77   Root MSE        =     0.0999
+
+              (Std. err. adjusted for 50 clusters in state_fips bordersegment)
+------------------------------------------------------------------------------
+             |               Robust
+lnemp_rest~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnMW |
+         F8. |  -.0345253   .0349644    -0.99   0.328    -.1047888    .0357383
+         F7. |   .0059249    .025961     0.23   0.820    -.0462456    .0580954
+         F6. |  -.0087246   .0255328    -0.34   0.734    -.0600347    .0425855
+         F5. |   .0067492   .0170125     0.40   0.693    -.0274386     .040937
+         F4. |   .0396596   .0509973     0.78   0.440    -.0628234    .1421425
+         F3. |   .0535384   .0436544     1.23   0.226    -.0341884    .1412652
+         F2. |   .0660233   .0336337     1.96   0.055    -.0015662    .1336128
+         F1. |   .0234486   .0374491     0.63   0.534    -.0518081    .0987053
+         --. |   -.024342   .0499986    -0.49   0.629    -.1248179     .076134
+         L1. |   -.053289   .0386529    -1.38   0.174     -.130965     .024387
+         L2. |  -.0389411   .0386445    -1.01   0.319    -.1166002    .0387179
+         L3. |   .0430011   .0367602     1.17   0.248    -.0308713    .1168736
+         L4. |  -.0119898   .0390743    -0.31   0.760    -.0905124    .0665329
+         L5. |   -.003734   .0290254    -0.13   0.898    -.0620628    .0545947
+         L6. |   -.096708    .077964    -1.24   0.221    -.2533824    .0599665
+         L7. |  -.0098825   .0423987    -0.23   0.817     -.095086    .0753209
+         L8. |   .0983715    .034813     2.83   0.007     .0284122    .1683307
+         L9. |   -.034572   .0335608    -1.03   0.308    -.1020149    .0328708
+        L10. |   .0476073   .0482254     0.99   0.328    -.0493053      .14452
+        L11. |   .0075493   .0373762     0.20   0.841     -.067561    .0826597
+        L12. |  -.0054557   .0288953    -0.19   0.851     -.063523    .0526116
+        L13. |   .0054926   .0436964     0.13   0.900    -.0823186    .0933038
+        L14. |  -.0558535   .0452082    -1.24   0.223    -.1467029    .0349959
+        L15. |   .0614968   .0304015     2.02   0.049     .0004027    .1225909
+        L16. |   -.009126   .0465983    -0.20   0.846    -.1027687    .0845167
+             |
+       lnpop |   1.121996   .1099795    10.20   0.000     .9009845    1.343008
+       _cons |  -5.323666   1.306229    -4.08   0.000    -7.948632     -2.6987
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  countyreal |       383         383           0    *|
+    absorb_6 |     20224       20224           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. lincom "${lincomglobal}"
+
+ ( 1)  lnMW + L.lnMW + L2.lnMW + L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW +
+       L7.lnMW + L8.lnMW + L9.lnMW + L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW
+       + L14.lnMW + L15.lnMW + L16.lnMW = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0803749   .0798488    -1.01   0.319    -.2408371    .0800873
+------------------------------------------------------------------------------
+
+. lincom .25*[F3.lnMW + 2*F2.lnMW + 3*F1.lnMW + 4*(${lincomglobal})]
+
+ ( 1)  .25*F3.lnMW + .5*F2.lnMW + .75*F.lnMW + lnMW + L.lnMW + L2.lnMW +
+       L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW + L7.lnMW + L8.lnMW + L9.lnMW +
+       L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW + L14.lnMW + L15.lnMW +
+       L16.lnMW = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0163923   .0820239    -0.20   0.842    -.1812255     .148441
+------------------------------------------------------------------------------
+
+. lincomestadd .25*[F3.lnMW + 2*F2.lnMW + 3*F1.lnMW + 4*(${lincomglobal})], sta
+> tname(estimated_effect)
+
+ ( 1)  .25*F3.lnMW + .5*F2.lnMW + .75*F.lnMW + lnMW + L.lnMW + L2.lnMW +
+       L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW + L7.lnMW + L8.lnMW + L9.lnMW +
+       L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW + L14.lnMW + L15.lnMW +
+       L16.lnMW = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0163923   .0820239    -0.20   0.842    -.1812255     .148441
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "-0.016"
+
+added macro:
+ e(estimated_effectse) : "(0.082)"
+
+. eststo rest_BCP
+
+. 
+. 
+. 
+.                                 sum DMW_real if fedincrease!=1 & overallcount
+> gr>0  & cleansample ==1  & year>=1990 & year<=2006 [aw=avetotalpopulation2] 
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |   1,344  7.9910e+09    .8295648    .338859   .2514448   2.193727
+
+.                                 local mwc = r(mean)
+
+.                                 sum MW_real if  F.fedincrease!=1 & F.overallc
+> ountgr>0 & cleansample ==1  & year>=1990 & year<=2006 [aw=avetotalpopulation2
+> ] 
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |   1,696  1.0582e+10    7.233296   .8255297   6.075942   9.078788
+
+.                                 local mw = r(mean)
+
+.                                 local mwpc = `mwc'/`mw'
+
+. 
+. 
+. reghdfe lnemp_rest_both ${treat} lnpop  if nonmissing_rest_both==66   , a(cou
+> ntyreal absorb_6) cluster(state_fips bordersegment)
+(dropped 29106 singleton observations)
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     41,316
+Absorbing 2 HDFE groups                           F(   9,     48) =      13.82
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9970
+                                                  Adj R-squared   =     0.9939
+Number of clusters (state_fips) =         49      Within R-sq.    =     0.2347
+Number of clusters (bordersegment) =         76   Root MSE        =     0.1005
+
+              (Std. err. adjusted for 49 clusters in state_fips bordersegment)
+------------------------------------------------------------------------------
+             |               Robust
+lnemp_rest~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0075622    .006123    -1.24   0.223    -.0198733     .004749
+     F8treat |  -.0116304   .0074819    -1.55   0.127    -.0266738    .0034131
+     F4treat |  -.0053249   .0071091    -0.75   0.457    -.0196187    .0089689
+       treat |   .0018726   .0089231     0.21   0.835    -.0160685    .0198137
+     L4treat |  -.0066709   .0082868    -0.81   0.425    -.0233326    .0099907
+     L8treat |   .0059866   .0079917     0.75   0.457    -.0100818     .022055
+    L12treat |  -.0001171    .007588    -0.02   0.988    -.0153738    .0151397
+    L16treat |  -.0029397   .0114664    -0.26   0.799    -.0259945     .020115
+       lnpop |   1.114331   .1032987    10.79   0.000     .9066346    1.322026
+       _cons |  -5.120937    1.18932    -4.31   0.000    -7.512225   -2.729648
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  countyreal |       379         379           0    *|
+    absorb_6 |     20658       20658           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. lincom (($lincomagg) * (1/5))/`mwpc'
+
+ ( 1)  - 8.719387*F4treat + 1.743877*treat + 1.743877*L4treat +
+       1.743877*L8treat + 1.743877*L12treat + 1.743877*L16treat = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0431716   .0551484     0.78   0.438    -.0677116    .1540548
+------------------------------------------------------------------------------
+
+. lincomestadd (($lincomagg) * (1/5))/`mwpc', statname(estimated_effect)
+
+ ( 1)  - 8.719387*F4treat + 1.743877*treat + 1.743877*L4treat +
+       1.743877*L8treat + 1.743877*L12treat + 1.743877*L16treat = 0
+
+------------------------------------------------------------------------------
+lnemp_rest~h | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0431716   .0551484     0.78   0.438    -.0677116    .1540548
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "0.043"
+
+added macro:
+ e(estimated_effectse) : "(0.055)"
+
+. eststo rest_EBD_BCP
+
+. 
+. 
+.                                 
+.                         
+. 
+. 
+. *** TOT ***
+. 
+. g lnepop = lnemp_TOT - lnpop
+(74,579 missing values generated)
+
+. 
+. reghdfe lnemp_TOT F(8/1).lnMW L(0/16).lnMW  lnpop     if nonmissing_TOT==66  
+>   , a(countyreal absorb_6) cluster(state_fips bordersegment)
+(dropped 3200 singleton observations)
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =    144,768
+Absorbing 2 HDFE groups                           F(  26,     49) =       9.11
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9980
+                                                  Adj R-squared   =     0.9959
+Number of clusters (state_fips) =         50      Within R-sq.    =     0.1755
+Number of clusters (bordersegment) =        109   Root MSE        =     0.1045
+
+              (Std. err. adjusted for 50 clusters in state_fips bordersegment)
+------------------------------------------------------------------------------
+             |               Robust
+   lnemp_TOT | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        lnMW |
+         F8. |   .0187296   .0322746     0.58   0.564    -.0461286    .0835878
+         F7. |   .0074684   .0179752     0.42   0.680     -.028654    .0435909
+         F6. |  -.0216173   .0187749    -1.15   0.255    -.0593468    .0161122
+         F5. |   .0290045   .0172045     1.69   0.098    -.0055693    .0635783
+         F4. |   .0401915   .0422364     0.95   0.346    -.0446857    .1250686
+         F3. |   .0492569   .0366954     1.34   0.186    -.0244853    .1229991
+         F2. |  -.0074397   .0171186    -0.43   0.666    -.0418408    .0269615
+         F1. |    .036356   .0387338     0.94   0.353    -.0414825    .1141944
+         --. |  -.0128176   .0442646    -0.29   0.773    -.1017705    .0761354
+         L1. |  -.0004936   .0252827    -0.02   0.985    -.0513011    .0503139
+         L2. |  -.0168057   .0188311    -0.89   0.377    -.0546481    .0210368
+         L3. |  -.0365764   .0279169    -1.31   0.196    -.0926776    .0195247
+         L4. |   .0649348   .0385013     1.69   0.098    -.0124365    .1423062
+         L5. |   .0030061   .0295773     0.10   0.919    -.0564317     .062444
+         L6. |  -.0402528   .0329853    -1.22   0.228    -.1065393    .0260336
+         L7. |  -.0236266   .0226823    -1.04   0.303    -.0692084    .0219552
+         L8. |   .0375614    .018349     2.05   0.046     .0006876    .0744351
+         L9. |   .0157858   .0151962     1.04   0.304     -.014752    .0463236
+        L10. |  -.0133476   .0139759    -0.96   0.344    -.0414332    .0147381
+        L11. |  -.0217088   .0143522    -1.51   0.137    -.0505507    .0071331
+        L12. |   .0267059    .030769     0.87   0.390    -.0351266    .0885385
+        L13. |  -.0164195   .0239285    -0.69   0.496    -.0645056    .0316667
+        L14. |  -.0153146   .0192831    -0.79   0.431    -.0540653    .0234362
+        L15. |  -.0232199   .0170713    -1.36   0.180     -.057526    .0110861
+        L16. |   .0379377   .0400989     0.95   0.349     -.042644    .1185195
+             |
+       lnpop |   1.069975   .0980911    10.91   0.000     .8728534    1.267096
+       _cons |  -2.295803   1.054184    -2.18   0.034    -4.414265   -.1773416
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  countyreal |      1111        1111           0    *|
+    absorb_6 |     72384       72384           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. lincom "${lincomglobal}"
+
+ ( 1)  lnMW + L.lnMW + L2.lnMW + L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW +
+       L7.lnMW + L8.lnMW + L9.lnMW + L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW
+       + L14.lnMW + L15.lnMW + L16.lnMW = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0346512   .0655285    -0.53   0.599    -.1663357    .0970332
+------------------------------------------------------------------------------
+
+. lincom .25*[F3.lnMW + 2*F2.lnMW + 3*F1.lnMW + 4*(${lincomglobal})]
+
+ ( 1)  .25*F3.lnMW + .5*F2.lnMW + .75*F.lnMW + lnMW + L.lnMW + L2.lnMW +
+       L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW + L7.lnMW + L8.lnMW + L9.lnMW +
+       L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW + L14.lnMW + L15.lnMW +
+       L16.lnMW = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0012101     .07311     0.02   0.987      -.14571    .1481303
+------------------------------------------------------------------------------
+
+. lincomestadd .25*[F3.lnMW + 2*F2.lnMW + 3*F1.lnMW + 4*(${lincomglobal})], sta
+> tname(estimated_effect)
+
+ ( 1)  .25*F3.lnMW + .5*F2.lnMW + .75*F.lnMW + lnMW + L.lnMW + L2.lnMW +
+       L3.lnMW + L4.lnMW + L5.lnMW + L6.lnMW + L7.lnMW + L8.lnMW + L9.lnMW +
+       L10.lnMW + L11.lnMW + L12.lnMW + L13.lnMW + L14.lnMW + L15.lnMW +
+       L16.lnMW = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0012101     .07311     0.02   0.987      -.14571    .1481303
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "0.001"
+
+added macro:
+ e(estimated_effectse) : "(0.073)"
+
+. eststo tot_BCP 
+
+. 
+. reghdfe lnemp_TOT ${treat}  lnpop     if nonmissing_TOT==66    , a(countyreal
+>  absorb_6) cluster(state_fips bordersegment)
+(dropped 3498 singleton observations)
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =    148,896
+Absorbing 2 HDFE groups                           F(   9,     48) =      19.85
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9979
+                                                  Adj R-squared   =     0.9957
+Number of clusters (state_fips) =         49      Within R-sq.    =     0.1799
+Number of clusters (bordersegment) =        108   Root MSE        =     0.1055
+
+              (Std. err. adjusted for 49 clusters in state_fips bordersegment)
+------------------------------------------------------------------------------
+             |               Robust
+   lnemp_TOT | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0013923   .0048701    -0.29   0.776    -.0111843    .0083997
+     F8treat |   .0006453   .0051429     0.13   0.901    -.0096951    .0109857
+     F4treat |    .005697   .0055815     1.02   0.313    -.0055254    .0169194
+       treat |    .014341   .0078514     1.83   0.074    -.0014452    .0301273
+     L4treat |   .0107521   .0060225     1.79   0.081    -.0013569    .0228611
+     L8treat |   .0096981    .004317     2.25   0.029     .0010183     .018378
+    L12treat |   .0036726   .0056427     0.65   0.518    -.0076728    .0150179
+    L16treat |   .0072793   .0067868     1.07   0.289    -.0063664    .0209251
+       lnpop |   1.057691   .0962661    10.99   0.000     .8641347    1.251247
+       _cons |  -1.985723   .9895631    -2.01   0.050    -3.975373    .0039266
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  countyreal |      1107        1107           0    *|
+    absorb_6 |     74448       74448           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. lincom (($lincomagg) * (1/5))/`mwpc'
+
+ ( 1)  - 8.719387*F4treat + 1.743877*treat + 1.743877*L4treat +
+       1.743877*L8treat + 1.743877*L12treat + 1.743877*L16treat = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0300958   .0539444     0.56   0.580    -.0783667    .1385582
+------------------------------------------------------------------------------
+
+. lincomestadd (($lincomagg) * (1/5))/`mwpc', statname(estimated_effect)
+
+ ( 1)  - 8.719387*F4treat + 1.743877*treat + 1.743877*L4treat +
+       1.743877*L8treat + 1.743877*L12treat + 1.743877*L16treat = 0
+
+------------------------------------------------------------------------------
+   lnemp_TOT | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0300958   .0539444     0.56   0.580    -.0783667    .1385582
+------------------------------------------------------------------------------
+
+added macro:
+  e(estimated_effectb) : "0.030"
+
+added macro:
+ e(estimated_effectse) : "(0.054)"
+
+. eststo tot_EBD_BCP
+
+. 
+. 
+. esttab rest_TWFE rest_EBD rest_FD rest_BCP rest_EBD_BCP using "${tables}Table
+> G8.tex", ///
+> replace stats(estimated_effectb estimated_effectse blankspace N , labels("Res
+> taurant emp. elasticity" " " " " "Number of observations" )) ///
+> mgroups("TWFE-logMW" "Event-based" "First-differences" "BCP" "BCP \& EB", pat
+> tern(1 1 1 1 1) prefix(\multicolumn{1}{c}{) suffix(}) span end(\cmidrule(l{0.
+> 2cm}r{0.2cm}){1-1}\cmidrule(l{0.2cm}r{0.2cm}){2-2}\cmidrule(l{0.2cm}r{0.2cm})
+> {3-3}\cmidrule(l{0.2cm}r{0.2cm}){4-4}) lhs(\hfil \bigcell{c}{Specification: }
+> ) )  ///
+> mlabels("(1)" "(2)" "(3)" "(4)", prefix(\multicolumn{@span}{c}{) suffix(}) sp
+> an erepeat(\cmidrule(l{0.2cm}r{0.2cm}){@span})) ///
+> booktabs fragment nonotes nolines nomtitles nonumbers nogaps compress cells(n
+> one) nodepvar
+(file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Tables/TableG8.tex not found)
+(output written to /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replicatio
+> ns/QJE2019-Minimum-Wages-Low-Wage-Jobs/Results/Tables/TableG8.tex)
+
+. 
+. 
+. esttab tot_TWFE tot_EBD tot_FD tot_BCP tot_EBD_BCP using "${tables}TableG8.te
+> x", ///
+> append stats(blankspace estimated_effectb estimated_effectse blankspace N , l
+> abels(" " "Overall emp. elasticity" " " " " "Number of observations")) ///
+> booktabs fragment nonotes nolines nomtitles nonumbers nogaps compress cells(n
+> one) nodepvar
+(output written to /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replicatio
+> ns/QJE2019-Minimum-Wages-Low-Wage-Jobs/Results/Tables/TableG8.tex)
+
+. 
+. 
+. 
+end of do-file

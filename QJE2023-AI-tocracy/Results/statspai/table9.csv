@@ -1,0 +1,10 @@
+table,panel,column,outcome,term,coef,se,se_reghdfe_small,N,clusters,estimator,omitted
+IX,A,1,ALL,8 quarters after unrest (_k_eq_p8),23.967828936732015,10.121591380371378,7.95040188054891,2318,67,"Python xtevent-1.0.0 design + sp.feols (firm+quarter FE), areg-style CRV1",
+IX,A,2,GOVERNMENT,8 quarters after unrest (_k_eq_p8),1.3724817973041408,1.1022140876308268,0.8309391129546319,1918,67,"Python xtevent-1.0.0 design + sp.feols (firm+quarter FE), areg-style CRV1",
+IX,A,3,BUSINESS,8 quarters after unrest (_k_eq_p8),9.811691883701478,4.7085517057372375,3.659060312183258,2126,67,"Python xtevent-1.0.0 design + sp.feols (firm+quarter FE), areg-style CRV1",
+IX,B,1,ALL,8 quarters after contract (32.quarter_to_first),0.05641270996849212,0.0757284632151983,,1076280,31,"sp.feols (firm-contract + quarter FE, CRV1 place, reghdfe small)",q_48
+IX,B,2,GOVERNMENT,8 quarters after contract (32.quarter_to_first),0.014726158394037887,0.033890001123532056,,1027917,31,"sp.feols (firm-contract + quarter FE, CRV1 place, reghdfe small)",q_48
+IX,B,3,BUSINESS,8 quarters after contract (32.quarter_to_first),0.029612004435210837,0.04158227526888812,,1050868,31,"sp.feols (firm-contract + quarter FE, CRV1 place, reghdfe small)",q_48
+IX,C,1,ALL,8 quarters after contract (32.quarter_to_first),0.8100382105622214,0.391367753937543,,7094,28,"sp.feols (firm-contract + quarter FE, CRV1 place, reghdfe small)",q_48
+IX,C,2,GOVERNMENT,8 quarters after contract (32.quarter_to_first),-0.2281666992202213,0.17168457745239837,,6853,28,"sp.feols (firm-contract + quarter FE, CRV1 place, reghdfe small)",q_48
+IX,C,3,BUSINESS,8 quarters after contract (32.quarter_to_first),0.07023104330780777,0.19654465552677086,,6960,28,"sp.feols (firm-contract + quarter FE, CRV1 place, reghdfe small)",q_48

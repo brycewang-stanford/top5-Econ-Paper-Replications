@@ -1,0 +1,3187 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Table_A1_A2_demog.log
+  log type:  text
+ opened on:  17 Sep 2026, 05:52:36
+
+. 
+. *This do file is created by DC on 03/25/2016
+. *****************************************************************************
+> ***
+. ***********          Alternate Specifications of Jobs Dist.      ************
+> ***
+. *****************************************************************************
+> ***
+. 
+. * CPI
+. use "${data}cpiursai1977-2016.dta", clear
+
+. *Dropping an empty column and column that calculates yearly average (simple)
+. drop v14 avg
+
+. reshape long month, i(year) j(m)
+(j = 1 2 3 4 5 6 7 8 9 10 11 12)
+
+Data                               Wide   ->   Long
+-----------------------------------------------------------------------------
+Number of observations               40   ->   480         
+Number of variables                  13   ->   3           
+j variable (12 values)                    ->   m
+xij variables:
+              month1 month2 ... month12   ->   month
+-----------------------------------------------------------------------------
+
+. rename month cpi
+
+. rename m month
+
+. keep if year >= 1979
+(24 observations deleted)
+
+. *If base year needs to be changed, use here.
+. local baseyear=2016
+
+. sum cpi if year == `baseyear', meanonly
+
+. local cpibase = r(mean)
+
+. replace cpi = 100 * cpi / `cpibase'
+(456 real changes made)
+
+. gen monthdate = ym(year,month)
+
+. gen quarterdate = qofd(dofm(monthdate))
+
+. collapse cpi, by(quarterdate)
+
+. tempfile cpiquarter
+
+. save `cpiquarter'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St44394.000001 saved
+    as .dta format
+
+. 
+. * QCEW
+. use "${data}qcew_multiplier.dta", clear
+
+. keep statenum quarterdate multiplier
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St44394.000002 saved
+    as .dta format
+
+. 
+. * wage-bin emp counts
+. use "${data}state_panels_cents_balanced_add_QJE.dta", clear
+
+. * normalize counts to overall QCEW
+. merge m:1 statenum quarterdate using `qcew', nogenerate assert(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+. rename count overallcount
+
+. rename countall overallcountall
+
+. rename population overallpop
+
+. gen femalecount = (overallcount-gendercount)
+
+. gen femalecountall = (overallcountall-gendercountall)
+
+. gen femalepop = (overallpop - genderpop)
+
+. gen BHcount = (blackcount + hispaniccount)
+
+. gen BHcountall = (blackcountall + hispaniccountall)
+
+. gen BHpop = (blackpop + hispanicpop)
+
+. foreach group in hsl hsl40 hsd hsd40 {
+  2.         local uppergroup = upper("`group'")
+  3.         foreach stat in pop count countall {
+  4.                 rename `group'`stat' `uppergroup'`stat'
+  5.         }
+  6. }
+
+. foreach group in overall teen female BH HSL HSL40 HSD HSD40 {
+  2.         replace `group'count = `group'count * multiplier
+  3.         replace `group'countall = `group'countall * multiplier
+  4. }
+(710,139 real changes made)
+(905,112 real changes made)
+(120,498 real changes made)
+(904,878 real changes made)
+(588,655 real changes made)
+(905,112 real changes made)
+(283,071 real changes made)
+(901,017 real changes made)
+(554,143 real changes made)
+(905,112 real changes made)
+(415,827 real changes made)
+(905,112 real changes made)
+(273,479 real changes made)
+(905,112 real changes made)
+(181,289 real changes made)
+(905,112 real changes made)
+
+. 
+. * this is not what we should be doing to calculate average wages
+. * but I was unable to find code that uses the microdata that I could run
+. foreach group in overall teen female BH HSL HSL40 HSD HSD40 {
+  2.         gen logwagesum = log(wagebins)*`group'count
+  3.         egen totallogwagesum = total(logwagesum), by(statenum quarterdate)
+  4.         gen `group'logwage = totallogwagesum / `group'countall
+  5.         drop logwagesum totallogwagesum
+  6. }
+(234 missing values generated)
+(4,095 missing values generated)
+
+. 
+. * convert to $ wage bins and sum counts
+. gen wagebindollar = floor(wagebin/100)
+
+. drop wagebins
+
+. rename wagebindollar wagebins
+
+. preserve
+
+.         collapse (sum) overallcount teencount femalecount BHcount HSLcount HS
+> L40count HSDcount HSD40count, by(statenum quarterdate wagebins)
+
+.         tempfile tempsum
+
+.         save `tempsum'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St44394.000004 saved
+    as .dta format
+
+. restore
+
+. 
+. * grab stateXquarter total counts
+. preserve
+
+.         egen tagger=tag(statenum quarterdate)
+
+.         keep if tagger==1
+(899,232 observations deleted)
+
+.         keep statenum year quarterdate overallcountall overallpop teencountal
+> l teenpop femalecountall femalepop BHcountall BHpop HSLcountall HSLpop HSL40c
+> ountall HSL40pop HSDcountall HSDpop HSD40countall HSD40pop overalllogwage tee
+> nlogwage femalelogwage BHlogwage HSLlogwage HSL40logwage HSDlogwage HSD40logw
+> age
+
+.         tempfile temptag
+
+.         save `temptag'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St44394.000006 saved
+    as .dta format
+
+. restore
+
+. 
+. * reshape state-quarter-bin counts and merge total counts
+. use `tempsum', clear
+
+. reshape wide overallcount teencount femalecount BHcount HSLcount HSL40count H
+> SDcount HSD40count, i(statenum quarterdate) j(wagebin)
+(j = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+>  29 30)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations          232,560   ->   7,752       
+Number of variables                  11   ->   242         
+j variable (30 values)         wagebins   ->   (dropped)
+xij variables:
+                           overallcount   ->   overallcount1 overallcount2 ... 
+> overallcount30
+                              teencount   ->   teencount1 teencount2 ... teenco
+> unt30
+                            femalecount   ->   femalecount1 femalecount2 ... fe
+> malecount30
+                                BHcount   ->   BHcount1 BHcount2 ... BHcount30
+                               HSLcount   ->   HSLcount1 HSLcount2 ... HSLcount
+> 30
+                             HSL40count   ->   HSL40count1 HSL40count2 ... HSL4
+> 0count30
+                               HSDcount   ->   HSDcount1 HSDcount2 ... HSDcount
+> 30
+                             HSD40count   ->   HSD40count1 HSD40count2 ... HSD4
+> 0count30
+-----------------------------------------------------------------------------
+
+. merge 1:1 statenum quarterdate using `temptag', nogenerate assert(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. 
+. * merge mw and events
+. merge 1:1 statenum quarterdate using "${data}VZmw_quarterly_lagsleads_1979_20
+> 16.dta", nogenerate assert(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. merge 1:1 statenum quarterdate using "${data}eventclassification.dta", nogene
+> rate assert(1 3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         7,236
+        from master                     7,236  
+        from using                          0  
+
+    Matched                               516  
+    -----------------------------------------
+
+. replace overallcountgroup = 0 if overallcountgroup==.
+(7,383 real changes made)
+
+. assert overallcountgroup!=0 if alltreat==1 & toosmall==0
+
+. cap drop _merge
+
+. merge m:1 quarterdate using `cpiquarter', nogenerate assert(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. 
+. * create min wage variables
+. xtset statenum quarterdate
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. g MW = exp(logmw)
+
+. g DMW = D.MW
+(51 missing values generated)
+
+. g MW_real = exp(logmw)/(cpi/100)
+
+. g DMW_real = D.MW_real
+(51 missing values generated)
+
+. g MW_realM25 = MW_real - mod(MW_real,0.25)
+
+. g DMW_realM25 = D.MW_realM25
+(51 missing values generated)
+
+. 
+. * construct and group-specific epops and group-wagebin-specific epops
+. compress
+  variable quarterdate was float now int
+  variable alltreat was float now byte
+  variable fedincrease was float now byte
+  variable toosmall was float now byte
+  (85,272 bytes saved)
+
+. foreach group in overall teen female BH HSL HSL40 HSD HSD40 {
+  2.         forval j = 1/30 {
+  3.                 g ln`group'count`j' = ln(`group'count`j')
+  4.                 g `group'percap`j' = `group'count`j'/`group'pop
+  5.         }
+  6.         gen `group'epop = `group'countall / `group'pop
+  7.         gen limited_`group'epop = `group'percap1
+  8.         forval j = 2/14 {
+  9.                 replace limited_`group'epop = limited_`group'epop  + `grou
+> p'percap`j'
+ 10.         }
+ 11.         gen upper_`group'epop  = `group'epop - limited_`group'epop
+ 12. 
+.         egen ave`group'pop = mean(`group'pop), by(statenum)
+ 13. }
+(3,314 missing values generated)
+(2,314 missing values generated)
+(1,622 missing values generated)
+(1,574 missing values generated)
+(1,199 missing values generated)
+(574 missing values generated)
+(80 missing values generated)
+(11 missing values generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(3 missing values generated)
+(7 missing values generated)
+(12 missing values generated)
+(10 missing values generated)
+(21 missing values generated)
+(23 missing values generated)
+(55 missing values generated)
+(88 missing values generated)
+(104 missing values generated)
+(5,438 real changes made)
+(6,130 real changes made)
+(6,178 real changes made)
+(6,553 real changes made)
+(7,178 real changes made)
+(7,672 real changes made)
+(7,741 real changes made)
+(7,751 real changes made)
+(7,752 real changes made)
+(7,751 real changes made)
+(7,752 real changes made)
+(7,752 real changes made)
+(7,752 real changes made)
+(6,882 missing values generated)
+(5,619 missing values generated)
+(5,041 missing values generated)
+(4,996 missing values generated)
+(4,823 missing values generated)
+(2,746 missing values generated)
+(574 missing values generated)
+(260 missing values generated)
+(658 missing values generated)
+(1,398 missing values generated)
+(2,581 missing values generated)
+(3,615 missing values generated)
+(4,586 missing values generated)
+(5,481 missing values generated)
+(5,961 missing values generated)
+(6,428 missing values generated)
+(6,795 missing values generated)
+(7,032 missing values generated)
+(7,180 missing values generated)
+(7,291 missing values generated)
+(7,409 missing values generated)
+(7,471 missing values generated)
+(7,516 missing values generated)
+(7,568 missing values generated)
+(7,582 missing values generated)
+(7,619 missing values generated)
+(7,636 missing values generated)
+(7,658 missing values generated)
+(7,660 missing values generated)
+(7,021 missing values generated)
+(2,133 real changes made)
+(2,711 real changes made)
+(2,756 real changes made)
+(2,929 real changes made)
+(5,006 real changes made)
+(7,178 real changes made)
+(7,492 real changes made)
+(7,094 real changes made)
+(6,354 real changes made)
+(5,171 real changes made)
+(4,137 real changes made)
+(3,166 real changes made)
+(2,271 real changes made)
+(4,537 missing values generated)
+(3,085 missing values generated)
+(2,299 missing values generated)
+(2,309 missing values generated)
+(2,091 missing values generated)
+(1,118 missing values generated)
+(213 missing values generated)
+(31 missing values generated)
+(3 missing values generated)
+(4 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(4 missing values generated)
+(5 missing values generated)
+(12 missing values generated)
+(23 missing values generated)
+(36 missing values generated)
+(63 missing values generated)
+(76 missing values generated)
+(142 missing values generated)
+(199 missing values generated)
+(282 missing values generated)
+(338 missing values generated)
+(479 missing values generated)
+(602 missing values generated)
+(766 missing values generated)
+(1,023 missing values generated)
+(1,246 missing values generated)
+(24 missing values generated)
+(4,668 real changes made)
+(5,453 real changes made)
+(5,442 real changes made)
+(5,658 real changes made)
+(6,631 real changes made)
+(7,538 real changes made)
+(7,720 real changes made)
+(7,749 real changes made)
+(7,748 real changes made)
+(7,750 real changes made)
+(7,752 real changes made)
+(7,750 real changes made)
+(7,747 real changes made)
+(6,729 missing values generated)
+(6 missing values generated)
+(6,283 missing values generated)
+(6 missing values generated)
+(5,930 missing values generated)
+(6 missing values generated)
+(5,733 missing values generated)
+(6 missing values generated)
+(5,228 missing values generated)
+(6 missing values generated)
+(3,707 missing values generated)
+(6 missing values generated)
+(1,736 missing values generated)
+(6 missing values generated)
+(1,179 missing values generated)
+(6 missing values generated)
+(1,054 missing values generated)
+(6 missing values generated)
+(1,086 missing values generated)
+(6 missing values generated)
+(1,187 missing values generated)
+(6 missing values generated)
+(1,276 missing values generated)
+(6 missing values generated)
+(1,389 missing values generated)
+(6 missing values generated)
+(1,517 missing values generated)
+(6 missing values generated)
+(1,764 missing values generated)
+(6 missing values generated)
+(1,936 missing values generated)
+(6 missing values generated)
+(2,113 missing values generated)
+(6 missing values generated)
+(2,360 missing values generated)
+(6 missing values generated)
+(2,652 missing values generated)
+(6 missing values generated)
+(2,746 missing values generated)
+(6 missing values generated)
+(2,986 missing values generated)
+(6 missing values generated)
+(3,143 missing values generated)
+(6 missing values generated)
+(3,460 missing values generated)
+(6 missing values generated)
+(3,581 missing values generated)
+(6 missing values generated)
+(3,671 missing values generated)
+(6 missing values generated)
+(3,898 missing values generated)
+(6 missing values generated)
+(4,072 missing values generated)
+(6 missing values generated)
+(4,436 missing values generated)
+(6 missing values generated)
+(4,553 missing values generated)
+(6 missing values generated)
+(1,376 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(1,469 real changes made)
+(1,822 real changes made)
+(2,019 real changes made)
+(2,524 real changes made)
+(4,045 real changes made)
+(6,016 real changes made)
+(6,573 real changes made)
+(6,698 real changes made)
+(6,666 real changes made)
+(6,565 real changes made)
+(6,476 real changes made)
+(6,363 real changes made)
+(6,235 real changes made)
+(6 missing values generated)
+(4,417 missing values generated)
+(3,438 missing values generated)
+(2,661 missing values generated)
+(2,578 missing values generated)
+(2,247 missing values generated)
+(1,120 missing values generated)
+(191 missing values generated)
+(26 missing values generated)
+(3 missing values generated)
+(2 missing values generated)
+(8 missing values generated)
+(5 missing values generated)
+(3 missing values generated)
+(12 missing values generated)
+(20 missing values generated)
+(29 missing values generated)
+(45 missing values generated)
+(79 missing values generated)
+(128 missing values generated)
+(162 missing values generated)
+(262 missing values generated)
+(356 missing values generated)
+(509 missing values generated)
+(635 missing values generated)
+(735 missing values generated)
+(985 missing values generated)
+(1,190 missing values generated)
+(1,587 missing values generated)
+(1,786 missing values generated)
+(22 missing values generated)
+(4,314 real changes made)
+(5,091 real changes made)
+(5,174 real changes made)
+(5,505 real changes made)
+(6,632 real changes made)
+(7,561 real changes made)
+(7,726 real changes made)
+(7,749 real changes made)
+(7,750 real changes made)
+(7,744 real changes made)
+(7,747 real changes made)
+(7,749 real changes made)
+(7,740 real changes made)
+(5,430 missing values generated)
+(4,303 missing values generated)
+(3,530 missing values generated)
+(3,466 missing values generated)
+(3,150 missing values generated)
+(1,675 missing values generated)
+(312 missing values generated)
+(48 missing values generated)
+(24 missing values generated)
+(19 missing values generated)
+(48 missing values generated)
+(86 missing values generated)
+(120 missing values generated)
+(183 missing values generated)
+(244 missing values generated)
+(380 missing values generated)
+(506 missing values generated)
+(683 missing values generated)
+(957 missing values generated)
+(1,108 missing values generated)
+(1,486 missing values generated)
+(1,765 missing values generated)
+(2,152 missing values generated)
+(2,422 missing values generated)
+(2,660 missing values generated)
+(3,009 missing values generated)
+(3,335 missing values generated)
+(3,814 missing values generated)
+(3,987 missing values generated)
+(793 missing values generated)
+(3,449 real changes made)
+(4,222 real changes made)
+(4,286 real changes made)
+(4,602 real changes made)
+(6,077 real changes made)
+(7,440 real changes made)
+(7,704 real changes made)
+(7,728 real changes made)
+(7,733 real changes made)
+(7,704 real changes made)
+(7,666 real changes made)
+(7,632 real changes made)
+(7,569 real changes made)
+(5,777 missing values generated)
+(4,967 missing values generated)
+(4,337 missing values generated)
+(4,188 missing values generated)
+(3,849 missing values generated)
+(2,107 missing values generated)
+(452 missing values generated)
+(102 missing values generated)
+(154 missing values generated)
+(239 missing values generated)
+(525 missing values generated)
+(697 missing values generated)
+(934 missing values generated)
+(1,260 missing values generated)
+(1,504 missing values generated)
+(1,856 missing values generated)
+(2,207 missing values generated)
+(2,649 missing values generated)
+(3,070 missing values generated)
+(3,339 missing values generated)
+(3,713 missing values generated)
+(4,051 missing values generated)
+(4,399 missing values generated)
+(4,700 missing values generated)
+(4,914 missing values generated)
+(5,208 missing values generated)
+(5,320 missing values generated)
+(5,710 missing values generated)
+(5,826 missing values generated)
+(2,754 missing values generated)
+(2,785 real changes made)
+(3,415 real changes made)
+(3,564 real changes made)
+(3,903 real changes made)
+(5,645 real changes made)
+(7,300 real changes made)
+(7,650 real changes made)
+(7,598 real changes made)
+(7,513 real changes made)
+(7,227 real changes made)
+(7,055 real changes made)
+(6,818 real changes made)
+(6,492 real changes made)
+(6,392 missing values generated)
+(5,558 missing values generated)
+(5,022 missing values generated)
+(4,861 missing values generated)
+(4,591 missing values generated)
+(2,601 missing values generated)
+(618 missing values generated)
+(222 missing values generated)
+(448 missing values generated)
+(783 missing values generated)
+(1,398 missing values generated)
+(1,867 missing values generated)
+(2,295 missing values generated)
+(2,819 missing values generated)
+(3,271 missing values generated)
+(3,779 missing values generated)
+(4,170 missing values generated)
+(4,563 missing values generated)
+(4,950 missing values generated)
+(5,275 missing values generated)
+(5,612 missing values generated)
+(5,867 missing values generated)
+(6,068 missing values generated)
+(6,274 missing values generated)
+(6,482 missing values generated)
+(6,643 missing values generated)
+(6,734 missing values generated)
+(6,893 missing values generated)
+(7,033 missing values generated)
+(5,117 missing values generated)
+(2,194 real changes made)
+(2,730 real changes made)
+(2,891 real changes made)
+(3,161 real changes made)
+(5,151 real changes made)
+(7,134 real changes made)
+(7,530 real changes made)
+(7,304 real changes made)
+(6,969 real changes made)
+(6,354 real changes made)
+(5,885 real changes made)
+(5,457 real changes made)
+(4,933 real changes made)
+
+. 
+. * define treatment variables
+. xtset statenum quarterdate
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. cap drop treat
+
+. cap drop _treat
+
+. g _treat_p=0
+
+. replace _treat = 1 if overallcountgroup>0 & fedincrease!=1
+(138 real changes made)
+
+. g treat = ( _treat +  L._treat + L2._treat + L3._treat)
+(153 missing values generated)
+
+. cap drop _treat
+
+. 
+. 
+. cap drop  Dtreat
+
+. g Dtreat = D.treat
+(204 missing values generated)
+
+. 
+. cap drop _cont
+
+. g _cont = 0
+
+. replace _cont = 1 if ($missedevents | toosmall==1)
+(255 real changes made)
+
+. g tempcont = _cont + L._cont + L2._cont + L3._cont
+(153 missing values generated)
+
+. 
+. local Tmax3 = 16 + 3
+
+. forval i = 0(1)`Tmax3'{
+  2.         if `i' == 0{
+  3.         g postcont = _cont
+  4.         }
+  5.         else {
+  6.         replace postcont = postcont + L`i'._cont
+  7.         sum postcont, meanonly
+  8.         assert r(mean)!=0
+  9.         }
+ 10. }
+(306 real changes made, 51 to missing)
+(305 real changes made, 51 to missing)
+(305 real changes made, 51 to missing)
+(303 real changes made, 51 to missing)
+(303 real changes made, 51 to missing)
+(302 real changes made, 51 to missing)
+(302 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+
+. cap drop _cont
+
+. cap drop _contf
+
+. cap drop postcontf
+
+. 
+. g _contf = 0
+
+. replace _contf = 1 if (fedincrease==1 &  overallcountgroup>0 )
+(231 real changes made)
+
+. g tempcontf = _contf + L._contf + L2._contf + L3._contf
+(153 missing values generated)
+
+. 
+. local Tmax3 = 16 + 3
+
+. forval i = 0(1)`Tmax3'{
+  2.         if `i' == 0{
+  3.         g postcontf = _contf
+  4. 
+.         }
+  5.         else {
+  6.         replace postcontf = postcontf + L`i'._contf
+  7.         sum postcontf, meanonly
+  8.         assert r(mean)!=0
+  9.         }
+ 10. }
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+
+. cap drop _contf
+
+. 
+. g precontf = F4.tempcontf
+(204 missing values generated)
+
+. g precont = F4.tempcont
+(204 missing values generated)
+
+. 
+. replace precontf = 0 if precontf == .
+(204 real changes made)
+
+. replace precont = 0 if precont  == .
+(204 real changes made)
+
+. 
+. g earlycontf = F12.tempcontf + F8.tempcontf
+(612 missing values generated)
+
+. g earlycont = F12.tempcont + F8.tempcont
+(612 missing values generated)
+
+. 
+. replace earlycontf = 0 if earlycontf == .
+(612 real changes made)
+
+. replace earlycont = 0 if earlycont  == .
+(612 real changes made)
+
+. 
+. foreach j of numlist 4(4)16{
+  2.                 cap drop F`j'treat
+  3.                 cap drop L`j'treat
+  4. 
+.                 g F`j'treat = F`j'.treat
+  5.                 g L`j'treat = L`j'.treat
+  6. 
+.                 replace F`j'treat = 0 if F`j'treat ==.
+  7.                 replace L`j'treat = 0 if L`j'treat ==.
+  8.         }
+(204 missing values generated)
+(357 missing values generated)
+(204 real changes made)
+(357 real changes made)
+(408 missing values generated)
+(561 missing values generated)
+(408 real changes made)
+(561 real changes made)
+(612 missing values generated)
+(765 missing values generated)
+(612 real changes made)
+(765 real changes made)
+(816 missing values generated)
+(969 missing values generated)
+(816 real changes made)
+(969 real changes made)
+
+. 
+. replace postcont = 0 if postcont == .
+(969 real changes made)
+
+. replace postcontf = 0 if postcontf == .
+(969 real changes made)
+
+. 
+. global treat            F12treat F8treat F4treat treat L4treat L8treat L12tre
+> at L16treat
+
+. global minus (F4treat)
+
+. global lincomagg        (treat-$minus)
+
+. forval i = 4(4)16{
+  2. global lincomagg "$lincomagg + (L`i'treat - $minus ) "
+  3. }
+
+. 
+. * clean sample
+. g cleansample = 1
+
+. replace cleansample = 0 if quarterdate >=136 & quarterdate <=142
+(357 real changes made)
+
+. 
+. * incorporate base period routine occupation data
+. merge m:1 statenum using "${data}state_rocc_scores.dta", assert(3) nogenerate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. * incorporate base period industry shares
+. merge m:1 statenum using "${data}state_majind_shares.dta", assert(3) nogenera
+> te
+(label stfips already defined)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. 
+. * regression controls
+. global a1 i.statenum i.quarterdate  // TWFE
+
+. global a4 i.statenum##c.quarterdate i.quarterdate // state-trends
+
+. global a101 i.statenum i.quarterdate c.roccshare#i.quarterdate
+
+. global a111 i.statenum i.quarterdate c.roccindex#i.quarterdate
+
+. global a121 i.statenum i.quarterdate i.quarterdate#(c.occmajor_*)
+
+. global a221 i.statenum i.quarterdate i.quarterdate#(c.indmajor_*)
+
+. global a321 i.statenum i.quarterdate i.quarterdate#(c.indmajor_* c.occmajor_*
+> )
+
+. global a421 i.statenum i.quarterdate i.quarterdate#(c.union19831984)
+
+. 
+. 
+. 
+. global label1 TWFE
+
+. global grlabel1 TWFE
+
+. 
+. *****************************************************************************
+> ***
+. ***************       The Regressions ***************************************
+> ***
+. *****************************************************************************
+> ***
+. gen all=1
+
+. xtset statenum quarterdate
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. tempfile temptemp
+
+. save `temptemp'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St44394.000007 saved
+    as .dta format
+
+. 
+. local regsample ""
+
+. local graphname "o"
+
+. global weight1 [aw=avetotalpopulation]
+
+. global weight0 [aw=all]
+
+. local ylabel "ylabel( , labsize(medium))"
+
+. 
+. 
+. 
+. foreach b in 1979   {
+  2.         foreach w in 1  {
+  3.                 foreach s in 321 {
+  4.                         foreach group in overall HSD HSL teen female BH {
+  5.                                 use `temptemp', clear
+  6. 
+.                                 if `w' == 1 local weight ave`group'pop
+  7.                                 else local weight all
+  8. 
+.                                 sum `group'epop if  year>=`b' & cleansample==
+> 1 [aw=`weight'], meanonly
+  9.                                 local epop = r(mean)
+ 10.                                 sum DMW_real if fedincrease!=1 & overallco
+> untgr>0 & year>=`b' & cleansample ==1 [aw=`weight']
+ 11.                                 local mwc = r(mean)
+ 12.                                 sum MW_real if  F.fedincrease!=1 & F.overa
+> llcountgr>0 & year>=`b' & cleansample ==1 [aw=`weight']
+ 13.                                 local mw = r(mean)
+ 14.                                 local mwpc = `mwc'/`mw'
+ 15.                                 local C = 1/(`epop'*`mwpc')
+ 16. 
+.                                 reghdfe `group'epop $treat if  year>=`b' & cl
+> eansample==1 [aw=`weight'], absorb(${a`s'} postcont postcontf precont precont
+> f earlycont earlycontf) cluster(statenum)
+ 17.                                 lincomestadd (($lincomagg) * (1/5))*`C', s
+> tatname(allemp)
+ 18.                                 local allempb = e(allempb)
+ 19.                                 local allempse = e(allempse)
+ 20.                                 local allempse_num = e(allempse_num)
+ 21.                                 local allempt = e(allempt)
+ 22.                                 reghdfe `group'logwage $treat if year>=`b'
+>  & cleansample==1 [aw=`weight'], a(${a`s'} i.postcont i.postcont i.postcontf 
+> i.precont i.precontf i.earlycont i.earlycontf) cluster(statenum)
+ 23.                                 lincomestadd ((${lincomagg}) * (1/5)) * 1/
+> (`mwpc'), statname(allwagemw)
+ 24.                                 local allwageb = e(allwagemwb)
+ 25.                                 local allwagese = e(allwagemwse)
+ 26.                                 local allwagese_num = e(allwagemwse_num)
+ 27.                                 local allwaget = e(allwagemwt)
+ 28. 
+.                                 reghdfe limited_`group'epop $treat if  year>=
+> `b' & cleansample==1 [aw=`weight'], absorb(${a`s'} postcont postcontf precont
+>  precontf earlycont earlycontf) cluster(statenum)
+ 29.                                 lincomestadd (($lincomagg) * (1/5))*`C', s
+> tatname(below15emp)
+ 30.                                 local below15empb = e(below15empb)
+ 31.                                 local below15empse = e(below15empse)
+ 32.                                 local below15empse_num = e(below15empse_nu
+> m)
+ 33.                                 local below15empt = e(below15empt)
+ 34. 
+.                                 reghdfe upper_`group'epop $treat if  year>=`b
+> ' & cleansample==1 [aw=`weight'], absorb(${a`s'} postcont postcontf precont p
+> recontf earlycont earlycontf) cluster(statenum)
+ 35.                                 lincomestadd (($lincomagg) * (1/5))*`C', s
+> tatname(over15emp)
+ 36.                                 estadd local below15empb "`below15empb'"
+ 37.                                 estadd local below15empse "`below15empse'"
+ 38.                                 estadd scalar below15empse_num = `below15e
+> mpse_num'
+ 39.                                 estadd local below15empt "`below15empt'"
+ 40.                                 estadd local allempb "`allempb'"
+ 41.                                 estadd local allempse "`allempse'"
+ 42.                                 estadd scalar allempse_num = `allempse_num
+> '
+ 43.                                 estadd local allempt "`allempt'"
+ 44.                                 estadd local allwageb "`allwageb'"
+ 45.                                 estadd local allwagese "`allwagese'"
+ 46.                                 estadd scalar allwagese_num = `allwagese_n
+> um'
+ 47.                                 estadd local allwaget "`allwaget'"
+ 48. 
+.                                 estimates save "${estimates}eventbased_aggreg
+> ate_`b'_`w'_`s'_`group'epop_estadd.ster", replace
+ 49.                         }
+ 50.                 }
+ 51.         }
+ 52. }
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   677763561    .8028209   .4050374   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   889556030     7.81842   .9477294   6.075942   11.42869
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.37
+Statistics robust to heteroskedasticity           Prob > F        =     0.2323
+                                                  R-squared       =     0.9512
+                                                  Adj R-squared   =     0.9125
+                                                  Within R-sq.    =     0.0095
+Number of clusters (statenum) =         51        Root MSE        =     0.0178
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+ overallepop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0060554   .0023904    -2.53   0.014    -.0108566   -.0012543
+     F8treat |  -.0043219   .0021592    -2.00   0.051    -.0086589     .000015
+     F4treat |  -.0021829   .0025894    -0.84   0.403     -.007384    .0030181
+       treat |  -.0022323    .002241    -1.00   0.324    -.0067334    .0022688
+     L4treat |  -.0017462   .0024849    -0.70   0.485    -.0067372    .0032448
+     L8treat |  -.0005908   .0032017    -0.18   0.854    -.0070215      .00584
+    L12treat |   .0005418   .0028441     0.19   0.850    -.0051707    .0062544
+    L16treat |  -.0005254    .002802    -0.19   0.852    -.0061533    .0051026
+       _cons |   .5648836   .0013916   405.93   0.000     .5620885    .5676787
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.30151*F4treat + 3.460303*treat + 3.460303*L4treat +
+       3.460303*L8treat + 3.460303*L12treat + 3.460303*L16treat = 0
+
+------------------------------------------------------------------------------
+ overallepop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0220139    .027566     0.80   0.428    -.0333541    .0773819
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "0.022"
+
+added macro:
+           e(allempse) : "(0.028)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 10 HDFE groups                          F(   8,     50) =       3.44
+Statistics robust to heteroskedasticity           Prob > F        =     0.0032
+                                                  R-squared       =     0.9529
+                                                  Adj R-squared   =     0.9156
+                                                  Within R-sq.    =     0.0295
+Number of clusters (statenum) =         51        Root MSE        =     0.0298
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+overalllog~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0124339   .0035579    -3.49   0.001    -.0195801   -.0052876
+     F8treat |  -.0117408   .0032615    -3.60   0.001    -.0182917     -.00519
+     F4treat |  -.0117696   .0030227    -3.89   0.000    -.0178409   -.0056984
+       treat |  -.0077243   .0039534    -1.95   0.056    -.0156649    .0002163
+     L4treat |  -.0047587   .0038944    -1.22   0.227    -.0125809    .0030636
+     L8treat |  -.0075738   .0046394    -1.63   0.109    -.0168923    .0017446
+    L12treat |  -.0066419   .0048581    -1.37   0.178    -.0163998    .0031159
+    L16treat |  -.0108414   .0056595    -1.92   0.061    -.0222088    .0005261
+       _cons |   7.367542   .0018196  4048.94   0.000     7.363887    7.371196
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                  postcont |         8           8           0    ?|
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 9.738685*F4treat + 1.947737*treat + 1.947737*L4treat +
+       1.947737*L8treat + 1.947737*L12treat + 1.947737*L16treat = 0
+
+------------------------------------------------------------------------------
+overalllog~e | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0415025    .036784     1.13   0.265    -.0323805    .1153854
+------------------------------------------------------------------------------
+
+added macro:
+         e(allwagemwb) : "0.042"
+
+added macro:
+        e(allwagemwse) : "(0.037)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       0.69
+Statistics robust to heteroskedasticity           Prob > F        =     0.6994
+                                                  R-squared       =     0.9113
+                                                  Adj R-squared   =     0.8409
+                                                  Within R-sq.    =     0.0148
+Number of clusters (statenum) =         51        Root MSE        =     0.0179
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_ov~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0027526   .0022701     1.21   0.231     -.001807    .0073122
+     F8treat |   .0028733   .0019508     1.47   0.147     -.001045    .0067916
+     F4treat |   .0037399   .0020104     1.86   0.069     -.000298    .0077778
+       treat |   .0035407   .0023866     1.48   0.144     -.001253    .0083345
+     L4treat |   .0048648   .0023845     2.04   0.047     .0000754    .0096542
+     L8treat |   .0060079   .0031435     1.91   0.062    -.0003059    .0123217
+    L12treat |   .0045941   .0029974     1.53   0.132    -.0014264    .0106147
+    L16treat |   .0056856   .0035262     1.61   0.113     -.001397    .0127683
+       _cons |   .2484635   .0013104   189.61   0.000     .2458315    .2510955
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.30151*F4treat + 3.460303*treat + 3.460303*L4treat +
+       3.460303*L8treat + 3.460303*L12treat + 3.460303*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_ov~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0207397   .0368881     0.56   0.576    -.0533523    .0948317
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.021"
+
+added macro:
+       e(below15empse) : "(0.037)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.66
+Statistics robust to heteroskedasticity           Prob > F        =     0.0164
+                                                  R-squared       =     0.9501
+                                                  Adj R-squared   =     0.9105
+                                                  Within R-sq.    =     0.0284
+Number of clusters (statenum) =         51        Root MSE        =     0.0205
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_over~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   -.008808    .002252    -3.91   0.000    -.0133314   -.0042847
+     F8treat |  -.0071952   .0021855    -3.29   0.002     -.011585   -.0028055
+     F4treat |  -.0059228     .00232    -2.55   0.014    -.0105828   -.0012629
+       treat |   -.005773   .0028927    -2.00   0.051    -.0115833    .0000372
+     L4treat |   -.006611   .0030792    -2.15   0.037    -.0127958   -.0004261
+     L8treat |  -.0065987   .0039615    -1.67   0.102    -.0145556    .0013583
+    L12treat |  -.0040523     .00343    -1.18   0.243    -.0109417    .0028371
+    L16treat |   -.006211   .0037751    -1.65   0.106    -.0137935    .0013715
+       _cons |   .3164201   .0014641   216.12   0.000     .3134794    .3193608
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.30151*F4treat + 3.460303*treat + 3.460303*L4treat +
+       3.460303*L8treat + 3.460303*L12treat + 3.460303*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_over~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0012742   .0446013     0.03   0.977    -.0883103    .0908586
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "0.001"
+
+added macro:
+        e(over15empse) : "(0.045)"
+
+added macro:
+        e(below15empb) : "0.021"
+
+added macro:
+       e(below15empse) : "(0.037)"
+
+added scalar:
+   e(below15empse_num) =  .
+
+added macro:
+        e(below15empt) : "."
+
+added macro:
+            e(allempb) : "0.022"
+
+added macro:
+           e(allempse) : "(0.028)"
+
+added scalar:
+       e(allempse_num) =  .
+
+added macro:
+            e(allempt) : "."
+
+added macro:
+           e(allwageb) : "0.042"
+
+added macro:
+          e(allwagese) : "(0.037)"
+
+added scalar:
+      e(allwagese_num) =  .
+
+added macro:
+           e(allwaget) : "."
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_1979_1_321_ov
+> erallepop_estadd.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   138350905    .8063205   .4034122   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   182928298    7.815773   .9424976   6.075942   11.42869
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.98
+Statistics robust to heteroskedasticity           Prob > F        =     0.0687
+                                                  R-squared       =     0.8229
+                                                  Adj R-squared   =     0.6825
+                                                  Within R-sq.    =     0.0048
+Number of clusters (statenum) =         51        Root MSE        =     0.0407
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     HSDepop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0052771    .005156    -1.02   0.311    -.0156332    .0050791
+     F8treat |    -.00023   .0048168    -0.05   0.962    -.0099047    .0094448
+     F4treat |  -.0045053    .004669    -0.96   0.339    -.0138833    .0048727
+       treat |  -.0003712   .0052229    -0.07   0.944    -.0108616    .0101193
+     L4treat |   .0058248   .0042414     1.37   0.176    -.0026943    .0143439
+     L8treat |   .0099009   .0047449     2.09   0.042     .0003705    .0194312
+    L12treat |   .0052321    .004169     1.25   0.215    -.0031416    .0136059
+    L16treat |  -.0026875   .0042048    -0.64   0.526     -.011133     .005758
+       _cons |   .3618915   .0018885   191.63   0.000     .3580984    .3656847
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 26.70649*F4treat + 5.341298*treat + 5.341298*L4treat +
+       5.341298*L8treat + 5.341298*L12treat + 5.341298*L16treat = 0
+
+------------------------------------------------------------------------------
+     HSDepop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .2159254   .1221042     1.77   0.083    -.0293281    .4611789
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "0.216*"
+
+added macro:
+           e(allempse) : "(0.122)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 10 HDFE groups                          F(   8,     50) =       3.13
+Statistics robust to heteroskedasticity           Prob > F        =     0.0060
+                                                  R-squared       =     0.7855
+                                                  Adj R-squared   =     0.6154
+                                                  Within R-sq.    =     0.0078
+Number of clusters (statenum) =         51        Root MSE        =     0.0592
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+  HSDlogwage | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   -.013206   .0056135    -2.35   0.023     -.024481   -.0019309
+     F8treat |  -.0094733   .0058395    -1.62   0.111    -.0212023    .0022558
+     F4treat |  -.0133449   .0084708    -1.58   0.121    -.0303591    .0036693
+       treat |   .0063278   .0061356     1.03   0.307    -.0059959    .0186516
+     L4treat |   .0084221   .0088892     0.95   0.348    -.0094323    .0262766
+     L8treat |  -.0049972   .0070281    -0.71   0.480    -.0191134    .0091191
+    L12treat |   .0009598   .0085007     0.11   0.911    -.0161145     .018034
+    L16treat |  -.0090064   .0066508    -1.35   0.182    -.0223649    .0043521
+       _cons |   6.980979   .0030082  2320.63   0.000     6.974937    6.987022
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                  postcont |         8           8           0    ?|
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 9.693135*F4treat + 1.938627*treat + 1.938627*L4treat +
+       1.938627*L8treat + 1.938627*L12treat + 1.938627*L16treat = 0
+
+------------------------------------------------------------------------------
+  HSDlogwage | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .1326618   .0583143     2.27   0.027     .0155341    .2497895
+------------------------------------------------------------------------------
+
+added macro:
+         e(allwagemwb) : "0.133**"
+
+added macro:
+        e(allwagemwse) : "(0.058)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.24
+Statistics robust to heteroskedasticity           Prob > F        =     0.0399
+                                                  R-squared       =     0.8091
+                                                  Adj R-squared   =     0.6578
+                                                  Within R-sq.    =     0.0044
+Number of clusters (statenum) =         51        Root MSE        =     0.0385
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limite~Depop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0023629   .0043367    -0.54   0.588    -.0110734    .0063476
+     F8treat |  -.0009503   .0045407    -0.21   0.835    -.0100706      .00817
+     F4treat |  -.0024965   .0039935    -0.63   0.535    -.0105177    .0055247
+       treat |   -.002676   .0044806    -0.60   0.553    -.0116755    .0063234
+     L4treat |   .0056638   .0048049     1.18   0.244    -.0039871    .0153146
+     L8treat |   .0105868   .0043165     2.45   0.018     .0019168    .0192567
+    L12treat |   .0043716   .0044174     0.99   0.327     -.004501    .0132442
+    L16treat |  -.0003998   .0039844    -0.10   0.920    -.0084027    .0076031
+       _cons |   .2819405   .0017984   156.78   0.000     .2783284    .2855527
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 26.70649*F4treat + 5.341298*treat + 5.341298*L4treat +
+       5.341298*L8treat + 5.341298*L12treat + 5.341298*L16treat = 0
+
+------------------------------------------------------------------------------
+limite~Depop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .1603929   .0986606     1.63   0.110    -.0377727    .3585586
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.160"
+
+added macro:
+       e(below15empse) : "(0.099)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.85
+Statistics robust to heteroskedasticity           Prob > F        =     0.0896
+                                                  R-squared       =     0.7828
+                                                  Adj R-squared   =     0.6106
+                                                  Within R-sq.    =     0.0024
+Number of clusters (statenum) =         51        Root MSE        =     0.0200
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_HSDe~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0029142   .0022674    -1.29   0.205    -.0074683      .00164
+     F8treat |   .0007203   .0016655     0.43   0.667    -.0026249    .0040656
+     F4treat |  -.0020088   .0026816    -0.75   0.457     -.007395    .0033774
+       treat |   .0023048   .0023045     1.00   0.322    -.0023238    .0069335
+     L4treat |    .000161    .002339     0.07   0.945    -.0045371    .0048592
+     L8treat |  -.0006859   .0026191    -0.26   0.794    -.0059466    .0045748
+    L12treat |   .0008606   .0024681     0.35   0.729    -.0040967    .0058178
+    L16treat |  -.0022876   .0024851    -0.92   0.362    -.0072791    .0027038
+       _cons |    .079951   .0009039    88.45   0.000     .0781355    .0817665
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 26.70649*F4treat + 5.341298*treat + 5.341298*L4treat +
+       5.341298*L8treat + 5.341298*L12treat + 5.341298*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_HSDe~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0555325   .0546776     1.02   0.315    -.0542908    .1653557
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "0.056"
+
+added macro:
+        e(over15empse) : "(0.055)"
+
+added macro:
+        e(below15empb) : "0.160"
+
+added macro:
+       e(below15empse) : "(0.099)"
+
+added scalar:
+   e(below15empse_num) =  .
+
+added macro:
+        e(below15empt) : "."
+
+added macro:
+            e(allempb) : "0.216*"
+
+added macro:
+           e(allempse) : "(0.122)"
+
+added scalar:
+       e(allempse_num) =  .
+
+added macro:
+            e(allempt) : "."
+
+added macro:
+           e(allwageb) : "0.133**"
+
+added macro:
+          e(allwagese) : "(0.058)"
+
+added scalar:
+      e(allwagese_num) =  .
+
+added macro:
+           e(allwaget) : "."
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_1979_1_321_HS
+> Depop_estadd.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   349914494    .8052592   .4075243   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   463802889    7.789992   .9443762   6.075942   11.42869
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.98
+Statistics robust to heteroskedasticity           Prob > F        =     0.0690
+                                                  R-squared       =     0.8793
+                                                  Adj R-squared   =     0.7836
+                                                  Within R-sq.    =     0.0036
+Number of clusters (statenum) =         51        Root MSE        =     0.0256
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     HSLepop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0044079   .0030333    -1.45   0.152    -.0105005    .0016848
+     F8treat |  -.0012754   .0026086    -0.49   0.627    -.0065149    .0039642
+     F4treat |  -.0014271   .0034661    -0.41   0.682     -.008389    .0055348
+       treat |  -.0008873   .0031007    -0.29   0.776    -.0071153    .0053407
+     L4treat |   .0025943   .0028505     0.91   0.367     -.003131    .0083196
+     L8treat |   .0045829   .0037516     1.22   0.228    -.0029525    .0121182
+    L12treat |   .0026434   .0038753     0.68   0.498    -.0051403    .0104271
+    L16treat |  -.0005762   .0036067    -0.16   0.874    -.0078204     .006668
+       _cons |   .4781235   .0014932   320.21   0.000     .4751244    .4811226
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 20.21928*F4treat + 4.043855*treat + 4.043855*L4treat +
+       4.043855*L8treat + 4.043855*L12treat + 4.043855*L16treat = 0
+
+------------------------------------------------------------------------------
+     HSLepop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0626498    .045367     1.38   0.173    -.0284724    .1537721
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "0.063"
+
+added macro:
+           e(allempse) : "(0.045)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 10 HDFE groups                          F(   8,     50) =       4.11
+Statistics robust to heteroskedasticity           Prob > F        =     0.0008
+                                                  R-squared       =     0.9015
+                                                  Adj R-squared   =     0.8234
+                                                  Within R-sq.    =     0.0185
+Number of clusters (statenum) =         51        Root MSE        =     0.0356
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+  HSLlogwage | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0125312   .0032852    -3.81   0.000    -.0191298   -.0059327
+     F8treat |  -.0122394   .0031036    -3.94   0.000    -.0184731   -.0060056
+     F4treat |   -.009399   .0040287    -2.33   0.024    -.0174908   -.0013071
+       treat |  -.0028003    .004333    -0.65   0.521    -.0115033    .0059027
+     L4treat |   .0028904   .0045215     0.64   0.526    -.0061913    .0119721
+     L8treat |  -.0088764   .0049886    -1.78   0.081    -.0188964    .0011435
+    L12treat |  -.0060523     .00522    -1.16   0.252    -.0165371    .0044324
+    L16treat |  -.0089007   .0047773    -1.86   0.068    -.0184963    .0006948
+       _cons |   7.179413   .0019129  3753.17   0.000     7.175571    7.183255
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                  postcont |         8           8           0    ?|
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 9.673894*F4treat + 1.934779*treat + 1.934779*L4treat +
+       1.934779*L8treat + 1.934779*L12treat + 1.934779*L16treat = 0
+
+------------------------------------------------------------------------------
+  HSLlogwage | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0449944   .0332218     1.35   0.182    -.0217335    .1117224
+------------------------------------------------------------------------------
+
+added macro:
+         e(allwagemwb) : "0.045"
+
+added macro:
+        e(allwagemwse) : "(0.033)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.38
+Statistics robust to heteroskedasticity           Prob > F        =     0.0295
+                                                  R-squared       =     0.8697
+                                                  Adj R-squared   =     0.7664
+                                                  Within R-sq.    =     0.0089
+Number of clusters (statenum) =         51        Root MSE        =     0.0237
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limite~Lepop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0011057   .0022936     0.48   0.632    -.0035011    .0057125
+     F8treat |   .0025813   .0022346     1.16   0.254     -.001907    .0070697
+     F4treat |   .0014048   .0022129     0.63   0.528    -.0030399    .0058496
+       treat |   .0012402    .002784     0.45   0.658    -.0043516     .006832
+     L4treat |   .0039083    .002251     1.74   0.089     -.000613    .0084296
+     L8treat |   .0096588   .0038794     2.49   0.016     .0018668    .0174507
+    L12treat |   .0054727   .0033437     1.64   0.108    -.0012433    .0121887
+    L16treat |   .0032557   .0034579     0.94   0.351    -.0036896     .010201
+       _cons |   .2902875   .0012645   229.56   0.000     .2877476    .2928274
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 20.21928*F4treat + 4.043855*treat + 4.043855*L4treat +
+       4.043855*L8treat + 4.043855*L12treat + 4.043855*L16treat = 0
+
+------------------------------------------------------------------------------
+limite~Lepop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0667698   .0512181     1.30   0.198    -.0361047    .1696443
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.067"
+
+added macro:
+       e(below15empse) : "(0.051)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.30
+Statistics robust to heteroskedasticity           Prob > F        =     0.2674
+                                                  R-squared       =     0.8890
+                                                  Adj R-squared   =     0.8010
+                                                  Within R-sq.    =     0.0097
+Number of clusters (statenum) =         51        Root MSE        =     0.0199
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_HSLe~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0055135   .0021637    -2.55   0.014    -.0098595   -.0011676
+     F8treat |  -.0038567   .0018883    -2.04   0.046    -.0076495   -.0000639
+     F4treat |   -.002832   .0026596    -1.06   0.292    -.0081738    .0025099
+       treat |  -.0021275   .0024621    -0.86   0.392    -.0070728    .0028177
+     L4treat |   -.001314   .0026376    -0.50   0.621    -.0066118    .0039838
+     L8treat |  -.0050759   .0035422    -1.43   0.158    -.0121907    .0020389
+    L12treat |  -.0028293   .0032697    -0.87   0.391    -.0093967    .0037381
+    L16treat |  -.0038319   .0026095    -1.47   0.148    -.0090731    .0014094
+       _cons |    .187836   .0011678   160.85   0.000     .1854905    .1901815
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 20.21928*F4treat + 4.043855*treat + 4.043855*L4treat +
+       4.043855*L8treat + 4.043855*L12treat + 4.043855*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_HSLe~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0041199   .0402725    -0.10   0.919    -.0850096    .0767697
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "-0.004"
+
+added macro:
+        e(over15empse) : "(0.040)"
+
+added macro:
+        e(below15empb) : "0.067"
+
+added macro:
+       e(below15empse) : "(0.051)"
+
+added scalar:
+   e(below15empse_num) =  .
+
+added macro:
+        e(below15empt) : "."
+
+added macro:
+            e(allempb) : "0.063"
+
+added macro:
+           e(allempse) : "(0.045)"
+
+added scalar:
+       e(allempse_num) =  .
+
+added macro:
+            e(allempt) : "."
+
+added macro:
+           e(allwageb) : "0.045"
+
+added macro:
+          e(allwagese) : "(0.033)"
+
+added scalar:
+      e(allwagese_num) =  .
+
+added macro:
+           e(allwaget) : "."
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_1979_1_321_HS
+> Lepop_estadd.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137  50510476.8    .8047638   .4073697   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189  66511700.3    7.816671   .9458377   6.075942   11.42869
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       2.26
+Statistics robust to heteroskedasticity           Prob > F        =     0.0378
+                                                  R-squared       =     0.8480
+                                                  Adj R-squared   =     0.7274
+                                                  Within R-sq.    =     0.0063
+Number of clusters (statenum) =         51        Root MSE        =     0.0642
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    teenepop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0088029   .0062886    -1.40   0.168    -.0214339    .0038281
+     F8treat |  -.0063769    .005493    -1.16   0.251    -.0174099     .004656
+     F4treat |   .0003348    .006884     0.05   0.961     -.013492    .0141617
+       treat |   .0052374   .0059578     0.88   0.384    -.0067291    .0172039
+     L4treat |   .0005148   .0063533     0.08   0.936    -.0122462    .0132757
+     L8treat |   .0112325   .0065219     1.72   0.091     -.001867    .0243321
+    L12treat |   .0134419   .0065676     2.05   0.046     .0002505    .0266334
+    L16treat |   .0184392   .0061653     2.99   0.004     .0060558    .0308227
+       _cons |   .4212302   .0026535   158.75   0.000     .4159006    .4265599
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 22.84748*F4treat + 4.569496*treat + 4.569496*L4treat +
+       4.569496*L8treat + 4.569496*L12treat + 4.569496*L16treat = 0
+
+------------------------------------------------------------------------------
+    teenepop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .2156424   .1140654     1.89   0.064    -.0134647    .4447494
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "0.216*"
+
+added macro:
+           e(allempse) : "(0.114)"
+(MWFE estimator converged in 24 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,240
+Absorbing 10 HDFE groups                          F(   8,     50) =       7.25
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.8064
+                                                  Adj R-squared   =     0.6528
+                                                  Within R-sq.    =     0.0197
+Number of clusters (statenum) =         51        Root MSE        =     0.0591
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+ teenlogwage | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0098218   .0058865    -1.67   0.101    -.0216451    .0020016
+     F8treat |  -.0149618   .0052133    -2.87   0.006     -.025433   -.0044906
+     F4treat |  -.0069262   .0054701    -1.27   0.211    -.0179131    .0040607
+       treat |   .0149577    .006732     2.22   0.031     .0014361    .0284793
+     L4treat |     .02145   .0072737     2.95   0.005     .0068403    .0360597
+     L8treat |   .0180297    .005558     3.24   0.002     .0068661    .0291933
+    L12treat |   .0062081   .0071289     0.87   0.388    -.0081108     .020527
+    L16treat |   .0193948   .0070741     2.74   0.008     .0051859    .0336036
+       _cons |   6.727703    .002573  2614.75   0.000     6.722535    6.732871
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                  postcont |         8           8           0    ?|
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 9.713001*F4treat + 1.9426*treat + 1.9426*L4treat + 1.9426*L8treat +
+       1.9426*L12treat + 1.9426*L16treat = 0
+
+------------------------------------------------------------------------------
+ teenlogwage | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .2227604   .0659446     3.38   0.001     .0903068     .355214
+------------------------------------------------------------------------------
+
+added macro:
+         e(allwagemwb) : "0.223***"
+
+added macro:
+        e(allwagemwse) : "(0.066)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.97
+Statistics robust to heteroskedasticity           Prob > F        =     0.0701
+                                                  R-squared       =     0.8433
+                                                  Adj R-squared   =     0.7190
+                                                  Within R-sq.    =     0.0058
+Number of clusters (statenum) =         51        Root MSE        =     0.0636
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_te~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0070933   .0064831    -1.09   0.279    -.0201151    .0059284
+     F8treat |  -.0048029   .0050556    -0.95   0.347    -.0149574    .0053516
+     F4treat |   .0006375   .0065401     0.10   0.923    -.0124987    .0137736
+       treat |   .0072507   .0058075     1.25   0.218    -.0044141    .0189154
+     L4treat |   .0012245   .0061519     0.20   0.843     -.011132    .0135811
+     L8treat |   .0107431    .006194     1.73   0.089    -.0016979    .0231841
+    L12treat |   .0156742   .0061539     2.55   0.014     .0033137    .0280348
+    L16treat |   .0157569   .0059122     2.67   0.010     .0038819    .0276319
+       _cons |   .4074184   .0025162   161.92   0.000     .4023645    .4124723
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 22.84748*F4treat + 4.569496*treat + 4.569496*L4treat +
+       4.569496*L8treat + 4.569496*L12treat + 4.569496*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_te~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .2168779   .1112573     1.95   0.057    -.0065891    .4403448
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.217*"
+
+added macro:
+       e(below15empse) : "(0.111)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       5.02
+Statistics robust to heteroskedasticity           Prob > F        =     0.0001
+                                                  R-squared       =     0.5902
+                                                  Adj R-squared   =     0.2654
+                                                  Within R-sq.    =     0.0059
+Number of clusters (statenum) =         51        Root MSE        =     0.0128
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_teen~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0017096   .0009403    -1.82   0.075    -.0035982     .000179
+     F8treat |  -.0015741   .0010427    -1.51   0.137    -.0036683    .0005202
+     F4treat |  -.0003026   .0010627    -0.28   0.777    -.0024371    .0018318
+       treat |  -.0020133   .0010172    -1.98   0.053    -.0040563    .0000298
+     L4treat |  -.0007098   .0011776    -0.60   0.549    -.0030751    .0016556
+     L8treat |   .0004894   .0012342     0.40   0.693    -.0019896    .0029684
+    L12treat |  -.0022323   .0010986    -2.03   0.047    -.0044388   -.0000258
+    L16treat |   .0026823   .0011691     2.29   0.026     .0003341    .0050306
+       _cons |   .0138118   .0003051    45.27   0.000     .0131991    .0144246
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 22.84748*F4treat + 4.569496*treat + 4.569496*L4treat +
+       4.569496*L8treat + 4.569496*L12treat + 4.569496*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_teen~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0012355   .0219388    -0.06   0.955    -.0453009    .0428299
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "-0.001"
+
+added macro:
+        e(over15empse) : "(0.022)"
+
+added macro:
+        e(below15empb) : "0.217*"
+
+added macro:
+       e(below15empse) : "(0.111)"
+
+added scalar:
+   e(below15empse_num) =  .
+
+added macro:
+        e(below15empt) : "."
+
+added macro:
+            e(allempb) : "0.216*"
+
+added macro:
+           e(allempse) : "(0.114)"
+
+added scalar:
+       e(allempse_num) =  .
+
+added macro:
+            e(allempt) : "."
+
+added macro:
+           e(allwageb) : "0.223***"
+
+added macro:
+          e(allwagese) : "(0.066)"
+
+added scalar:
+      e(allwagese_num) =  .
+
+added macro:
+           e(allwaget) : "."
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_1979_1_321_te
+> enepop_estadd.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   351015928    .8030118   .4049035   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   461113054    7.817277   .9476378   6.075942   11.42869
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.89
+Statistics robust to heteroskedasticity           Prob > F        =     0.0823
+                                                  R-squared       =     0.9347
+                                                  Adj R-squared   =     0.8829
+                                                  Within R-sq.    =     0.0064
+Number of clusters (statenum) =         51        Root MSE        =     0.0234
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+  femaleepop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0050342    .002921    -1.72   0.091    -.0109012    .0008329
+     F8treat |  -.0025693   .0024059    -1.07   0.291    -.0074017    .0022631
+     F4treat |  -.0013025   .0028866    -0.45   0.654    -.0071005    .0044955
+       treat |  -.0042595   .0021671    -1.97   0.055    -.0086122    .0000933
+     L4treat |  -.0038249   .0025558    -1.50   0.141    -.0089583    .0013086
+     L8treat |  -.0025868   .0032256    -0.80   0.426    -.0090655    .0038919
+    L12treat |   .0029553   .0032175     0.92   0.363    -.0035073    .0094178
+    L16treat |    .000282   .0034844     0.08   0.936    -.0067167    .0072807
+       _cons |   .5230623   .0014013   373.26   0.000     .5202476     .525877
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 18.7144*F4treat + 3.74288*treat + 3.74288*L4treat + 3.74288*L8treat +
+       3.74288*L12treat + 3.74288*L16treat = 0
+
+------------------------------------------------------------------------------
+  femaleepop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0034491   .0420807    -0.08   0.935    -.0879708    .0810725
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "-0.003"
+
+added macro:
+           e(allempse) : "(0.042)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 10 HDFE groups                          F(   8,     50) =       3.83
+Statistics robust to heteroskedasticity           Prob > F        =     0.0014
+                                                  R-squared       =     0.9600
+                                                  Adj R-squared   =     0.9284
+                                                  Within R-sq.    =     0.0247
+Number of clusters (statenum) =         51        Root MSE        =     0.0351
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+femalelogw~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0114337   .0039414    -2.90   0.006    -.0193503   -.0035171
+     F8treat |    -.01377   .0034704    -3.97   0.000    -.0207406   -.0067995
+     F4treat |  -.0138713   .0033109    -4.19   0.000    -.0205213   -.0072212
+       treat |  -.0061692    .004372    -1.41   0.164    -.0149506    .0026123
+     L4treat |  -.0083595    .004537    -1.84   0.071    -.0174723    .0007532
+     L8treat |  -.0094802   .0050073    -1.89   0.064    -.0195377    .0005773
+    L12treat |  -.0056443   .0054169    -1.04   0.302    -.0165244    .0052358
+    L16treat |  -.0096508   .0059876    -1.61   0.113    -.0216774    .0023757
+       _cons |   7.266076   .0017907  4057.70   0.000     7.262479    7.269673
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                  postcont |         8           8           0    ?|
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 9.734947*F4treat + 1.946989*treat + 1.946989*L4treat +
+       1.946989*L8treat + 1.946989*L12treat + 1.946989*L16treat = 0
+
+------------------------------------------------------------------------------
+femalelogw~e | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0585114   .0489175     1.20   0.237    -.0397423    .1567652
+------------------------------------------------------------------------------
+
+added macro:
+         e(allwagemwb) : "0.059"
+
+added macro:
+        e(allwagemwse) : "(0.049)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.65
+Statistics robust to heteroskedasticity           Prob > F        =     0.1332
+                                                  R-squared       =     0.8975
+                                                  Adj R-squared   =     0.8162
+                                                  Within R-sq.    =     0.0142
+Number of clusters (statenum) =         51        Root MSE        =     0.0224
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_fe~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0020562    .003008     0.68   0.497    -.0039854    .0080979
+     F8treat |   .0046774   .0022966     2.04   0.047     .0000646    .0092902
+     F4treat |   .0047263   .0023306     2.03   0.048     .0000451    .0094075
+       treat |   .0023863   .0027047     0.88   0.382    -.0030462    .0078189
+     L4treat |   .0065863   .0028396     2.32   0.024     .0008829    .0122898
+     L8treat |    .007157   .0037764     1.90   0.064     -.000428    .0147421
+    L12treat |   .0069348   .0037542     1.85   0.071    -.0006058    .0144754
+    L16treat |   .0057623   .0039496     1.46   0.151    -.0021706    .0136953
+       _cons |   .2733729   .0015465   176.77   0.000     .2702667    .2764791
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 18.7144*F4treat + 3.74288*treat + 3.74288*L4treat + 3.74288*L8treat +
+       3.74288*L12treat + 3.74288*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_fe~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0194454   .0444964     0.44   0.664    -.0699283     .108819
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.019"
+
+added macro:
+       e(below15empse) : "(0.044)"
+(MWFE estimator converged in 23 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,242
+Absorbing 9 HDFE groups                           F(   8,     50) =       3.03
+Statistics robust to heteroskedasticity           Prob > F        =     0.0074
+                                                  R-squared       =     0.9537
+                                                  Adj R-squared   =     0.9170
+                                                  Within R-sq.    =     0.0288
+Number of clusters (statenum) =         51        Root MSE        =     0.0227
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_fema~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0070904   .0024147    -2.94   0.005    -.0119404   -.0022404
+     F8treat |  -.0072467   .0022799    -3.18   0.003     -.011826   -.0026674
+     F4treat |  -.0060288   .0021959    -2.75   0.008    -.0104394   -.0016182
+       treat |  -.0066458   .0025943    -2.56   0.013    -.0118565   -.0014351
+     L4treat |  -.0104112   .0029475    -3.53   0.001    -.0163314    -.004491
+     L8treat |  -.0097438   .0037021    -2.63   0.011    -.0171797    -.002308
+    L12treat |  -.0039795   .0035428    -1.12   0.267    -.0110954    .0031363
+    L16treat |  -.0054804   .0039551    -1.39   0.172    -.0134245    .0024638
+       _cons |   .2496894   .0013045   191.40   0.000     .2470692    .2523096
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 18.7144*F4treat + 3.74288*treat + 3.74288*L4treat + 3.74288*L8treat +
+       3.74288*L12treat + 3.74288*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_fema~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0228945   .0587544    -0.39   0.698    -.1409061    .0951171
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "-0.023"
+
+added macro:
+        e(over15empse) : "(0.059)"
+
+added macro:
+        e(below15empb) : "0.019"
+
+added macro:
+       e(below15empse) : "(0.044)"
+
+added scalar:
+   e(below15empse_num) =  .
+
+added macro:
+        e(below15empt) : "."
+
+added macro:
+            e(allempb) : "-0.003"
+
+added macro:
+           e(allempse) : "(0.042)"
+
+added scalar:
+       e(allempse_num) =  .
+
+added macro:
+            e(allempt) : "."
+
+added macro:
+           e(allwageb) : "0.059"
+
+added macro:
+          e(allwagese) : "(0.049)"
+
+added scalar:
+      e(allwagese_num) =  .
+
+added macro:
+           e(allwaget) : "."
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_1979_1_321_fe
+> maleepop_estadd.ster saved
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    DMW_real |     137   153401104    .8160777   .3997374   .2514448   2.193727
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     MW_real |     189   199665036    7.889867   .9332092   6.075942   11.42869
+(MWFE estimator converged in 25 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,237
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.14
+Statistics robust to heteroskedasticity           Prob > F        =     0.3564
+                                                  R-squared       =     0.8480
+                                                  Adj R-squared   =     0.7273
+                                                  Within R-sq.    =     0.0026
+Number of clusters (statenum) =         51        Root MSE        =     0.0476
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+      BHepop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0026799    .006862    -0.39   0.698    -.0164626    .0111027
+     F8treat |  -.0020935   .0063842    -0.33   0.744    -.0149164    .0107295
+     F4treat |  -.0025254   .0060179    -0.42   0.677    -.0146127    .0095619
+       treat |   .0074036   .0065411     1.13   0.263    -.0057347    .0205419
+     L4treat |   .0094732   .0067496     1.40   0.167    -.0040838    .0230303
+     L8treat |   .0060575   .0075737     0.80   0.428    -.0091547    .0212697
+    L12treat |   .0072045    .007374     0.98   0.333    -.0076065    .0220155
+    L16treat |   .0018891   .0077142     0.24   0.808    -.0136053    .0173836
+       _cons |   .5549497   .0027688   200.43   0.000     .5493883     .560511
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.36723*F4treat + 3.473446*treat + 3.473446*L4treat +
+       3.473446*L8treat + 3.473446*L12treat + 3.473446*L16treat = 0
+
+------------------------------------------------------------------------------
+      BHepop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .1551067   .1002783     1.55   0.128    -.0463082    .3565215
+------------------------------------------------------------------------------
+
+added macro:
+            e(allempb) : "0.155"
+
+added macro:
+           e(allempse) : "(0.100)"
+(MWFE estimator converged in 26 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,210
+Absorbing 10 HDFE groups                          F(   8,     50) =       1.39
+Statistics robust to heteroskedasticity           Prob > F        =     0.2260
+                                                  R-squared       =     0.8885
+                                                  Adj R-squared   =     0.7993
+                                                  Within R-sq.    =     0.0080
+Number of clusters (statenum) =         51        Root MSE        =     0.0528
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+   BHlogwage | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0075313   .0061668    -1.22   0.228    -.0199177     .004855
+     F8treat |  -.0095381   .0062602    -1.52   0.134    -.0221119    .0030358
+     F4treat |  -.0126704   .0066117    -1.92   0.061    -.0259504    .0006096
+       treat |  -.0184071   .0069722    -2.64   0.011    -.0324112   -.0044031
+     L4treat |  -.0052365   .0079202    -0.66   0.512    -.0211446    .0106716
+     L8treat |  -.0135761   .0083265    -1.63   0.109    -.0303004    .0031483
+    L12treat |   .0032073    .009329     0.34   0.732    -.0155306    .0219452
+    L16treat |  -.0103163   .0084593    -1.22   0.228    -.0273074    .0066747
+       _cons |   7.211725   .0036057  2000.11   0.000     7.204483    7.218967
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                  postcont |         8           8           0    ?|
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 9.668035*F4treat + 1.933607*treat + 1.933607*L4treat +
+       1.933607*L8treat + 1.933607*L12treat + 1.933607*L16treat = 0
+
+------------------------------------------------------------------------------
+   BHlogwage | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0367836   .0524557     0.70   0.486    -.0685768     .142144
+------------------------------------------------------------------------------
+
+added macro:
+         e(allwagemwb) : "0.037"
+
+added macro:
+        e(allwagemwse) : "(0.052)"
+(MWFE estimator converged in 25 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,237
+Absorbing 9 HDFE groups                           F(   8,     50) =       1.84
+Statistics robust to heteroskedasticity           Prob > F        =     0.0906
+                                                  R-squared       =     0.8316
+                                                  Adj R-squared   =     0.6980
+                                                  Within R-sq.    =     0.0076
+Number of clusters (statenum) =         51        Root MSE        =     0.0427
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+limited_BH~p | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |  -.0040337   .0052091    -0.77   0.442    -.0144965     .006429
+     F8treat |   .0026614   .0050789     0.52   0.603    -.0075399    .0128627
+     F4treat |    .002041   .0055584     0.37   0.715    -.0091234    .0132055
+       treat |   .0132291   .0064561     2.05   0.046     .0002616    .0261966
+     L4treat |   .0138014   .0054605     2.53   0.015     .0028337    .0247691
+     L8treat |   .0132808   .0080185     1.66   0.104    -.0028249    .0293865
+    L12treat |   .0067035   .0077196     0.87   0.389    -.0088018    .0222088
+    L16treat |   .0049342   .0076965     0.64   0.524    -.0105246     .020393
+       _cons |   .3281727   .0028055   116.97   0.000     .3225376    .3338078
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.36723*F4treat + 3.473446*treat + 3.473446*L4treat +
+       3.473446*L8treat + 3.473446*L12treat + 3.473446*L16treat = 0
+
+------------------------------------------------------------------------------
+limited_BH~p | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .1449951   .0898116     1.61   0.113    -.0353969     .325387
+------------------------------------------------------------------------------
+
+added macro:
+        e(below15empb) : "0.145"
+
+added macro:
+       e(below15empse) : "(0.090)"
+(MWFE estimator converged in 25 iterations)
+
+HDFE Linear regression                            Number of obs   =      7,237
+Absorbing 9 HDFE groups                           F(   8,     50) =       0.79
+Statistics robust to heteroskedasticity           Prob > F        =     0.6113
+                                                  R-squared       =     0.8719
+                                                  Adj R-squared   =     0.7703
+                                                  Within R-sq.    =     0.0031
+Number of clusters (statenum) =         51        Root MSE        =     0.0343
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+upper_BHepop | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    F12treat |   .0013538   .0054207     0.25   0.804     -.009534    .0122416
+     F8treat |  -.0047548   .0054093    -0.88   0.384    -.0156197      .00611
+     F4treat |  -.0045664   .0042243    -1.08   0.285    -.0130513    .0039184
+       treat |  -.0058255   .0048143    -1.21   0.232    -.0154953    .0038443
+     L4treat |  -.0043282    .006079    -0.71   0.480    -.0165383    .0078819
+     L8treat |  -.0072233   .0062674    -1.15   0.255    -.0198117    .0053651
+    L12treat |    .000501   .0053268     0.09   0.925    -.0101983    .0112003
+    L16treat |  -.0030451   .0058049    -0.52   0.602    -.0147045    .0086143
+       _cons |    .226777   .0025521    88.86   0.000     .2216509    .2319031
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-------------------------------------------------------------------+
+               Absorbed FE | Categories  - Redundant  = Num. Coefs |
+---------------------------+---------------------------------------|
+                  statenum |        51          51           0    *|
+               quarterdate |       142           1         141     |
+  quarterdate#c.indmajor_1 |       142           0         142    ?|
+  quarterdate#c.indmajor_2 |       142           0         142    ?|
+  quarterdate#c.indmajor_3 |       142           0         142    ?|
+  quarterdate#c.indmajor_4 |       142           0         142    ?|
+  quarterdate#c.indmajor_5 |       142           0         142    ?|
+  quarterdate#c.indmajor_6 |       142           0         142    ?|
+  quarterdate#c.indmajor_7 |       142           0         142    ?|
+  quarterdate#c.indmajor_8 |       142           0         142    ?|
+  quarterdate#c.indmajor_9 |       142           0         142    ?|
+ quarterdate#c.indmajor_10 |       142           0         142    ?|
+ quarterdate#c.occmajor_11 |       142           0         142    ?|
+ quarterdate#c.occmajor_12 |       142           0         142    ?|
+ quarterdate#c.occmajor_13 |       142           0         142    ?|
+ quarterdate#c.occmajor_21 |       142           0         142    ?|
+ quarterdate#c.occmajor_22 |       142           0         142    ?|
+ quarterdate#c.occmajor_23 |       142           0         142    ?|
+ quarterdate#c.occmajor_31 |       142           0         142    ?|
+ quarterdate#c.occmajor_32 |       142           0         142    ?|
+ quarterdate#c.occmajor_33 |       142           0         142    ?|
+ quarterdate#c.occmajor_34 |       142           0         142    ?|
+ quarterdate#c.occmajor_40 |       142           0         142    ?|
+                  postcont |         8           1           7     |
+                 postcontf |         4           1           3    ?|
+                   precont |         4           1           3    ?|
+                  precontf |         3           1           2    ?|
+                 earlycont |         5           1           4    ?|
+                earlycontf |         3           1           2    ?|
+-------------------------------------------------------------------+
+? = number of redundant parameters may be higher
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  - 17.36723*F4treat + 3.473446*treat + 3.473446*L4treat +
+       3.473446*L8treat + 3.473446*L12treat + 3.473446*L16treat = 0
+
+------------------------------------------------------------------------------
+upper_BHepop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0101116   .0731916     0.14   0.891    -.1368981    .1571213
+------------------------------------------------------------------------------
+
+added macro:
+         e(over15empb) : "0.010"
+
+added macro:
+        e(over15empse) : "(0.073)"
+
+added macro:
+        e(below15empb) : "0.145"
+
+added macro:
+       e(below15empse) : "(0.090)"
+
+added scalar:
+   e(below15empse_num) =  .
+
+added macro:
+        e(below15empt) : "."
+
+added macro:
+            e(allempb) : "0.155"
+
+added macro:
+           e(allempse) : "(0.100)"
+
+added scalar:
+       e(allempse_num) =  .
+
+added macro:
+            e(allempt) : "."
+
+added macro:
+           e(allwageb) : "0.037"
+
+added macro:
+          e(allwagese) : "(0.052)"
+
+added scalar:
+      e(allwagese_num) =  .
+
+added macro:
+           e(allwaget) : "."
+file /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Min
+> imum-Wages-Low-Wage-Jobs/Results/estimates/eventbased_aggregate_1979_1_321_BH
+> epop_estadd.ster saved
+
+. 
+end of do-file

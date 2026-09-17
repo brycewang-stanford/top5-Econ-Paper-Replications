@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS noise
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Replication data (Harvard Dataverse doi:10.7910/DVN/GCOVGX, ~5.2 GB unzipped) — never committed
+Data/**
+!Data/README.md
+!Data/.gitkeep
+
+# Generated output: keep small text outputs (tex/csv/md/txt) and PNG figures;
+# ignore the raw author Output/ staging folder, per-group Stata batch logs and big binaries
+Results/Output/
+Results/logs/group_*/
+Results/**/*.gph
+Results/Figures/*.pdf
+Program/log-files/

@@ -1,0 +1,414 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Table_F1_cols_1_2.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:01:41
+
+. set more off
+
+. clear 
+
+. 
+. local timevar quarterdate
+
+. 
+. 
+. use  statenum quarterdate pop using "${data}state_panels_with3quant1979.dta",
+>  clear
+
+. cap drop tagger
+
+. egen tagger = tag(statenum quarterdate)
+
+. keep if tagger
+(899,232 observations deleted)
+
+. keep statenum quarterdate pop 
+
+. tempfile pop
+
+. save `pop'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St47990.000001 saved
+    as .dta format
+
+. 
+. local k 15
+
+. use "${data}data_appendix_real.dta", clear
+
+. merge m:1 statenum quarterdate using `pop', nogenerate keep(3) assert(2 3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            28,768  
+    -----------------------------------------
+
+. 
+. keep if wagebins<(`k'*100) 
+(14,880 observations deleted)
+
+. xtset wagebinstate quarterdate
+
+Panel variable: wagebinstate (unbalanced)
+ Time variable: quarterdate, 120 to 223
+         Delta: 1 unit
+
+. foreach j in count rw_count admincount pop{
+  2.         forval num = 1(1)4{
+  3.                 gen L`num'`j' = L`num'.`j' 
+  4.         }
+  5. }
+(168 missing values generated)
+(336 missing values generated)
+(504 missing values generated)
+(672 missing values generated)
+(168 missing values generated)
+(336 missing values generated)
+(504 missing values generated)
+(672 missing values generated)
+(168 missing values generated)
+(336 missing values generated)
+(504 missing values generated)
+(672 missing values generated)
+(168 missing values generated)
+(336 missing values generated)
+(504 missing values generated)
+(672 missing values generated)
+
+. *
+. foreach j in count rw_count admincount  pop{
+  2.         forval num = 0(1)19{
+  3.                 gen F`num'`j' = F`num'.`j' 
+  4.         }
+  5. }
+(168 missing values generated)
+(336 missing values generated)
+(504 missing values generated)
+(672 missing values generated)
+(840 missing values generated)
+(1,008 missing values generated)
+(1,176 missing values generated)
+(1,344 missing values generated)
+(1,512 missing values generated)
+(1,680 missing values generated)
+(1,848 missing values generated)
+(2,016 missing values generated)
+(2,184 missing values generated)
+(2,352 missing values generated)
+(2,520 missing values generated)
+(2,688 missing values generated)
+(2,856 missing values generated)
+(3,024 missing values generated)
+(3,192 missing values generated)
+(168 missing values generated)
+(336 missing values generated)
+(504 missing values generated)
+(672 missing values generated)
+(840 missing values generated)
+(1,008 missing values generated)
+(1,176 missing values generated)
+(1,344 missing values generated)
+(1,512 missing values generated)
+(1,680 missing values generated)
+(1,848 missing values generated)
+(2,016 missing values generated)
+(2,184 missing values generated)
+(2,352 missing values generated)
+(2,520 missing values generated)
+(2,688 missing values generated)
+(2,856 missing values generated)
+(3,024 missing values generated)
+(3,192 missing values generated)
+(168 missing values generated)
+(336 missing values generated)
+(504 missing values generated)
+(672 missing values generated)
+(840 missing values generated)
+(1,008 missing values generated)
+(1,176 missing values generated)
+(1,344 missing values generated)
+(1,512 missing values generated)
+(1,680 missing values generated)
+(1,848 missing values generated)
+(2,016 missing values generated)
+(2,184 missing values generated)
+(2,352 missing values generated)
+(2,520 missing values generated)
+(2,688 missing values generated)
+(2,856 missing values generated)
+(3,024 missing values generated)
+(3,192 missing values generated)
+(168 missing values generated)
+(336 missing values generated)
+(504 missing values generated)
+(672 missing values generated)
+(840 missing values generated)
+(1,008 missing values generated)
+(1,176 missing values generated)
+(1,344 missing values generated)
+(1,512 missing values generated)
+(1,680 missing values generated)
+(1,848 missing values generated)
+(2,016 missing values generated)
+(2,184 missing values generated)
+(2,352 missing values generated)
+(2,520 missing values generated)
+(2,688 missing values generated)
+(2,856 missing values generated)
+(3,024 missing values generated)
+(3,192 missing values generated)
+
+. *
+. 
+. foreach j in count rw_count admincount pop{
+  2. gen post4qtr`j' = F0`j'/4 
+  3. gen post20qtr`j' = F0`j'/20 
+  4. gen pre4qtr`j' = L1`j' /4
+  5. 
+. foreach num of numlist 1(1)3{
+  6. replace post4qtr`j' =  post4qtr`j' + ( F`num'`j' / 4)
+  7. }
+  8. foreach num of numlist 1(1)19{
+  9. replace post20qtr`j' =  post20qtr`j' + ( F`num'`j' / 20)
+ 10. }
+ 11. foreach num of numlist 2(1)4{
+ 12. replace pre4qtr`j' =  pre4qtr`j'  + ( L`num'`j' / 4)
+ 13. }
+ 14. 
+. }
+(168 missing values generated)
+(8,340 real changes made, 168 to missing)
+(8,231 real changes made, 168 to missing)
+(8,131 real changes made, 168 to missing)
+(8,340 real changes made, 168 to missing)
+(8,231 real changes made, 168 to missing)
+(8,131 real changes made, 168 to missing)
+(8,027 real changes made, 168 to missing)
+(7,925 real changes made, 168 to missing)
+(7,830 real changes made, 168 to missing)
+(7,723 real changes made, 168 to missing)
+(7,627 real changes made, 168 to missing)
+(7,522 real changes made, 168 to missing)
+(7,424 real changes made, 168 to missing)
+(7,324 real changes made, 168 to missing)
+(7,224 real changes made, 168 to missing)
+(7,130 real changes made, 168 to missing)
+(7,037 real changes made, 168 to missing)
+(6,931 real changes made, 168 to missing)
+(6,830 real changes made, 168 to missing)
+(6,716 real changes made, 168 to missing)
+(6,613 real changes made, 168 to missing)
+(6,512 real changes made, 168 to missing)
+(8,280 real changes made, 168 to missing)
+(8,196 real changes made, 168 to missing)
+(8,106 real changes made, 168 to missing)
+(168 missing values generated)
+(8,340 real changes made, 168 to missing)
+(8,231 real changes made, 168 to missing)
+(8,131 real changes made, 168 to missing)
+(8,340 real changes made, 168 to missing)
+(8,231 real changes made, 168 to missing)
+(8,131 real changes made, 168 to missing)
+(8,027 real changes made, 168 to missing)
+(7,925 real changes made, 168 to missing)
+(7,830 real changes made, 168 to missing)
+(7,723 real changes made, 168 to missing)
+(7,627 real changes made, 168 to missing)
+(7,522 real changes made, 168 to missing)
+(7,424 real changes made, 168 to missing)
+(7,324 real changes made, 168 to missing)
+(7,224 real changes made, 168 to missing)
+(7,130 real changes made, 168 to missing)
+(7,037 real changes made, 168 to missing)
+(6,931 real changes made, 168 to missing)
+(6,830 real changes made, 168 to missing)
+(6,716 real changes made, 168 to missing)
+(6,613 real changes made, 168 to missing)
+(6,512 real changes made, 168 to missing)
+(8,280 real changes made, 168 to missing)
+(8,196 real changes made, 168 to missing)
+(8,106 real changes made, 168 to missing)
+(168 missing values generated)
+(13,888 real changes made, 168 to missing)
+(13,720 real changes made, 168 to missing)
+(13,552 real changes made, 168 to missing)
+(13,888 real changes made, 168 to missing)
+(13,720 real changes made, 168 to missing)
+(13,552 real changes made, 168 to missing)
+(13,384 real changes made, 168 to missing)
+(13,216 real changes made, 168 to missing)
+(13,048 real changes made, 168 to missing)
+(12,880 real changes made, 168 to missing)
+(12,712 real changes made, 168 to missing)
+(12,544 real changes made, 168 to missing)
+(12,376 real changes made, 168 to missing)
+(12,208 real changes made, 168 to missing)
+(12,040 real changes made, 168 to missing)
+(11,872 real changes made, 168 to missing)
+(11,704 real changes made, 168 to missing)
+(11,536 real changes made, 168 to missing)
+(11,368 real changes made, 168 to missing)
+(11,200 real changes made, 168 to missing)
+(11,032 real changes made, 168 to missing)
+(10,864 real changes made, 168 to missing)
+(13,720 real changes made, 168 to missing)
+(13,552 real changes made, 168 to missing)
+(13,384 real changes made, 168 to missing)
+(168 missing values generated)
+(13,888 real changes made, 168 to missing)
+(13,720 real changes made, 168 to missing)
+(13,552 real changes made, 168 to missing)
+(13,888 real changes made, 168 to missing)
+(13,720 real changes made, 168 to missing)
+(13,552 real changes made, 168 to missing)
+(13,384 real changes made, 168 to missing)
+(13,216 real changes made, 168 to missing)
+(13,048 real changes made, 168 to missing)
+(12,880 real changes made, 168 to missing)
+(12,712 real changes made, 168 to missing)
+(12,544 real changes made, 168 to missing)
+(12,376 real changes made, 168 to missing)
+(12,208 real changes made, 168 to missing)
+(12,040 real changes made, 168 to missing)
+(11,872 real changes made, 168 to missing)
+(11,704 real changes made, 168 to missing)
+(11,536 real changes made, 168 to missing)
+(11,368 real changes made, 168 to missing)
+(11,200 real changes made, 168 to missing)
+(11,032 real changes made, 168 to missing)
+(10,864 real changes made, 168 to missing)
+(13,720 real changes made, 168 to missing)
+(13,552 real changes made, 168 to missing)
+(13,384 real changes made, 168 to missing)
+
+. *
+. 
+. 
+. foreach j in count rw_count admincount pop{
+  2. gen post4qtr`j'_pop = post4qtr`j' / post4qtrpop 
+  3. gen post20qtr`j'_pop = post20qtr`j' / post20qtrpop 
+  4. gen pre4qtr`j'_pop =  pre4qtr`j' / pre4qtrpop 
+  5. 
+. }
+(504 missing values generated)
+(3,192 missing values generated)
+(672 missing values generated)
+(504 missing values generated)
+(3,192 missing values generated)
+(672 missing values generated)
+(504 missing values generated)
+(3,192 missing values generated)
+(672 missing values generated)
+(504 missing values generated)
+(3,192 missing values generated)
+(672 missing values generated)
+
+. 
+. 
+. *For table
+. cap drop one
+
+. gen one = 1
+
+. reg one
+
+      Source |       SS           df       MS      Number of obs   =    13,888
+-------------+----------------------------------   F(0, 13887)     =      0.00
+       Model |           0         0           .   Prob > F        =         .
+    Residual |           0    13,887           0   R-squared       =         .
+-------------+----------------------------------   Adj R-squared   =         .
+       Total |           0    13,887           0   Root MSE        =         0
+
+------------------------------------------------------------------------------
+         one | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |          1          .        .       .            .           .
+------------------------------------------------------------------------------
+
+. cap drop diff
+
+. gen diff = (post4qtradmincount_pop-post4qtrcount_pop)^2
+(504 missing values generated)
+
+. sum diff, meanonly
+
+. local CPSraw_post4=  r(mean)
+
+. 
+. cap drop diff
+
+. gen diff = (post4qtradmincount_pop-post4qtrrw_count_pop)^2
+(504 missing values generated)
+
+. sum diff, meanonly
+
+. local CPSadj_post4=  r(mean)
+
+. 
+. local temp: di %04.3f `CPSraw_post4'/`CPSadj_post4'
+
+. estadd local _4qtr "`temp'"
+
+added macro:
+              e(_4qtr) : "1.637"
+
+. di "`temp'"
+1.637
+
+. 
+. cap drop diff
+
+. gen diff = (post20qtradmincount_pop-post20qtrcount_pop)^2
+(3,192 missing values generated)
+
+. sum diff, meanonly
+
+. local CPSraw_post20=  r(mean)
+
+. 
+. cap drop diff
+
+. gen diff = (post20qtradmincount_pop-post20qtrrw_count_pop)^2
+(3,192 missing values generated)
+
+. sum diff, meanonly
+
+. local CPSadj_post20=  r(mean)
+
+. 
+. local temp: di %04.3f `CPSraw_post20'/`CPSadj_post20'
+
+. estadd local _20qtr "`temp'"
+
+added macro:
+             e(_20qtr) : "3.875"
+
+. eststo foo
+
+. 
+. local appendorreplace replace
+
+. local mgroups mgroups("\specialcell{MSPE ratio: \\ Raw/Benchmarked}", lhs(\bi
+> gcell{c}{Data structure})) 
+
+. local stats stats(_4qtr blankspace _20qtr blankspace, labels("4 quarters, \\\
+> $ 0.25, $<$ \\\$ 15" " " "20 quarters, \\\$ 0.25, $<$ \\\$ 15" " " ))
+
+. 
+. 
+. esttab foo ///
+> using "${tables}TableF1_cols1_2.tex", ///
+> `appendorreplace' `stats' `mgroups' ///
+> nodep nogaps cells(none) noobs nonumbers fragment booktabs nodepvar nomtitles
+(file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Tables/TableF1_cols1_2.tex not found)
+(output written to /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replicatio
+> ns/QJE2019-Minimum-Wages-Low-Wage-Jobs/Results/Tables/TableF1_cols1_2.tex)
+
+. 
+. 
+. 
+end of do-file

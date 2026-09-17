@@ -1,0 +1,285 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_C2.log
+  log type:  text
+ opened on:  17 Sep 2026, 05:54:10
+
+. 
+. 
+. use "${data}VZmw_quarterly_lagsleads_1979_2016.dta", clear 
+
+. gen MW = exp(logmw)
+
+. bys quarterdate: egen fedMW = min(MW) 
+
+. gen year = year(dofq(quarterdate))
+
+. tab statenum if MW>fedMW & year==1995
+
+ State FIPS |
+       Code |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          2 |          4       10.00       10.00
+          9 |          4       10.00       20.00
+         11 |          4       10.00       30.00
+         15 |          4       10.00       40.00
+         19 |          4       10.00       50.00
+         34 |          4       10.00       60.00
+         41 |          4       10.00       70.00
+         44 |          4       10.00       80.00
+         50 |          4       10.00       90.00
+         53 |          4       10.00      100.00
+------------+-----------------------------------
+      Total |         40      100.00
+
+. levelsof statenum if MW>fedMW+0.001 & year==1995, local(higherthanfed)
+2 9 11 15 19 34 41 44 50 53
+
+.  
+. set more off
+
+. use "${data}Admin_CPS_workingdata_in2016dollars_allind_new.dta", clear
+
+. 
+. 
+. global treatdata  "Admin"
+
+. 
+. 
+. local hiw = 17
+
+. local loww = 5
+
+. 
+. tempfile origdata
+
+. save `origdata'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45010.000001 saved
+    as .dta format
+
+. 
+. foreach vv in statenum quarterdate wagebins{
+  2. preserve
+  3. keep `vv'
+  4. duplicates drop
+  5. tempfile `vv'
+  6. save ``vv''
+  7. restore
+  8. }
+
+Duplicates in terms of all variables
+
+(560,827 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45010.000003 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(560,770 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45010.000005 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(560,737 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45010.000007 saved
+    as .dta format
+
+. *
+. 
+. global firstyear 1992
+
+. global pre "( year>=1996 & year<=1998)"
+
+. 
+. local firstyear = ${firstyear}
+
+. 
+. 
+. use `statenum', clear
+
+. cross using `quarterdate'
+
+. cross using `wagebins'
+
+. tempfile balance
+
+. save `balance'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45010.000008 saved
+    as .dta format
+
+. use `origdata',clear
+
+. cap drop _merge
+
+. merge 1:1 statenum quarterdate wagebins using `balance', assert(2 3) nogenera
+> te
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                       215,750
+        from master                         0  
+        from using                    215,750  
+
+    Matched                           560,878  
+    -----------------------------------------
+
+. replace year = year(dofq(quarterdate)) if year==.
+(215,750 real changes made)
+
+. replace count = 0 if count==.
+(226,354 real changes made)
+
+. replace acount = 0 if acount==.
+(761,964 real changes made)
+
+. replace MNcount = 0 if MNcount==.
+(765,915 real changes made)
+
+. bys statenum quarterdate: egen _pop = max(pop)
+
+. replace pop = _pop if pop==.
+(219,477 real changes made)
+
+. 
+. g treatstate = statenum==53
+
+. g _control = 1  if year>=1996 & year<=2004
+(517,752 missing values generated)
+
+. replace _control = 0 if DMW>0 & DMW<. & (year>=1998 & year<=2004)
+(3,751 real changes made)
+
+. egen control = min(_control), by(statenum)
+
+. keep if year>=$firstyear & year<=2004
+(402,696 observations deleted)
+
+. keep if treatstate==1 | control==1
+(80,652 observations deleted)
+
+. keep if wagebins!=.
+(0 observations deleted)
+
+. 
+. g wagebin100 = wagebins - mod(wagebins, 100)
+
+. replace wagebin100 = int(wagebin100/100)
+(284,960 real changes made)
+
+. replace count = 0 if count==.
+(0 real changes made)
+
+. assert acount!=. if statenum==53
+
+. assert MNcount!=. if statenum==27
+
+. cap drop countall
+
+. cap drop acountall
+
+. cap drop MNcountall
+
+. 
+. bys statenum quarterdate: egen countall = total(count) 
+
+. bys statenum quarterdate: egen acountall = total(acount)  
+
+. bys statenum quarterdate: egen MNcountall = total(MNcount) 
+
+. 
+. 
+. *Get annual average
+. collapse (mean)  count acount pop MNcount countall acountall MNcountall, by(y
+> ear wagebins statenum control treatstate  )
+
+. g wagebinmissing = wagebins<900 & wagebins>=500
+
+. g wagebinexcess = wagebins>=900 & wagebins<1400
+
+. 
+. 
+. *Collapse by wagebin100
+. collapse (sum) MNcount count acount (mean) pop  countall acountall MNcountall
+> , by(year wagebinmissing wagebinexcess control treatstate statenum  )
+
+. *Collapse by treat/control state
+. collapse (mean) MNcount count acount (mean) pop  countall acountall MNcountal
+> l, by(year wagebinmissing wagebinexcess control treatstate   )
+
+. 
+. 
+. keep if wagebinmissing==1 | wagebinexcess==1
+(26 observations deleted)
+
+. 
+. 
+. gen acountsh = acount/pop
+
+. gen countsh = count/pop
+
+. 
+. 
+. keep if year!=1999
+(4 observations deleted)
+
+. *To turn control line the counterfactual line.
+. foreach vv in wagebinexcess wagebinmissing {
+  2. sum acountsh if `vv'==1 & treat==1 & year>=1996 & year<=1998
+  3. scalar treat_pre = r(mean)
+  4. sum countsh if `vv'==1 & treat!=1 & year>=1996 & year<=1998
+  5. scalar cont_pre = r(mean)
+  6. replace countsh = countsh + (treat_pre - cont_pre) if `vv'==1 & treat!=1
+  7. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    acountsh |          3    .1433862    .0025928   .1410723   .1461885
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+     countsh |          3    .1605912    .0065839   .1566834   .1681926
+(12 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    acountsh |          3    .0689394    .0043671   .0639873   .0722396
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+     countsh |          3    .0904539    .0035672   .0877436   .0944952
+(12 real changes made)
+
+. 
+. twoway ///
+> (connected acountsh year if wagebinexcess==1 & treat==1, lcolor(ltblue) mcolo
+> r(ltblue) lpattern(dash) lwidth(thick)) ///                                
+> (connected acountsh year if wagebinmissing == 1 & treat==1, lcolor(red)  lpat
+> tern(dash) xline(1998, lcolor(gs6) lpattern(dash)) xline(1999, lcolor(gs6) lp
+> attern(dash)) mcolor(red) lwidth(thick) ) ///                         
+> (connected countsh year if wagebinexcess==1 & treat!=1, lcolor(ltblue) mcolor
+> (ltblue)  lwidth(thick)) ///                               
+> (connected countsh year if wagebinmissing == 1 & treat!=1, lcolor(red) xline(
+> 1998, lcolor(gs6) lpattern(dash)) xline(1999,  lcolor(gs6)  lpattern(dash)) m
+> color(red) lwidth(thick) ) ///                                
+> , legend(order(2 "WA, [$5, $8]" 1 "WA, [$9, $13]" 4 "Counterfactual, [$5, $8]
+> " 3 "Counterfactual, [$9, $13]" ) size(3.3))  ///
+> graphregion(color(white))  xtitle("Year") ylabel(0 "0" 0.03(0.03)0.21 ,format
+> (%03.2f)) xlabel(1992(2)2004) ytitle("Employment counts per capita", height(1
+> 0)) ///
+>   text(0.2 1998 "8.4% MW inc.", size(small) color(black) place(l) margin(r=1)
+> ) ///
+>   text(0.2 1999 "10.3% MW inc.", size(small) color(black) place(r) margin(l=1
+> )) 
+
+. gr export "${figures}FigureC2.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureC2.pdf saved as PDF
+    format
+
+. 
+. 
+. 
+end of do-file

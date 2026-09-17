@@ -90,6 +90,7 @@ $X_{it}$：Princeling purchase（或 discount / area）、派系关系、GDP 增
 | 市级 FE | "Province fixed effects" | `i.prefid`（地级市 FE） |
 | 样本期 | 2004–2016 | 地级市面板实际只到 2014（Wiebe 2024） |
 | Table XII 第 11 列 | 控制变量同其他列 | **漏掉 `ties`**（do 文件笔误，照原样复现） |
+| Table XII 第 10、12 列 | ALP × Central inspection | 主效应放的是 **`post2012` 而非 `inspection`**（照原样复现才能得到 −1.822 / 0.044；按表意放 `inspection` 则为 −1.779 / −0.384） |
 | Table VIII/IX 第 2 列 | — | `lnpop` 写了两次（无影响） |
 
 Table XII 的交互：$\text{PP}\times\text{post2012}$、$\text{PP}\times\text{inspection}$，以及 discount (PD)、area (ALP) 的对应交互；post2012 或 inspection 主效应放入模型，但在 esttab 中被 drop。
@@ -156,13 +157,15 @@ LPM 列：`sp.feols("promote1 ~ … | year + provid", vcov="iid")`，与 `reg �
 结果：
 
 - Table VIII：34 个单元格中 32 个在三位小数上一致；另外 2 个 SE 差 ≤ 0.001（有限差分 Hessian 的精度）。
-- Tables IX、XII：见 §4.4。
+- Table IX：31/34；Table XII：24/24（见 §4.4）。
 
 **速度**：省级（k≈50，N≈400）每个模型 10–25 秒；地级市（k≈300，N≈2,700）每个模型 **20–50 分钟**（Stata < 1 秒），Tables IX + XII 必须 3 进程并行跑数小时。
 
 ### 4.4 地级市有序 probit 结果（Tables IX、XII）
 
-（运行结束后填入，见下文更新。）
+- **规格陷阱**：Table XII 第 10、12 列必须照 do 文件放 `post2012` 作为主效应（见 §2.3），否则 `alp2` 系数分别为 −1.779、−0.384，而论文是 −1.822、0.044。这不是优化问题：本项目的解析 Newton 实现和 StatsPAI 在错误规格下给出相同的数字。
+- **交叉验证（非 StatsPAI）**：`Program/statspai/oprobit_fast.py` 用解析 score + 解析 Hessian 的 Newton-Raphson（与 Stata `oprobit` 的算法相同）拟合同样的模型。Tables VIII / IX / XII 分别 **34/34、34/34、24/24** 与论文一致，每个模型 ≤ 0.75 秒；同一模型 `sp.oprobit` 需要 20–50 分钟，**慢约 2,000–4,000 倍**。
+- **`sp.oprobit` 最终结果**：Table IX **31/34**、Table XII **24/24** 与论文一致。IX 的 3 个 ⚠️ 都是 GDP growth 的系数或 SE，差 ≤ 0.0016（有限差分 Hessian）。每个地级市模型耗时 1.5–5 小时（机器负载 60–200，3 个进程并行）；Table IX 8 个模型合计 26.2 CPU 小时，Table XII 合计 19.1 CPU 小时。
 
 ---
 

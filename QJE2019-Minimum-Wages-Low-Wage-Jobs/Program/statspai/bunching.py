@@ -262,11 +262,10 @@ def add_placebo_bins(df: pd.DataFrame, P: Panel, kmax: int = 16) -> None:
             l = P.shift(tr, -j); l[np.isnan(l)] = 0
             df[f"F{j}treat_p{k}"] = f
             df[f"L{j}treat_p{k}"] = l
-        if k >= 8:
+        if True:   # window_p5..p7 exist in the .dta but are rebuilt here (identical definition)
             df[f"window_p{k}"] = sum(df[c] for c in
                                      [f"F12treat_p{k}", f"F8treat_p{k}", f"F4treat_p{k}", f"treat_p{k}",
                                       f"L4treat_p{k}", f"L8treat_p{k}", f"L12treat_p{k}", f"L16treat_p{k}"])
-    # p5..p7 window vars already exist in the .dta (window_p5..p7); F/L p5..p7 exist too
 
 
 # ---------------------------------------------------------------------------
@@ -334,13 +333,16 @@ def bunching_stats(params: pd.Series, V: pd.DataFrame, K: dict, with_alt: bool =
         wbch = (x[bi] @ wbb + x[ai] @ wba) * 4 * den / EWB
         return (wbch - bunch(x)) / (1 + bunch(x))
     def labdem(x): return bunch(x) / wbE(x)
+    # Table2_for_QJE.do (cols 1-5) uses the linear variant %dwb - %de (no division by 1+%de)
+    def wbE_lin(x): return (x[bi] @ wbb + x[ai] @ wba) * 4 * den / EWB - bunch(x)
+    def labdem_lin(x): return bunch(x) / wbE_lin(x)
     # Table 4, "no spillover" wage effect (abovebelowWBbunch_alt, secondmethod(Y)):
     # sum_t sum_nn (nn * b[L_t treat_m nn]) * (-1), scaled by 4*0.2/EWB
     def wb_nospill(x): return -(x[bi] @ jb) / EWB * 4 * 0.2
     def spill(x): return 1 - wb_nospill(x) / wbE(x)
 
     fns = [("below", below), ("above", above), ("wage", wbE), ("emp", bunch),
-           ("elas_mw", elas), ("elas_wage", labdem)]
+           ("elas_mw", elas), ("elas_wage", labdem), ("wage_lin", wbE_lin), ("elas_wage_lin", labdem_lin)]
     if with_alt:
         fns += [("wage_nospill", wb_nospill), ("spill_share", spill)]
     out = {}

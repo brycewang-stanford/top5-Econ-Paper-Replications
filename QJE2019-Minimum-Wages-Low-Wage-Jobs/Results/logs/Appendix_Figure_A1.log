@@ -1,0 +1,693 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_A1.log
+  log type:  text
+ opened on:  17 Sep 2026, 01:14:22
+
+. 
+. *This do file is created by DC on 04/20/2016.
+. *****************************************************************************
+> ***
+. ***************     Depicting MW Events (new Definition)        *************
+> ***
+. *****************************************************************************
+> ***
+. 
+. use "${data}state_names.dta",clear
+
+. keep statenum stateabb
+
+. tempfile stateabb
+
+. save `stateabb', replace
+(file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St32034.000001 not
+    found)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St32034.000001 saved
+    as .dta format
+
+. 
+. global numberquant=3
+
+. use                                             "${data}state_panels_cents_ba
+> lanced_add_QJE.dta" , clear
+
+. g all=1
+
+. 
+. cap drop _merge
+
+. merge m:1 statenum quarterdate using "${data}VZmw_quarterly_lagsleads_1979_20
+> 16.dta"
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  (_merge==3)
+    -----------------------------------------
+
+.  
+. g lnpop = ln(population)
+
+. 
+.  
+. 
+. 
+. *** SET PANEL VARS ***
+. 
+. egen wagebinstate = group(wagebins statenum)
+
+. xtset wagebinstate quarterdate   
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. egen wagequarterdate = group(wagebins quarterdate)
+
+. 
+. 
+. cap drop *MW* 
+
+. 
+. g MW = exp(logmw) 
+
+. g DMW = D.MW
+(5,967 missing values generated)
+
+. g MW_real = exp(logmw)/(cpi/100) 
+
+. g DMW_real = D.MW_real 
+(5,967 missing values generated)
+
+. 
+. g MW_realM25 = MW_real - mod(MW_real,0.25)
+
+. g DMW_realM25 = D.MW_realM25
+(5,967 missing values generated)
+
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ****************        Find Quintiles by Below Share        ****************
+> ***
+. *****************************************************************************
+> ***
+. *The main issue we have here is that we need to calculate the weighted averag
+> e of 4 period shares. 
+. 
+. foreach num of numlist 1(1)4{
+  2.         gen F`num'MW_realM25 = F`num'.MW_realM25
+  3. }
+(5,967 missing values generated)
+(11,934 missing values generated)
+(17,901 missing values generated)
+(23,868 missing values generated)
+
+. 
+. cap drop tagger
+
+. egen tagger =tag(statenum quarterdate)
+
+. 
+. 
+. 
+. 
+.         *********************************************************************
+> *******
+.         *******         Find treatments & Federal & State Increases      ****
+> *******
+.         *********************************************************************
+> *******
+.         
+.         
+.         
+. 
+. cap drop _merge
+
+. merge m:1 statenum quarterdate using "${data}eventclassification.dta", nogene
+> rate assert(1 3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                       846,612
+        from master                   846,612  
+        from using                          0  
+
+    Matched                            60,372  
+    -----------------------------------------
+
+. replace overallcountgroup = 0 if overallcountgroup==.
+(863,811 real changes made)
+
+. keep if tagger
+(899,232 observations deleted)
+
+. assert overallcountgroup!=0 if alltreat==1 & toosmall==0
+
+. 
+. cap drop _merge
+
+. merge m:1 statenum using `stateabb'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  (_merge==3)
+    -----------------------------------------
+
+. 
+. xtset statenum quarterdate
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. gen stateonly   = (overallcountgroup>0 & overallcountgroup!=.) & fedincrease!
+> =1
+
+. gen statefed    = (overallcountgroup>0 & overallcountgroup!=.) & stateonly==0
+
+. gen allothers   = ($missedevents | toosmall==1 ) 
+
+. 
+. 
+. 
+. 
+. gen date= quarterdate
+
+. labmask date,val(year)
+
+. *save "${data}temp.dta", replace
+. 
+. set more off
+
+. *use "${data}temp.dta", clear
+. 
+. cap drop stateonly
+
+. gen stateonly                   = (overallcountgroup>0 & overallcountgroup!=.
+> ) & fedincrease!=1
+
+. 
+. 
+. levelsof date if fedincrease == 1 & date ~= tq(1997q4), local(fedincreases)
+80 84 121 125 147 150 190 194 198
+
+. 
+. local mlabgap mlabgap(-2.9)
+
+. local xlines xline(`fedincreases', lpattern(l) lcolor(gs14))
+
+. 
+. 
+. encode stateabb, gen(stateindex)
+
+. 
+. sum stateindex,meanonly
+
+. local stateindexmax = r(max)
+
+. 
+. gen fedmw = .
+(7,752 missing values generated)
+
+. replace fedmw = 2.90 if date == tq(1979q1)
+(51 real changes made)
+
+. replace fedmw = 3.10 if date == tq(1980q1)
+(51 real changes made)
+
+. replace fedmw = 3.35 if date == tq(1981q1)
+(51 real changes made)
+
+. replace fedmw = 3.80 if date == tq(1990q2)
+(51 real changes made)
+
+. replace fedmw = 4.25 if date == tq(1991q2)
+(51 real changes made)
+
+. replace fedmw = 4.75 if date == tq(1996q4)
+(51 real changes made)
+
+. replace fedmw = 5.15 if date == tq(1997q3)
+(51 real changes made)
+
+. replace fedmw = 5.85 if date == tq(2007q3)
+(51 real changes made)
+
+. replace fedmw = 6.55 if date == tq(2008q3)
+(51 real changes made)
+
+. replace fedmw = 7.25 if date == tq(2009q3)
+(51 real changes made)
+
+. 
+. 
+. gen balancedpanel= 1
+
+. 
+. 
+. local stateindexplus = `stateindexmax' + 3
+
+. local fedmwlabels ""
+
+. foreach date of numlist `fedincreases' {
+  2.         sum fedmw if date == `date'
+  3.         local xpos = `date'
+  4.         if `date' == tq(1980q1){
+  5.         local xpos = `date' + 1
+  6.         }
+  7.         
+.         if `date' == tq(1980q1) | `date' == tq(1990q2) | `date' == tq(1996q4)
+>  | `date' == tq(2007q3) {
+  8.                 local placement placement(c)
+  9.         }
+ 10.         else if `date' == tq(1981q1) | `date' == tq(1991q2) | `date' == tq
+> (1997q3) | `date' == tq(2009q3) {
+ 11.                 local placement placement(e)
+ 12.         }
+ 13.         else local placement placement(c)
+ 14.         if `date' == tq(2007q3) local xpos = `date' - 1
+ 15.         if `date' == tq(2008q3) local xpos = `date' + 0.75
+ 16.         local fedmw: di %3.2f r(mean)
+ 17.         local fedmwlabels `fedmwlabels' text(`stateindexplus' `xpos' `"$`f
+> edmw'"', size(vsmall) color(gs9) `placement')
+ 18. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51         3.1           0        3.1        3.1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51        3.35           0       3.35       3.35
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51         3.8           0        3.8        3.8
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51        4.25           0       4.25       4.25
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51        4.75           0       4.75       4.75
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51        5.15           0       5.15       5.15
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51        5.85           0       5.85       5.85
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51        6.55           0       6.55       6.55
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       fedmw |         51        7.25           0       7.25       7.25
+
+. local postfedmw = tq(2009q3) + 5
+
+. local fedmwlabels `fedmwlabels' text(`stateindexplus' `postfedmw' "= Federal 
+> Minimum", size(vsmall) color(gs9) placement(e))
+
+. 
+. sum date,meanonly
+
+. local datemin = r(min)
+
+. local datemax = r(max)
+
+. 
+. 
+. local graphoptions yscale(off) ylabel(,nogrid) xlabel(`datemin'(12)220 227, v
+> aluelabel labsize(small)) ysize(4) xsize(6.5) graphregion(color(white) /*marg
+> in(t=3 b=0 r=3 l=2)*/) plotregion(color(white) margin(t=6)) ytitle("") xtitle
+> ("") legend(off) 
+
+. 
+. levelsof statenum       , local(temploc1)
+1 2 4 5 6 8 9 10 11 12 13 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32
+>  33 34 35 36 37 38 39 40 41 42 44 45 46 47 48 49 50 51 53 54 55 56
+
+. levelsof quarterdate, local(temploc2)
+76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101
+>  102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 
+> 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 1
+> 40 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 15
+> 9 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178
+>  179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 
+> 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 2
+> 17 218 219 220 221 222 223 224 225 226 227
+
+. 
+. gen stateonly_high = .
+(7,752 missing values generated)
+
+. gen stateonly_low = .
+(7,752 missing values generated)
+
+. 
+. foreach ll1 of local temploc1{
+  2.         foreach ll2 of local temploc2{
+  3.         sum stateonly if statenum==`ll1' & quarterdate == `ll2', meanonly
+  4.         if r(mean)>0{
+  5.         replace stateonly_high = `ll2' + 19 if statenum==`ll1' & quarterda
+> te == `ll2'
+  6.         replace stateonly_low  = `ll2' - 12 if statenum==`ll1' & quarterda
+> te == `ll2'
+  7.                 }
+  8.         }
+  9. }
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+. *
+. 
+. *The next part does not matter in regression, but matters in this figure.
+. gen belowshare_corr = belowshare*4/3 if alltreat==1 & year==1980
+(7,701 missing values generated)
+
+. replace allothers = 1 if belowshare_corr<0.02 & belowshare_corr!=. &  alltrea
+> t==1 & year==1980 
+(0 real changes made)
+
+. replace allothers = 0 if belowshare_corr>=.02 & belowshare_corr!=. &  alltrea
+> t==1 & year==1980 
+(13 real changes made)
+
+. replace statefed = 1 if belowshare_corr>=0.02 & belowshare_corr!=. & alltreat
+> ==1 & year==1980
+(14 real changes made)
+
+. 
+. 
+. 
+. 
+. twoway (scatter stateindex date if stateindex>0 & stateindex!=. & stateonly==
+> 1 & balancedpanel==1 , msymbol(O) mlab(stateabb) mlabsize(2.75) mcolor(blue) 
+> mlabcolor(black) `mlabgap'  mlabsize(tiny) ) ///
+> (scatter stateindex date if stateindex>0 & stateindex!=. & statefed==1  & bal
+> ancedpanel==1, msymbol(O) mlab(stateabb) mlabsize(2.75) mlabcolor(black) mcol
+> or(green*0.2) `mlabgap'  mlabsize(tiny) ) ///
+> (scatter stateindex date if stateindex>0 & stateindex!=. & allothers==1  & ba
+> lancedpanel==1, msymbol(T) mlab(stateabb) mlabsize(2.75) mlabcolor(black) mco
+> lor(orange*0.3) `mlabgap' mlabsize(tiny)  `xlines' ) ///
+> (scatter stateindex date if stateindex>0 & stateindex!=. & (allothers==1 | st
+> atefed==1 | stateonly==1)  & balancedpanel==0, msymbol(O) mlab(stateabb) mlab
+> size(2.75) mlabcolor(black) mcolor(gray) `mlabgap' mlabsize(tiny)  `xlines' )
+>  ///
+> , `graphoptions'   
+
+. graph export "${figures}FigureA1.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA1.pdf saved as PDF
+    format
+
+. 
+end of do-file

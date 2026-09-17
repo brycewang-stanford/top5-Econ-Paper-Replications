@@ -70,8 +70,15 @@ def _data(data_name, ps):
 
 def _run(job):
     kind, data_name, ps, y, xs, unit, table, col = job
+    import json
+    from common import OUT
     s = _data(data_name, ps)
-    return (oprobit if kind == "oprobit" else lpm)(s, y, xs, unit, table, col)
+    rows = (oprobit if kind == "oprobit" else lpm)(s, y, xs, unit, table, col)
+    # incremental checkpoint: one JSON line per finished model (survives interruption)
+    with open(OUT / f"table_{table}_partial.jsonl", "a") as f:
+        for r in rows:
+            f.write(json.dumps(r, default=str) + "\n")
+    return rows
 
 
 def promotion_jobs(data_name, unit, table):
@@ -92,9 +99,11 @@ def xii_jobs():
         for data_name, unit in [("province_panel", "provid"), ("prefecture_panel", "prefid")]:
             for inter, post in [(i1, "post2012"), (i2, "inspection")]:
                 col += 1
-                # do-file quirk reproduced: column 11 (prefecture, lnarea x post2012) omits ties
+                # do-file quirks reproduced: column 11 (prefecture, lnarea x post2012) omits ties;
+                # columns 10 and 12 (alp2 = area x inspection) enter post2012, not inspection, as main effect
                 ctrl = CTRL_NOTIES if col == 11 else CTRL
-                jobs.append(("oprobit", data_name, 1, "promote", [main, post, inter] + ctrl, unit, "XII", col))
+                main_eff = "post2012" if col in (10, 12) else post
+                jobs.append(("oprobit", data_name, 1, "promote", [main, main_eff, inter] + ctrl, unit, "XII", col))
     return jobs
 
 

@@ -127,8 +127,9 @@ def ols(y: str, x: list[str], fe: list[str], data: pd.DataFrame, cluster, keep: 
     * one-way cluster (default engine): sp.feols (pyfixest backend) on the singleton-free sample, unadjusted CRV1,
       then reghdfe's factor G/(G-1)*(N-1)/(N-K-df_a) with df_a = rank of FE dummies not nested in the cluster.
     * multi-way cluster, or engine="hdfe_ols": sp.hdfe_ols (native reghdfe-style solver).
-      NB: sp.hdfe_ols 1.28.0 can stop early at a wrong solution with >=3 FEs where one FE nests another
-      (e.g. year within prefecture x year) and over-counts df_a in that case -- see analysis note (StatsPAI bug #1).
+      NB: sp.hdfe_ols 1.28.0 (i) does not drop regressors that are collinear with the absorbed FEs (exact collinearity ->
+      LinAlgError; collinearity up to float32 storage noise -> silently wrong coefficients, e.g. Table 4 Huai columns),
+      and (ii) over-counts df_a when one FE is nested in another (year within prefecture x year) -- analysis note bugs #1-#2.
     """
     x = list(dict.fromkeys(x))
     clusters = [cluster] if isinstance(cluster, str) else list(cluster)

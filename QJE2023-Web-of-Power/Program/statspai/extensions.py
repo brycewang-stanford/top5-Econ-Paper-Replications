@@ -7,6 +7,7 @@ E3  Event-study diagnostics on Figure 4A: pretrends_test / pretrends_power / hon
 E4  Continuous-treatment DID: sp.cgs_continuous_did (Callaway, Goodman-Bacon & Sant'Anna 2024) and dose bins
 E5  Functional form with many zeros (Chen & Roth 2024; I4R comment): FE-Poisson (sp.fepois) + extensive margin LPM
 E6  Joint pre-trend test for the national DDD event study (Figure 6C)
+E7  Weak-IV robust inference for the Table 4 IV (tF, Anderson-Rubin)
 
 Run:  /usr/local/bin/python3.13 Program/statspai/extensions.py
 """
@@ -80,6 +81,48 @@ def e1_conley():
     tick("E1 Conley done")
 
 
+def wcr_fe(df, y, x, controls, fes, cl, B=9999, weights="webb", seed=20230501):
+    """Correct wild-cluster restricted (WCR-C) bootstrap with absorbed FEs: every bootstrap outcome is
+    re-projected on the FE space before the CR1 t-statistic is formed (needed whenever an FE, here `year`,
+    is not nested in the cluster). Written because sp.hdfe_ols(wild=True) skips that step (StatsPAI bug #3)."""
+    import scipy.sparse as sps
+    d = df[[y, x] + controls + fes + [cl]].dropna()
+    D = sps.hstack([sps.csr_matrix(pd.get_dummies(d[f].astype("int64"), dtype=float).to_numpy()) for f in fes]).tocsr()
+    P = np.linalg.pinv((D.T @ D).toarray())
+
+    def M(v):
+        return v - D @ (P @ (D.T @ v))
+
+    Y = M(d[y].to_numpy(float))
+    Xf = np.column_stack([M(d[c].to_numpy(float)) for c in [x] + controls])
+    Xr = Xf[:, 1:]
+    g = pd.factorize(d[cl])[0]
+    G = g.max() + 1
+    XtXi = np.linalg.inv(Xf.T @ Xf)
+
+    def tstat(yv):
+        b = XtXi @ (Xf.T @ yv)
+        e = yv - Xf @ b
+        S = np.zeros((G, Xf.shape[1]))
+        for k in range(Xf.shape[1]):
+            S[:, k] = np.bincount(g, Xf[:, k] * e, minlength=G)
+        V = XtXi @ (S.T @ S) @ XtXi
+        return b[0] / np.sqrt(V[0, 0]), b[0]
+
+    t0, b0 = tstat(Y)
+    if Xr.shape[1]:
+        br = np.linalg.lstsq(Xr, Y, rcond=None)[0]
+        fit_r, e_r = Xr @ br, Y - Xr @ br
+    else:
+        fit_r, e_r = np.zeros_like(Y), Y
+    rng = np.random.default_rng(seed)
+    vals = (np.array([-np.sqrt(1.5), -1, -np.sqrt(0.5), np.sqrt(0.5), 1, np.sqrt(1.5)]) if weights == "webb"
+            else np.array([-1.0, 1.0]))
+    W = rng.choice(vals, size=(B, G))
+    ts = np.array([tstat(M(fit_r + e_r * W[b][g]))[0] for b in range(B)])
+    return dict(coef=float(b0), t=float(t0), wcr_p=float(np.mean(np.abs(ts) >= abs(t0))), reps=B)
+
+
 # ============================================================================ E2 wild cluster bootstrap
 def e2_wild():
     h = hunan()
@@ -93,19 +136,25 @@ def e2_wild():
         ("Table 5 (2) Hunan DD+controls, cluster=prefecture", "alloff", NAT_CTRL + ["Zeng_all0_invdistXperiod"],
          ["year", "samcntyid"], n[n.hunan == 1], "prefid"),
     ]
+    stata_boottest = {("Table 2 (1), cluster=prefecture", "rademacher"): 0.3028, ("Table 2 (1), cluster=prefecture", "webb"): 0.3054,
+                      ("Table 2 (4), cluster=prefecture", "webb"): 0.0464, ("Table 5 (1) Hunan DD, cluster=prefecture", "webb"): 0.2182}
     for name, y, xs, fe, d, cl in jobs:
         x = xs[-1] if "Table 2" not in name else xs[0]
+        controls = [c for c in xs if c != x]
         cols = list(dict.fromkeys([y] + xs + fe + [cl]))
         dd = d[cols].dropna()
         for wt in ("rademacher", "webb"):
             r = sp.hdfe_ols(f"{y} ~ {' + '.join(xs)} | {' + '.join(fe)}", data=dd, cluster=cl, wild=True,
-                            wild_n_boot=9999, wild_weight_type=wt, wild_seed=20230501)
+                            wild_n_boot=4999, wild_weight_type=wt, wild_seed=20230501)
             G = dd[cl].nunique()
             ci = r.cluster_info["wild_ci"][x]
+            ok = wcr_fe(dd, y, x, controls, fe, cl, B=9999, weights=wt)
             rows.append(dict(regression=name, var=x, n_clusters=G, coef=float(r.coef[x]), cluster_se=float(r.se[x]),
                              cluster_p_tG1=float(2 * stats.t.sf(abs(r.coef[x] / r.se[x]), G - 1)),
-                             wild_weights=wt, wild_p=float(r.cluster_info["wild_p"][x]), wild_ci_low=float(ci[0]),
-                             wild_ci_high=float(ci[1])))
+                             wild_weights=wt, sp_hdfe_ols_wild_p=float(r.cluster_info["wild_p"][x]),
+                             sp_hdfe_ols_wild_ci_low=float(ci[0]), sp_hdfe_ols_wild_ci_high=float(ci[1]),
+                             corrected_wcr_p=ok["wcr_p"], stata_boottest_p=stata_boottest.get((name, wt), np.nan)))
+            tick(f"  E2 {name} {wt}")
     df = pd.DataFrame(rows)
     df.to_csv(OUT / "ext_E2_wild_bootstrap.csv", index=False)
     LOG["E2"] = df
@@ -289,6 +338,23 @@ def e6_national_pretrend():
         k = len(nm)
         out[label] = dict(k=k, wald=w, p_chi2=float(stats.chi2.sf(w, k)), p_F=float(stats.f.sf(w / k, k, G - 1)),
                           mean_coef=float(bb.mean()))
+    # flatness within the DDD pre-period (Table 5 uses 1820-1853 as "pre"): H0 all 1821-1853 coefs equal the 1820 base
+    # is the test above; H0' they are equal to each other (level shift vs 1800-1820 allowed) and H0'' no linear trend
+    yy = list(range(1821, 1854))
+    nm = [f"h_{y}" for y in yy]
+    bb = cf[nm].to_numpy()
+    vv = V.loc[nm, nm].to_numpy()
+    k = len(nm)
+    Dm = np.eye(k)[1:] - np.eye(k)[:-1]  # successive differences
+    wd = float((Dm @ bb) @ np.linalg.pinv(Dm @ vv @ Dm.T) @ (Dm @ bb))
+    out["1821-1853 equal to each other (no dynamics in pre-period)"] = dict(k=k - 1, wald=wd, p_chi2=float(stats.chi2.sf(wd, k - 1)),
+                                                                          p_F=float(stats.f.sf(wd / (k - 1), k - 1, G - 1)))
+    tt = np.array(yy, float) - np.mean(yy)
+    a = tt / (tt @ tt)
+    slope = float(a @ bb)
+    slope_se = float(np.sqrt(a @ vv @ a))
+    out["1821-1853 linear trend in DDD coefs"] = dict(slope_per_year=slope, se=slope_se, t=slope / slope_se,
+                                                       implied_change_1821_1853=slope * 32)
     post = [f"h_{y}" for y in range(1854, 1911)]
     out["mean post 1854-1910 minus mean pre 1821-1853"] = float(cf[post].mean() - cf[[f"h_{y}" for y in range(1821, 1854)]].mean())
     with open(OUT / "ext_E6_national_ddd_pretrends.json", "w") as f:
@@ -297,10 +363,57 @@ def e6_national_pretrend():
     tick("E6 national DDD pre-trends done")
 
 
+# ============================================================================ E7 weak-IV robust inference, Table 4 IV
+def e7_weak_iv():
+    """Table 4 cols 4-6 instrument actual connections with national-exam (jinshi-cohort) connections; Stata reports a
+    Kleibergen-Paap F of 11.7 for col 4. Report tF-adjusted critical values and a cluster-robust AR confidence set."""
+    from common import drop_singletons
+    h = hunan()
+    s = h[h.cntyid != 25]
+    fe = ["year", "cntyid", "prefidXyear"]
+    rows = []
+    kp_f = {4: 11.684}
+    for col, pl in [(4, ["invdist0_L1_Post"]), (5, ["invdist0_F1_Post"]), (6, ["invdist0_L1_Post", "invdist0_F1_Post"])]:
+        cols = ["lnmartyr1", "Zeng_all0_invdist_Post", "Zeng_exam0_invdist_Post"] + pl + HUNAN_CTRL + fe
+        d = drop_singletons(s[cols].dropna(), fe)
+        rec = dict(col=col)
+        try:
+            ar = sp.anderson_rubin_test(d, y="lnmartyr1", endog="Zeng_all0_invdist_Post", instruments=["Zeng_exam0_invdist_Post"],
+                                        exog=pl + HUNAN_CTRL, absorb=fe, cluster="cntyid")
+            rec.update({f"sp_{k}": (v if np.isscalar(v) or isinstance(v, str) else str(v)) for k, v in ar.items()
+                        if k in ("ar_stat", "ar_pvalue", "ar_ci", "first_stage_F", "effective_F", "tF_critical_value")})
+        except Exception as ex:  # noqa: BLE001
+            rec["sp_anderson_rubin_test_error"] = repr(ex)[:300]
+        # manual AR inversion: reduced form of (y - b0*d) on z with the same FE / cluster conventions as Table 4
+        grid = np.round(np.arange(-0.5, 2.0001, 0.01), 3)
+        acc = []
+        for b0 in grid:
+            d["_ytil"] = d.lnmartyr1 - b0 * d.Zeng_all0_invdist_Post
+            rr, _ = ols("_ytil", ["Zeng_exam0_invdist_Post"] + pl + HUNAN_CTRL, fe, d, "cntyid", keep=["Zeng_exam0_invdist_Post"])
+            t = rr[0]["coef"] / rr[0]["se"]
+            if abs(t) < stats.t.ppf(0.975, d.cntyid.nunique() - 1):
+                acc.append(b0)
+        d["_ytil"] = d.lnmartyr1
+        rr0, _ = ols("_ytil", ["Zeng_exam0_invdist_Post"] + pl + HUNAN_CTRL, fe, d, "cntyid", keep=["Zeng_exam0_invdist_Post"])
+        rec["manual_AR_t_at_0 (= Table 4 reduced form)"] = rr0[0]["coef"] / rr0[0]["se"]
+        rec["manual_AR_p_at_0"] = float(2 * stats.t.sf(abs(rec["manual_AR_t_at_0 (= Table 4 reduced form)"]), d.cntyid.nunique() - 1))
+        rec["manual_AR95_set"] = f"[{min(acc):.2f}, {max(acc):.2f}]" if acc else "empty"
+        rec["manual_AR95_bounded_in_grid"] = bool(acc) and min(acc) > grid[0] and max(acc) < grid[-1]
+        if col in kp_f:
+            rec["KP_F_stata"] = kp_f[col]
+            rec["tF_critical_value"] = float(sp.tF_adjustment(kp_f[col]))
+            rec["t_stat_2sls"] = 0.3289626 / 0.1374197
+        rows.append(rec)
+    df = pd.DataFrame(rows)
+    df.to_csv(OUT / "ext_E7_weak_iv_table4.csv", index=False)
+    LOG["E7"] = df
+    tick("E7 weak-IV robust inference done")
+
+
 if __name__ == "__main__":
     import sys
-    todo = sys.argv[1:] or ["e1", "e2", "e3", "e4", "e5", "e6"]
-    fns = dict(e1=e1_conley, e2=e2_wild, e3=e3_event_study, e4=e4_continuous, e5=e5_functional_form, e6=e6_national_pretrend)
+    todo = sys.argv[1:] or ["e1", "e2", "e3", "e4", "e5", "e6", "e7"]
+    fns = dict(e1=e1_conley, e2=e2_wild, e3=e3_event_study, e4=e4_continuous, e5=e5_functional_form, e6=e6_national_pretrend, e7=e7_weak_iv)
     for k in todo:
         try:
             fns[k]()

@@ -1,0 +1,2 @@
+ext,quantity,estimate,clusters,se,note,p_boot,ci_boot,n_boot
+E4,Table VI col1 interaction e_32 (8q after x public security),9.993014399133088,38.0,3.5062684110639237,interaction only; the author's total effect adds the base-quarter coefficient,0.0021002100210021,"(np.float64(2.9418680836719195), np.float64(16.930689326982716))",9999.0

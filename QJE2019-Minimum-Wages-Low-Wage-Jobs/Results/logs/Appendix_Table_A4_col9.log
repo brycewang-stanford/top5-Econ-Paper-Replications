@@ -1,0 +1,33 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Table_A4_col9.log
+  log type:  text
+ opened on:  17 Sep 2026, 08:44:13
+
+. 
+. *This do file is created by DC on 03/30/2016
+. 
+. 
+.                 
+. **** DEFINE REGRESSION COMMAND AND CONTROLS *****
+. 
+.  
+. foreach s in 0a 1 {
+  2.         global rtype`s' reghdfe
+  3. }
+
+. 
+. 
+. global a1  i.wagebinstate i.wagequarterdate  // distributional TWFE
+
+.  
+. 
+. global label1 TWFE
+
+. 
+. local w_upper = `1'
+invalid syntax
+r(198);
+
+end of do-file

@@ -1,0 +1,35 @@
+table,col,var,coef,se,N,adj_r2,loglik,iters,seconds,spec
+IX,1,princeling,0.4689643271997208,0.07008662260750632,3237,,-1309.7372260430654,6.0,0.63,analytic-Newton ordered probit (NOT StatsPAI)
+IX,2,princeling,0.4321279325211467,0.07653590903998155,2756,,-1097.9864067153842,7.0,0.48,analytic-Newton ordered probit (NOT StatsPAI)
+IX,2,ties,0.16907514216146016,0.07349200365384119,2756,,-1097.9864067153842,7.0,0.48,analytic-Newton ordered probit (NOT StatsPAI)
+IX,2,gdpgrowth,-0.31553979217802824,0.5593175191583147,2756,,-1097.9864067153842,7.0,0.48,analytic-Newton ordered probit (NOT StatsPAI)
+IX,2,revgrowth,-0.4554574469995699,0.3984642970814345,2756,,-1097.9864067153842,7.0,0.48,analytic-Newton ordered probit (NOT StatsPAI)
+IX,3,princeling,0.08768840653179322,0.012357071022063732,2756,0.04868824159996521,,,,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
+IX,3,ties,0.0117401728123003,0.011279482303613147,2756,0.04868824159996521,,,,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
+IX,3,gdpgrowth,-0.09892069833246891,0.08663632916768231,2756,0.04868824159996521,,,,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
+IX,3,revgrowth,0.0033214718525238556,0.06140311863110242,2756,0.04868824159996521,,,,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
+IX,4,discount,0.10014303487636597,0.005938041582157135,2755,,-938.0664641128747,7.0,0.51,analytic-Newton ordered probit (NOT StatsPAI)
+IX,4,ties,0.1908242225126448,0.07967872108883974,2755,,-938.0664641128747,7.0,0.51,analytic-Newton ordered probit (NOT StatsPAI)
+IX,4,gdpgrowth,-0.6994260811936103,0.6163534279250794,2755,,-938.0664641128747,7.0,0.51,analytic-Newton ordered probit (NOT StatsPAI)
+IX,4,revgrowth,-0.5875897869760184,0.4285926311302735,2755,,-938.0664641128747,7.0,0.51,analytic-Newton ordered probit (NOT StatsPAI)
+IX,5,lnarea,0.9269959908063391,0.06579351255450035,2756,,-889.664897879328,8.0,0.56,analytic-Newton ordered probit (NOT StatsPAI)
+IX,5,ties,0.12888649135549712,0.0819316338492452,2756,,-889.664897879328,8.0,0.56,analytic-Newton ordered probit (NOT StatsPAI)
+IX,5,gdpgrowth,-0.6859473744297458,0.6501551256962952,2756,,-889.664897879328,8.0,0.56,analytic-Newton ordered probit (NOT StatsPAI)
+IX,5,revgrowth,-0.2982870319529933,0.44403128056705554,2756,,-889.664897879328,8.0,0.56,analytic-Newton ordered probit (NOT StatsPAI)
+IX,6,princeling,0.07906252580811553,0.09435342824267524,3048,,-874.697671473773,7.0,0.75,analytic-Newton ordered probit (NOT StatsPAI)
+IX,7,princeling,0.09270551718210313,0.10847322029458258,2569,,-665.6666162019467,8.0,0.5,analytic-Newton ordered probit (NOT StatsPAI)
+IX,7,ties,-0.02694497058563385,0.10058393413139638,2569,,-665.6666162019467,8.0,0.5,analytic-Newton ordered probit (NOT StatsPAI)
+IX,7,gdpgrowth,2.798146387766923,0.7607745644037309,2569,,-665.6666162019467,8.0,0.5,analytic-Newton ordered probit (NOT StatsPAI)
+IX,7,revgrowth,1.096995611734815,0.5229309315711503,2569,,-665.6666162019467,8.0,0.5,analytic-Newton ordered probit (NOT StatsPAI)
+IX,8,princeling,-0.007869731714556343,0.01120660004447403,2569,0.37418321094036844,,,,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
+IX,8,ties,-0.014163892707348528,0.00988085354098862,2569,0.37418321094036844,,,,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
+IX,8,gdpgrowth,0.36520472198613324,0.07600514055790429,2569,0.37418321094036844,,,,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
+IX,8,revgrowth,0.06443012441942031,0.05243611487844436,2569,0.37418321094036844,,,,"feols promote1 ~ princeling + ties + gdpgrowth + lngdppc + lnpop + revgrowth + age + age2 + eduyear | year + prefid, iid"
+IX,9,discount,0.011665978031194634,0.008102895759029364,2568,,-664.9807409030036,8.0,0.45,analytic-Newton ordered probit (NOT StatsPAI)
+IX,9,ties,-0.021490487615246367,0.10067040239794389,2568,,-664.9807409030036,8.0,0.45,analytic-Newton ordered probit (NOT StatsPAI)
+IX,9,gdpgrowth,2.7258634440521554,0.7612390071138816,2568,,-664.9807409030036,8.0,0.45,analytic-Newton ordered probit (NOT StatsPAI)
+IX,9,revgrowth,1.087315245033256,0.5227366411895032,2568,,-664.9807409030036,8.0,0.45,analytic-Newton ordered probit (NOT StatsPAI)
+IX,10,lnarea,0.00022346040831463214,0.04693457731637404,2568,,-665.8284868091134,8.0,0.5,analytic-Newton ordered probit (NOT StatsPAI)
+IX,10,ties,-0.02608221857486224,0.1006254745959016,2568,,-665.8284868091134,8.0,0.5,analytic-Newton ordered probit (NOT StatsPAI)
+IX,10,gdpgrowth,2.7714425255047552,0.7696204688863162,2568,,-665.8284868091134,8.0,0.5,analytic-Newton ordered probit (NOT StatsPAI)
+IX,10,revgrowth,1.0743347120985505,0.5242784968340274,2568,,-665.8284868091134,8.0,0.5,analytic-Newton ordered probit (NOT StatsPAI)

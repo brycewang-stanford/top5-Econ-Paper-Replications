@@ -1,0 +1,148 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_F4.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:01:55
+
+. 
+. *This do file is created by DC on 08/14/2018.
+. *****************************************************************************
+> ***
+. ************       Comparison between ME CPS and CPS                  *******
+> ***
+. *****************************************************************************
+> ***
+. 
+. use "${data}me_corrected_logwages.dta", clear
+
+. 
+. foreach vv in statenum quarterdate wagebins{
+  2. preserve
+  3. keep `vv'
+  4. duplicates drop
+  5. tempfile `vv'
+  6. save ``vv''
+  7. restore
+  8. }
+
+Duplicates in terms of all variables
+
+(879,278 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48116.000002 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(879,177 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48116.000004 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(879,212 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48116.000006 saved
+    as .dta format
+
+. 
+. use `statenum', clear
+
+. cross using `quarterdate'
+
+. cross using `wagebins'
+
+. 
+. tempfile for_balance
+
+. save `for_balance'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48116.000007 saved
+    as .dta format
+
+. 
+. 
+. use "${data}me_corrected_logwages.dta", clear
+
+. merge 1:1 statenum quarterdate wagebins using `for_balance', nogenerate asser
+> t(2 3) 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        27,655
+        from master                         0  
+        from using                     27,655  
+
+    Matched                           879,329  
+    -----------------------------------------
+
+. replace density = 0 if density==.
+(27,655 real changes made)
+
+. bys statenum quarterdate: egen mec_countall = total(density)
+
+. drop if mec_countall==0
+(0 observations deleted)
+
+. merge 1:1 statenum quarterdate wagebins using "${data}state_panels_with3quant
+> 1979.dta", assert(3) nogenerate keepusing(count countall *MW*)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+. 
+. drop if quarterdate >=136 & quarterdate <=142
+(41,769 observations deleted)
+
+. 
+. 
+. gen rel_wagebins = wagebins - MW_realM25*100
+
+. assert rel_wagebins != .
+
+. replace rel_wagebins = -500 if rel_wagebins<-500
+(40,589 real changes made)
+
+. replace rel_wagebins = 1700 if rel_wagebins>1700
+(166,490 real changes made)
+
+. replace rel_wagebins = round(rel_wagebins/100)
+(857,820 real changes made)
+
+. *collapse (firstnm) mec_countall countall (sum) count density, by(statenum qu
+> arterdate rel_wagebins)
+. collapse (sum) count density, by(rel_wagebins)
+
+. egen countall = total(count)
+
+. egen mec_countall = total(density)
+
+. 
+. gen countsh = count/countall
+
+. gen mec_countsh = density/mec_countall
+
+. 
+. *Jobs below current MW decreases from 0.0267 to 0.0157.
+. 
+. twoway ///
+> (scatter countsh rel_wagebins ,  msize(large) msymbol(O) mcolor(blue) ) ///  
+>                            
+> (scatter mec_countsh rel_wagebins ,  msize(large) msymbol(Sh) mcolor(red) ) /
+> //                         
+> , graphregion(color(white))  xtitle("Wage bins in $ relative to the MW") ylab
+> el( ,format(%03.2f)) ///
+>  legend(order(1 "CPS" 2 "Measurement error corrected CPS"))  xlabel(-4(2)16 1
+> 7 "17+")
+
+. 
+. gr export "${figures}FigureF4.pdf" ,replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureF4.pdf saved as PDF
+    format
+
+. 
+. 
+end of do-file

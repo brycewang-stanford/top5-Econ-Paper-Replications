@@ -1,0 +1,1895 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_C4.log
+  log type:  text
+ opened on:  17 Sep 2026, 05:54:17
+
+. 
+. 
+. 
+. use "${data}Admin_CPS_workingdata_in2016dollars_allind_new.dta", clear
+
+. 
+. 
+.  global treatdata  "CPS"
+
+. 
+. 
+. local hiw = 17
+
+. local loww = 5
+
+. 
+. tempfile origdata
+
+. save `origdata'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45061.000001 saved
+    as .dta format
+
+. 
+. foreach vv in statenum quarterdate wagebins{
+  2. preserve
+  3. keep `vv'
+  4. duplicates drop
+  5. tempfile `vv'
+  6. save ``vv''
+  7. restore
+  8. }
+
+Duplicates in terms of all variables
+
+(560,827 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45061.000003 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(560,770 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45061.000005 saved
+    as .dta format
+
+Duplicates in terms of all variables
+
+(560,737 observations deleted)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45061.000007 saved
+    as .dta format
+
+. *
+. 
+. global firstyear 1992
+
+. 
+. global pre "( year>=1996 & year<=1998)"
+
+. 
+. local firstyear = ${firstyear}
+
+. 
+. 
+. use `statenum', clear
+
+. cross using `quarterdate'
+
+. cross using `wagebins'
+
+. tempfile balance
+
+. save `balance'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45061.000008 saved
+    as .dta format
+
+. use `origdata',clear
+
+. cap drop _merge
+
+. merge 1:1 statenum quarterdate wagebins using `balance', assert(2 3) nogenera
+> te
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                       215,750
+        from master                         0  
+        from using                    215,750  
+
+    Matched                           560,878  
+    -----------------------------------------
+
+. replace year = year(dofq(quarterdate)) if year==.
+(215,750 real changes made)
+
+. replace count = 0 if count==.
+(226,354 real changes made)
+
+. replace acount = 0 if acount==.
+(761,964 real changes made)
+
+. replace MNcount = 0 if MNcount==.
+(765,915 real changes made)
+
+. bys statenum quarterdate: egen _pop = max(pop)
+
+. replace pop = _pop if pop==.
+(219,477 real changes made)
+
+. 
+. g treatstate = statenum==53
+
+. g _control = 1  if year>=1996 & year<=2004
+(517,752 missing values generated)
+
+. replace _control = 0 if DMW>0 & DMW<. & (year>=1998 & year<=2004)
+(3,751 real changes made)
+
+. egen control = min(_control), by(statenum)
+
+. keep if year>=$firstyear & year<=2004
+(402,696 observations deleted)
+
+. keep if treatstate==1 | control==1
+(80,652 observations deleted)
+
+. keep if wagebins!=.
+(0 observations deleted)
+
+. 
+. g wagebin100 = wagebins - mod(wagebins, 100)
+
+. replace wagebin100 = int(wagebin100/100)
+(284,960 real changes made)
+
+. replace count = 0 if count==.
+(0 real changes made)
+
+. assert acount!=. if statenum==53
+
+. assert MNcount!=. if statenum==27
+
+. cap drop countall
+
+. cap drop acountall
+
+. cap drop MNcountall
+
+. 
+. bys statenum quarterdate: egen countall = total(count) 
+
+. bys statenum quarterdate: egen acountall = total(acount)  
+
+. bys statenum quarterdate: egen MNcountall = total(MNcount) 
+
+.  
+. *Get annual average
+. collapse (mean)  count acount pop MNcount countall acountall MNcountall MW_re
+> al, by(year wagebins statenum control treatstate  )
+
+. g wagebin100 = wagebins - mod(wagebins, 100)
+
+. replace wagebin100 = int(wagebin100/100)
+(71,240 real changes made)
+
+. replace wagebin100 = 26 if wagebin100>26
+(17,160 real changes made)
+
+. *Collapse by wagebin100
+. collapse (sum) MNcount count acount (mean) pop  countall acountall MNcountall
+>  MW_real, by(year wagebin100 control treatstate statenum  )
+
+. *Collapse by treat/control state
+. 
+. 
+. gen countpc = count/pop
+
+. gen countallpc = countall/pop
+
+. gen acountpc = acount/pop
+
+. gen acountallpc = acountall/pop
+
+. 
+. gen adminCPScount = count if treat==0
+(351 missing values generated)
+
+. gen adminCPScountpc = countpc if treat==0
+(351 missing values generated)
+
+. gen adminCPScountall = countall if treat==0
+(351 missing values generated)
+
+. gen adminCPScountallpc = countallpc if treat==0
+(351 missing values generated)
+
+. 
+. 
+. if "${treatdata}" == "Admin" {
+. di "Admin data from treated state used"
+. replace adminCPScount = acount if treat==1
+. replace adminCPScountpc = acountpc if treat==1
+. replace adminCPScountall = acountall if treat==1
+. replace adminCPScountallpc = acountallpc if treat==1
+. }
+
+. else if "${treatdata}" == "CPS" {
+. di "CPS data from treated state used"
+CPS data from treated state used
+. replace adminCPScount = count if treat==1
+(351 real changes made)
+. replace adminCPScountpc = countpc if treat==1
+(351 real changes made)
+. replace adminCPScountall = countall if treat==1
+(351 real changes made)
+. replace adminCPScountallpc = countallpc if treat==1
+(351 real changes made)
+. }
+
+. else {
+. di "Treated state data source unspecified"
+. STOP
+. }
+
+. 
+. 
+. *****************************************************************************
+> ***
+. ****************       Normalizing constants                      ***********
+> ***
+. *****************************************************************************
+> ***
+. 
+. sum adminCPScountallpc [aw=population] if treatstate==1 & $pre
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+adminCPS~lpc |      81   345636302    .5852399   .0113111   .5709887    .598524
+
+. global E =  r(mean)
+
+. 
+. g wagebins=wagebin100
+
+. 
+. cap drop stateyear
+
+. egen stateyear = group(statenum year)
+
+. sort stateyear wagebins
+
+. 
+. cap drop overallWB*
+
+. g overallWBFH = wagebins*adminCPScount/(1)
+
+. g overallWBpcFH = wagebins*adminCPScount/(1*pop)
+
+. 
+. cap drop overallWBpcrsumFH
+
+. g overallWBpcrsumFH=0
+
+. replace overallWBpcrsumFH = overallWBpcFH if wagebins==0
+(0 real changes made)
+
+. replace overallWBpcrsumFH = overallWBpcrsumFH[_n-1] + overallWBpcFH if wagebi
+> ns>0
+(13,424 real changes made)
+
+.         
+. cap drop overallcountpcrsum
+
+. g overallcountpcrsum=0
+
+. replace overallcountpcrsum = adminCPScountpc if wagebins==0
+(377 real changes made)
+
+. replace overallcountpcrsum = overallcountpcrsum[_n-1] + adminCPScountpc if wa
+> gebins>0
+(13,486 real changes made)
+
+. 
+. 
+. sum overallcountpcrsum if $pre & (wagebins==8) & treatstate==1 [aw=population
+> ]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallcou~m |       3  12801344.5     .068556    .004201   .0637923   .0714967
+
+. global B = r(mean)/${E}
+
+. 
+. sum overallWBpcrsumFH if (  $pre & treatstate==1 & wagebins==8 )  [aw=populat
+> ion]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+overallW~mFH |       3  12801344.5    .4925013   .0217842   .4677368   .5072296
+
+. global EWB = r(mean)
+
+. 
+. 
+. forval num1 = 0(1)`hiw'{
+  2.         foreach num2 of numlist     2000(1)2004 {
+  3.                 gen treat_p`num1'_`num2' = treatstate==1 & year==`num2' & 
+> wagebin100==9 + `num1'
+  4.         }
+  5. }
+
+. *
+. forval num1 = 1(1)`loww'{
+  2.         foreach num2 of numlist     2000(1)2004{
+  3.                 gen treat_m`num1'_`num2' = treatstate==1 & year==`num2' & 
+> wagebin100==9 - `num1'
+  4.         }
+  5. }
+
+. *
+. 
+. *
+. 
+. egen wagebinstate = group(wagebin100 statenum)
+
+. egen wagebinyear = group(wagebin100 year)
+
+. 
+. global a1 wagebinstate wagebinyear
+
+. 
+. global lab1 TWFE
+
+. xtset wagebinstate year
+
+Panel variable: wagebinstate (strongly balanced)
+ Time variable: year, 1992 to 2004
+         Delta: 1 unit
+
+. 
+.  
+. 
+. *****************************************************************************
+> ***
+. **************                Figure 5                       ****************
+> ***
+. *****************************************************************************
+> ***
+. 
+.  
+. set more off
+
+. local firstyear = ${firstyear}
+
+. local hiw = 4
+
+. local loww = 4
+
+. 
+. 
+. forval num1 = 0(1)`hiw'{
+  2.         foreach num2 of numlist      $firstyear (1)2004{
+  3.                 cap drop treat_p`num1'_`num2' 
+  4.                 gen treat_p`num1'_`num2' = treatstate==1 & year==`num2' & 
+> wagebin100==9 + `num1'
+  5.         }
+  6. }
+
+. *
+. forval num1 = 1(1)`loww'{
+  2.         foreach num2 of numlist      $firstyear (1)2004{
+  3.                 cap drop treat_m`num1'_`num2' 
+  4.                 gen treat_m`num1'_`num2' = treatstate==1 & year==`num2' & 
+> wagebin100==9 - `num1'
+  5.         }
+  6. }
+
+. *
+. 
+. 
+. 
+. 
+. 
+. global treatvec " "
+
+. 
+. forval num1 = 0(1)`hiw'{
+  2.         foreach num2 of numlist      $firstyear (1)2004{
+  3.                 global treatvec " ${treatvec}  treat_p`num1'_`num2' "
+  4.         }
+  5. }
+
+. *
+. forval num1 = 1(1)`loww'{
+  2.         foreach num2 of numlist      $firstyear (1)2004{
+  3.                 global treatvec " ${treatvec}  treat_m`num1'_`num2' "
+  4.         }
+  5. }
+
+. *
+. 
+. 
+. 
+. local num = 1
+
+. reghdfe adminCPScountpc ${treatvec}  if  year!=1999 [aw=population] , a(${a`n
+> um'} )
+(MWFE estimator converged in 4 iterations)
+note: treat_p0_1999 omitted because of collinearity
+note: treat_p0_2004 omitted because of collinearity
+note: treat_p1_1999 omitted because of collinearity
+note: treat_p1_2004 omitted because of collinearity
+note: treat_p2_1999 omitted because of collinearity
+note: treat_p2_2004 omitted because of collinearity
+note: treat_p3_1999 omitted because of collinearity
+note: treat_p3_2004 omitted because of collinearity
+note: treat_p4_1999 omitted because of collinearity
+note: treat_p4_2004 omitted because of collinearity
+note: treat_m1_1999 omitted because of collinearity
+note: treat_m1_2004 omitted because of collinearity
+note: treat_m2_1999 omitted because of collinearity
+note: treat_m2_2004 omitted because of collinearity
+note: treat_m3_1999 omitted because of collinearity
+note: treat_m3_2004 omitted because of collinearity
+note: treat_m4_1999 omitted because of collinearity
+note: treat_m4_2004 omitted because of collinearity
+
+HDFE Linear regression                            Number of obs   =     12,960
+Absorbing 2 HDFE groups                           F(  99,  11484) =       3.36
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.9850
+                                                  Adj R-squared   =     0.9831
+                                                  Within R-sq.    =     0.0281
+                                                  Root MSE        =     0.0034
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+treat_p0_1~2 |  -.0151706   .0046806    -3.24   0.001    -.0243454   -.0059957
+treat_p0_1~3 |  -.0251142   .0046525    -5.40   0.000    -.0342339   -.0159945
+treat_p0_1~4 |  -.0223528   .0046282    -4.83   0.000    -.0314248   -.0132808
+treat_p0_1~5 |  -.0146663   .0045989    -3.19   0.001    -.0236809   -.0056518
+treat_p0_1~6 |  -.0185401   .0045755    -4.05   0.000    -.0275088   -.0095713
+treat_p0_1~7 |  -.0123372   .0045532    -2.71   0.007    -.0212623    -.003412
+treat_p0_1~8 |  -.0164107   .0045381    -3.62   0.000    -.0253062   -.0075151
+treat_p0_1~9 |          0  (omitted)
+treat_p0_2~0 |  -.0036479   .0045025    -0.81   0.418    -.0124736    .0051777
+treat_p0_2~1 |   .0153895   .0044855     3.43   0.001     .0065971    .0241819
+treat_p0_2~2 |   .0044368   .0044688     0.99   0.321    -.0043227    .0131964
+treat_p0_2~3 |   .0060502   .0044513     1.36   0.174    -.0026751    .0147754
+treat_p0_2~4 |          0  (omitted)
+treat_p1_1~2 |  -.0041763   .0046806    -0.89   0.372    -.0133511    .0049985
+treat_p1_1~3 |  -.0070268   .0046525    -1.51   0.131    -.0161465    .0020929
+treat_p1_1~4 |  -.0032815   .0046282    -0.71   0.478    -.0123535    .0057905
+treat_p1_1~5 |   .0018108   .0045989     0.39   0.694    -.0072038    .0108253
+treat_p1_1~6 |  -.0079691   .0045755    -1.74   0.082    -.0169379    .0009996
+treat_p1_1~7 |  -.0100754   .0045532    -2.21   0.027    -.0190005   -.0011502
+treat_p1_1~8 |  -.0070563   .0045381    -1.55   0.120    -.0159519    .0018392
+treat_p1_1~9 |          0  (omitted)
+treat_p1_2~0 |   -.003934   .0045025    -0.87   0.382    -.0127596    .0048917
+treat_p1_2~1 |  -.0034537   .0044855    -0.77   0.441    -.0122461    .0053386
+treat_p1_2~2 |  -.0029216   .0044688    -0.65   0.513    -.0116811     .005838
+treat_p1_2~3 |  -.0001328   .0044513    -0.03   0.976    -.0088581    .0085924
+treat_p1_2~4 |          0  (omitted)
+treat_p2_1~2 |   .0033861   .0046806     0.72   0.469    -.0057887    .0125609
+treat_p2_1~3 |   .0033567   .0046525     0.72   0.471    -.0057629    .0124764
+treat_p2_1~4 |   .0048763   .0046282     1.05   0.292    -.0041957    .0139484
+treat_p2_1~5 |  -.0001409   .0045989    -0.03   0.976    -.0091555    .0088736
+treat_p2_1~6 |   .0039527   .0045755     0.86   0.388     -.005016    .0129215
+treat_p2_1~7 |  -.0028051   .0045532    -0.62   0.538    -.0117303      .00612
+treat_p2_1~8 |  -.0057358   .0045381    -1.26   0.206    -.0146314    .0031597
+treat_p2_1~9 |          0  (omitted)
+treat_p2_2~0 |   .0033255   .0045025     0.74   0.460    -.0055002    .0121512
+treat_p2_2~1 |   .0039288   .0044855     0.88   0.381    -.0048635    .0127212
+treat_p2_2~2 |   .0010919   .0044688     0.24   0.807    -.0076676    .0098515
+treat_p2_2~3 |   .0045977   .0044513     1.03   0.302    -.0041275     .013323
+treat_p2_2~4 |          0  (omitted)
+treat_p3_1~2 |   .0035227   .0046806     0.75   0.452    -.0056522    .0126975
+treat_p3_1~3 |   .0066353   .0046525     1.43   0.154    -.0024844     .015755
+treat_p3_1~4 |   .0062113   .0046282     1.34   0.180    -.0028607    .0152833
+treat_p3_1~5 |   .0042809   .0045989     0.93   0.352    -.0047337    .0132954
+treat_p3_1~6 |  -.0003356   .0045755    -0.07   0.942    -.0093043    .0086332
+treat_p3_1~7 |   .0040706   .0045532     0.89   0.371    -.0048545    .0129958
+treat_p3_1~8 |    .004748   .0045381     1.05   0.295    -.0041475    .0136436
+treat_p3_1~9 |          0  (omitted)
+treat_p3_2~0 |  -.0004478   .0045025    -0.10   0.921    -.0092735    .0083778
+treat_p3_2~1 |  -.0002464   .0044855    -0.05   0.956    -.0090387     .008546
+treat_p3_2~2 |  -.0002272   .0044688    -0.05   0.959    -.0089868    .0085324
+treat_p3_2~3 |   .0024525   .0044513     0.55   0.582    -.0062727    .0111777
+treat_p3_2~4 |          0  (omitted)
+treat_p4_1~2 |   .0026623   .0046806     0.57   0.570    -.0065125    .0118371
+treat_p4_1~3 |   .0037468   .0046525     0.81   0.421    -.0053729    .0128664
+treat_p4_1~4 |  -.0004756   .0046282    -0.10   0.918    -.0095476    .0085965
+treat_p4_1~5 |  -.0010798   .0045989    -0.23   0.814    -.0100943    .0079348
+treat_p4_1~6 |   .0007783   .0045755     0.17   0.865    -.0081905     .009747
+treat_p4_1~7 |   .0002717   .0045532     0.06   0.952    -.0086535    .0091968
+treat_p4_1~8 |  -.0041514   .0045381    -0.91   0.360    -.0130469    .0047442
+treat_p4_1~9 |          0  (omitted)
+treat_p4_2~0 |    -.00082   .0045025    -0.18   0.855    -.0096457    .0080057
+treat_p4_2~1 |   .0003647   .0044855     0.08   0.935    -.0084277    .0091571
+treat_p4_2~2 |   -.003561   .0044688    -0.80   0.426    -.0123205    .0051986
+treat_p4_2~3 |  -.0034084   .0044513    -0.77   0.444    -.0121336    .0053169
+treat_p4_2~4 |          0  (omitted)
+treat_m1_1~2 |   .0009797   .0046806     0.21   0.834    -.0081951    .0101545
+treat_m1_1~3 |  -.0009713   .0046525    -0.21   0.835     -.010091    .0081483
+treat_m1_1~4 |    .009679   .0046282     2.09   0.037     .0006069     .018751
+treat_m1_1~5 |   .0126244   .0045989     2.75   0.006     .0036098     .021639
+treat_m1_1~6 |   .0194582   .0045755     4.25   0.000     .0104894     .028427
+treat_m1_1~7 |   .0066336   .0045532     1.46   0.145    -.0022915    .0155588
+treat_m1_1~8 |   .0080505   .0045381     1.77   0.076    -.0008451     .016946
+treat_m1_1~9 |          0  (omitted)
+treat_m1_2~0 |  -.0042311   .0045025    -0.94   0.347    -.0130568    .0045945
+treat_m1_2~1 |  -.0123775   .0044855    -2.76   0.006    -.0211699   -.0035851
+treat_m1_2~2 |  -.0008613   .0044688    -0.19   0.847    -.0096209    .0078983
+treat_m1_2~3 |  -.0010122   .0044513    -0.23   0.820    -.0097374    .0077131
+treat_m1_2~4 |          0  (omitted)
+treat_m2_1~2 |  -.0046198   .0046806    -0.99   0.324    -.0137947     .004555
+treat_m2_1~3 |   .0043041   .0046525     0.93   0.355    -.0048156    .0134238
+treat_m2_1~4 |   .0110267   .0046282     2.38   0.017     .0019547    .0200987
+treat_m2_1~5 |   .0091656   .0045989     1.99   0.046      .000151    .0181802
+treat_m2_1~6 |   .0080854   .0045755     1.77   0.077    -.0008834    .0170541
+treat_m2_1~7 |   .0030608   .0045532     0.67   0.501    -.0058643    .0119859
+treat_m2_1~8 |   .0012757   .0045381     0.28   0.779    -.0076198    .0101712
+treat_m2_1~9 |          0  (omitted)
+treat_m2_2~0 |  -.0028654   .0045025    -0.64   0.525     -.011691    .0059603
+treat_m2_2~1 |   .0033208   .0044855     0.74   0.459    -.0054716    .0121131
+treat_m2_2~2 |   .0013905   .0044688     0.31   0.756     -.007369    .0101501
+treat_m2_2~3 |   -.001056   .0044513    -0.24   0.812    -.0097812    .0076692
+treat_m2_2~4 |          0  (omitted)
+treat_m3_1~2 |   .0079308   .0046806     1.69   0.090     -.001244    .0171056
+treat_m3_1~3 |  -.0005919   .0046525    -0.13   0.899    -.0097116    .0085278
+treat_m3_1~4 |  -.0091253   .0046282    -1.97   0.049    -.0181973   -.0000533
+treat_m3_1~5 |  -.0051498   .0045989    -1.12   0.263    -.0141644    .0038648
+treat_m3_1~6 |  -.0044254   .0045755    -0.97   0.333    -.0133941    .0045434
+treat_m3_1~7 |   .0083184   .0045532     1.83   0.068    -.0006068    .0172435
+treat_m3_1~8 |    .009002   .0045381     1.98   0.047     .0001065    .0178975
+treat_m3_1~9 |          0  (omitted)
+treat_m3_2~0 |   .0080617   .0045025     1.79   0.073     -.000764    .0168874
+treat_m3_2~1 |    .003946   .0044855     0.88   0.379    -.0048463    .0127384
+treat_m3_2~2 |   .0017988   .0044688     0.40   0.687    -.0069608    .0105584
+treat_m3_2~3 |   .0025145   .0044513     0.56   0.572    -.0062107    .0112397
+treat_m3_2~4 |          0  (omitted)
+treat_m4_1~2 |  -.0010588   .0046806    -0.23   0.821    -.0102336    .0081161
+treat_m4_1~3 |  -.0009312   .0046525    -0.20   0.841    -.0100509    .0081884
+treat_m4_1~4 |  -.0004546   .0046282    -0.10   0.922    -.0095266    .0086174
+treat_m4_1~5 |  -.0002614   .0045989    -0.06   0.955     -.009276    .0087532
+treat_m4_1~6 |  -.0002157   .0045755    -0.05   0.962    -.0091844    .0087531
+treat_m4_1~7 |    .000553   .0045532     0.12   0.903    -.0083722    .0094781
+treat_m4_1~8 |  -.0005966   .0045381    -0.13   0.895    -.0094921    .0082989
+treat_m4_1~9 |          0  (omitted)
+treat_m4_2~0 |   -.000339   .0045025    -0.08   0.940    -.0091647    .0084867
+treat_m4_2~1 |  -.0003119   .0044855    -0.07   0.945    -.0091043    .0084805
+treat_m4_2~2 |  -.0005312   .0044688    -0.12   0.905    -.0092907    .0082284
+treat_m4_2~3 |  -.0000783   .0044513    -0.02   0.986    -.0088035     .008647
+treat_m4_2~4 |          0  (omitted)
+       _cons |   .0216685    .000031   698.32   0.000     .0216077    .0217294
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+------------------------------------------------------+
+  Absorbed FE | Categories  - Redundant  = Num. Coefs |
+--------------+---------------------------------------|
+ wagebinstate |      1080           0        1080     |
+  wagebinyear |       324          27         297     |
+------------------------------------------------------+
+
+. est sto spec`num'
+
+. 
+. *
+. local spec  = 1
+
+. 
+. 
+. preserve
+
+. 
+. est restore spec`spec'
+(results spec1 are active now)
+
+. forval num = 1(1)`loww'{
+  2. global precoeffsum_m = "(treat_m`num'_1996 + treat_m`num'_1997 + treat_m`n
+> um'_1998)/3"
+  3. global CSBW_m`num' "(treat_m`num'_2000+ treat_m`num'_2001+ treat_m`num'_20
+> 02+ treat_m`num'_2003+ treat_m`num'_2004)/5 - ${precoeffsum_m}"
+  4. }
+
+. forval num = 0(1)`hiw'{
+  2. global precoeffsum_p = "(treat_p`num'_1996 + treat_p`num'_1997 + treat_p`n
+> um'_1998)/3"
+  3. global CSBW_p`num' "(treat_p`num'_2000+ treat_p`num'_2001+ treat_p`num'_20
+> 02+ treat_p`num'_2003+ treat_p`num'_2004)/5 - ${precoeffsum_p} "
+  4. }
+
+. *
+. local counter = 0
+
+. forval num2 = 1(1)`loww'{
+  2. qui lincom ${CSBW_m`num2'}
+  3. local counter= `counter' + 1
+  4. if `counter' == 1{
+  5. mat estimates = ( r(estimate), -`num2' )
+  6. }
+  7. else{
+  8. mat estimates = ( estimates  \ r(estimate), -`num2' )
+  9. }
+ 10. }
+
+. *
+. forval num2 = 0(1)`hiw'{
+  2. qui lincom ${CSBW_p`num2'}
+  3. mat estimates = ( estimates  \ r(estimate), `num2' )
+  4. }
+
+. *
+. cap drop estimates*
+
+. cap drop est_beta
+
+. cap drop bin
+
+. cap drop alt_bin
+
+. cap drop cum_est
+
+. svmat estimates
+
+. rename estimates1 est_beta
+
+. rename estimates2 bin
+
+. sum adminCPScountallpc [aw=population] if treatstate==1 & $pre
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+adminCPS~lpc |      81   345636302    .5852399   .0113111   .5709887    .598524
+
+. replace est_beta = est_beta/r(mean)
+(9 real changes made)
+
+. 
+. keep bin est_beta
+
+. rename bin wagebin
+
+. keep if  wagebin!=.
+(14,031 observations deleted)
+
+. 
+. 
+. restore
+
+. 
+. 
+. preserve
+
+. est restore spec`spec'
+(results spec1 are active now)
+
+. 
+. foreach num of numlist  1996(1)1998  {
+  2. global ATPm_`num' "0 "
+  3. forval num1 = 0(1)`hiw'{
+  4. global ATPm_`num' "(${ATPm_`num'} + (treat_p`num1'_`num') )"
+  5. }
+  6. }
+
+. *
+. foreach num of numlist  1996(1)1998  {
+  2. global BTPm_`num' "0 "
+  3. forval num1 = 1(1)`loww'{
+  4. global BTPm_`num' "(${BTPm_`num'} + (treat_m`num1'_`num') )"
+  5. }
+  6. }
+
+. *
+. foreach num of numlist $firstyear (1)1998  2000(1)2004{
+  2. global ATP_`num' "0 "
+  3. forval num1 = 0(1)`hiw'{
+  4. global ATP_`num' "(${ATP_`num'} + (treat_p`num1'_`num') )"
+  5. }
+  6. global ATP_`num' " (${ATP_`num'}) - (${ATPm_1996} + ${ATPm_1997} + ${ATPm_
+> 1998})/3 "
+  7. }
+
+. *
+. foreach num of numlist $firstyear (1)1998  2000(1)2004{
+  2. global BTP_`num' "0 "
+  3. forval num1 = 1(1)`loww'{
+  4. global BTP_`num' "(${BTP_`num'} + (treat_m`num1'_`num') )"
+  5. }
+  6. global BTP_`num' " (${BTP_`num'}) -  (${BTPm_1996} + ${BTPm_1997} + ${BTPm
+> _1998})/3"
+  7. }
+
+. *
+. 
+. foreach num2 of numlist $firstyear (1)1998 2000(1)2004{
+  2. lincom ${BTP_`num2'}
+  3. if `num2' == $firstyear {
+  4. mat estimates_low = ( r(estimate), `num2' )
+  5. }
+  6. else{
+  7. mat estimates_low = ( estimates_low  \ r(estimate), `num2' )
+  8. }
+  9. }
+
+ ( 1)  treat_m1_1992 - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + treat_m2_1992 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + treat_m3_1992 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + treat_m4_1992 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0165013    .007941    -2.08   0.038    -.0320671   -.0009356
+------------------------------------------------------------------------------
+
+ ( 1)  treat_m1_1993 - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + treat_m2_1993 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + treat_m3_1993 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + treat_m4_1993 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0179236   .0078746    -2.28   0.023    -.0333592   -.0024881
+------------------------------------------------------------------------------
+
+ ( 1)  treat_m1_1994 - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + treat_m2_1994 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + treat_m3_1994 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + treat_m4_1994 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0086075   .0078171    -1.10   0.271    -.0239304    .0067153
+------------------------------------------------------------------------------
+
+ ( 1)  treat_m1_1995 - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + treat_m2_1995 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + treat_m3_1995 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + treat_m4_1995 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0033545   .0077476    -0.43   0.665    -.0185411    .0118321
+------------------------------------------------------------------------------
+
+ ( 1)  .6666667*treat_m1_1996 - .3333333*treat_m1_1997 - .3333333*treat_m1_1998
+       + .6666667*treat_m2_1996 - .3333333*treat_m2_1997 -
+       .3333333*treat_m2_1998 + .6666667*treat_m3_1996 - .3333333*treat_m3_1997
+       - .3333333*treat_m3_1998 + .6666667*treat_m4_1996 -
+       .3333333*treat_m4_1997 - .3333333*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0031692    .005428     0.58   0.559    -.0074705     .013809
+------------------------------------------------------------------------------
+
+ ( 1)  - .3333333*treat_m1_1996 + .6666667*treat_m1_1997 -
+       .3333333*treat_m1_1998 - .3333333*treat_m2_1996 + .6666667*treat_m2_1997
+       - .3333333*treat_m2_1998 - .3333333*treat_m3_1996 +
+       .6666667*treat_m3_1997 - .3333333*treat_m3_1998 - .3333333*treat_m4_1996
+       + .6666667*treat_m4_1997 - .3333333*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0011675    .005403    -0.22   0.829    -.0117582    .0094233
+------------------------------------------------------------------------------
+
+ ( 1)  - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 +
+       .6666667*treat_m1_1998 - .3333333*treat_m2_1996 - .3333333*treat_m2_1997
+       + .6666667*treat_m2_1998 - .3333333*treat_m3_1996 -
+       .3333333*treat_m3_1997 + .6666667*treat_m3_1998 - .3333333*treat_m4_1996
+       - .3333333*treat_m4_1997 + .6666667*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0020017    .005386    -0.37   0.710    -.0125592    .0085558
+------------------------------------------------------------------------------
+
+ ( 1)  - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + treat_m1_2000 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + treat_m2_2000 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + treat_m3_2000 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 + treat_m4_2000 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0191071   .0075178    -2.54   0.011    -.0338432   -.0043709
+------------------------------------------------------------------------------
+
+ ( 1)  - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + treat_m1_2001 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + treat_m2_2001 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + treat_m3_2001 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 + treat_m4_2001 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0251559   .0074771    -3.36   0.001    -.0398122   -.0104995
+------------------------------------------------------------------------------
+
+ ( 1)  - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + treat_m1_2002 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + treat_m2_2002 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + treat_m3_2002 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 + treat_m4_2002 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0179364   .0074369    -2.41   0.016    -.0325139   -.0033589
+------------------------------------------------------------------------------
+
+ ( 1)  - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + treat_m1_2003 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + treat_m2_2003 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + treat_m3_2003 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 + treat_m4_2003 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0193652   .0073947    -2.62   0.009    -.0338602   -.0048703
+------------------------------------------------------------------------------
+
+ ( 1)  - .3333333*treat_m1_1996 - .3333333*treat_m1_1997 -
+       .3333333*treat_m1_1998 + o.treat_m1_2004 - .3333333*treat_m2_1996 -
+       .3333333*treat_m2_1997 - .3333333*treat_m2_1998 + o.treat_m2_2004 -
+       .3333333*treat_m3_1996 - .3333333*treat_m3_1997 - .3333333*treat_m3_1998
+       + o.treat_m3_2004 - .3333333*treat_m4_1996 - .3333333*treat_m4_1997 -
+       .3333333*treat_m4_1998 + o.treat_m4_2004 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0197333   .0073345    -2.69   0.007    -.0341101   -.0053564
+------------------------------------------------------------------------------
+
+. *
+. foreach num2 of numlist   $firstyear (1)1998 2000(1)2004{
+  2. qui lincom ${ATP_`num2'}
+  3. if `num2' == $firstyear {
+  4. mat estimates_up = ( r(estimate), `num2' )
+  5. }
+  6. else{
+  7. mat estimates_up = ( estimates_up  \ r(estimate), `num2' )
+  8. }
+  9. }
+
+. *
+. cap drop estimates*
+
+. cap drop est_beta_*
+
+. cap drop bin
+
+. svmat estimates_low
+
+. rename estimates_low1 est_beta_low
+
+. rename estimates_low2 bin
+
+. svmat estimates_up
+
+. rename estimates_up1 est_beta_up
+
+. 
+. sum adminCPScountallpc if treatstate==1 & $pre
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPS~lpc |         81    .5850954    .0113215   .5709887    .598524
+
+. replace est_beta_low = est_beta_low/r(mean)
+(12 real changes made)
+
+. replace est_beta_up = est_beta_up/r(mean)
+(12 real changes made)
+
+. sort bin
+
+. 
+. 
+. sum est_beta_low if bin>1998 & bin!=.
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+est_beta_low |          5   -.0346261    .0048172  -.0429944  -.0306556
+
+. scalar est_beta_below = r(mean)
+
+. 
+. sum est_beta_up if bin>1998 & bin!=.
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ est_beta_up |          5    .0472274    .0149921   .0313468   .0681053
+
+. scalar est_beta_above = r(mean)
+
+. 
+. local excesscolor ltblue*1.25
+
+. local missingcolor red
+
+. 
+. sum est_beta_up
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ est_beta_up |         12    .0257262    .0227308  -.0081031   .0681053
+
+. gen high = r(max) if bin >= 1998 & bin <= 2000
+(14,038 missing values generated)
+
+. sum est_beta_low
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+est_beta_low |         12   -.0210343     .015973  -.0429944   .0054166
+
+. gen low = -high if bin >= 1998 & bin <= 2000
+(14,038 missing values generated)
+
+. 
+. * minimum wage values in WA
+. egen MWmean = mean(MW_real), by(year statenum)
+
+. egen stateyeartag = tag(statenum year)
+
+. 
+. 
+. 
+. gen emp_est = est_beta_low + est_beta_up
+(14,028 missing values generated)
+
+. sum emp_est if bin>1998 & bin!=.
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+     emp_est |          5    .0126013    .0115261  -.0013095   .0251108
+
+. scalar emp_est = r(mean)
+
+. 
+. 
+. 
+. gen emp_est_aff = emp_est/${B}
+(14,028 missing values generated)
+
+. sum emp_est_aff if bin>1998 & bin!=.
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ emp_est_aff |          5     .107573    .0983944  -.0111789   .2143631
+
+. local emp_est_aff = r(mean)
+
+. scalar emp_est_aff = r(mean)
+
+. 
+. 
+. 
+. foreach num of numlist  1996(1)1998  {
+  2. global ATPWBm_`num' "0 "
+  3. forval num1 = 0(1)`hiw'{
+  4. global ATPWBm_`num' "(${ATPWBm_`num'} + ((9+ `num1' )*treat_p`num1'_`num')
+>  )"
+  5. }
+  6. }
+
+. *
+. foreach num of numlist  1996(1)1998  {
+  2. global BTPWBm_`num' "0 "
+  3. forval num1 = 1(1)`loww'{
+  4. global BTPWBm_`num' "(${BTPWBm_`num'} + ((9-`num1') * treat_m`num1'_`num')
+>  )"
+  5. }
+  6. }
+
+. *
+. foreach num of numlist $firstyear (1)1998  2000(1)2004{
+  2. global ATPWB_`num' "0 "
+  3. forval num1 = 0(1)`hiw'{
+  4. global ATPWB_`num' "(${ATPWB_`num'} + (treat_p`num1'_`num')*(9+`num1') )"
+  5. }
+  6. global ATPWB_`num' " (${ATPWB_`num'}) - (${ATPWBm_1996} + ${ATPWBm_1997} +
+>  ${ATPWBm_1998})/3 "
+  7. }
+
+. *
+. foreach num of numlist $firstyear (1)1998  2000(1)2004{
+  2. global BTPWB_`num' "0 "
+  3. forval num1 = 1(1)`loww'{
+  4. global BTPWB_`num' "(${BTPWB_`num'} + (treat_m`num1'_`num')*(9-`num1') )"
+  5. }
+  6. global BTPWB_`num' " (${BTPWB_`num'}) -  (${BTPWBm_1996} + ${BTPWBm_1997} 
+> + ${BTPWBm_1998})/3"
+  7. }
+
+. *
+. 
+. foreach num of numlist $firstyear (1)1997 1998 2000(1)2004{
+  2. lincom ((${BTPWB_`num'} +  ${ATPWB_`num'})/$EWB ) - (( ${BTP_`num'} +  ${A
+> TP_`num'} )*(1/${E})*(1/${B}))
+  3. if `num'==`firstyear'{
+  4. mat estimates_wage = (r(estimate) , `num')
+  5. 
+. }
+  6. else{
+  7. mat estimates_wage = (estimates_wage \ r(estimate) , `num')
+  8. }
+  9. }
+
+ ( 1)  3.687443*treat_p0_1992 - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997
+       - 1.229148*treat_p0_1998 + 5.717894*treat_p1_1992 -
+       1.905965*treat_p1_1996 - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998
+       + 7.748346*treat_p2_1992 - 2.582782*treat_p2_1996 -
+       2.582782*treat_p2_1997 - 2.582782*treat_p2_1998 + 9.778797*treat_p3_1992
+       - 3.259599*treat_p3_1996 - 3.259599*treat_p3_1997 -
+       3.259599*treat_p3_1998 + 11.80925*treat_p4_1992 - 3.936416*treat_p4_1996
+       - 3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 +
+       1.656991*treat_m1_1992 - .5523303*treat_m1_1996 - .5523303*treat_m1_1997
+       - .5523303*treat_m1_1998 - .3734607*treat_m2_1992 +
+       .1244869*treat_m2_1996 + .1244869*treat_m2_1997 + .1244869*treat_m2_1998
+       - 2.403912*treat_m3_1992 + .8013041*treat_m3_1996 +
+       .8013041*treat_m3_1997 + .8013041*treat_m3_1998 - 4.434364*treat_m4_1992
+       + 1.478121*treat_m4_1996 + 1.478121*treat_m4_1997 +
+       1.478121*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0962935   .0763472     1.26   0.207    -.0533601     .245947
+------------------------------------------------------------------------------
+
+ ( 1)  3.687443*treat_p0_1993 - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997
+       - 1.229148*treat_p0_1998 + 5.717894*treat_p1_1993 -
+       1.905965*treat_p1_1996 - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998
+       + 7.748346*treat_p2_1993 - 2.582782*treat_p2_1996 -
+       2.582782*treat_p2_1997 - 2.582782*treat_p2_1998 + 9.778797*treat_p3_1993
+       - 3.259599*treat_p3_1996 - 3.259599*treat_p3_1997 -
+       3.259599*treat_p3_1998 + 11.80925*treat_p4_1993 - 3.936416*treat_p4_1996
+       - 3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 +
+       1.656991*treat_m1_1993 - .5523303*treat_m1_1996 - .5523303*treat_m1_1997
+       - .5523303*treat_m1_1998 - .3734607*treat_m2_1993 +
+       .1244869*treat_m2_1996 + .1244869*treat_m2_1997 + .1244869*treat_m2_1998
+       - 2.403912*treat_m3_1993 + .8013041*treat_m3_1996 +
+       .8013041*treat_m3_1997 + .8013041*treat_m3_1998 - 4.434364*treat_m4_1993
+       + 1.478121*treat_m4_1996 + 1.478121*treat_m4_1997 +
+       1.478121*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |    .099701   .0757087     1.32   0.188    -.0487011     .248103
+------------------------------------------------------------------------------
+
+ ( 1)  3.687443*treat_p0_1994 - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997
+       - 1.229148*treat_p0_1998 + 5.717894*treat_p1_1994 -
+       1.905965*treat_p1_1996 - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998
+       + 7.748346*treat_p2_1994 - 2.582782*treat_p2_1996 -
+       2.582782*treat_p2_1997 - 2.582782*treat_p2_1998 + 9.778797*treat_p3_1994
+       - 3.259599*treat_p3_1996 - 3.259599*treat_p3_1997 -
+       3.259599*treat_p3_1998 + 11.80925*treat_p4_1994 - 3.936416*treat_p4_1996
+       - 3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 +
+       1.656991*treat_m1_1994 - .5523303*treat_m1_1996 - .5523303*treat_m1_1997
+       - .5523303*treat_m1_1998 - .3734607*treat_m2_1994 +
+       .1244869*treat_m2_1996 + .1244869*treat_m2_1997 + .1244869*treat_m2_1998
+       - 2.403912*treat_m3_1994 + .8013041*treat_m3_1996 +
+       .8013041*treat_m3_1997 + .8013041*treat_m3_1998 - 4.434364*treat_m4_1994
+       + 1.478121*treat_m4_1996 + 1.478121*treat_m4_1997 +
+       1.478121*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .1226012    .075156     1.63   0.103    -.0247173    .2699197
+------------------------------------------------------------------------------
+
+ ( 1)  3.687443*treat_p0_1995 - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997
+       - 1.229148*treat_p0_1998 + 5.717894*treat_p1_1995 -
+       1.905965*treat_p1_1996 - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998
+       + 7.748346*treat_p2_1995 - 2.582782*treat_p2_1996 -
+       2.582782*treat_p2_1997 - 2.582782*treat_p2_1998 + 9.778797*treat_p3_1995
+       - 3.259599*treat_p3_1996 - 3.259599*treat_p3_1997 -
+       3.259599*treat_p3_1998 + 11.80925*treat_p4_1995 - 3.936416*treat_p4_1996
+       - 3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 +
+       1.656991*treat_m1_1995 - .5523303*treat_m1_1996 - .5523303*treat_m1_1997
+       - .5523303*treat_m1_1998 - .3734607*treat_m2_1995 +
+       .1244869*treat_m2_1996 + .1244869*treat_m2_1997 + .1244869*treat_m2_1998
+       - 2.403912*treat_m3_1995 + .8013041*treat_m3_1996 +
+       .8013041*treat_m3_1997 + .8013041*treat_m3_1998 - 4.434364*treat_m4_1995
+       + 1.478121*treat_m4_1996 + 1.478121*treat_m4_1997 +
+       1.478121*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .1103363   .0744877     1.48   0.139    -.0356723    .2563448
+------------------------------------------------------------------------------
+
+ ( 1)  2.458295*treat_p0_1996 - 1.229148*treat_p0_1997 - 1.229148*treat_p0_1998
+       + 3.811929*treat_p1_1996 - 1.905965*treat_p1_1997 -
+       1.905965*treat_p1_1998 + 5.165564*treat_p2_1996 - 2.582782*treat_p2_1997
+       - 2.582782*treat_p2_1998 + 6.519198*treat_p3_1996 -
+       3.259599*treat_p3_1997 - 3.259599*treat_p3_1998 + 7.872833*treat_p4_1996
+       - 3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 +
+       1.104661*treat_m1_1996 - .5523303*treat_m1_1997 - .5523303*treat_m1_1998
+       - .2489738*treat_m2_1996 + .1244869*treat_m2_1997 +
+       .1244869*treat_m2_1998 - 1.602608*treat_m3_1996 + .8013041*treat_m3_1997
+       + .8013041*treat_m3_1998 - 2.956243*treat_m4_1996 +
+       1.478121*treat_m4_1997 + 1.478121*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0584323   .0521862     1.12   0.263    -.0438616    .1607262
+------------------------------------------------------------------------------
+
+ ( 1)  - 1.229148*treat_p0_1996 + 2.458295*treat_p0_1997 -
+       1.229148*treat_p0_1998 - 1.905965*treat_p1_1996 + 3.811929*treat_p1_1997
+       - 1.905965*treat_p1_1998 - 2.582782*treat_p2_1996 +
+       5.165564*treat_p2_1997 - 2.582782*treat_p2_1998 - 3.259599*treat_p3_1996
+       + 6.519198*treat_p3_1997 - 3.259599*treat_p3_1998 -
+       3.936416*treat_p4_1996 + 7.872833*treat_p4_1997 - 3.936416*treat_p4_1998
+       - .5523303*treat_m1_1996 + 1.104661*treat_m1_1997 -
+       .5523303*treat_m1_1998 + .1244869*treat_m2_1996 - .2489738*treat_m2_1997
+       + .1244869*treat_m2_1998 + .8013041*treat_m3_1996 -
+       1.602608*treat_m3_1997 + .8013041*treat_m3_1998 + 1.478121*treat_m4_1996
+       - 2.956243*treat_m4_1997 + 1.478121*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0005868   .0519458     0.01   0.991    -.1012359    .1024095
+------------------------------------------------------------------------------
+
+ ( 1)  - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997 +
+       2.458295*treat_p0_1998 - 1.905965*treat_p1_1996 - 1.905965*treat_p1_1997
+       + 3.811929*treat_p1_1998 - 2.582782*treat_p2_1996 -
+       2.582782*treat_p2_1997 + 5.165564*treat_p2_1998 - 3.259599*treat_p3_1996
+       - 3.259599*treat_p3_1997 + 6.519198*treat_p3_1998 -
+       3.936416*treat_p4_1996 - 3.936416*treat_p4_1997 + 7.872833*treat_p4_1998
+       - .5523303*treat_m1_1996 - .5523303*treat_m1_1997 +
+       1.104661*treat_m1_1998 + .1244869*treat_m2_1996 + .1244869*treat_m2_1997
+       - .2489738*treat_m2_1998 + .8013041*treat_m3_1996 +
+       .8013041*treat_m3_1997 - 1.602608*treat_m3_1998 + 1.478121*treat_m4_1996
+       + 1.478121*treat_m4_1997 - 2.956243*treat_m4_1998 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0590191   .0517827    -1.14   0.254     -.160522    .0424838
+------------------------------------------------------------------------------
+
+ ( 1)  - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997 -
+       1.229148*treat_p0_1998 + 3.687443*treat_p0_2000 - 1.905965*treat_p1_1996
+       - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998 +
+       5.717894*treat_p1_2000 - 2.582782*treat_p2_1996 - 2.582782*treat_p2_1997
+       - 2.582782*treat_p2_1998 + 7.748346*treat_p2_2000 -
+       3.259599*treat_p3_1996 - 3.259599*treat_p3_1997 - 3.259599*treat_p3_1998
+       + 9.778797*treat_p3_2000 - 3.936416*treat_p4_1996 -
+       3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 + 11.80925*treat_p4_2000
+       - .5523303*treat_m1_1996 - .5523303*treat_m1_1997 -
+       .5523303*treat_m1_1998 + 1.656991*treat_m1_2000 + .1244869*treat_m2_1996
+       + .1244869*treat_m2_1997 + .1244869*treat_m2_1998 -
+       .3734607*treat_m2_2000 + .8013041*treat_m3_1996 + .8013041*treat_m3_1997
+       + .8013041*treat_m3_1998 - 2.403912*treat_m3_2000 +
+       1.478121*treat_m4_1996 + 1.478121*treat_m4_1997 + 1.478121*treat_m4_1998
+       - 4.434364*treat_m4_2000 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |    .046952   .0722783     0.65   0.516    -.0947259    .1886299
+------------------------------------------------------------------------------
+
+ ( 1)  - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997 -
+       1.229148*treat_p0_1998 + 3.687443*treat_p0_2001 - 1.905965*treat_p1_1996
+       - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998 +
+       5.717894*treat_p1_2001 - 2.582782*treat_p2_1996 - 2.582782*treat_p2_1997
+       - 2.582782*treat_p2_1998 + 7.748346*treat_p2_2001 -
+       3.259599*treat_p3_1996 - 3.259599*treat_p3_1997 - 3.259599*treat_p3_1998
+       + 9.778797*treat_p3_2001 - 3.936416*treat_p4_1996 -
+       3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 + 11.80925*treat_p4_2001
+       - .5523303*treat_m1_1996 - .5523303*treat_m1_1997 -
+       .5523303*treat_m1_1998 + 1.656991*treat_m1_2001 + .1244869*treat_m2_1996
+       + .1244869*treat_m2_1997 + .1244869*treat_m2_1998 -
+       .3734607*treat_m2_2001 + .8013041*treat_m3_1996 + .8013041*treat_m3_1997
+       + .8013041*treat_m3_1998 - 2.403912*treat_m3_2001 +
+       1.478121*treat_m4_1996 + 1.478121*treat_m4_1997 + 1.478121*treat_m4_1998
+       - 4.434364*treat_m4_2001 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .1344981   .0718868     1.87   0.061    -.0064123    .2754085
+------------------------------------------------------------------------------
+
+ ( 1)  - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997 -
+       1.229148*treat_p0_1998 + 3.687443*treat_p0_2002 - 1.905965*treat_p1_1996
+       - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998 +
+       5.717894*treat_p1_2002 - 2.582782*treat_p2_1996 - 2.582782*treat_p2_1997
+       - 2.582782*treat_p2_1998 + 7.748346*treat_p2_2002 -
+       3.259599*treat_p3_1996 - 3.259599*treat_p3_1997 - 3.259599*treat_p3_1998
+       + 9.778797*treat_p3_2002 - 3.936416*treat_p4_1996 -
+       3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 + 11.80925*treat_p4_2002
+       - .5523303*treat_m1_1996 - .5523303*treat_m1_1997 -
+       .5523303*treat_m1_1998 + 1.656991*treat_m1_2002 + .1244869*treat_m2_1996
+       + .1244869*treat_m2_1997 + .1244869*treat_m2_1998 -
+       .3734607*treat_m2_2002 + .8013041*treat_m3_1996 + .8013041*treat_m3_1997
+       + .8013041*treat_m3_1998 - 2.403912*treat_m3_2002 +
+       1.478121*treat_m4_1996 + 1.478121*treat_m4_1997 + 1.478121*treat_m4_1998
+       - 4.434364*treat_m4_2002 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0549378   .0715002     0.77   0.442    -.0852147    .1950904
+------------------------------------------------------------------------------
+
+ ( 1)  - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997 -
+       1.229148*treat_p0_1998 + 3.687443*treat_p0_2003 - 1.905965*treat_p1_1996
+       - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998 +
+       5.717894*treat_p1_2003 - 2.582782*treat_p2_1996 - 2.582782*treat_p2_1997
+       - 2.582782*treat_p2_1998 + 7.748346*treat_p2_2003 -
+       3.259599*treat_p3_1996 - 3.259599*treat_p3_1997 - 3.259599*treat_p3_1998
+       + 9.778797*treat_p3_2003 - 3.936416*treat_p4_1996 -
+       3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 + 11.80925*treat_p4_2003
+       - .5523303*treat_m1_1996 - .5523303*treat_m1_1997 -
+       .5523303*treat_m1_1998 + 1.656991*treat_m1_2003 + .1244869*treat_m2_1996
+       + .1244869*treat_m2_1997 + .1244869*treat_m2_1998 -
+       .3734607*treat_m2_2003 + .8013041*treat_m3_1996 + .8013041*treat_m3_1997
+       + .8013041*treat_m3_1998 - 2.403912*treat_m3_2003 +
+       1.478121*treat_m4_1996 + 1.478121*treat_m4_1997 + 1.478121*treat_m4_1998
+       - 4.434364*treat_m4_2003 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .1289375   .0710953     1.81   0.070    -.0104213    .2682963
+------------------------------------------------------------------------------
+
+ ( 1)  - 1.229148*treat_p0_1996 - 1.229148*treat_p0_1997 -
+       1.229148*treat_p0_1998 + 3.687443*o.treat_p0_2004 -
+       1.905965*treat_p1_1996 - 1.905965*treat_p1_1997 - 1.905965*treat_p1_1998
+       + 5.717894*o.treat_p1_2004 - 2.582782*treat_p2_1996 -
+       2.582782*treat_p2_1997 - 2.582782*treat_p2_1998 +
+       7.748346*o.treat_p2_2004 - 3.259599*treat_p3_1996 -
+       3.259599*treat_p3_1997 - 3.259599*treat_p3_1998 +
+       9.778797*o.treat_p3_2004 - 3.936416*treat_p4_1996 -
+       3.936416*treat_p4_1997 - 3.936416*treat_p4_1998 +
+       11.80925*o.treat_p4_2004 - .5523303*treat_m1_1996 -
+       .5523303*treat_m1_1997 - .5523303*treat_m1_1998 +
+       1.656991*o.treat_m1_2004 + .1244869*treat_m2_1996 +
+       .1244869*treat_m2_1997 + .1244869*treat_m2_1998 -
+       .3734607*o.treat_m2_2004 + .8013041*treat_m3_1996 +
+       .8013041*treat_m3_1997 + .8013041*treat_m3_1998 -
+       2.403912*o.treat_m3_2004 + 1.478121*treat_m4_1996 +
+       1.478121*treat_m4_1997 + 1.478121*treat_m4_1998 -
+       4.434364*o.treat_m4_2004 = 0
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0950107   .0705159     1.35   0.178    -.0432125    .2332338
+------------------------------------------------------------------------------
+
+. *
+. svmat estimates_wage
+
+. rename estimates_wage1 wage_est
+
+. rename estimates_wage2 year_bin
+
+. sort year_bin
+
+. 
+. sum wage_est if year_bin>1998 & year_bin!=.
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    wage_est |          5    .0920672    .0405661    .046952   .1344981
+
+. scalar wage_est = r(mean)/(1+`emp_est_aff')
+
+. 
+. restore
+
+. 
+. 
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ******************          Counterfactual Jobs Dist.           *************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. drop if year<1996
+(4,320 observations deleted)
+
+. 
+. local hiw 17
+
+. local loww 4
+
+. 
+. global treatvec " "
+
+. 
+. forval num1 = 0(1)`hiw'{
+  2.         foreach num2 of numlist      2000(1)2004{
+  3.                 global treatvec " ${treatvec}  treat_p`num1'_`num2' "
+  4.         }
+  5. }
+
+. *
+. forval num1 = 1(1)`loww'{
+  2.         foreach num2 of numlist     2000(1)2004{
+  3.                 global treatvec " ${treatvec}  treat_m`num1'_`num2' "
+  4.         }
+  5. }
+
+. *
+. preserve
+
+. keep if wagebin100>=9-4 & wagebin100<9+5 
+(6,480 observations deleted)
+
+. gen below = wagebin100<9
+
+. collapse adminCPScountpc [aw=pop] , by(treatstate year below)
+
+. replace adminCPScountpc = adminCPScountpc*4/$E if below==1
+(18 real changes made)
+
+. replace adminCPScountpc = adminCPScountpc*5/$E if below==0
+(18 real changes made)
+
+. sum adminCPScountpc if below==0 & treatstate==1 & year<=1998
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~c |          3    .2233078    .0153564   .2088389   .2394195
+
+. sum adminCPScountpc if below==0 & treatstate==0 & year<=1998
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~c |          3    .2744024    .0112498   .2677251   .2873908
+
+. sum adminCPScountpc if below==0 & treatstate==1 & year>1999
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~c |          5    .2708981    .0190455   .2477571   .2996773
+
+. sum adminCPScountpc if below==0 & treatstate==0 & year>1999
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~c |          5    .2752906    .0133432   .2588198   .2929028
+
+. 
+. sum adminCPScountpc if below==1 & treatstate==1 & year<=1998
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~c |          3    .1114576    .0070645   .1033569   .1163384
+
+. sum adminCPScountpc if below==1 & treatstate==0 & year<=1998
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~c |          3    .1545587    .0060952   .1499275   .1614641
+
+. sum adminCPScountpc if below==1 & treatstate==1 & year>1999
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~c |          5    .0258237    .0093421   .0154967   .0394038
+
+. sum adminCPScountpc if below==1 & treatstate==0 & year>1999
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~c |          5    .1034677    .0095678   .0917037   .1151019
+
+. restore
+
+. 
+. 
+. 
+. local num = 1
+
+. reghdfe adminCPScountpc ${treatvec}  if  year!=1999 [aw=population], a(${a`nu
+> m'} )
+(MWFE estimator converged in 3 iterations)
+
+HDFE Linear regression                            Number of obs   =      8,640
+Absorbing 2 HDFE groups                           F( 110,   7261) =       2.35
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.9896
+                                                  Adj R-squared   =     0.9877
+                                                  Within R-sq.    =     0.0343
+                                                  Root MSE        =     0.0030
+
+------------------------------------------------------------------------------
+adminCPS~tpc | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+treat_p0_2~0 |    .012097   .0034314     3.53   0.000     .0053704    .0188236
+treat_p0_2~1 |   .0311308   .0034128     9.12   0.000     .0244406     .037821
+treat_p0_2~2 |   .0201746   .0033945     5.94   0.000     .0135204    .0268288
+treat_p0_2~3 |   .0217943   .0033753     6.46   0.000     .0151778    .0284108
+treat_p0_2~4 |   .0157456   .0033478     4.70   0.000     .0091831    .0223082
+treat_p1_2~0 |   .0044304   .0034314     1.29   0.197    -.0022962     .011157
+treat_p1_2~1 |   .0049096   .0034128     1.44   0.150    -.0017805    .0115998
+treat_p1_2~2 |   .0054407   .0033945     1.60   0.109    -.0012135    .0120949
+treat_p1_2~3 |    .008235   .0033753     2.44   0.015     .0016185    .0148515
+treat_p1_2~4 |   .0083688   .0033478     2.50   0.012     .0018062    .0149314
+treat_p2_2~0 |   .0048998   .0034314     1.43   0.153    -.0018268    .0116264
+treat_p2_2~1 |   .0055018   .0034128     1.61   0.107    -.0011884    .0121919
+treat_p2_2~2 |   .0026637   .0033945     0.78   0.433    -.0039905    .0093178
+treat_p2_2~3 |   .0061716   .0033753     1.83   0.068    -.0004449    .0127881
+treat_p2_2~4 |   .0015739   .0033478     0.47   0.638    -.0049887    .0081365
+treat_p3_2~0 |  -.0033064   .0034314    -0.96   0.335     -.010033    .0034202
+treat_p3_2~1 |   -.003107   .0034128    -0.91   0.363    -.0097971    .0035832
+treat_p3_2~2 |  -.0030899   .0033945    -0.91   0.363    -.0097441    .0035643
+treat_p3_2~3 |  -.0004057   .0033753    -0.12   0.904    -.0070222    .0062108
+treat_p3_2~4 |  -.0028562   .0033478    -0.85   0.394    -.0094188    .0037064
+treat_p4_2~0 |   .0002507   .0034314     0.07   0.942    -.0064759    .0069774
+treat_p4_2~1 |   .0014373   .0034128     0.42   0.674    -.0052529    .0081274
+treat_p4_2~2 |  -.0024867   .0033945    -0.73   0.464    -.0091409    .0041675
+treat_p4_2~3 |  -.0023326   .0033753    -0.69   0.490    -.0089491    .0042839
+treat_p4_2~4 |   .0010818   .0033478     0.32   0.747    -.0054807    .0076444
+treat_p5_2~0 |   .0008332   .0034314     0.24   0.808    -.0058934    .0075598
+treat_p5_2~1 |   .0050829   .0034128     1.49   0.136    -.0016072    .0117731
+treat_p5_2~2 |  -.0031274   .0033945    -0.92   0.357    -.0097816    .0035267
+treat_p5_2~3 |  -.0019703   .0033753    -0.58   0.559    -.0085868    .0046462
+treat_p5_2~4 |  -.0003802   .0033478    -0.11   0.910    -.0069428    .0061824
+treat_p6_2~0 |    .005348   .0034314     1.56   0.119    -.0013786    .0120746
+treat_p6_2~1 |   .0052824   .0034128     1.55   0.122    -.0014078    .0119725
+treat_p6_2~2 |   .0021413   .0033945     0.63   0.528    -.0045129    .0087955
+treat_p6_2~3 |  -.0035883   .0033753    -1.06   0.288    -.0102048    .0030282
+treat_p6_2~4 |   -.004626   .0033478    -1.38   0.167    -.0111885    .0019366
+treat_p7_2~0 |   .0015881   .0034314     0.46   0.644    -.0051385    .0083147
+treat_p7_2~1 |  -.0000205   .0034128    -0.01   0.995    -.0067107    .0066696
+treat_p7_2~2 |  -.0042627   .0033945    -1.26   0.209    -.0109169    .0023915
+treat_p7_2~3 |  -.0034172   .0033753    -1.01   0.311    -.0100337    .0031993
+treat_p7_2~4 |  -.0000968   .0033478    -0.03   0.977    -.0066594    .0064658
+treat_p8_2~0 |  -.0035487   .0034314    -1.03   0.301    -.0102753    .0031779
+treat_p8_2~1 |  -.0053339   .0034128    -1.56   0.118    -.0120241    .0013563
+treat_p8_2~2 |  -.0016591   .0033945    -0.49   0.625    -.0083133     .004995
+treat_p8_2~3 |  -.0058627   .0033753    -1.74   0.082    -.0124792    .0007538
+treat_p8_2~4 |   .0009861   .0033478     0.29   0.768    -.0055765    .0075487
+treat_p9_2~0 |  -.0001796   .0034314    -0.05   0.958    -.0069062     .006547
+treat_p9_2~1 |   .0021634   .0034128     0.63   0.526    -.0045268    .0088536
+treat_p9_2~2 |  -.0009313   .0033945    -0.27   0.784    -.0075854    .0057229
+treat_p9_2~3 |   .0044345   .0033753     1.31   0.189     -.002182     .011051
+treat_p9_2~4 |  -.0012677   .0033478    -0.38   0.705    -.0078303    .0052949
+treat_p10_~0 |   .0005538   .0034314     0.16   0.872    -.0061728    .0072804
+treat_p10_~1 |    .001261   .0034128     0.37   0.712    -.0054292    .0079511
+treat_p10_~2 |   .0005855   .0033945     0.17   0.863    -.0060687    .0072397
+treat_p10_~3 |  -.0017694   .0033753    -0.52   0.600    -.0083859    .0048471
+treat_p10_~4 |   .0006621   .0033478     0.20   0.843    -.0059005    .0072247
+treat_p11_~0 |   .0066785   .0034314     1.95   0.052    -.0000481    .0134051
+treat_p11_~1 |  -.0011043   .0034128    -0.32   0.746    -.0077945    .0055858
+treat_p11_~2 |   .0017742   .0033945     0.52   0.601      -.00488    .0084284
+treat_p11_~3 |   .0029049   .0033753     0.86   0.389    -.0037116    .0095214
+treat_p11_~4 |   .0031257   .0033478     0.93   0.350    -.0034368    .0096883
+treat_p12_~0 |  -.0009711   .0034314    -0.28   0.777    -.0076977    .0057555
+treat_p12_~1 |  -.0050382   .0034128    -1.48   0.140    -.0117284    .0016519
+treat_p12_~2 |   .0044819   .0033945     1.32   0.187    -.0021723    .0111361
+treat_p12_~3 |  -.0014245   .0033753    -0.42   0.673     -.008041     .005192
+treat_p12_~4 |   .0017717   .0033478     0.53   0.597    -.0047909    .0083342
+treat_p13_~0 |  -.0040688   .0034314    -1.19   0.236    -.0107954    .0026578
+treat_p13_~1 |  -.0010427   .0034128    -0.31   0.760    -.0077329    .0056474
+treat_p13_~2 |   .0002993   .0033945     0.09   0.930    -.0063549    .0069535
+treat_p13_~3 |   .0033098   .0033753     0.98   0.327    -.0033067    .0099263
+treat_p13_~4 |  -.0033968   .0033478    -1.01   0.310    -.0099594    .0031658
+treat_p14_~0 |   .0028912   .0034314     0.84   0.399    -.0038354    .0096179
+treat_p14_~1 |   .0024301   .0034128     0.71   0.476    -.0042601    .0091203
+treat_p14_~2 |  -.0024594   .0033945    -0.72   0.469    -.0091136    .0041948
+treat_p14_~3 |  -.0015683   .0033753    -0.46   0.642    -.0081848    .0050482
+treat_p14_~4 |   .0005862   .0033478     0.18   0.861    -.0059764    .0071487
+treat_p15_~0 |  -.0004835   .0034314    -0.14   0.888    -.0072101    .0062431
+treat_p15_~1 |  -.0022213   .0034128    -0.65   0.515    -.0089115    .0044688
+treat_p15_~2 |  -.0003053   .0033945    -0.09   0.928    -.0069595    .0063489
+treat_p15_~3 |  -.0026355   .0033753    -0.78   0.435     -.009252     .003981
+treat_p15_~4 |  -.0028936   .0033478    -0.86   0.387    -.0094562    .0036689
+treat_p16_~0 |   .0013925   .0034314     0.41   0.685    -.0053341    .0081191
+treat_p16_~1 |  -.0040386   .0034128    -1.18   0.237    -.0107288    .0026516
+treat_p16_~2 |  -.0005986   .0033945    -0.18   0.860    -.0072528    .0060556
+treat_p16_~3 |   -.000195   .0033753    -0.06   0.954    -.0068115    .0064215
+treat_p16_~4 |   .0004632   .0033478     0.14   0.890    -.0060993    .0070258
+treat_p17_~0 |  -.0031169   .0034314    -0.91   0.364    -.0098436    .0036097
+treat_p17_~1 |  -.0091111   .0034128    -2.67   0.008    -.0158012   -.0024209
+treat_p17_~2 |  -.0054464   .0033945    -1.60   0.109    -.0121006    .0012078
+treat_p17_~3 |  -.0004441   .0033753    -0.13   0.895    -.0070606    .0061724
+treat_p17_~4 |  -.0028917   .0033478    -0.86   0.388    -.0094543    .0036709
+treat_m1_2~0 |  -.0155565   .0034314    -4.53   0.000    -.0222831   -.0088299
+treat_m1_2~1 |  -.0237067   .0034128    -6.95   0.000    -.0303969   -.0170166
+treat_m1_2~2 |  -.0121947   .0033945    -3.59   0.000    -.0188489   -.0055405
+treat_m1_2~3 |  -.0123408   .0033753    -3.66   0.000    -.0189573   -.0057243
+treat_m1_2~4 |  -.0113293   .0033478    -3.38   0.001    -.0178919   -.0047667
+treat_m2_2~0 |  -.0069707   .0034314    -2.03   0.042    -.0136973   -.0002441
+treat_m2_2~1 |  -.0007838   .0034128    -0.23   0.818    -.0074739    .0059064
+treat_m2_2~2 |   -.002714   .0033945    -0.80   0.424    -.0093682    .0039402
+treat_m2_2~3 |  -.0051629   .0033753    -1.53   0.126    -.0117794    .0014536
+treat_m2_2~4 |  -.0041107   .0033478    -1.23   0.220    -.0106732    .0024519
+treat_m3_2~0 |   .0036929   .0034314     1.08   0.282    -.0030337    .0104195
+treat_m3_2~1 |  -.0004209   .0034128    -0.12   0.902    -.0071111    .0062692
+treat_m3_2~2 |  -.0025668   .0033945    -0.76   0.450    -.0092209    .0040874
+treat_m3_2~3 |  -.0018557   .0033753    -0.55   0.582    -.0084722    .0047608
+treat_m3_2~4 |  -.0043718   .0033478    -1.31   0.192    -.0109344    .0021908
+treat_m4_2~0 |   -.000252   .0034314    -0.07   0.941    -.0069786    .0064746
+treat_m4_2~1 |  -.0002248   .0034128    -0.07   0.947    -.0069149    .0064654
+treat_m4_2~2 |   -.000444   .0033945    -0.13   0.896    -.0070982    .0062102
+treat_m4_2~3 |   8.19e-06   .0033753     0.00   0.998    -.0066083    .0066247
+treat_m4_2~4 |   .0000855   .0033478     0.03   0.980     -.006477    .0066481
+       _cons |   .0219543   .0000334   656.87   0.000     .0218887    .0220198
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+------------------------------------------------------+
+  Absorbed FE | Categories  - Redundant  = Num. Coefs |
+--------------+---------------------------------------|
+ wagebinstate |      1080           0        1080     |
+  wagebinyear |       216          27         189     |
+------------------------------------------------------+
+
+. est store spec`num'
+
+. 
+. *forval spec = 1(1)2{
+. local spec = 1
+
+. preserve
+
+. est restore spec`spec'
+(results spec1 are active now)
+
+. forval num = 1(1)`loww'{
+  2. global precoeffsum_m = "(treat_m`num'_1996 + treat_m`num'_1997 + treat_m`n
+> um'_1998)/3"
+  3. global CSBW_m`num' "(treat_m`num'_2000+ treat_m`num'_2001+ treat_m`num'_20
+> 02+ treat_m`num'_2003+ treat_m`num'_2004)/5"
+  4. }
+
+. forval num = 0(1)`hiw'{
+  2. global precoeffsum_p = "(treat_p`num'_1996 + treat_p`num'_1997 + treat_p`n
+> um'_1998)/3"
+  3. global CSBW_p`num' "(treat_p`num'_2000+ treat_p`num'_2001+ treat_p`num'_20
+> 02+ treat_p`num'_2003+ treat_p`num'_2004)/5"
+  4. }
+
+. *
+. local counter = 0
+
+. forval num2 = 1(1)`loww'{
+  2. qui lincom ${CSBW_m`num2'}
+  3. local counter= `counter' + 1
+  4. if `counter' == 1{
+  5. mat estimates = ( r(estimate), -`num2' )
+  6. }
+  7. else{
+  8. mat estimates = ( estimates  \ r(estimate), -`num2' )
+  9. }
+ 10. }
+
+. *
+. forval num2 = 0(1)`hiw'{
+  2. qui lincom ${CSBW_p`num2'}
+  3. mat estimates = ( estimates  \ r(estimate), `num2' )
+  4. }
+
+. *
+. cap drop estimates*
+
+. cap drop est_beta
+
+. cap drop bin
+
+. cap drop alt_bin
+
+. cap drop cum_est
+
+. svmat estimates
+
+. rename estimates1 est_beta
+
+. rename estimates2 bin
+
+. sum adminCPScountallpc [aw=population] if treatstate==1 & $pre
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+adminCPS~lpc |      81   345636302    .5852399   .0113111   .5709887    .598524
+
+. replace est_beta = est_beta/r(mean)
+(22 real changes made)
+
+. sort bin
+
+. gen cum_est = sum(est_beta) if bin!=.
+(9,698 missing values generated)
+
+. 
+. foreach vv in est_beta_above est_beta_below emp_est emp_est_aff wage_est{
+  2. local _`vv': di %04.3f `=`vv''
+  3. di "`_`vv''"
+  4. }
+0.047
+-0.035
+0.013
+0.108
+0.083
+
+. *
+. 
+. global xlabel2 " "
+
+. foreach num of numlist -`loww'(2)16{
+  2. local num2 = `num' + 9
+  3. global xlabel2 `" ${xlabel2} `num' "`num2'" "'
+  4. }
+
+. 
+. global xlabel2 `" ${xlabel2} 17 "26+" "'
+
+. 
+. 
+. *
+. 
+. gen alt_bin = bin+9
+(9,698 missing values generated)
+
+. 
+. gen relMW = bin
+(9,698 missing values generated)
+
+. gen fits =  est_beta * ${E}
+(9,698 missing values generated)
+
+. 
+. 
+. twoway (bar est_beta bin if bin!=., color(blue) fcolor(ltblue) xaxis(1 2)   x
+> label(-4(2)16 17 "17+") xlabel(  ${xlabel2} , axis(2))  ) ///
+> (line cum_est bin  if bin!=. , lwidth(thick) lcolor(red*.33)  ) , ///
+> graphregion(color(white)) legend(off) xtitle("Wage bins relative to $9 in 201
+> 6$", size(medsmall)) xtitle("Wage bins in 2016$", size(medsmall) axis(2)) ///
+> ylabel( ,format(%03.2f)) ytitle("Difference between actual and counterfactual
+>  employment count" "relative to the pre-treatment total employment", height(1
+> 0) size(small))   ///
+> text(0.03 11.5  "{&Delta}a =  `_est_beta_above'" "{&Delta}b = `_est_beta_belo
+> w'" "%{&Delta} affected employment =  `_emp_est_aff'" ///
+> "%{&Delta} affected wage =  `_wage_est'", box  fcolor(white) margin(0.2 0.2 1
+>  1) justification(right) )
+
+. 
+. 
+. gr export "${figures}FigureC4_b.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureC4_b.pdf saved as PDF
+    format
+
+. 
+.  
+. sum est_beta if bin==17
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1     -.00718           .    -.00718    -.00718
+
+. 
+. 
+. g _post = 1 if year>=2000 & year<=2004
+(4,320 missing values generated)
+
+. egen adminCPScountpc_post = mean(_post*adminCPScountpc), by(treatstate wagebi
+> n100)
+
+. 
+. 
+. cap drop adminCPScountpc_cf
+
+. g adminCPScountpc_cf = .
+(9,720 missing values generated)
+
+. 
+. forval k = -4/17 {
+  2. sum est_beta if bin == `k'
+  3. replace adminCPScountpc_cf = adminCPScountpc_post - r(mean) if treatstate=
+> =1 & wagebin100==9+`k'
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0002826           .  -.0002826  -.0002826
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0018872           .  -.0018872  -.0018872
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0067466           .  -.0067466  -.0067466
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0256742           .  -.0256742  -.0256742
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0344961           .   .0344961   .0344961
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0107253           .   .0107253   .0107253
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0071118           .   .0071118   .0071118
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0043624           .  -.0043624  -.0043624
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0007004           .  -.0007004  -.0007004
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0001498           .   .0001498   .0001498
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0015575           .   .0015575   .0015575
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0021219           .  -.0021219  -.0021219
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0052691           .  -.0052691  -.0052691
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0014419           .   .0014419   .0014419
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0004419           .   .0004419   .0004419
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0045722           .   .0045722   .0045722
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0004034           .  -.0004034  -.0004034
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0016743           .  -.0016743  -.0016743
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1    .0006424           .   .0006424   .0006424
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0029182           .  -.0029182  -.0029182
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1   -.0010172           .  -.0010172  -.0010172
+(9 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    est_beta |          1     -.00718           .    -.00718    -.00718
+(9 real changes made)
+
+. replace wagebin100 = 27 if wagebin100==26
+(360 real changes made)
+
+.  replace wagebin100 = wagebin100 - 9
+(9,720 real changes made)
+
+.  gen alt_wage = wagebin100 + 9
+
+. 
+. 
+.  sum adminCPScountpc_post if wagebin100==18 & year==2004 & treatstate==1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSc~st |          1    .1794606           .   .1794606   .1794606
+
+.  sum adminCPScountpc_cf if wagebin100==18 & year==2004 & treatstate==1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+adminCPSco~f |          1    .1866406           .   .1866406   .1866406
+
+.  
+. twoway (bar adminCPScountpc_post  wagebin100 if wagebin100<=17 & wagebin100>=
+> -4 & year==2004 & treatstate==1 , barwidth(1) color(blue*.3) yaxis(1) ) ///
+> (bar adminCPScountpc_post  wagebin100 if wagebin100==18 & year==2004 & treats
+> tate==1 , color(blue*.3) yaxis(2)  barwidth(1) ) ///
+> (bar adminCPScountpc_cf  alt_wage if alt_wage<=26 &  alt_wage>=5 & year==2004
+>  &  treatstate==1, xaxis(2)  lcolor(red*.8)  barwidth(1) yaxis(1) fcolor(none
+> ) lw(thick) ) ///
+>   (bar adminCPScountpc_cf  alt_wage if alt_wage==27 & year==2004 &  treatstat
+> e==1, xaxis(2) yaxis(2) lcolor(red*.8) fcolor(none)  barwidth(1) lw(thick) ) 
+>  ///
+> ,  xlabel(5(2)25 27 "26+", axis(2))  xlabel(-4(2)16 18 "17+", axis(1)) ylabel
+> (0.19(0.01)0.25, axis(2)) ylabel(0(0.01)0.06, axis(1))  ///
+>  legend(order(1 "Actual distribution" 3 "Counterfactual distribution") cols(1
+> )) graphregion(color(white)) ///
+>  xtitle("Wage bins relative to $9 in 2016$")  xtitle("Wage bins in 2016$", si
+> ze(medsmall) axis(2))  ///
+> ytitle("Actual and counterfactual employment count" "relative to the pre-trea
+> tment total employment", height(10) size(small))   ///
+> ytitle("Actual and counterfactual employment count" "relative to the pre-trea
+> tment total employment ($26+ bin)", axis(2) height(10) size(small))
+
+. 
+. gr export "${figures}FigureC4_a.pdf", replace 
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureC4_a.pdf saved as PDF
+    format
+
+. 
+. 
+end of do-file

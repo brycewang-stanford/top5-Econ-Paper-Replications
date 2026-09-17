@@ -1,0 +1,513 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figures_A9_A10.log
+  log type:  text
+ opened on:  17 Sep 2026, 05:52:08
+
+. 
+. 
+. capture program drop addobs
+
+. program define addobs
+  1. local obsstring : di %15.0gc e(N)
+  2. estadd local obs "\multicolumn{1}{c}{`obsstring'}"
+  3. end
+
+. 
+. 
+. 
+. 
+. * quarterly unemployment rates
+. use "${data}state_level_quarterly_unemp_rate.dta", clear
+
+. xtset statenum quarterdate
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 64 to 230
+         Delta: 1 unit
+
+. tempfile unemp_rate
+
+. save `unemp_rate'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St40680.000001 saved
+    as .dta format
+
+. 
+. * presidential elections
+. use "${data}presidential_elections_from 1976_2016.dta", clear
+
+. keep  if year>1990
+(204 observations deleted)
+
+. collapse (sum) dem_vote rep_vote, by(statenum statefull)
+
+. gen political_orientation = "Rep" if rep_vote>dem_vote
+(26 missing values generated)
+
+. replace political_orientation = "Dem" if rep_vote<dem_vote
+(26 real changes made)
+
+. tempfile votes
+
+. save `votes'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St40680.000002 saved
+    as .dta format
+
+. 
+. use "${data}Urbanshare_ver13.dta", clear
+
+. rename pop2010 urbanshare
+
+. replace urbanshare = urbanshare/100
+(51 real changes made)
+
+. tempfile urban
+
+. save `urban'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St40680.000003 saved
+    as .dta format
+
+. 
+. * median wages
+. use "${data}median_wage_state_quarter_QJE.dta", clear
+
+. xtset statenum quarterdate
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. merge 1:1 statenum quarterdate using "${data}VZmw_quarterly_lagsleads_1979_20
+> 16.dta", keepusing(logmw) assert(3) nogenerate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. gen MW = exp(logmw)
+
+. gen MWtomed = MW/med_wage
+
+. 
+. merge m:1 statenum using  `votes', nogenerate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. merge 1:1 statenum quarterdate using `unemp_rate', nogenerate
+(variable quarterdate was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           765
+        from master                         0  
+        from using                        765  
+
+    Matched                             7,752  
+    -----------------------------------------
+
+. merge 1:1 statenum quarterdate using "${data}eventclassification", keep(3) no
+> generate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               516  
+    -----------------------------------------
+
+. merge m:1 statenum using `urban', keep(3) nogenerate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               516  
+    -----------------------------------------
+
+. 
+. keep if overallcountgr>0 & overallcountgr!=. & fedincrease!=1
+(378 observations deleted)
+
+. tempfile necessary_constants
+
+. save `necessary_constants'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St40680.000004 saved
+    as .dta format
+
+. 
+. use "${data}stacked_events_new_event_specific_estimates_clean_controls.dta", 
+> clear
+
+. rename ests1 event_estimate_post
+
+. rename ests2 event_estimate_pre
+
+. rename ests3 eventno
+
+. rename ests4 placebono
+
+. rename ests5 _category
+
+. rename ests6 statenum
+
+. rename ests7 quarterdate
+
+. rename ests8 placebo_statenum
+
+. rename ests9 E_all
+
+. rename ests10 avetotalpopulation
+
+. 
+. gen category = "_above"         if _category==1
+(552 missing values generated)
+
+. replace category = "_below"     if _category==2
+(138 real changes made)
+
+. replace category = "_upper"     if _category==3
+(138 real changes made)
+
+. replace category = "_all"       if _category==4
+(138 real changes made)
+
+. replace category = "_bunching"  if _category==5
+variable category was str6 now str9
+(138 real changes made)
+
+. 
+. keep if category == "_above" | category=="_below"
+(414 observations deleted)
+
+. cap drop _category
+
+. cap drop event_estimate_pre
+
+. ds category statenum quarterdate, not
+event_esti~t  placebono     E_all
+eventno       placebo_st~m  avetotalpo~n
+
+. reshape wide `r(varlist)', i(statenum quarterdate) j(category) string
+(j = _above _below)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations              276   ->   138         
+Number of variables                   9   ->   14          
+j variable (2 values)          category   ->   (dropped)
+xij variables:
+                    event_estimate_post   ->   event_estimate_post_above event_
+> estimate_post_below
+                                eventno   ->   eventno_above eventno_below
+                              placebono   ->   placebono_above placebono_below
+                       placebo_statenum   ->   placebo_statenum_above placebo_s
+> tatenum_below
+                                  E_all   ->   E_all_above E_all_below
+                     avetotalpopulation   ->   avetotalpopulation_above avetota
+> lpopulation_below
+-----------------------------------------------------------------------------
+
+. replace event_estimate_post_above =  event_estimate_post_above /E_all_above
+(138 real changes made)
+
+. replace event_estimate_post_below =  event_estimate_post_below /E_all_above
+(138 real changes made)
+
+. rename event_estimate_post_above above_estimate
+
+. rename event_estimate_post_below below_estimate
+
+. cap drop emp_estimate
+
+. gen emp_estimate = below_estimate + above_estimate
+
+. 
+. drop eventno_above
+
+. 
+. rename eventno event
+
+. merge 1:1 statenum quarterdate using `necessary_constants', keep(3) nogenerat
+> e
+(variable quarterdate was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               138  
+    -----------------------------------------
+
+. 
+. 
+. egen decade = cut(year), at(1970(10)2020)
+
+. sum decade
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      decade |        138     1999.71    9.585728       1980       2010
+
+. assert r(min) == 1980
+
+. assert r(max) == 2010
+
+. foreach decade of numlist 1990(10)2010 {
+  2.   gen decade_`decade' = year >= `decade' & year <= `decade' + 9
+  3.   lab var decade_`decade' "Decade = `decade'"
+  4. }
+
+. *
+. 
+. 
+. *
+. gen republican_states = (political_orientation=="Rep")
+
+. tempfile regready
+
+. save `regready'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St40680.000005 saved
+    as .dta format
+
+. 
+. *Stacked
+. local controls ""
+
+.                         local counter = `counter' + 1
+
+.                         use `regready', clear
+
+.                 
+.                         reg emp_estimate MWtomed `controls' [aw=avetotalpopul
+> ation_above] if statenum!=11,r
+(sum of wgt is 678,213,718.875)
+
+Linear regression                               Number of obs     =        130
+                                                F(1, 128)         =       1.32
+                                                Prob > F          =     0.2520
+                                                R-squared         =     0.0137
+                                                Root MSE          =     .01891
+
+------------------------------------------------------------------------------
+             |               Robust
+emp_estimate | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     MWtomed |   .0496617   .0431587     1.15   0.252    -.0357353    .1350586
+       _cons |  -.0213287   .0201736    -1.06   0.292    -.0612457    .0185882
+------------------------------------------------------------------------------
+
+.                         local b_est : di %04.3f _b[MWtomed]
+
+.                         local se_est : di %04.3f _se[MWtomed]
+
+.                         
+.                         binscatter emp_estimate MWtomed if statenum!=11 ///
+>                                 [aw=avetotalpopulation_above], controls(`cont
+> rols') mcolor(green*1.25) lcolor(green*1.25) ///
+>                                 nq(10)  
+
+. 
+.                                 `e(graphcmd)' ///
+>                                 xtitle("Minimum-to-median wage ratio", height
+> (6)) ytitle("Change in employment relative to pre-treatment total employment"
+> , size(small) height(6))  ///
+>                                 ylabel(-0.04(0.01)0.04, format(%03.2f)) legen
+> d(off) xlabel(0.4(0.05)0.55, format(%03.2f)) ///
+>                                 text(0.03 0.43  "Emp. change, slope =  `b_est
+> ' (`se_est')" , color(green*1.25)  fcolor(white) margin(0.2 0.2 1 1) justific
+> ation(right) )
+
+.                                 gr export "${figures}FigureA9_a.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA9_a.pdf saved as PDF
+    format
+
+. 
+.                         local counter = `counter' + 1
+
+.                         use `regready', clear
+
+. 
+.                         reg below_estimate MWtomed `controls' [aw=avetotalpop
+> ulation_above] if statenum!=11,r
+(sum of wgt is 678,213,718.875)
+
+Linear regression                               Number of obs     =        130
+                                                F(1, 128)         =       8.61
+                                                Prob > F          =     0.0040
+                                                R-squared         =     0.0613
+                                                Root MSE          =     .01644
+
+------------------------------------------------------------------------------
+             |               Robust
+below_esti~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     MWtomed |   -.093634   .0319155    -2.93   0.004    -.1567842   -.0304838
+       _cons |    .027223   .0144612     1.88   0.062    -.0013909    .0558369
+------------------------------------------------------------------------------
+
+.                         
+.                         local b_estb : di %04.3f _b[MWtomed]
+
+.                         local se_estb : di %04.3f _se[MWtomed]
+
+.                         
+.                         binscatter below_estimate MWtomed if statenum!=11 ///
+>                                 [aw=avetotalpopulation_above], controls(`cont
+> rols') mcolor(red*1.25) lcolor(red*1.25) ///
+>                                 nq(10)  
+
+.                         local temp "`e(graphcmd)'"
+
+.                                 local pos = strpos("`temp'", ", g")  - 1 - 6
+
+.                                 local graphcommandb= substr("`temp'", 7, `pos
+> ')
+
+.                         di "`graphcommandb'"
+ (scatteri -.0098240844159319 .3888358593729801 -.0059545011108506 .42039876975
+> 30644 -.0059800570432998 .4384989125122596 -.0252763722117256 .45647430192972
+> 4 -.0250234808830839 .4657082763153824 -.0177082131647941 .4708203942770861 -
+> .0129804856643562 .4794255054556023 -.0201725453698057 .4968559788816194 -.01
+> 90357093689253 .5133014721544591 -.0207579144327368 .5459105515855329, mcolor
+> (red*1.25) lcolor(red*1.25)) (function 0*x^2+-.0936339908067814*x+.0272230047
+> 673602, range(.3888358593729801 .5459105515855329) lcolor(red*1.25))
+
+.                                 
+.                         reg above_estimate  `controls' MWtomed  [aw=avetotalp
+> opulation_above] if statenum!=11,r
+(sum of wgt is 678,213,718.875)
+
+Linear regression                               Number of obs     =        130
+                                                F(1, 128)         =       8.77
+                                                Prob > F          =     0.0036
+                                                R-squared         =     0.0777
+                                                Root MSE          =     .02214
+
+------------------------------------------------------------------------------
+             |               Robust
+above_esti~e | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     MWtomed |   .1432957   .0483753     2.96   0.004     .0475768    .2390145
+       _cons |  -.0485517   .0219262    -2.21   0.029    -.0919365    -.005167
+------------------------------------------------------------------------------
+
+.                         
+.                         local b_esta : di %04.3f _b[MWtomed]
+
+.                         local se_esta : di %04.3f _se[MWtomed]
+
+.                         
+.                         binscatter above_estimate MWtomed if statenum!=11 ///
+>                                 [aw=avetotalpopulation_above], controls(`cont
+> rols') mcolor(ltblue*1.25) lcolor(ltblue*1.25) ///
+>                                 nq(10)  
+
+.                         local temp "`e(graphcmd)'"
+
+.                         local pos = strpos("`temp'", ", g")  - 1 - 6
+
+.                         local graphcommanda= substr("`temp'", 7, `pos')
+
+.                         di "`graphcommanda'"
+ (scatteri .0073985678750457 .3888358593729801 .0010684601954418 .4203987697530
+> 644 .009088437337551 .4384989125122596 .0255250238402957 .456474301929724 .01
+> 82923393821455 .4657082763153824 .0253697305413543 .4708203942770861 .0183598
+> 968870785 .4794255054556023 .0243490588223898 .4968559788816194 .037045957191
+> 4596 .5133014721544591 .0200084693345856 .5459105515855329, mcolor(ltblue*1.2
+> 5) lcolor(ltblue*1.25)) (function 0*x^2+.1432956543919613*x+-.048551749393354
+> 5, range(.3888358593729801 .5459105515855329) lcolor(ltblue*1.25))
+
+. 
+.                                 twoway `graphcommanda' `graphcommandb' ///
+>                                 , xtitle("Minimum-to-median wage ratio", heig
+> ht(6)) ytitle("Change in employment relative to pre-treatment total employmen
+> t", size(small) height(6))  ///
+>                                 ylabel(-0.04(0.01)0.04, format(%03.2f)) legen
+> d(off) xlabel(0.4(0.05)0.55, format(%03.2f)) graphregion(color(white))  ///
+>                                 text(0.04 0.43  "Excess jobs, slope =  `b_est
+> a' (`se_esta')" , color(ltblue*1.25)  fcolor(white) margin(0.2 0.2 1 1) justi
+> fication(right) ) ///
+>                                 text(-0.04 0.43  "Missing jobs, slope =  `b_e
+> stb' (`se_estb')" , color(red*1.25)  fcolor(white) margin(0.2 0.2 1 1) justif
+> ication(right) )
+
+.                                 gr export "${figures}FigureA9_b.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA9_b.pdf saved as PDF
+    format
+
+. 
+.         
+. 
+. twoway  (scatter   emp_estimate    MWtomed   if   statenum!=11 [aw=avetotalpo
+> pulation_above]   , ///
+>  msymbol(Oh) mcolor(green*0.50) xlabel(, format(%03.2f) ) )  ///
+> (  scatter   emp_estimate MWtomed   if   statenum==11 [aw=avetotalpopulation_
+> above]   , ///
+>   msymbol(Oh) mcolor(red*0.80)   )  ///
+> (lfit emp_estimate MWtomed if   statenum!=11 [aw=avetotalpopulation_above] , 
+> lpattern(straight) lcolor(green) lwidth(thick) ) ///
+> ( lfit emp_estimate MWtomed   [aw=avetotalpopulation_above] ,  lcolor(red)  l
+> pattern(straight)  lwidth(thick)  ), ///
+> ytitle("Change in employment relative to" "pre-treatment total employment") /
+> //
+> legend(order(1 "130 state-level events" 2 "D.C. events" 3 "Linear fit of the 
+> 130 events" 4 "Linear fit including D.C. events") position(6) cols(2)) graphr
+> egion(color(white))
+(note:  named style straight not found in class linepattern, default
+    attributes used)
+(note:  named style straight not found in class linepattern, default
+    attributes used)
+(note:  named style straight not found in class linepattern, default
+    attributes used)
+(note:  named style straight not found in class linepattern, default
+    attributes used)
+
+. gr export "${figures}FigureA10_a.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA10_a.pdf saved as PDF
+    format
+
+.         
+.         
+.         
+. twoway  (scatter   emp_estimate    MWtomed   if   statenum!=11    , ///
+>  msymbol(Oh) mcolor(green*0.50) xlabel(, format(%03.2f) ) )  ///
+> (  scatter   emp_estimate    MWtomed   if   statenum==11    , ///
+>   msymbol(Oh) mcolor(red*0.80)   )  ///
+> (lfit emp_estimate MWtomed if   statenum!=11  , lpattern(straight) lcolor(gre
+> en) lwidth(thick) ) ///
+> ( lfit emp_estimate MWtomed   ,  lcolor(red)  lpattern(straight)  lwidth(thic
+> k)  ), ///
+> ytitle("Change in employment relative to" "pre-treatment total employment") /
+> //
+> legend(order(1 "130 state-level events" 2 "D.C. events" 3 "Linear fit of the 
+> 130 events" 4 "Linear fit including D.C. events") position(6) cols(2)) graphr
+> egion(color(white))
+(note:  named style straight not found in class linepattern, default
+    attributes used)
+(note:  named style straight not found in class linepattern, default
+    attributes used)
+(note:  named style straight not found in class linepattern, default
+    attributes used)
+(note:  named style straight not found in class linepattern, default
+    attributes used)
+
+. gr export "${figures}FigureA10_b.pdf", replace
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA10_b.pdf saved as PDF
+    format
+
+.         
+.         
+. 
+end of do-file

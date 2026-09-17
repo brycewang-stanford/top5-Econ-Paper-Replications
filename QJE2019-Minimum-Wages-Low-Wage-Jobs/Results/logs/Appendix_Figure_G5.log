@@ -1,0 +1,1739 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_G5.log
+  log type:  text
+ opened on:  17 Sep 2026, 06:03:14
+
+. 
+. clear 
+
+. set more off
+
+. 
+. *****************************************************************************
+> ***
+. **************    Reshaping the original data    ****************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. use "${data}qcew_multiplier.dta", clear
+
+. keep statenum quarterdate multiplier
+
+. assert multiplier!=0
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48621.000001 saved
+    as .dta format
+
+. 
+. 
+. 
+. 
+. use "${data}VZmw_quarterly_lagsleads_1979_2016",clear
+
+. gen mw = exp(logmw)
+
+. gen year = year(dofq(quarterdate))
+
+. gen quarter = quarter(dofq(quarterdate))
+
+. collapse  mw, by(statenum year)
+
+. gen logmw = log(mw)
+
+. 
+. xtset statenum year
+
+Panel variable: statenum (strongly balanced)
+ Time variable: year, 1979 to 2016
+         Delta: 1 unit
+
+. forvalues index = 1/4 {
+  2.         foreach lagorlead in L F {
+  3.                 gen `lagorlead'`index'logmw = log(`lagorlead'`index'.mw)
+  4.         }
+  5. }
+(51 missing values generated)
+(51 missing values generated)
+(102 missing values generated)
+(102 missing values generated)
+(153 missing values generated)
+(153 missing values generated)
+(204 missing values generated)
+(204 missing values generated)
+
+. gen L0logmw = logmw
+
+. *
+. keep if year>=1979 & year<=2015
+(51 observations deleted)
+
+. xtset statenum year
+
+Panel variable: statenum (strongly balanced)
+ Time variable: year, 1979 to 2015
+         Delta: 1 unit
+
+. assert "`r(balanced)'" == "strongly balanced"
+
+. keep year statenum logmw L*mw F*mw
+
+. 
+. compress
+  variable year was float now int
+  (3,774 bytes saved)
+
+. 
+. tempfile mwdata
+
+. save `mwdata'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48621.000002 saved
+    as .dta format
+
+. 
+. use "${data}state_panels_cents_balanced_add_QJE.dta", clear
+
+. 
+.                 merge m:1 statenum quarterdate using `qcew', assert(3) nogene
+> rate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+.                 replace count = count * multiplier              
+(710,139 real changes made)
+
+.                 replace countall = countall * multiplier
+(905,112 real changes made)
+
+.                 
+.                 
+. 
+. gen wagebindollar = floor(wagebin/100)
+
+. drop wagebins
+
+. rename wagebindollar wagebins
+
+. 
+.                 *************************************************************
+> ***********
+.                 **************          Ones that should be summed       ****
+> ***********
+.                 *************************************************************
+> ***********
+. 
+.                 preserve 
+
+.                         collapse (sum)  count, by(statenum quarterdate wagebi
+> ns)
+
+.                         tempfile tempsum
+
+.                         save `tempsum'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48621.000004 saved
+    as .dta format
+
+.                 restore
+
+. 
+.                 *************************************************************
+> ***********
+.                 ******        Ones that are already at statenumXquarterdate  
+>  **********
+.                 *************************************************************
+> ***********
+.                 
+.                 preserve
+
+.                         egen tagger=tag(statenum quarterdate)
+
+.                         keep if tagger==1
+(899,232 observations deleted)
+
+.                         keep statenum quarterdate countall population year 
+
+.                         tempfile temptag
+
+.                         save `temptag'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48621.000006 saved
+    as .dta format
+
+.                 restore
+
+.                 
+.                 
+.                 *************************************************************
+> ***********
+.                 *********    Merge ave's and sum's      *********************
+> ***********
+.                 *************************************************************
+> ***********
+.                 
+.                 use `tempsum', clear
+
+. 
+.                 reshape wide  count , i(statenum quarterdate) j(wagebin)
+(j = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+>  29 30)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations          232,560   ->   7,752       
+Number of variables                   4   ->   32          
+j variable (30 values)         wagebins   ->   (dropped)
+xij variables:
+                                  count   ->   count1 count2 ... count30
+-----------------------------------------------------------------------------
+
+.                 merge 1:1 statenum quarterdate using `temptag', nogenerate as
+> sert(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. 
+. 
+.                 
+. 
+. *****************************************************************************
+> ***
+. ******************       Replicating previous results     *******************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. ds count*
+count1    count5    count9    count13   count17   count21   count25   count29
+count2    count6    count10   count14   count18   count22   count26   count30
+count3    count7    count11   count15   count19   count23   count27   countall
+count4    count8    count12   count16   count20   count24   count28
+
+. collapse (mean) population `r(varlist)'  ,by(statenum year)
+
+. 
+. merge 1:1 statenum year using `mwdata'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            51
+        from master                        51  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                             1,887  (_merge==3)
+    -----------------------------------------
+
+.         
+. rename population totalpopulation       
+
+.         forval j = 1/30 { 
+  2.         g lncount`j' = ln(count`j')
+  3.         g percap`j' = count`j'/totalpopulation
+  4.         
+. }
+(137 missing values generated)
+(111 missing values generated)
+(50 missing values generated)
+(28 missing values generated)
+(9 missing values generated)
+(4 missing values generated)
+
+. *
+. 
+. g epop    = countall/totalpopulation
+
+. 
+. 
+. 
+. 
+. g cleansample = 1
+
+. replace cleansample = 0 if year >=1994 & year <=1995
+(102 real changes made)
+
+. 
+. egen avetotalpopulation = mean(totalpopulation) , by(statenum)
+
+. 
+. 
+. *Note that we do not use most of these either, yet I keep this global in case
+>  it is needed.
+. 
+. global a1  i.statenum i.year  // TWFE
+
+. 
+. 
+. *****************************************************************************
+> ***
+. **************       Define Treatments         ******************************
+> ***
+. *****************************************************************************
+> ***
+. *To keep all as flexible as possible, I am adding lincom too.
+. 
+. global treat            F2logmw F1logmw logmw L1logmw L2logmw L3logmw L4logmw
+
+. 
+.                 global lincom0_TWFE     logmw
+
+.                 global lincom1_TWFE     logmw + L1logmw
+
+.                 global lincom2_TWFE     logmw + L1logmw + L2logmw
+
+.                 global lincom3_TWFE     logmw + L1logmw + L2logmw + L3logmw
+
+.                 global lincom4_TWFE     logmw + L1logmw + L2logmw + L3logmw +
+>  L4logmw
+
+.         
+.                 global lincom12 ((${lincom0_TWFE} + ${lincom1_TWFE} + ${linco
+> m2_TWFE} + ${lincom3_TWFE} + ${lincom4_TWFE}) * 1/5)
+
+.                 global lincomF3                 -F1logmw -F2logmw 
+
+.         
+. global label1 TWFE
+
+. global grlabel1 TWFE
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ***************       The Regressions ***************************************
+> ***
+. *****************************************************************************
+> ***                
+.                 
+. 
+. 
+. gen all=1
+
+. xtset statenum year
+
+Panel variable: statenum (strongly balanced)
+ Time variable: year, 1979 to 2016
+         Delta: 1 unit
+
+. 
+. tempfile temptemp
+
+. save `temptemp', replace        
+(file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48621.000007 not
+    found)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48621.000007 saved
+    as .dta format
+
+. 
+. local regsample ""
+
+. local graphname "o"
+
+. global weight2 [aw=altweight]
+
+. global weight1 [aw=avetotalpopulation]
+
+. global weight0 [aw=all]
+
+. local ylabel `"ylabel(-0.2 "-0.2" -0.1 "-0.1" 0 "0" 0.1 "0.1" , labsize(mediu
+> m))"' 
+
+. 
+. 
+. *To get semi elasticity, get rid of denominator.
+. 
+. foreach b in   1993    {
+  2.         foreach w in 1   {
+  3.                 
+.                 sum epop if  year>=`b' & cleansample==1  ${weight`w'}
+  4.                 local denominator = r(mean)
+  5.                 foreach s in      1   {
+  6.                 use `temptemp', clear
+  7.                         forval k=1(1)30{
+  8. 
+.                          reghdfe `regsample'percap`k' $treat  if  year>=`b' &
+>  cleansample==1  ${weight`w'} , absorb(${a`s'}) cluster(statenum)
+  9.                                 
+.                                 local dof = e(df_r)
+ 10.                                 
+.                                 foreach q in 12 {
+ 11.                                 lincom (${lincom`q'})/`denominator'
+ 12.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 13.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 14.                                 
+.                                 
+.                                 if `k' == 1 {
+ 15.                                                         mat countmat`q' = 
+> [`k', r(estimate), `lowb' , `highb']
+ 16.                                 } // end of if
+ 17.                                 else {
+ 18.                                         mat countmat`q' = [countmat`q' \ [
+> `k', r(estimate), `lowb' , `highb' ]]
+ 19.                                 } // end of else
+ 20.                         } // end of q 
+ 21.                         } // end of k
+ 22.                         foreach q in 12 {
+ 23.                                 forval j = 31/34 {   // 32 to 31: couner c
+> hanged here; but 34 kept same
+ 24.                                         mat countmat`q' = [countmat`q' \ [
+> `j', .,.,.] ]
+ 25.                                 } // end of j
+ 26.                         } // end of q
+ 27. 
+.                         qui reghdfe `regsample'epop $treat  if  year>=`b' & c
+> leansample==1 ${weight`w'} , absorb(${a`s'}) cluster(statenum)
+ 28.                         local dof = e(df_r)
+ 29. 
+.                         foreach q in 12 {       
+ 30.                                 lincom (${lincom`q'})/`denominator'
+ 31.                                 scalar ba_`w' = r(estimate)
+ 32.                                 scalar sea_`w'= r(se)
+ 33.                                 scalar ta_`w'= r(estimate)/r(se)          
+>                       
+ 34.                                 scalar pa_`w' = ttail(r(df), r(estimate)/r
+> (se))
+ 35.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 36.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 37.                                 mat countmat`q' = [countmat`q' \ [35, r(es
+> timate), `lowb' , `highb' ]]
+ 38.                                 svmat countmat`q'
+ 39.                                 cap drop wagebin est low high totest
+ 40.                                 rename countmat`q'1 wagebin
+ 41.                                 rename countmat`q'2 est
+ 42.                                 rename countmat`q'3 low
+ 43.                                 rename countmat`q'4 high
+ 44. 
+.                                 g totest = est if _n==1
+ 45.                                 replace totest = totest[_n-1] + est if _n>
+> 1
+ 46.                                 
+.                                 local ba: di %04.3f `=ba_`w''
+ 47.                                 local se: di %04.3f `=sea_`w''
+ 48. 
+.                                 twoway ( bar est wagebin if wagebin<32, fcolo
+> r(ltblue) ) ( bar est wagebin if wagebin==35, fcolor(purple) lcolor(purple) )
+>  ///
+>                                 (rcap low  high wagebin if wagebin<32, lcolor
+> (green) lwidth(thick) ) (line totest wagebin, lpat(dot) lwidth(thick) lcolor(
+> purple)) , ///
+>                                 xlabel( 5 "$5"  10 "$10" 15 "$15" 20 "$20" 25
+>  "$25" 31 ">$30" 35 "Total", labsize(medium)) ///
+>                                 ytitle("Employment elasticity") ///
+>                                 `ylabel' ///
+>                                 scheme(s1color) xtitle("Wage") legend(off) //
+> /
+>                                 text(-0.18 8  "Employment elas. = `ba' (`se')
+> " , box  fcolor(white) margin(0.2 0.2 1 1) justification(left) ) ///
+>                                  name(jd_`graphname'_${label`s'}_w`w'_b`b'_`q
+> ', replace)
+ 49. 
+.                                 graph export "${figures}FigureG5.pdf", replac
+> e 
+ 50.                                 
+.                                 
+. 
+.                                 
+.                         }
+ 51.                 }
+ 52.         }
+ 53. }
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+        epop |   1,122  4.5654e+09    .5741448    .058445   .4352584   1.540421
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.02
+Statistics robust to heteroskedasticity           Prob > F        =     0.0702
+                                                  R-squared       =     0.1214
+                                                  Adj R-squared   =     0.0506
+                                                  Within R-sq.    =     0.0053
+Number of clusters (statenum) =         51        Root MSE        =     0.0011
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0002245   .0011978    -0.19   0.852    -.0026304    .0021814
+     F1logmw |   .0003395    .001743     0.19   0.846    -.0031614    .0038404
+       logmw |   .0010373   .0014878     0.70   0.489    -.0019509    .0040256
+     L1logmw |  -.0007094   .0014171    -0.50   0.619    -.0035557    .0021369
+     L2logmw |  -.0001694   .0016571    -0.10   0.919    -.0034978    .0031589
+     L3logmw |   .0021652   .0016261     1.33   0.189     -.001101    .0054313
+     L4logmw |  -.0017175   .0013065    -1.31   0.195    -.0043416    .0009066
+       _cons |  -.0001611   .0031641    -0.05   0.960    -.0065164    .0061942
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0015514   .0016656     0.93   0.356    -.0017941    .0048969
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =      10.44
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5946
+                                                  Adj R-squared   =     0.5620
+                                                  Within R-sq.    =     0.1424
+Number of clusters (statenum) =         51        Root MSE        =     0.0012
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   -.004316   .0014572    -2.96   0.005    -.0072429   -.0013892
+     F1logmw |   .0007904   .0017167     0.46   0.647    -.0026577    .0042385
+       logmw |  -.0060328   .0023356    -2.58   0.013    -.0107241   -.0013415
+     L1logmw |  -.0002825   .0014522    -0.19   0.847    -.0031993    .0026343
+     L2logmw |  -.0009977   .0014203    -0.70   0.486    -.0038504     .001855
+     L3logmw |    -.00035   .0012363    -0.28   0.778    -.0028332    .0021331
+     L4logmw |   -.003514   .0010318    -3.41   0.001    -.0055864   -.0014416
+       _cons |   .0279846   .0038686     7.23   0.000     .0202143    .0357548
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0134116    .003985    -3.37   0.001    -.0214158   -.0054074
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       5.50
+Statistics robust to heteroskedasticity           Prob > F        =     0.0001
+                                                  R-squared       =     0.6241
+                                                  Adj R-squared   =     0.5938
+                                                  Within R-sq.    =     0.0444
+Number of clusters (statenum) =         51        Root MSE        =     0.0012
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0020698   .0019817     1.04   0.301    -.0019105    .0060501
+     F1logmw |   .0012156   .0019468     0.62   0.535    -.0026946    .0051258
+       logmw |   .0015087   .0019252     0.78   0.437    -.0023582    .0053755
+     L1logmw |  -.0012447   .0017664    -0.70   0.484    -.0047925    .0023032
+     L2logmw |   .0027095   .0017199     1.58   0.121    -.0007449     .006164
+     L3logmw |  -.0005865   .0010726    -0.55   0.587    -.0027408    .0015679
+     L4logmw |   .0018222    .001585     1.15   0.256    -.0013615    .0050058
+       _cons |  -.0107762   .0034291    -3.14   0.003    -.0176637   -.0038887
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0039511   .0024732     1.60   0.116    -.0010164    .0089187
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       4.28
+Statistics robust to heteroskedasticity           Prob > F        =     0.0009
+                                                  R-squared       =     0.4640
+                                                  Adj R-squared   =     0.4208
+                                                  Within R-sq.    =     0.0116
+Number of clusters (statenum) =         51        Root MSE        =     0.0010
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0003477   .0008978    -0.39   0.700    -.0021511    .0014556
+     F1logmw |  -.0016297   .0010577    -1.54   0.130    -.0037541    .0004947
+       logmw |   .0040018   .0012074     3.31   0.002     .0015766     .006427
+     L1logmw |  -.0015401   .0014492    -1.06   0.293    -.0044509    .0013708
+     L2logmw |  -.0002936   .0018759    -0.16   0.876    -.0040614    .0034741
+     L3logmw |   .0000709   .0016525     0.04   0.966    -.0032483    .0033901
+     L4logmw |   .0006736   .0012976     0.52   0.606    -.0019327    .0032798
+       _cons |   .0004247   .0039597     0.11   0.915    -.0075286     .008378
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap4 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0048014    .001683     2.85   0.006      .001421    .0081817
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       5.10
+Statistics robust to heteroskedasticity           Prob > F        =     0.0002
+                                                  R-squared       =     0.5292
+                                                  Adj R-squared   =     0.4912
+                                                  Within R-sq.    =     0.0189
+Number of clusters (statenum) =         51        Root MSE        =     0.0010
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap5 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0016413   .0016615     0.99   0.328     -.001696    .0049785
+     F1logmw |   .0005193   .0022986     0.23   0.822    -.0040975    .0051361
+       logmw |  -.0041498   .0020989    -1.98   0.054    -.0083655     .000066
+     L1logmw |   .0032388   .0019791     1.64   0.108    -.0007363    .0072139
+     L2logmw |  -.0007487   .0015504    -0.48   0.631    -.0038627    .0023654
+     L3logmw |    .001848   .0015467     1.19   0.238    -.0012586    .0049546
+     L4logmw |  -.0012378   .0010702    -1.16   0.253    -.0033874    .0009118
+       _cons |   .0004294   .0049194     0.09   0.931    -.0094514    .0103102
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap5 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0026409   .0037531    -0.70   0.485    -.0101793    .0048975
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =      25.47
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.8094
+                                                  Adj R-squared   =     0.7940
+                                                  Within R-sq.    =     0.2475
+Number of clusters (statenum) =         51        Root MSE        =     0.0030
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap6 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0081769   .0041436     1.97   0.054    -.0001458    .0164996
+     F1logmw |   -.001602   .0045611    -0.35   0.727    -.0107633    .0075594
+       logmw |  -.0299129   .0038692    -7.73   0.000    -.0376845   -.0221413
+     L1logmw |  -.0052063   .0032244    -1.61   0.113    -.0116828    .0012702
+     L2logmw |   .0031913   .0038171     0.84   0.407    -.0044756    .0108583
+     L3logmw |  -.0091823   .0022121    -4.15   0.000    -.0136255   -.0047392
+     L4logmw |   .0116055   .0033699     3.44   0.001     .0048368    .0183742
+       _cons |   .0482928   .0169448     2.85   0.006     .0142582    .0823274
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap6 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0583738   .0071015    -8.22   0.000    -.0726376   -.0441099
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       3.89
+Statistics robust to heteroskedasticity           Prob > F        =     0.0019
+                                                  R-squared       =     0.8438
+                                                  Adj R-squared   =     0.8312
+                                                  Within R-sq.    =     0.0404
+Number of clusters (statenum) =         51        Root MSE        =     0.0055
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap7 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   -.006255   .0090703    -0.69   0.494    -.0244731    .0119632
+     F1logmw |   .0168977   .0162356     1.04   0.303    -.0157123    .0495078
+       logmw |  -.0218824   .0128578    -1.70   0.095    -.0477079    .0039432
+     L1logmw |  -.0066354   .0042174    -1.57   0.122    -.0151064    .0018356
+     L2logmw |   .0028352   .0072484     0.39   0.697    -.0117237     .017394
+     L3logmw |   .0011842   .0060722     0.20   0.846    -.0110122    .0133807
+     L4logmw |  -.0104769   .0066878    -1.57   0.124    -.0239098    .0029559
+       _cons |   .0646358   .0217026     2.98   0.004     .0210448    .1082268
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap7 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0472203   .0217356    -2.17   0.035    -.0908774   -.0035631
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       6.14
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7356
+                                                  Adj R-squared   =     0.7143
+                                                  Within R-sq.    =     0.1386
+Number of clusters (statenum) =         51        Root MSE        =     0.0061
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap8 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |    .009031    .007499     1.20   0.234    -.0060312    .0240933
+     F1logmw |  -.0054003    .005835    -0.93   0.359    -.0171202    .0063197
+       logmw |   .0322865   .0071503     4.52   0.000     .0179246    .0466483
+     L1logmw |  -.0018312   .0089587    -0.20   0.839    -.0198253    .0161629
+     L2logmw |   .0138769   .0085214     1.63   0.110    -.0032389    .0309927
+     L3logmw |   .0112312   .0122742     0.92   0.365    -.0134223    .0358846
+     L4logmw |  -.0353581   .0141184    -2.50   0.016    -.0637156   -.0070005
+       _cons |  -.0114418   .0182162    -0.63   0.533    -.0480301    .0251465
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap8 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0636921   .0144186     4.42   0.000     .0347314    .0926527
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       5.30
+Statistics robust to heteroskedasticity           Prob > F        =     0.0001
+                                                  R-squared       =     0.7169
+                                                  Adj R-squared   =     0.6941
+                                                  Within R-sq.    =     0.1240
+Number of clusters (statenum) =         51        Root MSE        =     0.0047
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+     percap9 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0186697   .0075786     2.46   0.017     .0034477    .0338918
+     F1logmw |   -.014696   .0095153    -1.54   0.129    -.0338081     .004416
+       logmw |   .0317002   .0125765     2.52   0.015     .0064395    .0569609
+     L1logmw |  -.0066979   .0089905    -0.75   0.460    -.0247558      .01136
+     L2logmw |   .0095684   .0076861     1.24   0.219    -.0058697    .0250064
+     L3logmw |  -.0124157   .0067924    -1.83   0.074    -.0260586    .0012273
+     L4logmw |     .02407   .0071211     3.38   0.001     .0097669    .0383732
+       _cons |  -.0558957   .0170357    -3.28   0.002    -.0901128   -.0216785
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+     percap9 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0556142   .0146249     3.80   0.000     .0262391    .0849893
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       5.24
+Statistics robust to heteroskedasticity           Prob > F        =     0.0002
+                                                  R-squared       =     0.7974
+                                                  Adj R-squared   =     0.7811
+                                                  Within R-sq.    =     0.0305
+Number of clusters (statenum) =         51        Root MSE        =     0.0037
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap10 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0039397   .0043701     0.90   0.372     -.004838    .0127174
+     F1logmw |   -.002862   .0048938    -0.58   0.561    -.0126916    .0069675
+       logmw |    .007234   .0053509     1.35   0.182    -.0035136    .0179817
+     L1logmw |   .0040522   .0065625     0.62   0.540     -.009129    .0172333
+     L2logmw |  -.0023818   .0056605    -0.42   0.676    -.0137513    .0089877
+     L3logmw |  -.0012122   .0071767    -0.17   0.867     -.015627    .0132027
+     L4logmw |   .0090655   .0060652     1.49   0.141    -.0031168    .0212477
+       _cons |   .0017173   .0104535     0.16   0.870    -.0192792    .0227138
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap10 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0180701   .0049217     3.67   0.001     .0081846    .0279556
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       1.28
+Statistics robust to heteroskedasticity           Prob > F        =     0.2805
+                                                  R-squared       =     0.8628
+                                                  Adj R-squared   =     0.8517
+                                                  Within R-sq.    =     0.0088
+Number of clusters (statenum) =         51        Root MSE        =     0.0033
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap11 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0034776   .0041838     0.83   0.410    -.0049259    .0118811
+     F1logmw |   -.008159   .0061764    -1.32   0.193    -.0205646    .0042465
+       logmw |   .0059589   .0059357     1.00   0.320    -.0059633     .017881
+     L1logmw |   .0054879   .0065862     0.83   0.409    -.0077409    .0187167
+     L2logmw |  -.0047436   .0062856    -0.75   0.454    -.0173686    .0078814
+     L3logmw |   .0014061   .0049447     0.28   0.777    -.0085257    .0113379
+     L4logmw |   .0002597   .0031123     0.08   0.934    -.0059915    .0065109
+       _cons |    .022713   .0081792     2.78   0.008     .0062845    .0391414
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap11 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0141383    .006331     2.23   0.030      .001422    .0268545
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.31
+Statistics robust to heteroskedasticity           Prob > F        =     0.0400
+                                                  R-squared       =     0.8307
+                                                  Adj R-squared   =     0.8171
+                                                  Within R-sq.    =     0.0123
+Number of clusters (statenum) =         51        Root MSE        =     0.0033
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap12 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0002007    .006542     0.03   0.976    -.0129393    .0133407
+     F1logmw |   .0053575   .0071294     0.75   0.456    -.0089623    .0196772
+       logmw |  -.0038238   .0058267    -0.66   0.515    -.0155271    .0078795
+     L1logmw |  -.0007512    .005081    -0.15   0.883    -.0109567    .0094542
+     L2logmw |   .0016527   .0056968     0.29   0.773    -.0097896     .013095
+     L3logmw |   .0067562   .0054328     1.24   0.219    -.0041559    .0176684
+     L4logmw |  -.0015036   .0037903    -0.40   0.693    -.0091167    .0061095
+       _cons |   .0128751   .0104534     1.23   0.224    -.0081213    .0338714
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap12 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0017964     .00792    -0.23   0.821    -.0177043    .0141114
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       1.40
+Statistics robust to heteroskedasticity           Prob > F        =     0.2273
+                                                  R-squared       =     0.8153
+                                                  Adj R-squared   =     0.8004
+                                                  Within R-sq.    =     0.0077
+Number of clusters (statenum) =         51        Root MSE        =     0.0034
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap13 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0012943   .0040961    -0.32   0.753    -.0095216    .0069329
+     F1logmw |   .0003076   .0057462     0.05   0.958    -.0112339    .0118491
+       logmw |   .0020415   .0040477     0.50   0.616    -.0060886    .0101716
+     L1logmw |  -.0036382   .0047124    -0.77   0.444    -.0131033    .0058268
+     L2logmw |  -.0012235   .0046887    -0.26   0.795    -.0106411    .0081941
+     L3logmw |  -.0016246   .0067035    -0.24   0.809    -.0150889    .0118397
+     L4logmw |   .0059227   .0039591     1.50   0.141    -.0020294    .0138747
+       _cons |   .0267309   .0100441     2.66   0.010     .0065567     .046905
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap13 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0018609   .0053838    -0.35   0.731    -.0126745    .0089527
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.13
+Statistics robust to heteroskedasticity           Prob > F        =     0.0571
+                                                  R-squared       =     0.8370
+                                                  Adj R-squared   =     0.8239
+                                                  Within R-sq.    =     0.0126
+Number of clusters (statenum) =         51        Root MSE        =     0.0031
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap14 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0036345   .0032175     1.13   0.264     -.002828     .010097
+     F1logmw |  -.0038728   .0040991    -0.94   0.349    -.0121061    .0043604
+       logmw |  -.0078268   .0041454    -1.89   0.065    -.0161531    .0004995
+     L1logmw |   .0091273   .0039732     2.30   0.026     .0011469    .0171077
+     L2logmw |  -.0011803   .0043939    -0.27   0.789    -.0100057    .0076451
+     L3logmw |  -.0041406   .0038081    -1.09   0.282    -.0117894    .0035082
+     L4logmw |   .0041176   .0036781     1.12   0.268    -.0032701    .0115054
+       _cons |   .0247948   .0114627     2.16   0.035     .0017714    .0478183
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap14 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0035982   .0057416    -0.63   0.534    -.0151305    .0079342
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.48
+Statistics robust to heteroskedasticity           Prob > F        =     0.0288
+                                                  R-squared       =     0.8050
+                                                  Adj R-squared   =     0.7893
+                                                  Within R-sq.    =     0.0135
+Number of clusters (statenum) =         51        Root MSE        =     0.0029
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap15 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0049289    .003566    -1.38   0.173    -.0120915    .0022336
+     F1logmw |    .011633   .0040958     2.84   0.007     .0034064    .0198597
+       logmw |  -.0062635   .0033653    -1.86   0.069     -.013023     .000496
+     L1logmw |  -.0002697   .0033533    -0.08   0.936    -.0070051    .0064656
+     L2logmw |  -.0016258   .0032488    -0.50   0.619    -.0081511    .0048996
+     L3logmw |  -.0027157   .0039974    -0.68   0.500    -.0107447    .0053133
+     L4logmw |   .0049125   .0031794     1.55   0.129    -.0014736    .0112986
+       _cons |   .0213444   .0068711     3.11   0.003     .0075434    .0351454
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap15 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0131649   .0043619    -3.02   0.004     -.021926   -.0044037
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       0.71
+Statistics robust to heteroskedasticity           Prob > F        =     0.6677
+                                                  R-squared       =     0.7629
+                                                  Adj R-squared   =     0.7438
+                                                  Within R-sq.    =     0.0048
+Number of clusters (statenum) =         51        Root MSE        =     0.0028
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap16 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0008717   .0030027     0.29   0.773    -.0051594    .0069028
+     F1logmw |    .000469   .0038947     0.12   0.905    -.0073539    .0082918
+       logmw |  -.0043027   .0046455    -0.93   0.359    -.0136334     .005028
+     L1logmw |   .0008206   .0050537     0.16   0.872    -.0093299    .0109712
+     L2logmw |  -.0006034   .0054021    -0.11   0.912    -.0114539    .0102472
+     L3logmw |  -.0009423   .0046594    -0.20   0.841    -.0103011    .0084164
+     L4logmw |   .0023879   .0029981     0.80   0.430    -.0036338    .0084097
+       _cons |   .0242636   .0078819     3.08   0.003     .0084323    .0400948
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap16 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0068059   .0044079    -1.54   0.129    -.0156595    .0020476
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.54
+Statistics robust to heteroskedasticity           Prob > F        =     0.0255
+                                                  R-squared       =     0.7633
+                                                  Adj R-squared   =     0.7442
+                                                  Within R-sq.    =     0.0126
+Number of clusters (statenum) =         51        Root MSE        =     0.0027
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap17 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0054249   .0023126    -2.35   0.023    -.0100699     -.00078
+     F1logmw |   .0026337   .0032366     0.81   0.420    -.0038672    .0091346
+       logmw |   .0005473   .0036615     0.15   0.882    -.0068071    .0079017
+     L1logmw |   .0001388   .0044261     0.03   0.975    -.0087513    .0090289
+     L2logmw |  -.0029192   .0040823    -0.72   0.478    -.0111188    .0052804
+     L3logmw |  -.0021943   .0031034    -0.71   0.483    -.0084277    .0040391
+     L4logmw |   .0049142   .0036602     1.34   0.185    -.0024374    .0122659
+       _cons |   .0241857   .0063909     3.78   0.000     .0113491    .0370223
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap17 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0017209   .0050981    -0.34   0.737    -.0119608     .008519
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.30
+Statistics robust to heteroskedasticity           Prob > F        =     0.0414
+                                                  R-squared       =     0.7044
+                                                  Adj R-squared   =     0.6806
+                                                  Within R-sq.    =     0.0101
+Number of clusters (statenum) =         51        Root MSE        =     0.0025
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap18 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0062163   .0041398    -1.50   0.139    -.0145314    .0020988
+     F1logmw |    .004002   .0049512     0.81   0.423    -.0059427    .0139468
+       logmw |  -.0024661   .0042925    -0.57   0.568    -.0110878    .0061556
+     L1logmw |   .0027622   .0034291     0.81   0.424    -.0041253    .0096497
+     L2logmw |  -.0030226   .0039144    -0.77   0.444     -.010885    .0048397
+     L3logmw |   .0048892   .0037451     1.31   0.198    -.0026331    .0124115
+     L4logmw |  -.0030501    .002729    -1.12   0.269    -.0085315    .0024313
+       _cons |   .0239392   .0080962     2.96   0.005     .0076775    .0402009
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap18 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0012614   .0065211    -0.19   0.847    -.0143594    .0118365
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       3.46
+Statistics robust to heteroskedasticity           Prob > F        =     0.0043
+                                                  R-squared       =     0.6507
+                                                  Adj R-squared   =     0.6226
+                                                  Within R-sq.    =     0.0176
+Number of clusters (statenum) =         51        Root MSE        =     0.0024
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap19 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0002144   .0028733    -0.07   0.941    -.0059855    .0055568
+     F1logmw |  -.0055789   .0028988    -1.92   0.060    -.0114013    .0002436
+       logmw |   .0026502   .0031874     0.83   0.410    -.0037519    .0090523
+     L1logmw |   .0015881   .0028399     0.56   0.579     -.004116    .0072923
+     L2logmw |  -.0034058   .0032916    -1.03   0.306    -.0100172    .0032056
+     L3logmw |  -.0043089   .0026432    -1.63   0.109     -.009618    .0010002
+     L4logmw |    .003465   .0028459     1.22   0.229    -.0022512    .0091812
+       _cons |   .0273828   .0066127     4.14   0.000     .0141008    .0406648
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap19 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0014746   .0040371     0.37   0.716    -.0066342    .0095833
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.27
+Statistics robust to heteroskedasticity           Prob > F        =     0.0434
+                                                  R-squared       =     0.6851
+                                                  Adj R-squared   =     0.6597
+                                                  Within R-sq.    =     0.0165
+Number of clusters (statenum) =         51        Root MSE        =     0.0024
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap20 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0030539   .0025551     1.20   0.238    -.0020782     .008186
+     F1logmw |  -.0019025   .0040432    -0.47   0.640    -.0100235    .0062185
+       logmw |  -.0017171   .0040373    -0.43   0.672    -.0098262     .006392
+     L1logmw |  -.0024069   .0032148    -0.75   0.458     -.008864    .0040502
+     L2logmw |  -.0018182   .0037899    -0.48   0.633    -.0094304     .005794
+     L3logmw |   .0003021   .0031826     0.09   0.925    -.0060904    .0066947
+     L4logmw |  -.0000213   .0025013    -0.01   0.993    -.0050452    .0050026
+       _cons |   .0243376   .0050102     4.86   0.000     .0142744    .0344009
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap20 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0080415    .005358    -1.50   0.140    -.0188033    .0027203
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       1.50
+Statistics robust to heteroskedasticity           Prob > F        =     0.1876
+                                                  R-squared       =     0.6991
+                                                  Adj R-squared   =     0.6748
+                                                  Within R-sq.    =     0.0122
+Number of clusters (statenum) =         51        Root MSE        =     0.0023
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap21 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0016623   .0025809     0.64   0.522    -.0035216    .0068461
+     F1logmw |  -.0028217   .0030566    -0.92   0.360     -.008961    .0033177
+       logmw |   .0035811   .0031932     1.12   0.267    -.0028327    .0099948
+     L1logmw |  -.0035759   .0044465    -0.80   0.425     -.012507    .0053553
+     L2logmw |  -.0043061   .0040554    -1.06   0.293    -.0124515    .0038394
+     L3logmw |   .0064924   .0043807     1.48   0.145    -.0023064    .0152912
+     L4logmw |  -.0001779   .0031478    -0.06   0.955    -.0065005    .0061446
+       _cons |   .0136487   .0048425     2.82   0.007     .0039222    .0233751
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap21 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0012159    .003214     0.38   0.707    -.0052395    .0076713
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       1.83
+Statistics robust to heteroskedasticity           Prob > F        =     0.1030
+                                                  R-squared       =     0.6518
+                                                  Adj R-squared   =     0.6238
+                                                  Within R-sq.    =     0.0112
+Number of clusters (statenum) =         51        Root MSE        =     0.0022
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap22 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0050222   .0023319    -2.15   0.036    -.0097059   -.0003386
+     F1logmw |   .0019309   .0026981     0.72   0.478    -.0034885    .0073503
+       logmw |  -.0017873    .003378    -0.53   0.599    -.0085722    .0049977
+     L1logmw |   .0011472   .0035594     0.32   0.749    -.0060021    .0082964
+     L2logmw |   .0019494   .0040645     0.48   0.634    -.0062145    .0101132
+     L3logmw |  -.0028915   .0037284    -0.78   0.442    -.0103801    .0045971
+     L4logmw |  -.0009952    .002349    -0.42   0.674    -.0057133    .0037228
+       _cons |   .0243888   .0043966     5.55   0.000     .0155581    .0332196
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap22 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0018384   .0050658    -0.36   0.718    -.0120134    .0083365
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       1.01
+Statistics robust to heteroskedasticity           Prob > F        =     0.4354
+                                                  R-squared       =     0.6028
+                                                  Adj R-squared   =     0.5708
+                                                  Within R-sq.    =     0.0131
+Number of clusters (statenum) =         51        Root MSE        =     0.0021
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap23 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0042513   .0025437    -1.67   0.101    -.0093606    .0008579
+     F1logmw |    .003668   .0037914     0.97   0.338    -.0039472    .0112831
+       logmw |   .0012727   .0044123     0.29   0.774    -.0075897    .0101351
+     L1logmw |  -.0058218   .0039001    -1.49   0.142    -.0136555    .0020119
+     L2logmw |   .0001745   .0022689     0.08   0.939    -.0043827    .0047318
+     L3logmw |   .0027223   .0037011     0.74   0.465    -.0047116    .0101562
+     L4logmw |  -.0016445   .0029912    -0.55   0.585    -.0076524    .0043634
+       _cons |   .0190765   .0062078     3.07   0.003     .0066078    .0315453
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap23 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0043892   .0045653    -0.96   0.341    -.0135588    .0047805
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       5.11
+Statistics robust to heteroskedasticity           Prob > F        =     0.0002
+                                                  R-squared       =     0.6796
+                                                  Adj R-squared   =     0.6538
+                                                  Within R-sq.    =     0.0248
+Number of clusters (statenum) =         51        Root MSE        =     0.0020
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap24 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0011829    .002315    -0.51   0.612    -.0058328     .003467
+     F1logmw |    .000266   .0029272     0.09   0.928    -.0056134    .0061454
+       logmw |  -.0019613   .0032347    -0.61   0.547    -.0084585    .0045358
+     L1logmw |   .0001465     .00355     0.04   0.967    -.0069839     .007277
+     L2logmw |  -.0051662   .0031014    -1.67   0.102    -.0113956    .0010631
+     L3logmw |   .0061985   .0023926     2.59   0.013     .0013928    .0110042
+     L4logmw |  -.0065637   .0020464    -3.21   0.002    -.0106741   -.0024534
+       _cons |   .0263902   .0035055     7.53   0.000     .0193493    .0334311
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap24 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0065788   .0035679    -1.84   0.071    -.0137451    .0005875
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.07
+Statistics robust to heteroskedasticity           Prob > F        =     0.0642
+                                                  R-squared       =     0.6517
+                                                  Adj R-squared   =     0.6237
+                                                  Within R-sq.    =     0.0156
+Number of clusters (statenum) =         51        Root MSE        =     0.0019
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap25 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0001762   .0022825    -0.08   0.939    -.0047608    .0044084
+     F1logmw |  -.0022325   .0033861    -0.66   0.513    -.0090337    .0045688
+       logmw |  -.0004046   .0041719    -0.10   0.923     -.008784    .0079749
+     L1logmw |   .0004208   .0038269     0.11   0.913    -.0072656    .0081073
+     L2logmw |   -.002163   .0031922    -0.68   0.501    -.0085747    .0042488
+     L3logmw |  -.0007139   .0030129    -0.24   0.814    -.0067655    .0053376
+     L4logmw |   -.001124   .0022498    -0.50   0.620    -.0056428    .0033949
+       _cons |   .0227511   .0036448     6.24   0.000     .0154304    .0300719
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap25 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0032676   .0051788    -0.63   0.531    -.0136695    .0071344
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       5.78
+Statistics robust to heteroskedasticity           Prob > F        =     0.0001
+                                                  R-squared       =     0.6683
+                                                  Adj R-squared   =     0.6415
+                                                  Within R-sq.    =     0.0262
+Number of clusters (statenum) =         51        Root MSE        =     0.0019
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap26 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0041292   .0024045    -1.72   0.092    -.0089587    .0007003
+     F1logmw |   .0037973   .0030751     1.23   0.223    -.0023792    .0099738
+       logmw |   -.001335   .0031024    -0.43   0.669    -.0075664    .0048963
+     L1logmw |  -.0031486   .0034752    -0.91   0.369    -.0101287    .0038315
+     L2logmw |  -.0022068   .0036487    -0.60   0.548    -.0095354    .0051219
+     L3logmw |   .0016841   .0032167     0.52   0.603    -.0047769    .0081451
+     L4logmw |  -.0026006   .0022281    -1.17   0.249    -.0070759    .0018747
+       _cons |   .0246703   .0029443     8.38   0.000     .0187565    .0305842
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap26 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0087512    .003673    -2.38   0.021    -.0161286   -.0013738
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       3.80
+Statistics robust to heteroskedasticity           Prob > F        =     0.0022
+                                                  R-squared       =     0.7024
+                                                  Adj R-squared   =     0.6784
+                                                  Within R-sq.    =     0.0197
+Number of clusters (statenum) =         51        Root MSE        =     0.0017
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap27 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0009615   .0014713    -0.65   0.516    -.0039168    .0019938
+     F1logmw |  -.0001667   .0027821    -0.06   0.952    -.0057547    .0054213
+       logmw |  -.0015748   .0033015    -0.48   0.635    -.0082061    .0050565
+     L1logmw |  -.0032226   .0028377    -1.14   0.262    -.0089222    .0024769
+     L2logmw |   .0012626   .0019639     0.64   0.523     -.002682    .0052071
+     L3logmw |   .0053881   .0024946     2.16   0.036     .0003775    .0103987
+     L4logmw |  -.0037896   .0020241    -1.87   0.067    -.0078552     .000276
+       _cons |   .0154354   .0034384     4.49   0.000     .0085291    .0223417
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap27 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0034801   .0041937    -0.83   0.411    -.0119034    .0049432
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       5.19
+Statistics robust to heteroskedasticity           Prob > F        =     0.0002
+                                                  R-squared       =     0.6861
+                                                  Adj R-squared   =     0.6608
+                                                  Within R-sq.    =     0.0227
+Number of clusters (statenum) =         51        Root MSE        =     0.0017
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap28 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0022844   .0020378    -1.12   0.268    -.0063775    .0018086
+     F1logmw |  -.0047606   .0032582    -1.46   0.150    -.0113048    .0017836
+       logmw |   .0031908   .0023253     1.37   0.176    -.0014798    .0078613
+     L1logmw |  -.0012425   .0019403    -0.64   0.525    -.0051398    .0026548
+     L2logmw |   .0006067   .0033434     0.18   0.857    -.0061088    .0073221
+     L3logmw |   .0006733   .0023989     0.28   0.780    -.0041451    .0054917
+     L4logmw |  -.0022338   .0015443    -1.45   0.154    -.0053356     .000868
+       _cons |   .0196937    .003099     6.35   0.000     .0134692    .0259181
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap28 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0041511   .0036274     1.14   0.258    -.0031347    .0114369
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       2.30
+Statistics robust to heteroskedasticity           Prob > F        =     0.0409
+                                                  R-squared       =     0.6638
+                                                  Adj R-squared   =     0.6367
+                                                  Within R-sq.    =     0.0195
+Number of clusters (statenum) =         51        Root MSE        =     0.0017
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap29 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |  -.0025944   .0023686    -1.10   0.279    -.0073518     .002163
+     F1logmw |   .0018196   .0042311     0.43   0.669    -.0066787    .0103179
+       logmw |   .0008667   .0045531     0.19   0.850    -.0082784    .0100118
+     L1logmw |  -.0017014   .0033413    -0.51   0.613    -.0084126    .0050099
+     L2logmw |  -.0032727   .0032933    -0.99   0.325    -.0098875    .0033422
+     L3logmw |  -.0000902   .0027515    -0.03   0.974    -.0056168    .0054363
+     L4logmw |   -.000201    .001753    -0.11   0.909     -.003722    .0033199
+       _cons |    .017624   .0037964     4.64   0.000     .0099987    .0252492
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap29 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   -.004414   .0054602    -0.81   0.423    -.0153811     .006553
+------------------------------------------------------------------------------
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,020
+Absorbing 2 HDFE groups                           F(   7,     50) =       0.70
+Statistics robust to heteroskedasticity           Prob > F        =     0.6688
+                                                  R-squared       =     0.9558
+                                                  Adj R-squared   =     0.9522
+                                                  Within R-sq.    =     0.0069
+Number of clusters (statenum) =         51        Root MSE        =     0.0095
+
+                              (Std. err. adjusted for 51 clusters in statenum)
+------------------------------------------------------------------------------
+             |               Robust
+    percap30 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     F2logmw |   .0003672    .009371     0.04   0.969     -.018455    .0191894
+     F1logmw |   .0072991   .0098763     0.74   0.463    -.0125379    .0271362
+       logmw |  -.0011151   .0067014    -0.17   0.869    -.0145753     .012345
+     L1logmw |   .0076469   .0081433     0.94   0.352    -.0087095    .0240033
+     L2logmw |   .0031153   .0100764     0.31   0.758    -.0171237    .0233542
+     L3logmw |  -.0036937    .008401    -0.44   0.662    -.0205677    .0131803
+     L4logmw |   .0079782   .0108615     0.73   0.466    -.0138378    .0297942
+       _cons |    .073181   .0382759     1.91   0.062    -.0036983    .1500603
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+    statenum |        51          51           0    *|
+        year |        20           1          19     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+    percap30 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0121741   .0152219     0.80   0.428       -.0184    .0427483
+------------------------------------------------------------------------------
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+        epop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0117818   .0264651    -0.45   0.658    -.0649385    .0413749
+------------------------------------------------------------------------------
+(1,937 missing values generated)
+(29 real changes made)
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureG5.pdf saved as PDF
+    format
+
+. *               
+. 
+end of do-file

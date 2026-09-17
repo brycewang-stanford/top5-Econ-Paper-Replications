@@ -1,0 +1,762 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figures_G1_A_G3_A_C_G6
+> .log
+  log type:  text
+ opened on:  17 Sep 2026, 06:02:05
+
+. 
+. *This do file is created by DC on 03/25/2016
+. *****************************************************************************
+> ***
+. ***********          Alternate Specifications of Jobs Dist.      ************
+> ***
+. *****************************************************************************
+> ***
+. *This specification puts  leads and lags. Starts from 1995 and only clean sam
+> ple
+. *Overall sample is used.
+. 
+. 
+. clear 
+
+. 
+. set more off
+
+. *****************************************************************************
+> ***
+. **************    Reshaping the original data    ****************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. use "${data}qcew_multiplier.dta", clear
+
+. keep statenum quarterdate multiplier
+
+. assert multiplier!=0
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48172.000001 saved
+    as .dta format
+
+. 
+. 
+. 
+. 
+. use "${data}VZmw_quarterly_lagsleads_1979_2016",clear
+
+. gen mw = exp(logmw)
+
+. gen year = year(dofq(quarterdate))
+
+. gen quarter = quarter(dofq(quarterdate))
+
+. collapse  mw, by(statenum year)
+
+. 
+. 
+. xtset statenum year
+
+Panel variable: statenum (strongly balanced)
+ Time variable: year, 1979 to 2016
+         Delta: 1 unit
+
+. forvalues index = 1/5 {
+  2.         foreach lagorlead in L F {
+  3.                 gen `lagorlead'`index'logmw = log(`lagorlead'`index'.mw)
+  4.         }
+  5. }
+(51 missing values generated)
+(51 missing values generated)
+(102 missing values generated)
+(102 missing values generated)
+(153 missing values generated)
+(153 missing values generated)
+(204 missing values generated)
+(204 missing values generated)
+(255 missing values generated)
+(255 missing values generated)
+
+. gen logmw = log(mw)
+
+. *
+. keep if year>=1979 & year<=2015
+(51 observations deleted)
+
+. xtset statenum year
+
+Panel variable: statenum (strongly balanced)
+ Time variable: year, 1979 to 2015
+         Delta: 1 unit
+
+. assert "`r(balanced)'" == "strongly balanced"
+
+. keep year statenum logmw L*mw F*mw
+
+. 
+. compress
+  variable year was float now int
+  (3,774 bytes saved)
+
+. 
+. tempfile mwdata
+
+. save `mwdata'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48172.000002 saved
+    as .dta format
+
+. 
+. use "${data}state_panels_cents_balanced_add_QJE.dta", clear
+
+. 
+.                 merge m:1 statenum quarterdate using `qcew', assert(3) nogene
+> rate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+.                 replace count = count * multiplier              
+(710,139 real changes made)
+
+.                 replace countall = countall * multiplier
+(905,112 real changes made)
+
+.                 
+.                 
+. 
+. gen wagebindollar = floor(wagebin/100)
+
+. drop wagebins
+
+. rename wagebindollar wagebins
+
+. 
+.                 *************************************************************
+> ***********
+.                 **************          Ones that should be summed       ****
+> ***********
+.                 *************************************************************
+> ***********
+. 
+.                 preserve 
+
+.                         collapse (sum)  count, by(statenum quarterdate wagebi
+> ns)
+
+.                         tempfile tempsum
+
+.                         save `tempsum'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48172.000004 saved
+    as .dta format
+
+.                 restore
+
+. 
+.                 *************************************************************
+> ***********
+.                 ******        Ones that are already at statenumXquarterdate  
+>  **********
+.                 *************************************************************
+> ***********
+.                 
+.                 preserve
+
+.                         egen tagger=tag(statenum quarterdate)
+
+.                         keep if tagger==1
+(899,232 observations deleted)
+
+.                         keep statenum quarterdate countall population year  t
+> eenpop
+
+.                         tempfile temptag
+
+.                         save `temptag'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48172.000006 saved
+    as .dta format
+
+.                 restore
+
+.                 
+.                 
+.                 *************************************************************
+> ***********
+.                 *********    Merge ave's and sum's      *********************
+> ***********
+.                 *************************************************************
+> ***********
+.                 
+.                 use `tempsum', clear
+
+. 
+.                 reshape wide  count , i(statenum quarterdate) j(wagebin)
+(j = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+>  29 30)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations          232,560   ->   7,752       
+Number of variables                   4   ->   32          
+j variable (30 values)         wagebins   ->   (dropped)
+xij variables:
+                                  count   ->   count1 count2 ... count30
+-----------------------------------------------------------------------------
+
+.                 merge 1:1 statenum quarterdate using `temptag', nogenerate as
+> sert(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. 
+. 
+.                 
+. 
+. *****************************************************************************
+> ***
+. ******************       Replicating previous results     *******************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. ds count*
+count1    count5    count9    count13   count17   count21   count25   count29
+count2    count6    count10   count14   count18   count22   count26   count30
+count3    count7    count11   count15   count19   count23   count27   countall
+count4    count8    count12   count16   count20   count24   count28
+
+. collapse (mean) population `r(varlist)'  ,by(statenum year)
+
+. 
+. merge 1:1 statenum year using `mwdata'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            51
+        from master                        51  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                             1,887  (_merge==3)
+    -----------------------------------------
+
+.         
+. rename population totalpopulation       
+
+.         forval j = 1/30 { 
+  2.         g lncount`j' = ln(count`j')
+  3.         g percap`j' = count`j'/totalpopulation
+  4.         
+. }
+(137 missing values generated)
+(111 missing values generated)
+(50 missing values generated)
+(28 missing values generated)
+(9 missing values generated)
+(4 missing values generated)
+
+. *
+. 
+. g epop    = countall/totalpopulation
+
+. 
+. g limited_epop = percap1
+
+. forval j = 2/14 { 
+  2.         replace limited_epop = limited_epop  + percap`j'
+  3. }
+(1,827 real changes made)
+(1,888 real changes made)
+(1,910 real changes made)
+(1,929 real changes made)
+(1,934 real changes made)
+(1,938 real changes made)
+(1,938 real changes made)
+(1,938 real changes made)
+(1,938 real changes made)
+(1,938 real changes made)
+(1,938 real changes made)
+(1,938 real changes made)
+(1,938 real changes made)
+
+. *
+. gen upper_epop = epop - limited_epop
+
+. g cleansample = 1
+
+. replace cleansample = 0 if year >=1994 & year <=1995
+(102 real changes made)
+
+. 
+. egen avetotalpopulation = mean(totalpopulation) , by(statenum)
+
+. 
+. 
+. *Note that we do not use most of these either, yet I keep this global in case
+>  it is needed.
+. 
+. global a1  i.statenum i.year  // TWFE
+
+. global a2  i.statenum##c.year i.year  // State trends
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. **************       Define Treatments         ******************************
+> ***
+. *****************************************************************************
+> ***
+. *To keep all as flexible as possible, I am adding lincom too.
+. global treat            F2logmw F1logmw logmw L1logmw L2logmw L3logmw L4logmw
+>  
+
+. global lincom0          logmw 
+
+. global lincom1          logmw + L1logmw 
+
+. global lincom2          logmw + L1logmw + L2logmw 
+
+. global lincom3          logmw + L1logmw + L2logmw + L3logmw 
+
+. global lincom4          logmw + L1logmw + L2logmw + L3logmw + L4logmw 
+
+. global lincomagg ((${lincom0} + ${lincom1} + ${lincom2} + ${lincom3} + ${linc
+> om4}) * 1/5)
+
+. global lincomm2         -F1logmw
+
+. global lincomm3         -F1logmw-F2logmw
+
+. global lincomm1         0
+
+. 
+. 
+. 
+. 
+. global label1 TWFE
+
+. global grlabel1 TWFE
+
+. global label2 ST
+
+. global grlabel2 ST
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ***************       The Regressions ***************************************
+> ***
+. *****************************************************************************
+> ***                
+.                 
+. 
+. 
+. gen all=1
+
+. xtset statenum year
+
+Panel variable: statenum (strongly balanced)
+ Time variable: year, 1979 to 2016
+         Delta: 1 unit
+
+. 
+. tempfile temptemp
+
+. save `temptemp', replace        
+(file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48172.000007 not
+    found)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St48172.000007 saved
+    as .dta format
+
+. 
+. local regsample ""
+
+. local graphname "o"
+
+. global weight2 [aw=altweight]
+
+. global weight1 [aw=avetotalpopulation]
+
+. global weight0 [aw=all]
+
+. local ylabel `"ylabel(-0.3 "-0.3" -0.2 "-0.2" -0.1 "-0.1" 0 "0" 0.1 "0.1" , l
+> absize(medium))"' 
+
+. 
+. 
+. 
+. 
+. local lags 4
+
+. local leads 3
+
+. 
+. use `temptemp', clear
+
+. 
+. foreach b in  1993 1979{
+  2. foreach w in 1  {
+  3.                 foreach s in 1  {
+  4.                 sum epop if  year>=`b' & cleansample==1  ${weight`w'}
+  5.                 local denominator = r(mean)
+  6.                 use `temptemp', clear
+  7.                 *TWFE
+.                         qui reghdfe epop $treat  if  year>=`b' & cleansample=
+> =1 ${weight`w'} , absorb(${a`s'}) cluster(statenum)
+  8.                         local dof = e(df_r)
+  9.                         lincom (${lincomagg})/`denominator'
+ 10.                         
+.                         
+.                         forval years = 0(1)`lags'{
+ 11.                                 qui lincom (${lincom`years'})/`denominator
+> '
+ 12.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 13.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 14. 
+.                         if `years' == 0{
+ 15.                         mat ests = (`years', r(estimate), `lowb', `highb')
+ 16.                         }
+ 17.                         else{
+ 18.                         mat ests = (ests \ `years', r(estimate), `lowb', `
+> highb')
+ 19.                         }
+ 20.                         }
+ 21.                                                 
+.                         forval years = 1(1)`leads'{
+ 22.                                 qui lincom (${lincomm`years'})/`denominato
+> r'
+ 23.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 24.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 25. 
+.                         mat ests = (ests \ -`years' , r(estimate), `lowb', `h
+> ighb')
+ 26.                         }
+ 27.                                 
+.                                 
+.                                 
+.                 *TWFE + LT
+.                         qui reghdfe epop $treat  if  year>=`b' & cleansample=
+> =1 ${weight`w'} , absorb(${a2}) cluster(statenum)
+ 28.                         local dof = e(df_r)
+ 29.                         lincom (${lincomagg})/`denominator'
+ 30.                         
+.                         
+.                         forval years = 0(1)`lags'{
+ 31.                                 qui lincom (${lincom`years'})/`denominator
+> '
+ 32.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 33.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 34. 
+.                         if `years' == 0{
+ 35.                         mat ests_lt = (`years', r(estimate), `lowb', `high
+> b')
+ 36.                         }
+ 37.                         else{
+ 38.                         mat ests_lt = (ests_lt \ `years', r(estimate), `lo
+> wb', `highb')
+ 39.                         }
+ 40.                         }
+ 41.                                                 
+.                         forval years = 1(1)`leads'{
+ 42.                                 qui lincom (${lincomm`years'})/`denominato
+> r'
+ 43.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 44.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 45. 
+.                         mat ests_lt = (ests_lt \ -`years' , r(estimate), `low
+> b', `highb')
+ 46.                         }
+ 47.                                                                 
+.                                                 
+.                         
+.                         *Figure
+.                         svmat ests 
+ 48.                         rename ests1 time
+ 49.                         rename ests2 est
+ 50.                         rename ests3 low
+ 51.                         rename ests4 high
+ 52.                         
+.                         
+.                         sort time
+ 53.                         
+.                         
+.                 local title1979 FigureG1_a
+ 54.                 local title1993 FigureG6
+ 55.                 
+.                                 twoway ( connected est time if time!=. )  ///
+>                                 (rcap low  high time if time!=. ) , graphregi
+> on(color(white)) ///
+>                                 /*xlabel(-4 "{&le} -4" "-3" -2 "-2" -1 "-1" 0
+>  "0" 1 "1" 2 "2" 3 "3" 4 "4" 5 "{&ge} 5")*/ xlabel(-3 "{&le} -3" -2 "-2" -1 "
+> -1" 0 "0" 1 "1" 2 "2" 3 "3" 4 "{&ge} 4") ///
+>                                 xtitle("Event time in years") ytitle("Employm
+> ent elasticity") ylabel(-0.3(0.1)0.2 0 "0" , format(%02.1f)) /*title("All wag
+> e bins")*/ /*legend(order(1 "Point estimate" 2 "95% CI")) */ legend(off)
+ 56.                                 gr export "${figures}`title`b''.pdf", repl
+> ace
+ 57.                                 
+.                                 
+. 
+.                                 
+.                         
+.                 }
+ 58.         }       
+ 59. }
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+        epop |   1,122  4.5654e+09    .5741448    .058445   .4352584   1.540421
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+        epop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0117818   .0264651    -0.45   0.658    -.0649385    .0413749
+------------------------------------------------------------------------------
+
+ ( 1)  1.741721*logmw + 1.393377*L1logmw + 1.045033*L2logmw + .6966883*L3logmw
+       + .3483442*L4logmw = 0
+
+------------------------------------------------------------------------------
+        epop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |     .01564   .0253209     0.62   0.540    -.0352186    .0664985
+------------------------------------------------------------------------------
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureG6.pdf saved as PDF
+    format
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+        epop |   1,836  7.4707e+09    .5627277    .059521   .3797893   1.540421
+
+ ( 1)  1.777059*logmw + 1.421647*L1logmw + 1.066235*L2logmw + .7108234*L3logmw
+       + .3554117*L4logmw = 0
+
+------------------------------------------------------------------------------
+        epop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.0893859   .0253407    -3.53   0.001    -.1402841   -.0384876
+------------------------------------------------------------------------------
+
+ ( 1)  1.777059*logmw + 1.421647*L1logmw + 1.066235*L2logmw + .7108234*L3logmw
+       + .3554117*L4logmw = 0
+
+------------------------------------------------------------------------------
+        epop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0104372   .0359047     0.29   0.772    -.0616794    .0825538
+------------------------------------------------------------------------------
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureG1_a.pdf saved as PDF
+    format
+
+. *               
+. 
+. 
+. 
+. local lags 4
+
+. local leads 3
+
+. 
+. local b 1979
+
+. foreach w in 1  {
+  2.                 foreach s in 1  {
+  3.                 sum epop if  year>=`b' & cleansample==1  ${weight`w'}
+  4.                 local denominator = r(mean)
+  5.                 use `temptemp', clear
+  6.                 *TWFE, under
+.                         qui reghdfe limited_epop $treat  if  year>=`b' & clea
+> nsample==1 ${weight`w'} , absorb(${a`s'}) cluster(statenum)
+  7.                         local dof = e(df_r)
+  8.                         lincom (${lincomagg})/`denominator'
+  9. 
+.                         
+.                         
+.                         forval years = 0(1)`lags'{
+ 10.                                 qui lincom (${lincom`years'})/`denominator
+> '
+ 11.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 12.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 13. 
+.                         if `years' == 0{
+ 14.                         mat ests = (`years', r(estimate), `lowb', `highb')
+ 15.                         }
+ 16.                         else{
+ 17.                         mat ests = (ests \ `years', r(estimate), `lowb', `
+> highb')
+ 18.                         }
+ 19.                         }
+ 20.                                                 
+.                         forval years = 1(1)`leads'{
+ 21.                                 qui lincom (${lincomm`years'})/`denominato
+> r'
+ 22.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 23.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 24. 
+.                         mat ests = (ests \ -`years' , r(estimate), `lowb', `h
+> ighb')
+ 25.                         }
+ 26.                                 
+.                                 
+.                                 
+.                 *TWFE, above
+.                         qui reghdfe upper_epop $treat  if  year>=`b' & cleans
+> ample==1 ${weight`w'} , absorb(${a`s'}) cluster(statenum)
+ 27.                         local dof = e(df_r)
+ 28.                         lincom (${lincomagg})/`denominator'
+ 29.         
+.                         
+.                         forval years = 0(1)`lags'{
+ 30.                                 qui lincom (${lincom`years'})/`denominator
+> '
+ 31.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 32.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 33. 
+.                         if `years' == 0{
+ 34.                         mat ests_above = (`years', r(estimate), `lowb', `h
+> ighb')
+ 35.                         }
+ 36.                         else{
+ 37.                         mat ests_above = (ests_above \ `years', r(estimate
+> ), `lowb', `highb')
+ 38.                         }
+ 39.                         }
+ 40.                                                 
+.                         forval years = 1(1)`leads'{
+ 41.                                 qui lincom (${lincomm`years'})/`denominato
+> r'
+ 42.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 43.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 44. 
+.                         mat ests_above = (ests_above \ -`years' , r(estimate)
+> , `lowb', `highb')
+ 45.                         }
+ 46.                                                                 
+.                                 
+.                 
+.                                         
+.                         
+.                         *Figure
+.                         svmat ests 
+ 47.                         svmat ests_above
+ 48.                         rename ests1 time
+ 49.                         rename ests2 est
+ 50.                         rename ests3 low
+ 51.                         rename ests4 high
+ 52.                         
+.                         foreach uporrel in _above {
+ 53.                         rename ests`uporrel'1 time_`uporrel'
+ 54.                         rename ests`uporrel'2 est_`uporrel'
+ 55.                         rename ests`uporrel'3 low_`uporrel'
+ 56.                         rename ests`uporrel'4 high_`uporrel'
+ 57.                         }
+ 58.                         
+.                         sort time
+ 59.                         
+.                                 twoway ( connected est time if time!=. )  ///
+>                                 (rcap low  high time if time!=. ) , graphregi
+> on(color(white)) ///
+>                                 /*xlabel(-4 "{&le} -4" "-3" -2 "-2" -1 "-1" 0
+>  "0" 1 "1" 2 "2" 3 "3" 4 "4" 5 "{&ge} 5")*/ xlabel(-3 "{&le} -3" -2 "-2" -1 "
+> -1" 0 "0" 1 "1" 2 "2" 3 "3" 4 "{&ge} 4") ///
+>                                 xtitle("Event time in years") ytitle("Employm
+> ent elasticity") ylabel(-0.3(0.1)0.2 0 "0" , format(%02.1f)) /*title("All wag
+> e bins")*/ /*legend(order(1 "Point estimate" 2 "95% CI")) */ legend(off)
+ 60.                                 gr export "${figures}FigureG3_c.pdf", repl
+> ace
+ 61.                                 
+.                         
+.                                 twoway ( connected est__above time__above if 
+> time__above!=. )  ///
+>                                 (rcap low__above  high__above time__above if 
+> time__above!=. ) , graphregion(color(white)) ///
+>                                 /*xlabel(-4 "{&le} -4" "-3" -2 "-2" -1 "-1" 0
+>  "0" 1 "1" 2 "2" 3 "3" 4 "4" 5 "{&ge} 5")*/ xlabel(-3 "{&le} -3" -2 "-2" -1 "
+> -1" 0 "0" 1 "1" 2 "2" 3 "3" 4 "{&ge} 4") ///
+>                                 xtitle("Event time in years") ytitle("Employm
+> ent elasticity") ylabel(-0.3(0.1)0.2 0 "0" , format(%02.1f)) /*title("All wag
+> e bins")*/ /*legend(order(1 "Point estimate" 2 "95% CI")) */ legend(off)
+ 62.                                 gr export "${figures}FigureG3_a.pdf", repl
+> ace
+ 63.                                 
+.                                 
+.                         
+.                 }
+ 64.         }       
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+        epop |   1,836  7.4707e+09    .5627277    .059521   .3797893   1.540421
+
+ ( 1)  1.777059*logmw + 1.421647*L1logmw + 1.066235*L2logmw + .7108234*L3logmw
+       + .3554117*L4logmw = 0
+
+------------------------------------------------------------------------------
+limited_epop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0195208    .027726     0.70   0.485    -.0361684    .0752101
+------------------------------------------------------------------------------
+
+ ( 1)  1.777059*logmw + 1.421647*L1logmw + 1.066235*L2logmw + .7108234*L3logmw
+       + .3554117*L4logmw = 0
+
+------------------------------------------------------------------------------
+  upper_epop | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |  -.1089067   .0299813    -3.63   0.001    -.1691259   -.0486874
+------------------------------------------------------------------------------
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureG3_c.pdf saved as PDF
+    format
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureG3_a.pdf saved as PDF
+    format
+
+. *               
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+end of do-file

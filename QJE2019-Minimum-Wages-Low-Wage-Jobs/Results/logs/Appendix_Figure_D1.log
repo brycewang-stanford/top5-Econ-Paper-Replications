@@ -1,0 +1,519 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_D1.log
+  log type:  text
+ opened on:  17 Sep 2026, 05:54:29
+
+. 
+. clear *
+
+. *Run this first to create the necessary omega^2 values.
+. *do "${dofiles}calculating_omega2_sum_of_squared_weights.do"
+. 
+. set seed 9856840
+
+. clear *
+
+. use "${data}omega2_sum_of_squared_weights.dta"
+
+. keep statenum quarterdate omega2
+
+. duplicates drop 
+
+Duplicates in terms of all variables
+
+(189,720 observations deleted)
+
+. tempfile omega2
+
+. save `omega2'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St45129.000001 saved
+    as .dta format
+
+. 
+. foreach num of numlist 1(1)138{
+  2. di "Event no `num'."
+  3. qui {
+  4. use if event==`num' using "${data}stackedevents_regready_pre12.dta",clear
+  5. 
+. sum quarterdate if F4treat==1
+  6. local F4qmin=r(min)
+  7. local F4qmax=r(max)
+  8. sum treatdate , meanonly
+  9. local treatquarterdate  = r(mean)
+ 10. sum treatedstate, meanonly
+ 11. local treatstatenum  = r(mean)
+ 12. 
+. gen T=quarterdate>=treatdate
+ 13. gen D=statenum==treatedstate
+ 14. gen P_jt = overallpop
+ 15. 
+. tsset eventstate time
+ 16. rename overallexcessepop above_epop
+ 17. rename overallmissingepop below_epop
+ 18. rename overallupperepop upper_epop
+ 19. rename overalltotalepop all_epop
+ 20. gen bunching_epop = above_epop + below_epop
+ 21. rename aveoverallpop avetotalpopulation
+ 22.                 sum all_epop if cleansample==1  [aw=avetotalpopulation]
+ 23.                 local epop = r(mean)
+ 24.                 sum avetotalpopulation if treatedstate==statenum, meanonly
+ 25.                 local population = r(mean)
+ 26. 
+. bys statenum event: egen states_to_drop = max(control_origeventpost)
+ 27. drop if states_to_drop!=0 & treatedstatenum!=statenum
+ 28. assert control_origeventpost==0 if treatedstatenum!=statenum
+ 29. sum control_origeventpost,meanonly
+ 30.                 
+.                 
+. 
+. gen DD = L0treat + L4treat + L8treat + L12treat + L16treat
+ 31. gen window = F4treat + L0treat + L4treat + L8treat + L12treat + L16treat
+ 32. 
+. tempfile event`num'data
+ 33. save    `event`num'data'
+ 34. * Run DID regression and store eta_jt residuals and subtract F4eta_jt from
+>  eta_jt
+. local cat_num=0 
+ 35. foreach cat in above below upper all bunching{
+ 36. use `event`num'data',clear
+ 37. local cat_num = `cat_num'+1
+ 38. reghdfe `cat'_epop DD [aw=avetotalpopulation] if  cleansample==1 , a(i.eve
+> nt#i.window i.event#i.statenum i.event#i.time i.event#i.control_origeventpost
+>  i.event#control_fedeventpost i.event#control_othereventpost) 
+ 39. local alpha_hat = _b[DD]
+ 40. 
+. reghdfe `cat'_epop [aw=avetotalpopulation] if  cleansample==1 , a(i.event#i.s
+> tatenum i.event#i.time i.event#i.control_origeventpost i.event#control_fedeve
+> ntpost i.event#control_othereventpost) residuals(eta_jt)  
+ 41. gen eta_jt_ref = eta_jt if quarterdate>=`F4qmin' & quarterdate<=`F4qmax' 
+ 42. levelsof statenum, local(control_states)
+ 43. foreach ll of local control_states{
+ 44. sum eta_jt_ref [aw=avetotalpopulation], meanonly, if statenum == `ll'
+ 45. qui replace eta_jt = eta_jt - r(mean)  if statenum == `ll'
+ 46. }
+ 47. sum  eta_jt [aw= avetotalpopulation] if F4treat==1
+ 48. assert r(mean)<0.000001
+ 49. * Define parameters to estimate linear combination Wj
+. 
+. egen P_post=sum(overallpop  ) if DD==1  
+ 50. egen P_pre=sum(overallpop  ) if DD==0 & treatedstate==statenum
+ 51. 
+. gen temp=(overallpop/P_post) if DD==1   
+ 52. replace temp=(overallpop/P_pre) if DD==0 & treatedstate==statenum
+ 53. 
+. egen a_1t=mean(temp), by(quarterdate) // this command sets the coefficients o
+> f the linear combination Wj derived for j=1 for all other j  
+ 54. drop temp P_post P_pre
+ 55. 
+. * This variable will generate the linear combination Wj when we summ it for e
+> ach j
+. gen W=a_1t*eta_jt  if T==1
+ 56. replace W=-a_1t*eta_jt  if T==0
+ 57. 
+. * Generates the variable to estimate the var(W|M) function.
+. merge 1:1 statenum quarterdate using `omega2', nogenerate keep(3) assert(2 3)
+ 58. gen q=(a_1t^2)*omega2/(P_jt)^2
+ 59. 
+. 
+. 
+. collapse (mean) D (sum) W q P_jt, by(statenum)
+ 60.         
+.         
+. gen W2 = (W)^2
+ 61.         
+. reg W2 q [pw=P_jt] 
+ 62. predict var_M
+ 63. local A=_b[_cons]
+ 64. local B=_b[q]
+ 65. 
+. 
+. * Correction for finite N_0 (when the var(W|M) estimate gets negative values)
+>    
+. summ var_M 
+ 66. local min=r(min)
+ 67. 
+. replace var_M=1 if `min'<0 & `B'<0
+ 68. replace var_M=q if `min'<0 & `A'<0
+ 69.         
+. 
+. * Generate normalized W_j (var=1)
+. gen W_normalized = W/sqrt(var_M)
+ 70. 
+. 
+. * Bootstrap: runs the boostrap with 1000 repetitions. To have more repetition
+> s, change the number in the definition of matrix B and in the forvalues loop.
+. mat B=J(1000,1,.)
+ 71. 
+.         summ state
+ 72.         local N=r(N)
+ 73.                 
+.         forvalues Round=1(1)1000 {    
+ 74.         
+.         
+.                 gen h1=uniform()  
+ 75.                 gen h2=1 + int((`N'-1+1)*h1)
+ 76.                         
+.                 gen W_tilde_corrected = W_normalized[h2] * sqrt(var_M)  
+ 77.                                         
+.                 
+.                 
+.                 summ W_tilde_corrected if D==1
+ 78.                 local treated=r(mean)
+ 79.         
+.                 summ W_tilde_corrected if D==0 [aw=P_jt]
+ 80.                 local control=r(mean)
+ 81.                 
+.                 mat B[`Round',1]=`treated' - `control'
+ 82. 
+. 
+.                 drop h1 h2 *tilde* 
+ 83.         
+.         }
+ 84. 
+. 
+.         set more off
+ 85.         clear 
+ 86.         svmat B
+ 87.         
+.         ** p-value without correction
+.                 
+.         ** Correction, unknown variance
+.                 
+.         gen p_FP=B1^2>(`alpha_hat')^2  if B1!=.
+ 88. 
+.         summ p_FP
+ 89.         local p_FP = r(mean)
+ 90. 
+. 
+.         di "DID estimate: `alpha_hat'"
+ 91. 
+.         di "p-value with FP correction = `p_FP'"
+ 92. 
+.         _pctile B1, nq(200)
+ 93.         if `num' ==1 & `cat_num'==1{
+ 94.         mat CIs = (`alpha_hat',  r(r5),  r(r195), `num' ,`cat_num', `treat
+> statenum', `treatquarterdate', `epop' , `population')
+ 95.         }
+ 96.         else{
+ 97.         mat CIs = (CIs \  `alpha_hat',  r(r5),  r(r195), `num' ,`cat_num',
+>  `treatstatenum', `treatquarterdate', `epop' , `population')
+ 98.         
+.         }
+ 99.         
+.         }
+100.         
+. }
+101. }
+Event no 1.
+Event no 2.
+Event no 3.
+Event no 4.
+Event no 5.
+Event no 6.
+Event no 7.
+Event no 8.
+Event no 9.
+Event no 10.
+Event no 11.
+Event no 12.
+Event no 13.
+Event no 14.
+Event no 15.
+Event no 16.
+Event no 17.
+Event no 18.
+Event no 19.
+Event no 20.
+Event no 21.
+Event no 22.
+Event no 23.
+Event no 24.
+Event no 25.
+Event no 26.
+Event no 27.
+Event no 28.
+Event no 29.
+Event no 30.
+Event no 31.
+Event no 32.
+Event no 33.
+Event no 34.
+Event no 35.
+Event no 36.
+Event no 37.
+Event no 38.
+Event no 39.
+Event no 40.
+Event no 41.
+Event no 42.
+Event no 43.
+Event no 44.
+Event no 45.
+Event no 46.
+Event no 47.
+Event no 48.
+Event no 49.
+Event no 50.
+Event no 51.
+Event no 52.
+Event no 53.
+Event no 54.
+Event no 55.
+Event no 56.
+Event no 57.
+Event no 58.
+Event no 59.
+Event no 60.
+Event no 61.
+Event no 62.
+Event no 63.
+Event no 64.
+Event no 65.
+Event no 66.
+Event no 67.
+Event no 68.
+Event no 69.
+Event no 70.
+Event no 71.
+Event no 72.
+Event no 73.
+Event no 74.
+Event no 75.
+Event no 76.
+Event no 77.
+Event no 78.
+Event no 79.
+Event no 80.
+Event no 81.
+Event no 82.
+Event no 83.
+Event no 84.
+Event no 85.
+Event no 86.
+Event no 87.
+Event no 88.
+Event no 89.
+Event no 90.
+Event no 91.
+Event no 92.
+Event no 93.
+Event no 94.
+Event no 95.
+Event no 96.
+Event no 97.
+Event no 98.
+Event no 99.
+Event no 100.
+Event no 101.
+Event no 102.
+Event no 103.
+Event no 104.
+Event no 105.
+Event no 106.
+Event no 107.
+Event no 108.
+Event no 109.
+Event no 110.
+Event no 111.
+Event no 112.
+Event no 113.
+Event no 114.
+Event no 115.
+Event no 116.
+Event no 117.
+Event no 118.
+Event no 119.
+Event no 120.
+Event no 121.
+Event no 122.
+Event no 123.
+Event no 124.
+Event no 125.
+Event no 126.
+Event no 127.
+Event no 128.
+Event no 129.
+Event no 130.
+Event no 131.
+Event no 132.
+Event no 133.
+Event no 134.
+Event no 135.
+Event no 136.
+Event no 137.
+Event no 138.
+
+. *
+. 
+. clear 
+
+. svmat CIs
+number of observations will be reset to 690
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 690.
+
+. rename CIs1 estimate
+
+. rename CIs2 low_estimate
+
+. rename CIs3 hi_estimate
+
+. rename CIs4 event_no
+
+. rename CIs5 cat
+
+. rename CIs6 statenum
+
+. rename CIs7 quarterdate
+
+. rename CIs8 epop
+
+. rename CIs9 population
+
+. 
+. gen     cat_str = "_above"              if cat == 1
+(552 missing values generated)
+
+. replace cat_str= "_below"               if cat == 2
+(138 real changes made)
+
+. replace cat_str = "_upper"              if cat == 3
+(138 real changes made)
+
+. replace cat_str = "_all"                if cat == 4
+(138 real changes made)
+
+. replace cat_str = "_bunching"   if cat == 5
+variable cat_str was str6 now str9
+(138 real changes made)
+
+. cap drop cat
+
+. 
+. reshape wide estimate low_estimate hi_estimate, i(event_no  statenum quarterd
+> ate epop population) j(cat_str) string
+(j = _above _all _below _bunching _upper)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations              690   ->   138         
+Number of variables                   9   ->   20          
+j variable (5 values)           cat_str   ->   (dropped)
+xij variables:
+                               estimate   ->   estimate_above estimate_all ... 
+> estimate_upper
+                           low_estimate   ->   low_estimate_above low_estimate_
+> all ... low_estimate_upper
+                            hi_estimate   ->   hi_estimate_above hi_estimate_al
+> l ... hi_estimate_upper
+-----------------------------------------------------------------------------
+
+. 
+. foreach vv of varlist estimate* low_estimate* hi_estimate*{
+  2. replace `vv' = `vv' / epop
+  3. }
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+(138 real changes made)
+
+. *
+. 
+. *Shifting confidence intervals
+. 
+. foreach cat in above below bunching  upper{
+  2. gen low_estimate_`cat'2 = -low_estimate_`cat' +  estimate_`cat'
+  3. gen hi_estimate_`cat'2 = -hi_estimate_`cat' + estimate_`cat'
+  4. }
+
+. 
+. local titlebelow FigureD1_a
+
+. local titleabove FigureD1_b
+
+. local titlebunching FigureD1_c
+
+. local titleupper FigureD2_b
+
+. 
+. 
+. foreach cat in above below bunching  upper{
+  2. preserve
+  3. drop if statenum==11
+  4. drop if quarterdate<81
+  5. count 
+  6. local tot_event = r(N)
+  7. cap drop _event
+  8. egen _event = rank(estimate_`cat') 
+  9. 
+. count if (estimate_`cat' <= low_estimate_`cat' | estimate_`cat' >=hi_estimate
+> _`cat') 
+ 10. local sig = r(N)
+ 11. 
+. cap drop sig
+ 12. g sig = (estimate_`cat' <= low_estimate_`cat' | estimate_`cat' >=hi_estima
+> te_`cat') 
+ 13. 
+. twoway ///
+> rbar low_estimate_`cat'2 hi_estimate_`cat'2 _event , horizontal color(gs12)  
+>  ///
+> || function y=0 , range(0 130) horizontal color(gs6) lpattern(dash)  ///
+>  || scatter _event estimate_`cat'  if sig==0, mcolor(maroon) mlwidth(vvthin) 
+>   msymbol(Sh)  msize(vsmall)   ///
+>   || scatter _event estimate_`cat' if sig==1, mcolor(red)  msymbol(S) msize(v
+> small) graphregion(color(white)) ///
+> legend(off)  ylabel(0(10)130,angle(horizontal)) xlabel(-0.2(0.1)0.2)  ///
+>  ytitle(Event) xtitle("Actual estimate and the 95% CI")
+ 14. gr export "${figures}`title`cat''.pdf", replace
+ 15. restore
+ 16. }
+(8 observations deleted)
+(0 observations deleted)
+  130
+  25
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureD1_b.pdf saved as PDF
+    format
+(8 observations deleted)
+(0 observations deleted)
+  130
+  44
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureD1_a.pdf saved as PDF
+    format
+(8 observations deleted)
+(0 observations deleted)
+  130
+  7
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureD1_c.pdf saved as PDF
+    format
+(8 observations deleted)
+(0 observations deleted)
+  130
+  7
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureD2_b.pdf saved as PDF
+    format
+
+. *
+. 
+. 
+end of do-file

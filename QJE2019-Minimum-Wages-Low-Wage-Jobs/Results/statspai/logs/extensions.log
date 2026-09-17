@@ -1,3 +1,10 @@
-00:23:12 stacked clean-control sample: (109326, 74), events=138, units=3947, EPOP_-1=0.5726
-00:23:40 stacked hdfe affected: 5-yr avg -0.0001 (0.0026)
-00:24:07 stacked hdfe below_epop: 5-yr avg -0.0171 (0.0031)
+04:59:47 stacked clean-control sample: (109326, 74), events=138, units=3947, EPOP_-1=0.5726
+05:00:23 stacked hdfe affected: 5-yr avg -0.0001 (0.0026)
+05:00:58 stacked hdfe below_epop: 5-yr avg -0.0171 (0.0031)
+05:01:32 stacked hdfe above_epop: 5-yr avg 0.0170 (0.0022)
+05:04:29 stacked_did: ok in 177s
+05:05:10 callaway_santanna: ok in 41s
+05:11:00 sun_abraham: ok in 350s
+05:11:06 did_imputation: ok in 5s
+05:11:06 honest_did: ok in 0s
+05:11:06 done

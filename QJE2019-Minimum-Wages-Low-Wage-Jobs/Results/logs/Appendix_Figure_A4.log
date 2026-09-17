@@ -1,0 +1,687 @@
+-------------------------------------------------------------------------------
+      name:  steplogsmcl
+       log:  /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE
+> 2019-Minimum-Wages-Low-Wage-Jobs/Results/logs/Appendix_Figure_A4.log
+  log type:  text
+ opened on:  17 Sep 2026, 04:59:56
+
+. 
+. *This do file is created by DC on 03/25/2016
+. *****************************************************************************
+> ***
+. ***********          Alternate Specifications of Jobs Dist.      ************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. use "${data}qcew_multiplier.dta", clear
+
+. keep statenum quarterdate multiplier
+
+. tempfile qcew
+
+. save `qcew'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St24957.000001 saved
+    as .dta format
+
+. 
+. 
+. 
+. use "${data}state_panels_cents_balanced_add_QJE.dta", clear
+
+.                 merge m:1 statenum quarterdate using `qcew', nogenerate asser
+> t(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                           906,984  
+    -----------------------------------------
+
+.                 replace count = count * multiplier              
+(710,139 real changes made)
+
+.                 replace countall = countall * multiplier
+(905,112 real changes made)
+
+. 
+. 
+. gen wagebindollar = floor(wagebin/100)
+
+. drop wagebins
+
+. rename wagebindollar wagebins
+
+. 
+.                 *************************************************************
+> ***********
+.                 **************          Ones that should be summed       ****
+> ***********
+.                 *************************************************************
+> ***********
+. 
+.                 preserve 
+
+.                         collapse (sum) teencount count, by(statenum quarterda
+> te wagebins)
+
+.                         tempfile tempsum
+
+.                         save `tempsum'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St24957.000003 saved
+    as .dta format
+
+.                 restore
+
+. 
+.                 *************************************************************
+> ***********
+.                 ******        Ones that are already at statenumXquarterdate  
+>  **********
+.                 *************************************************************
+> ***********
+.                 
+.                 preserve
+
+.                         egen tagger=tag(statenum quarterdate)
+
+.                         keep if tagger==1
+(899,232 observations deleted)
+
+.                         keep statenum quarterdate countall population year te
+> encountall teenpop
+
+.                         tempfile temptag
+
+.                         save `temptag'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St24957.000005 saved
+    as .dta format
+
+.                 restore
+
+.                 
+.                 
+.                 *************************************************************
+> ***********
+.                 *********    Merge ave's and sum's      *********************
+> ***********
+.                 *************************************************************
+> ***********
+.                 
+.                 use `tempsum', clear
+
+. 
+.                 reshape wide teencount count , i(statenum quarterdate) j(wage
+> bin)
+(j = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+>  29 30)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations          232,560   ->   7,752       
+Number of variables                   5   ->   62          
+j variable (30 values)         wagebins   ->   (dropped)
+xij variables:
+                              teencount   ->   teencount1 teencount2 ... teenco
+> unt30
+                                  count   ->   count1 count2 ... count30
+-----------------------------------------------------------------------------
+
+.                 merge 1:1 statenum quarterdate using `temptag', nogenerate as
+> sert(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ******************       Replicating previous results     *******************
+> ***
+. *****************************************************************************
+> ***
+. 
+. 
+. merge 1:1 statenum quarterdate using "${data}VZmw_quarterly_lagsleads_1979_20
+> 16.dta"
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  (_merge==3)
+    -----------------------------------------
+
+. assert _merge==3 if quarterdate!=227
+
+. drop _merge
+
+. merge 1:1 statenum quarterdate using "${data}eventclassification.dta", nogene
+> rate assert(1 3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         7,236
+        from master                     7,236  
+        from using                          0  
+
+    Matched                               516  
+    -----------------------------------------
+
+. replace overallcountgroup = 0 if overallcountgroup==.
+(7,383 real changes made)
+
+. assert overallcountgroup!=0 if alltreat==1 & toosmall==0
+
+. 
+. gen totalpopulation = population
+
+. 
+. preserve
+
+. use "${data}cpiursai1977-2016.dta", clear
+
+. *Dropping an empty column and column that calculates yearly average (simple)
+. drop v14 avg
+
+. reshape long month, i(year) j(m)
+(j = 1 2 3 4 5 6 7 8 9 10 11 12)
+
+Data                               Wide   ->   Long
+-----------------------------------------------------------------------------
+Number of observations               40   ->   480         
+Number of variables                  13   ->   3           
+j variable (12 values)                    ->   m
+xij variables:
+              month1 month2 ... month12   ->   month
+-----------------------------------------------------------------------------
+
+. rename month cpi
+
+. rename m month
+
+. keep if year >= 1979
+(24 observations deleted)
+
+. *If base year needs to be changed, use here.
+. local baseyear=2016
+
+. sum cpi if year == `baseyear', meanonly
+
+. local cpibase = r(mean)
+
+. replace cpi = 100 * cpi / `cpibase'
+(456 real changes made)
+
+. gen monthdate = ym(year,month)
+
+. gen quarterdate = qofd(dofm(monthdate))
+
+. collapse cpi, by(quarterdate)
+
+. tempfile cpiquarter
+
+. save `cpiquarter'
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St24957.000007 saved
+    as .dta format
+
+. restore
+
+. 
+. 
+. cap drop _merge
+
+. merge m:1 quarterdate using `cpiquarter', nogenerate assert(3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             7,752  
+    -----------------------------------------
+
+. 
+. 
+. xtset statenum quarterdate      
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+. 
+. g MW = exp(logmw) 
+
+. g DMW = D.MW
+(51 missing values generated)
+
+. g MW_real = exp(logmw)/(cpi/100) 
+
+. g DMW_real = D.MW_real 
+(51 missing values generated)
+
+. 
+. g MW_realM25 = MW_real - mod(MW_real,0.25)
+
+. g DMW_realM25 = D.MW_realM25
+(51 missing values generated)
+
+.         
+.         
+. 
+. xtset statenum quarterdate
+
+Panel variable: statenum (strongly balanced)
+ Time variable: quarterdate, 76 to 227
+         Delta: 1 unit
+
+. 
+.         cap drop treat 
+
+.         cap drop _treat
+
+.         g _treat_p=0
+
+.                 replace _treat = 1 if overallcountgroup>0 & fedincrease!=1
+(138 real changes made)
+
+.          g treat = ( _treat +  L._treat + L2._treat + L3._treat)
+(153 missing values generated)
+
+.         cap drop _treat
+
+. 
+. 
+. 
+. cap drop  Dtreat
+
+. g Dtreat = D.treat
+(204 missing values generated)
+
+. 
+. cap drop _cont
+
+. g _cont = 0
+
+. replace _cont = 1 if ($missedevents | toosmall==1) 
+(255 real changes made)
+
+. g tempcont = _cont + L._cont + L2._cont + L3._cont
+(153 missing values generated)
+
+. 
+. local Tmax3 = 16 + 3
+
+. forval i = 0(1)`Tmax3'{
+  2.         if `i' == 0{
+  3.         g postcont = _cont
+  4.         }
+  5.         else {
+  6.         replace postcont = postcont + L`i'._cont
+  7.         sum postcont, meanonly
+  8.         assert r(mean)!=0
+  9.         }
+ 10. }
+(306 real changes made, 51 to missing)
+(305 real changes made, 51 to missing)
+(305 real changes made, 51 to missing)
+(303 real changes made, 51 to missing)
+(303 real changes made, 51 to missing)
+(302 real changes made, 51 to missing)
+(302 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(294 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(284 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+(274 real changes made, 51 to missing)
+
+. cap drop _cont
+
+. 
+. 
+. cap drop _contf
+
+. cap drop postcontf
+
+. 
+. g _contf = 0
+
+. replace _contf = 1 if (fedincrease==1 &  overallcountgroup>0 )
+(231 real changes made)
+
+. g tempcontf = _contf + L._contf + L2._contf + L3._contf
+(153 missing values generated)
+
+. 
+. local Tmax3 = 16 + 3
+
+. forval i = 0(1)`Tmax3'{
+  2.         if `i' == 0{
+  3.         g postcontf = _contf
+  4. 
+.         }
+  5.         else {
+  6.         replace postcontf = postcontf + L`i'._contf
+  7.         sum postcontf, meanonly
+  8.         assert r(mean)!=0
+  9.         }
+ 10. }
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+(282 real changes made, 51 to missing)
+
+. cap drop _contf
+
+. 
+. g precontf = F4.tempcontf
+(204 missing values generated)
+
+. g precont = F4.tempcont
+(204 missing values generated)
+
+. 
+. replace precontf = 0 if precontf == .
+(204 real changes made)
+
+. replace precont = 0 if precont  == .
+(204 real changes made)
+
+. 
+. 
+. g earlycontf = F12.tempcontf + F8.tempcontf
+(612 missing values generated)
+
+. g earlycont = F12.tempcont + F8.tempcont
+(612 missing values generated)
+
+. 
+. replace earlycontf = 0 if earlycontf == .
+(612 real changes made)
+
+. replace earlycont = 0 if earlycont  == .
+(612 real changes made)
+
+. 
+. 
+. 
+. foreach j of numlist 4(4)16{
+  2.                 cap drop F`j'treat
+  3.                 cap drop L`j'treat
+  4.                 
+.                 g F`j'treat = F`j'.treat
+  5.                 g L`j'treat = L`j'.treat
+  6.                 
+.                 replace F`j'treat = 0 if F`j'treat ==.
+  7.                 replace L`j'treat = 0 if L`j'treat ==.
+  8.                 
+. 
+.         }
+(204 missing values generated)
+(357 missing values generated)
+(204 real changes made)
+(357 real changes made)
+(408 missing values generated)
+(561 missing values generated)
+(408 real changes made)
+(561 real changes made)
+(612 missing values generated)
+(765 missing values generated)
+(612 real changes made)
+(765 real changes made)
+(816 missing values generated)
+(969 missing values generated)
+(816 real changes made)
+(969 real changes made)
+
+. *
+. 
+. replace postcont = 0 if postcont == .
+(969 real changes made)
+
+. replace postcontf = 0 if postcontf == .
+(969 real changes made)
+
+. 
+. 
+. g cleansample = 1
+
+. replace cleansample = 0 if quarterdate >=136 & quarterdate <=142
+(357 real changes made)
+
+. 
+. egen avetotalpopulation = mean(totalpopulation) , by(statenum)
+
+. 
+. 
+. *Note that we do not use most of these either, yet I keep this global in case
+>  it is needed.
+. 
+. global a1  i.statenum i.quarterdate  // TWFE
+
+. 
+. 
+. *****************************************************************************
+> ***
+. **************       Define Treatments         ******************************
+> ***
+. *****************************************************************************
+> ***
+. 
+. global treat            F12treat F8treat F4treat treat  L4treat L8treat L12tr
+> eat L16treat 
+
+. 
+. *global minus 0
+. global minus (F4treat)
+
+. global lincomagg        (treat-$minus)
+
+. forval i = 4(4)16{
+  2. global lincomagg "$lincomagg + (L`i'treat - $minus ) "
+  3. }
+
+. *
+. 
+. global label1 TWFE
+
+. global grlabel1 TWFE
+
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ***************       The Regressions ***************************************
+> ***
+. *****************************************************************************
+> ***                
+.                 
+. gen logMW = log(MW_real)
+
+. 
+. tempfile temptemp
+
+. save `temptemp', replace        
+(file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St24957.000008 not
+    found)
+file /var/folders/bm/2cq1vtmd5wg6k0vdjfpvbmww0000gn/T//St24957.000008 saved
+    as .dta format
+
+. 
+. local regsample ""
+
+. local graphname "o"
+
+. global weight1 [aw=avetotalpopulation]
+
+. local ylabel "ylabel( , labsize(medium))" 
+
+. 
+. 
+. 
+. 
+. global lincomm12 F12treat - F4treat
+
+. global lincomm8 F8treat - F4treat
+
+. global lincomm4 F4treat - F4treat
+
+. global lincom0 treat - F4treat
+
+. global lincom4 L4treat - F4treat
+
+. global lincom8 L8treat - F4treat
+
+. global lincom12 L12treat - F4treat
+
+. global lincom16 L16treat - F4treat
+
+. 
+. 
+. 
+. 
+. local lags 4
+
+. local leads 3
+
+. 
+. 
+. 
+. foreach b in   1979   {
+  2.         foreach w in 1  {
+  3.                 foreach s in      1   {
+  4.                 use `temptemp', clear
+  5.                         
+. 
+.                                 
+.                         qui reghdfe logMW $treat if  year>=`b' & cleansample=
+> =1 ${weight`w'} , absorb(i.statenum i.quarterdate  postcont postcontf  precon
+> t precontf earlycont earlycontf ) cluster(statenum)
+  6.                         sum quarterdate if e(sample)==1
+  7.                         estadd local begquarter = r(min)
+  8.                         estadd local endquarter = r(max)
+  9. 
+.                         local dof = e(df_r)
+ 10. 
+.                         lincom (($lincomagg) * (1/5))
+ 11. 
+.                         forval years = 0(1)`lags'{
+ 12.                         local year = `years' * 4
+ 13.                                 qui lincom (${lincom`year'})
+ 14.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 15.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 16. 
+.                         if `years' == 0{
+ 17.                         mat ests = (`years', r(estimate), `lowb', `highb')
+ 18.                         }
+ 19.                         else{
+ 20.                         mat ests = (ests \ `years', r(estimate), `lowb', `
+> highb')
+ 21.                         }
+ 22.                         }
+ 23.                                                 
+.                         forval years = 1(1)`leads'{
+ 24.                                 local year = `years' * 4
+ 25.                                 qui lincom (${lincomm`year'})
+ 26.                                 local lowb      = r(estimate) - invttail(`
+> dof', 0.025)*r(se) 
+ 27.                                 local highb     = r(estimate) + invttail(`
+> dof', 0.025)*r(se) 
+ 28. 
+.                         mat ests = (ests \ -`years' , r(estimate), `lowb', `h
+> ighb')
+ 29.                         }
+ 30.                         
+.                         
+.                         svmat ests 
+ 31.                         rename ests1 time
+ 32.                         rename ests2 est
+ 33.                         rename ests3 low
+ 34.                         rename ests4 high
+ 35.                         
+.                         sort time
+ 36.                         
+.                                 
+.                                                 twoway (scatter  est time  if
+>  time!=., msymbol(D) mcolor(blue) yline(-1, lcolor(gs10) lwidth(vvthin)) xlin
+> e(-1, lpattern(dash) lcolor(black) )) ///
+>                                                 (line  est time  , lcolor(blu
+> e) lpattern(dash)  lwidth(thick) ) ///
+>                                                 (rcap low  high time , lcolor
+> (blue) lwidth(thick) ), graphregion(color(white)) ///
+>                                                 xlabel(-3(1)4, labsize(medsma
+> ll))       ///
+>                                                 ylabel(, labsize(medsmall)) l
+> egend(off) xtitle("Years relative to the minimum wage change", size(medsmall)
+> )  ylabel(-0.2(0.1)0.2) ///
+>                                                 ytitle("Percentage change in 
+> MW", height(6))                                            
+ 37.                         
+.                         gr export "${figures}FigureA4.pdf", replace
+ 38.                         
+.                         
+.                         }
+ 39.                 }
+ 40.         }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ quarterdate |      7,242    153.6901    43.94461         79        227
+
+added macro:
+         e(begquarter) : "79"
+
+added macro:
+         e(endquarter) : "227"
+
+ ( 1)  - F4treat + .2*treat + .2*L4treat + .2*L8treat + .2*L12treat +
+       .2*L16treat = 0
+
+------------------------------------------------------------------------------
+       logMW | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .0835675   .0071882    11.63   0.000     .0691296    .0980055
+------------------------------------------------------------------------------
+file
+    /Users/brycewang/Documents/GitHub/top5-Econ-Paper-Replications/QJE2019-Mi
+    > nimum-Wages-Low-Wage-Jobs/Results/Figures/FigureA4.pdf saved as PDF
+    format
+
+. *               
+. 
+. 
+. 
+. 
+. 
+. 
+end of do-file

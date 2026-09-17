@@ -1,0 +1,5 @@
+table,panel,column,term,coef,se,N,clusters,estimator
+VIII,,1,Public security,0.032138913079664766,0.01810758329793273,415,,"sp.feols WLS (aweight), HC x ivreghdfe small, singletons dropped"
+VIII,,2,Public security,0.03581939924273216,0.01733473401675413,383,,"sp.feols WLS (aweight), HC x ivreghdfe small, singletons dropped"
+VIII,,3,Public security,0.0389904037213069,0.018647442581086263,383,,"sp.feols WLS (aweight), HC x ivreghdfe small, singletons dropped"
+VIII,,4,Public security,0.036464686027526325,0.018041839711888996,379,,"sp.feols WLS (aweight), HC x ivreghdfe small, singletons dropped"

@@ -49,7 +49,7 @@ A reading-and-replication workspace for the paper above. It is built on the offi
    ```bash
    cd Program/statspai && python3.13 replicate_statspai.py
    ```
-   Everything except the prefecture-level ordered probits finishes in about 20 minutes. Tables IX and XII take hours because `sp.oprobit` is slow with about 300 fixed-effect dummies.
+   Everything except the prefecture-level ordered probits finishes in about 20 minutes. Tables IX and XII took about 45 CPU-hours here: 1.5–5 h per prefecture model in `sp.oprobit` on a heavily loaded machine, versus under 1 s in Stata or `oprobit_fast.py`.
 
 ### Edits to the author's code (all applied by the wrapper; the original file is untouched)
 
@@ -71,10 +71,10 @@ Paper table numbers are roman numerals; the do-file uses working-paper numbers (
 | **Table V** | princeling price discount | ✅ rc 0 | ✅ 15/15 | `sp.feols` two-way cluster | ✅ 15/15 |
 | **Table VI** | quantity, firm-year (5.7M) | ✅ rc 0 | ✅ 5/5 | `sp.feols` | ✅ 5/5 |
 | **Table VIII** | provincial promotion | ✅ rc 0 | ✅ 34/34 | `sp.oprobit` + `sp.feols` | ✅ 32/34, ⚠️ 2 SEs off by ≤0.001 |
-| **Table IX** | municipal promotion | ✅ rc 0 | ✅ 34/34 | `sp.oprobit` + `sp.feols` | see comparison.md |
+| **Table IX** | municipal promotion | ✅ rc 0 | ✅ 34/34 | `sp.oprobit` + `sp.feols` | ✅ 31/34, ⚠️ 3 cells off by ≤0.0016 |
 | **Table X** | price after Xi took office | ✅ rc 0 | ✅ 24/24 | `sp.feols` | ✅ 24/24 |
 | **Table XI** | quantity after Xi, firm-province-year (11.5M) | ✅ rc 0 | ✅ 14/14 | `sp.hdfe_ols` | ✅ 14/14 |
-| **Table XII** | promotion after Xi | ✅ rc 0 (after edit 4) | ✅ 24/24 | `sp.oprobit` | see comparison.md |
+| **Table XII** | promotion after Xi | ✅ rc 0 (after edit 4) | ✅ 24/24 | `sp.oprobit` | ✅ 24/24 |
 | Figure IV | price scatter vs 500 m neighbours | ✅ | graph | matplotlib | ✅ |
 | **Figure V** | price event study | ✅ | graph (Stata log) | `sp.feols` | ✅ 11/11 vs Stata |
 | **Figure VI** | quantity event study | ✅ | graph (Stata log) | `sp.feols` | ✅ 11/11 vs Stata |
@@ -91,11 +91,11 @@ Details, cell by cell: [Results/comparison.md](Results/comparison.md).
   * Callaway-Sant'Anna 0.33 (0.09), Sun-Abraham 0.31 (0.12), BJS 0.27 (0.07). The paper's campaign effect survives heterogeneity-robust estimation and is larger.
 * **HonestDiD** (Rambachan-Roth) on Figure V re-based to 2012: the 2016 narrowing of the discount is robust to relative-magnitude violations up to M̄ = 2; the 2013 effect is not (M̄ = 0.5).
 * **Roth (2022) pre-trend power**: 44% for the individual tests (15% for the joint test).
-* **Wild cluster bootstrap** with 31 province clusters for the 500 m specifications.
+* **Wild cluster bootstrap** (999 Rademacher draws, 31 province clusters) for the 500 m specifications: Table V col 3 and Table X cols 2, 4 and 6 all stay significant at p < 0.001. For example, princeling × Xi-appointed is 0.572, CI [0.46, 0.69].
 * **StatsPAI bugs found**:
   * `callaway_santanna` ignores `control_group="notyettreated"` on unbalanced panels.
   * `callaway_santanna` aggregates ATT(g,t) cells that have no valid comparison as 0.
-  * `oprobit` stops early and is very slow.
+  * `oprobit` stops early and is very slow: an analytic-Newton cross-check (`oprobit_fast.py`, not StatsPAI) fits the same prefecture models in under a second and matches Tables VIII, IX and XII exactly.
 
   Minimal repros are in `Materials/论文模型解读与StatsPAI复现分析.md`.
 
@@ -110,6 +110,7 @@ Details, cell by cell: [Results/comparison.md](Results/comparison.md).
   * Table IX says "Province FE"; the code uses prefecture FE.
   * Table VI notes list industry FE; the code has none.
   * Table XII column 11 omits `ties`.
+  * Table XII columns 10 and 12 use `post2012` rather than `inspection` as the main effect.
   * The code uses `xi` for `xi_assign`, which only works through Stata's variable-name abbreviation.
 
 ## Reading Notes

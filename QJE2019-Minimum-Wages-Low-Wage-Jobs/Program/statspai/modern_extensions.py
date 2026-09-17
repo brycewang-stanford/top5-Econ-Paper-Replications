@@ -120,6 +120,9 @@ def es_table(res):
             return pd.DataFrame(mi[k])
     if hasattr(res, "event_study"):
         return pd.DataFrame(res.event_study)
+    det = getattr(res, "detail", None)          # sp.aggte(type="dynamic") stores the event study here
+    if isinstance(det, pd.DataFrame) and "relative_time" in det:
+        return det
     raise KeyError(f"no event-study table in model_info keys={list(mi)}")
 
 
@@ -157,7 +160,7 @@ def main():
         bstrap=True, biters=199, random_state=42))
     if res is not None:
         try:
-            agg = sp.aggte(res, type="dynamic", min_e=-12, max_e=19) if hasattr(sp, "aggte") else None
+            agg = sp.aggte(res, type="dynamic", min_e=-12, max_e=19, n_boot=199, random_state=42) if hasattr(sp, "aggte") else None
             es = es_table(agg if agg is not None else res)
             ecol = "relative_time" if "relative_time" in es else es.columns[0]
             bcol = "att" if "att" in es else es.columns[1]

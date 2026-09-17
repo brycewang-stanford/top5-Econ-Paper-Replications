@@ -1,0 +1,18 @@
+* 00000001
+*! version 1.0.0
+* Do not erase or edit this file
+* It is used by Stata to track the ado and help
+* files you have installed.
+
+S http://www.stata-journal.com/software/sj6-3
+N st0108.pkg
+D 17 Sep 2026
+U 1
+d SJ6-3 st0108.  Jackknife instrumental variables estimation...
+d Jackknife instrumental variables estimation in Stata
+d by Brian P. Poi, StataCorp
+d Support:  bpoi@@stata.com
+d After installation, type help ^jive^
+f j/jive.ado
+f j/jive.hlp
+e
